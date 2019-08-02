@@ -1,0 +1,14 @@
+﻿  manipulator.cpp
+  obj_loader.cpp
+  vk_context.cpp
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  imgui_impl_glfw_vulkan.cpp
+  hello_vulkan.cpp
+  main.cpp
+  Code wird generiert...
+  VkExample1.vcxproj -> C:\Users\Jonas Heinle\Desktop\BachelorArbeit\Vulkan\Examples\x64\Debug\VkExample1.exe
+  Das System kann die angegebene Datei nicht finden.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(138,5): error MSB3073: Der Befehl "copy C:\Users\Jonas Heinle\Desktop\BachelorArbeit\Vulkan\Examples\x64\Debug\VkExample1.exe C:\Users\Jonas Heinle\Desktop\BachelorArbeit\Vulkan\Examples\VkExample1\
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(138,5): error MSB3073: :VCEnd" wurde mit dem Code 1 beendet.
