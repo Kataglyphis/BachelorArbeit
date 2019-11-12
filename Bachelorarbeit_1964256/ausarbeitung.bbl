@@ -1,0 +1,27 @@
+\begin{thebibliography}{BKR09}
+  \providebibliographyfont{name}{}%
+  \providebibliographyfont{lastname}{}%
+  \providebibliographyfont{title}{\emph}%
+  \providebibliographyfont{jtitle}{\btxtitlefont}%
+  \providebibliographyfont{etal}{\emph}%
+  \providebibliographyfont{journal}{}%
+  \providebibliographyfont{volume}{}%
+  \providebibliographyfont{ISBN}{\MakeUppercase}%
+  \providebibliographyfont{ISSN}{\MakeUppercase}%
+  \providebibliographyfont{url}{\url}%
+  \providebibliographyfont{numeral}{}%
+  \expandafter\btxselectlanguage\expandafter {\btxfallbacklanguage}
+
+\expandafter\btxselectlanguage\expandafter {\btxfallbacklanguage}
+\bibitem [{BKR09}]{becker2008a}
+\btxnamefont {Steffen \btxlastnamefont {Becker}}, \btxnamefont {Heiko
+  \btxlastnamefont {Koziolek}}\btxandcomma {} \btxandlong {}\ \btxnamefont
+  {Ralf \btxlastnamefont {Reussner}}\btxauthorcolon\ \btxjtitlefont
+  {\btxifchangecase {{T}he {P}alladio component model for model-driven
+  performance prediction}{{T}he {P}alladio component model for model-driven
+  performance prediction}}.
+\newblock 82:3--22, 2009.
+\newblock {\latintext
+  \btxurlfont{http://dx.doi.org/10.1016/j.jss.2008.03.066}}.
+
+\end{thebibliography}
