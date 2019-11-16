@@ -1,24 +1,25 @@
+\todo{replace dummy code with correct code}
 \begin{algorithm}
-    \caption{Calculate $y = x^n$}
-    \begin{algorithmic}
-        \REQUIRE $n \geq 0 \vee x \neq 0$
-        \ENSURE $y = x^n$
-        \STATE $y \leftarrow 1$
-        \IF{$n < 0$}
-        \STATE $X \leftarrow 1 / x$
-        \STATE $N \leftarrow -n$
-        \ELSE
-        \STATE $X \leftarrow x$
-        \STATE $N \leftarrow n$
-        \ENDIF
-        \WHILE{$N \neq 0$}
-        \IF{$N$ is even}
-        \STATE $X \leftarrow X \times X$
-        \STATE $N \leftarrow N / 2$
-        \ELSE[$N$ is odd]
-        \STATE $y \leftarrow y \times X$
-        \STATE $N \leftarrow N - 1$
-        \ENDIF
-        \ENDWHILE
+    \caption{\textbf{Sortier Schritt t} nach dem Rendern von Frame t
+    und vor dem Rendern von Frame t+1}
+    \begin{algorithmic}[1]
+        \STATE pixel \textbf{consists of} value,index;
+        \STATE List framePixelsIntensities, noiseIntensities;
+        \STATE List L $\leftarrow$ pixels in block
+        \STATE //init lists
+        \FORALL{(i,j) $\leftarrow$ L} 
+        \STATE framePixelsIntensities(i,j) = pixelIntensity(frame(i,j));
+        \STATE noiseIntensities(i,j) = pixelIntensity(blueNoise(i,j));
+        \ENDFOR \newline
+        
+        \STATE //sort the two lists by means of intensities
+        \STATE sort(framePixelsIntensities);
+        \STATE Sort(noiseIntensities); \newline
+
+        \STATE //now we reorder our seeds hence the sorted lists
+        \FORALL{$i = 1 .. numberOfPixelsPerBlock$}
+        \STATE $sortedSeeds(noiseIntensities.getIndex(i)) = incomingSeeds(framePixelIntensities.getIndex(i))$;
+        \ENDFOR
     \end{algorithmic}
+    \label{alg:Sortier}
 \end{algorithm}

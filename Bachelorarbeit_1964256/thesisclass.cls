@@ -25,9 +25,6 @@
 %% |          Packages           |
 %% -------------------------------
 
-%%packages added to use pseudo code!
-\usepackage{amsmath}
-%%\usepackage[noend]{algpseudocode}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}    % switched from ISO-8859-1 / Latin1 to UTF-8 (M. Retzlaff)
@@ -47,6 +44,7 @@
 \usepackage[english,ngerman]{babel}
 \usepackage{algorithm}		  % Code-Listings
 \usepackage{algorithmic}	  % Code-Listings
+%%packages added to use pseudo code!
 % see http://www.ctan.org/tex-archive/macros/latex/contrib/algorithm2e/algorithm2e.pdf
 % for more sophisticated algorithm listings
 
