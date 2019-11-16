@@ -10,6 +10,8 @@
 %%
 %% Fixes by: Max-Gerd Retzlaff, IBDS - Lehrstuhl Computergrafik, KIT, 2012
 %% m.retzlaff@gmx.net
+%% Additions by: Jonas Heinle, 2019 - jonas.heinle@student.kit.edu
+%%
 
 \NeedsTeXFormat{LaTeX2e}										% We do need LaTeX2e
 \ProvidesClass{thesisclass}
@@ -22,6 +24,10 @@
 %% -------------------------------
 %% |          Packages           |
 %% -------------------------------
+
+%%packages added to use pseudo code!
+\usepackage{amsmath}
+%%\usepackage[noend]{algpseudocode}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}    % switched from ISO-8859-1 / Latin1 to UTF-8 (M. Retzlaff)
