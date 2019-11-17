@@ -11,9 +11,6 @@
 namespace {
     //Shader files
     const char* sortShader = "Sort.hlsl";
-    const char* retargetShader = "Retarget.hlsl";
-
-    //
 };
 
 Sorting::SharedPtr Sorting::create(const Dictionary &params) {
@@ -53,7 +50,7 @@ void Sorting::initialize(RenderContext * pContext, const RenderData * pRenderDat
     pContext->clearRtv(mpBlackHDR->getRTV().get(), vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
     //load prog from file
-    mpProg = ComputeProgram::createFromFile("Sort.hlsl", "Sort");
+    mpProg = ComputeProgram::createFromFile("Sort.hlsl", "main");
     //initialize state
     mpState = ComputeState::create();
     mpState->setProgram(mpProg);

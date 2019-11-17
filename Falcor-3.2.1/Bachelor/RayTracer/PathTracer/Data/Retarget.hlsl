@@ -26,7 +26,7 @@ uint index;
 
 //fetching precomputed permutation and applying it to the seeds
 [numthreads(BLOCK_SIZE,BLOCK_SIZE,1)]
-void Retarget(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 thread_ID : SV_DISPATCHTHREADID) {
+void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 thread_ID : SV_DISPATCHTHREADID) {
 
     //Not finished yet! Same problem as in the sorting pass, how to access texture correctly with OFFSET ???
     //Big TODO: target blue noise tile should change after each frame --> each pixel has a different error in each frame
