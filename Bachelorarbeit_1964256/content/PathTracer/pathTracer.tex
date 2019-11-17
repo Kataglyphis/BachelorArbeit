@@ -1,1 +1,19 @@
 \subsubsection{Funktionsweise}
+Bei der Pfadverfolgung
+
+    \begin{equation}
+        L(x,{x}^{'}) = g(x,{x}^{'}) * (L_{e}(x,{x}^{'}) + 
+                        \int_{S}^{} b(x,{x}^{'},{x}^{''})
+                        L({x}^{'},{x}^{''}d{x}^{''})) 
+    \end{equation}
+
+\subsubsection{Monte-Carlo-Integration}
+    Mit der Monte Carlo Integration approximieren wir die Rendergleichung.
+    \cite{KK02}
+    \label{pic:MonteCarloIntegration}
+    \begin{equation}
+    \int_{{[0,1)}^s} f(x) dx \simeq \frac{1}{N}*\sum_{i=0}^{N-1}f(\xi_i)
+    \end{equation}
+    %%$\int_{{[0,1)}^s}f(x)dx$\simeq$\frac{1}{N}*\sum{i=0}^{N-1}f(\xi_i)$
+
+
