@@ -10,7 +10,7 @@
 \contentsline {subsection}{\numberline {2.2.1}Eigenschaften}{2}{subsection.2.2.1}% 
 \contentsline {subsubsection}{\numberline {2.2.1.1}Uniformit\IeC {\"a}t}{2}{subsubsection.2.2.1.1}% 
 \contentsline {subsubsection}{\numberline {2.2.1.2}Niedrige Frequenzen}{2}{subsubsection.2.2.1.2}% 
-\contentsline {subsubsection}{\numberline {2.2.1.3}Isotropie}{2}{subsubsection.2.2.1.3}% 
+\contentsline {subsubsection}{\numberline {2.2.1.3}Isotropie}{3}{subsubsection.2.2.1.3}% 
 \contentsline {subsubsection}{\numberline {2.2.1.4}Kachelung}{3}{subsubsection.2.2.1.4}% 
 \contentsline {chapter}{\numberline {3}Temporaler Algorithmus}{4}{chapter.3}% 
 \contentsline {section}{\numberline {3.1}Sorting}{4}{section.3.1}% 
