@@ -28,6 +28,8 @@
 #include "PathTracer.h"
 #include "RenderPasses/GGXGlobalIllumination.h"
 #include "RenderPasses/GBufferRaster.h"
+#include "RenderPasses/Sorting.h"
+#include "RenderPasses/Retargeting.h"
 
 void PathTracer::onGuiRender(SampleCallbacks* pCallbacks, Gui* pGui)
 {
@@ -86,6 +88,7 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     auto pGIPass = GGXGlobalIllumination::create();
     mpGraph->addPass(pGIPass, "GlobalIllumination");
     mpGraph->addPass(ToneMapping::create(), "ToneMapping");
+    mpGraph->addPass(Sorting::create(), "Sorting");
 
     mpGraph->addEdge("GBuffer.posW", "GlobalIllumination.posW");
     mpGraph->addEdge("GBuffer.normW", "GlobalIllumination.normW");
