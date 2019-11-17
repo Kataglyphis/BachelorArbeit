@@ -1,0 +1,41 @@
+\begin{thebibliography}{Gam17}
+  \providebibliographyfont{name}{}%
+  \providebibliographyfont{lastname}{}%
+  \providebibliographyfont{title}{\emph}%
+  \providebibliographyfont{jtitle}{\btxtitlefont}%
+  \providebibliographyfont{etal}{\emph}%
+  \providebibliographyfont{journal}{}%
+  \providebibliographyfont{volume}{}%
+  \providebibliographyfont{ISBN}{\MakeUppercase}%
+  \providebibliographyfont{ISSN}{\MakeUppercase}%
+  \providebibliographyfont{url}{\url}%
+  \providebibliographyfont{numeral}{}%
+  \expandafter\btxselectlanguage\expandafter {\btxfallbacklanguage}
+
+\expandafter\btxselectlanguage\expandafter {\btxfallbacklanguage}
+\bibitem [{DS02}]{KK02}
+\btxnamefont {G. \btxlastnamefont {Drettakis}} \btxandlong {}\ \btxnamefont
+  {H.\btxfnamespacelong P. \btxlastnamefont {Seidel}}\btxauthorcolon\
+  \btxjtitlefont {\btxifchangecase {Efficient multidimensional
+  sampling}{Efficient Multidimensional Sampling}}.
+\newblock 21:1--8, 2002.
+
+\bibitem [{EH19}]{hal-02158423}
+\btxnamefont {Laurent\btxfnamespacelong Belcour \btxlastnamefont
+  {Eric~Heitz}}\btxauthorcolon\ \btxjtitlefont {\btxifchangecase {Distributing
+  monte carlo errors as a blue noise in screen space by permuting pixel seeds
+  between frames}{Distributing Monte Carlo Errors as a Blue Noise in Screen
+  Space by Permuting Pixel Seeds Between Frames}}.
+\newblock 38:1--10, 2019.
+\newblock {\latintext
+  \btxurlfont{https://hal.archives-ouvertes.fr/hal-02158423/document}}.
+
+\bibitem [{Gam17}]{Pet17}
+\btxnamefont {Epic \btxlastnamefont {Games}}\btxauthorcolon\ \btxtitlefont
+  {\btxifchangecase {The problem with 3d blue noise}{The problem with 3d blue
+  noise}}, 2017.
+\newblock {\latintext
+  \btxurlfont{http://momentsingraphics.de/3DBlueNoise.html}}, \small
+  \texttt{Blogpost}.
+
+\end{thebibliography}
