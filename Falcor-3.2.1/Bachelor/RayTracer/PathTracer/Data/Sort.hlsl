@@ -48,10 +48,13 @@ Texture2D<float> input_blue_noise_texture;
 //texture we are becoming and will again put out filled with sorted seeds;
 RWStructuredBuffer<uint> input_seed_texture;
 
-//needed variables for our texture
-uint width; //width of the frame
-uint height; //height of the frame
-uint index; //needed for changed offset after each frame
+//given variables for our frame
+cbuffer GlobalCB
+{
+    uint width; // width of the frame
+    uint heigth; // height of the frame
+    uint index; // the actual index of the frame
+};
 
 //shared beneath all threads of the group
 //must be shared! wen want to sort all the pixels

@@ -35,19 +35,14 @@ RenderPassReflection Retargeting::reflect(void) const {
 
     RenderPassReflection r;
     //input
-    r.addInput("srcRetargeting", "Source texture of our blue noise");
-    r.addInput("srcSeeds", "Source texture of our seeds from path tracing");
+    r.addInput("inputSeedTexture", "resorted seeds from the sorting phase");
     //output
-    r.addOutput("dst", "").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
+    r.addOutput("outputSeedTexture", "the retargeted seed texture outgoing to path tracer");
 
     return r;
 }
 
 void Retargeting::initialize(RenderContext * pContext, const RenderData * pRenderData) {
-
-    // clear render target view
-    mpBlackHDR = Texture::create2D(128, 128, ResourceFormat::RGBA32Float, 1u, 1u, nullptr, Resource::BindFlags::ShaderResource | Resource::BindFlags::RenderTarget);
-    pContext->clearRtv(mpBlackHDR->getRTV().get(), vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
     //load prog from file
     mpProg = ComputeProgram::createFromFile("Retargeting.hlsl", "main");
@@ -80,8 +75,8 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
 
     // Set our variables into the global HLSL namespace
     ConstantBuffer::SharedPtr pCB = mpProgVars->getConstantBuffer("GlobalCB");
-    pCB["width"] = 1;
-    pCB["height"] = 1;
+    pCB["width"] = 1920;
+    pCB["height"] = 1080;
     pCB["index"] = 1;
     //mpProgVars->setTexture("",);
     //mpProgVars->setTexture("",);

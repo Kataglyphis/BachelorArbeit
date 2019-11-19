@@ -20,9 +20,12 @@ StructuredBuffer<uint> srcseed_texture;
 RWStructuredBuffer<uint> newseed_texture;
 
 //given variables for our frame
-uint width;
-uint heigth;
-uint index;
+cbuffer GlobalCB {
+    uint width; // width of the frame
+    uint heigth; // height of the frame
+    uint index; // the actual index of the frame
+};
+
 
 //fetching precomputed permutation and applying it to the seeds
 [numthreads(BLOCK_SIZE,BLOCK_SIZE,1)]

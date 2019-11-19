@@ -102,18 +102,20 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
 
     //Edges for our temporal algorithm
     /**
-    mpGraph->addEdge("GlobalIllumination.output", "Sorting.input");
+    //the retargeted seeds will come into our path tracer
+    //mpGraph->addEdge("Retargeting.outputSeedTexture", "GlobalIllumination.inputSeedTexture");
+    //the rendered frame from our path tracer where we get our values to sort
+    mpGraph->addEdge("GlobalIllumination.output", "Sorting.frameInput");
     mpGraph->addEdge("GlobalIllumination.outputSeedTexture","Sorting.inputSeedTexture");
-    mpGraph->addEdge("Sorting.seedOutput","Retargeting.seedSrc");
-    mpGraph->addEdge("Retargeting.outputSeed", "GlobalIllumination.inputSeed");
-
+    //TODO: does it really come from the global illumination render pass???
+    mpGraph->addEdge("GlobalIllumination.outputBlueNoiseTexture","Sorting.inputBlueNoiseTexture");
+    //TODO:where comes the retargeting texture from
+    //edges for our retargeting pass
+    mpGraph->addEdge("Sorting.outputSeedTexture","Retargeting.inputSeedTexture");
 
     */
 
     mpGraph->markOutput("ToneMapping.dst");
-
-    // When GI pass changes, tell temporal accumulation to reset
-    //pGIPass->setPassChangedCB([this]() {(*mpGraph->getPassesDictionary())["_dirty"] = true; });
 
     // Initialize the graph's record of what the swapchain size is, for texture creation
     mpGraph->onResize(pCallbacks->getCurrentFbo().get());

@@ -35,19 +35,16 @@ RenderPassReflection Sorting::reflect(void) const {
 
     RenderPassReflection r;
     //input
-    r.addInput("srcSorting", "Source texture of our blue noise");
-    r.addInput("srcSeeds", "Source texture of our seeds from path tracing");
+    r.addInput("frameInput", "rendered frame from path tracing");
+    r.addInput("inputSeedTexture", "the incoming seed texture");
+    r.addInput("inputBlueNoiseTexture", "the incoming blue noise texture");
     //output
-    r.addOutput("dst", "").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
+    r.addOutput("outputSeedTexture", "the outgoing seed texture");
 
     return r;
 }
 
 void Sorting::initialize(RenderContext * pContext, const RenderData * pRenderData) {
-
-    // clear render target view
-    mpBlackHDR = Texture::create2D(128, 128, ResourceFormat::RGBA32Float, 1u, 1u, nullptr, Resource::BindFlags::ShaderResource | Resource::BindFlags::RenderTarget);
-    pContext->clearRtv(mpBlackHDR->getRTV().get(), vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
     //load prog from file
     mpProg = ComputeProgram::createFromFile("Sort.hlsl", "main");
@@ -71,12 +68,6 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
         initialize(pContext, pData);
 
     }
-
-    // Get the output buffer an dclear it
-    Texture::SharedPtr pDstTex = pData->getTexture("output");
-    pContext->clearUAV(pDstTex->getUAV().get(), vec4(0.0f, 0.0f, 0.0f, 1.0f));
-
-    if (pDstTex == nullptr) return;
 
     // Set our variables into the global HLSL namespace
     ConstantBuffer::SharedPtr pCB = mpProgVars->getConstantBuffer("GlobalCB");
