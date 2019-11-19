@@ -69,15 +69,15 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
 
     }
 
-    // Set our variables into the global HLSL namespace
-    ConstantBuffer::SharedPtr pCB = mpProgVars->getConstantBuffer("GlobalCB");
-    pCB["width"] = 1;
-    pCB["height"] = 1;
-    pCB["index"] = 1;
-    //mpProgVars->setTexture("",);
-    //mpProgVars->setTexture("",);
-    //mpProgVars->setTexture("",);
+    rwBuffer = StructuredBuffer::create(mpProg, "seed_Texture", 1920*1080);
+    mpProgVars->setStructuredBuffer("seed_Texture", rwBuffer);
+    //info for the frame
+    frameInfo = StructuredBuffer::create(mpProg, "gInfo", 3);
+    mpProgVars->setStructuredBuffer("gInfo", frameInfo);
 
+    mpProgVars->getStructuredBuffer("gInfo")[0]["uintVal"] = (uint)1920;
+    mpProgVars->getStructuredBuffer("gInfo")[1]["uintVal"] = (uint)1080;
+    mpProgVars->getStructuredBuffer("gInfo")[2]["uintVal"] = (uint)5;
 
 }
 

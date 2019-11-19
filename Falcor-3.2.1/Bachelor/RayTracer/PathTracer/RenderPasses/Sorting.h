@@ -11,6 +11,9 @@ class Sorting : public RenderPass, inherit_shared_from_this<RenderPass, Sorting>
 public:
     using SharedPtr = std::shared_ptr<Sorting>;
 
+    // survey variables
+    bool mIsInitialized = false;
+    bool distributeAsBlueNoise = false;
     /** Instantiate our pass.  The input Python dictionary is where you can extract pass parameters
     */
     static SharedPtr create(const Dictionary& params = {});
@@ -56,9 +59,8 @@ private:
     ComputeVars::SharedPtr mpProgVars;
 
     Texture::SharedPtr  mpBlackHDR = nullptr;
-
-    //survey variables
-    bool mIsInitialized = false;
-    bool distributeAsBlueNoise = false;
+    //all buffer objects
+    StructuredBuffer::SharedPtr rwBuffer;
+    StructuredBuffer::SharedPtr frameInfo;
 
 };

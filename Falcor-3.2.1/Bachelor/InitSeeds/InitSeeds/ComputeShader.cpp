@@ -55,8 +55,8 @@ void ComputeShader::onLoad(SampleCallbacks* pSample, RenderContext* pContext)
     rwBuffer = StructuredBuffer::create(mpProg, "seed_Texture", pFbo->getWidth() * pFbo->getHeight());
     mpProgVars->setStructuredBuffer("seed_Texture", rwBuffer);
     //info for the frame
-    StructuredBuffer::SharedPtr mpAppendLightData = StructuredBuffer::create(mpProg, "gInfo", 3);
-    mpProgVars->setStructuredBuffer("gInfo", mpAppendLightData);
+    StructuredBuffer::SharedPtr frameData = StructuredBuffer::create(mpProg, "gInfo", 3);
+    mpProgVars->setStructuredBuffer("gInfo", frameData);
 
     mpProgVars->getStructuredBuffer("gInfo")[0]["uintVal"] = (uint)1920;
     mpProgVars->getStructuredBuffer("gInfo")[1]["uintVal"] = (uint)1080;
