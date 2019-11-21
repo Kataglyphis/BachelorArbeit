@@ -1,19 +1,47 @@
 \subsection{Eigenschaften}
 
 Wie in \cite{Pet17} vorgestellt, macht man sich die Eigenschaften einer
-blue noise Textur zu Nutze.
+blue noise Textur zu Nutze. Dabei werden im Folgenden, die dort bereit 
+gestellten blue noise verteilten Texturen verwendet, welche anhand des in
+\cite{ulichney1993void} vorgestellten Algorithmus erstellt wurden.
+Die korrespondierenden Spektren werden mit Hilfe von \cite{FFTProgWeb} erstellt.
+
 \subsubsection{Uniformität}
-Die Uniformität(spätlat. \textit{uniformitas}-Einförmigkeit) 
+Die Uniformität(lat. \textit{uniformitas}-Einförmigkeit) garantiert uns 
+wie in \cite{3288} eine gleichverteilte Wahrscheinlichkeitsdichtefunktion
+mit zugehöriger gleichverteilter Wahrscheinlichkeitsfunktion. In \cite{Pet17}
+sieht sie wie folgt aus: 
+
+\begin{equation}\label{eq:uniformität}
+    P(n \leq p) = p
+\end{equation}
 
 \subsubsection{Niedrige Frequenzen}
 Niedrige Frequenzen sind in einer blue noise sehr wenig bis gar nicht 
-vertreten.
+vertreten. Dies ist an dem schwarzen Ring innerhalb der Fouriertransformierten
+zu erkennen\ref{pic:blueNoiseFFT}.
+
+\begin{figure}[H]\label{pic:blueNoiseFFT}
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=.75\linewidth]{content/BlueNoise/Bilder/HDR_L_0.png}
+        \caption{$64^{2}$ blue noise Textur}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{content/BlueNoise/Bilder/FFT_HDR_L_0.png}
+        \caption{Fourier Spektrum $64^{2}$ blue noise Textur}
+    \end{minipage}
+\end{figure}
 
 \subsubsection{Isotropie}
 Die Isotropie(altgr. \textit{isos}-gleich und \textit{tropos}-Richtung)
 einer blue noise Textur wird ausgenutzt. Dabei haben wir in allen
 Dimensionen (in dieser Arbeit werden Texturen mit zwei benutzt) 
 die Unabhängigkeit einer Eigenschaft. 
+
 
 \subsubsection{Kachelung}
 Eine weitere nützliche Eigenschaft der blue noise Verteilung ist die 

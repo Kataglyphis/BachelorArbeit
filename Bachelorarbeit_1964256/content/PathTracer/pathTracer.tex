@@ -14,28 +14,34 @@ Das \ref{ch:Content1:sec:PathTracer}path tracing ist in Hinsicht der Beleuchtung
 
 
 Wie in \cite{marschner2009fundamentals} beschrieben wird ausgehend von der vollständigen Transportgleichung
-\begin{equation}
+\begin{equation}\label{eq:vollstaendige Transportgleichung}
     L_s(k_0) = L_e(k_0) + \int_{all(k_i)}^{} \rho(k_i, k_0)*L_f(k_i)*cos(\theta_i)d\theta_i
 \end{equation}
     
-\begin{equation}
-        L(x,{x}^{'}) = g(x,{x}^{'}) * (L_{e}(x,{x}^{'}) + 
-                        \int_{S}^{} b(x,{x}^{'},{x}^{''})
-                        L({x}^{'},{x}^{''}d{x}^{''})) 
+\begin{equation}\label{eq:kajiya}
+        I(x,{x}^{'}) = g(x,{x}^{'}) * \biggl[\epsilon(x,{x}^{'}) + 
+                        \int_{S}^{} \rho(x,{x}^{'},{x}^{''})
+                        I({x}^{'},{x}^{''}d{x}^{''})\biggr] 
 \end{equation}
-Sie beschreibt den Energietransport \textit{L(x,${x}^{'})$} von einem Punkt ${x}^{'}$
-zu einem Punkt x. Dabei ist ein maßgebender Faktor, die relative Lage der beiden Punkte
-zueinander im Raum $g(x,{x}^{'})$. Ein weiterer Faktor ist die Abstrahlung 
-$L_{e}(x,{x}^{'})$ von ${x}^{'}$ nach x. Beinflusst wird der Energiefluss auch durch
-die bidirektionale Verteilungsfunktion $b(x,{x}^{'},{x}^{''})$, welche Aufschluss über
-das einfallende Licht von einem Punkt ${x}^{''}$ über ${x}^{'}$ zu x.
+Sie beschreibt den Energietransport \textit{I} von einem Punkt ${x}^{'}$
+zu einem Punkt x. Dabei ist ein maßgebender Faktor der Geometrieterm \textit{g},
+der die relative Lage der beiden Punkte zueinander im Raum beschreibt.
+Ein weiterer Faktor ist die Abstrahlung \textit{$\epsilon$} von ${x}^{'}$ nach x. 
+Beeinflusst wird der Energiefluss auch durch
+die bidirektionale Verteilungsfunktion \textit{$\rho$}, welche Aufschluss über
+das einfallende Licht von einem Punkt ${x}^{''}$ über ${x}^{'}$ zu x gibt.\par
+Die Schlussfolgerung aus dieser Gleichung \ref{eq:kajiya} ist: Die transportierte
+Intensität von einem Licht zu einem Anderen ist die Summe des ausgestrahlten Lichts 
+und das ausgestrahlte Licht zu x von allen anderen Oberflächen.
+
 
 \subsubsection{Monte-Carlo-Integration}
 Mit der Monte Carlo Integration approximieren wir die Rendergleichung.\par 
-Bei gegebener Funktion \textit{f }:\textit{ S}$\rightarrow \mathbb{R}$ 
+Bei gegebener Funktion \textit{f }:\textit{ S}$\rightarrow \mathbb{R}$ und der 
+Wahrscheinlichkeitsdichtefunktion $x \sim p$
 \cite{KK02}
 \label{pic:MonteCarloIntegration}
-\begin{equation}
+\begin{equation}\label{eq:montcarlo}
     \int_{x\in S} g(x) d\mu \simeq \frac{1}{N}*\sum_{i=1}^{N}\frac{g(x_i)}{p(x_i)}
 \end{equation}
     
