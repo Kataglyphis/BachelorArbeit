@@ -313,6 +313,7 @@ INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content.tex
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmr12.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmbx12.tfm
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmro10.tfm
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\pathTracer.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\pathTracer.tex
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmbx10.tfm
@@ -321,6 +322,16 @@ INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\Grundko
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\Grundkonzept_path_tracing.pdf
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\Grundkonzept_path_tracing.pdf
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\Grundkonzept_path_tracing.pdf
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\WeissesRauschenSzene.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\WeissesRauschenSzene.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\WeissesRauschenSzene.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\WeissesRauschenSzene.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\WeissesRauschenSzene.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\FFT_Ausschnitt2.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\FFT_Ausschnitt2.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\FFT_Ausschnitt2.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\FFT_Ausschnitt2.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\FFT_Ausschnitt2.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\blueNoise.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\blueNoise.tex
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmr12.tfm
@@ -335,7 +346,6 @@ INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_LDR_
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_LDR_LLL1_0.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_LDR_LLL1_0.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_LDR_LLL1_0.png
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmro10.tfm
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\BayerMatrix.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\BayerMatrix.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\BayerMatrix.png

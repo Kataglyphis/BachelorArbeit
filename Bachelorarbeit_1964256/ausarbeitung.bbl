@@ -62,6 +62,12 @@
 \newblock \Btxinlong {}\ \btxtitlefont {ACM SIGGRAPH computer graphics},
   \btxvolumelong {}~\btxvolumefont {20}, \btxpageslong {}\ 143--150. ACM, 1986.
 
+\bibitem [{KJ09}]{kiencke2009signale}
+\btxnamefont {Uwe \btxlastnamefont {Kiencke}} \btxandlong {}\ \btxnamefont
+  {Holger \btxlastnamefont {J{\"a}kel}}\btxauthorcolon\ \btxtitlefont {Signale
+  und Systeme}.
+\newblock \btxpublisherfont {Oldenbourg Verlag}, 2009.
+
 \bibitem [{MS09}]{marschner2009fundamentals}
 \btxnamefont {Steve \btxlastnamefont {Marschner}} \btxandlong {}\ \btxnamefont
   {Peter \btxlastnamefont {Shirley}}\btxauthorcolon\ \btxtitlefont
