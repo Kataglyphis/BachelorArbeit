@@ -1,3 +1,10 @@
+
+\cite{3288}Ulichney gibt eine Einführung zu \textit{Dithering mit blue noise}. Darunter ist ein abbilden
+beliebiger Grauwerte zu einer Menge von blue noise verteilten Schwarz- und Weißwerten zu verstehen.
+Somit kann ein für das menschliche Auge gutes Resultat von Grauwerten entstehen, indem nur Schwarz-/
+Weißpixel verwendet werden. Wieso dies vom Vorteil 
+
+
 \subsection{Eigenschaften}
 
 Wie in \cite{Pet17} vorgestellt, macht man sich die Eigenschaften einer
@@ -38,6 +45,14 @@ zu erkennen\ref{pic:blueNoiseFFT}.
     \end{minipage}
 \end{figure}
 
+
+
+\subsubsection{Isotropie}
+Die Isotropie(altgr. \textit{isos}-gleich und \textit{tropos}-Richtung)
+einer blue noise Textur wird ausgenutzt. Dabei haben wir in allen
+Dimensionen (in dieser Arbeit werden Texturen mit zwei benutzt) 
+die Unabhängigkeit einer Eigenschaft. 
+
 \begin{figure}[H]\label{pic:bayerPatternFFT}
     \centering
     \begin{minipage}[t]{0.45\linewidth}
@@ -53,6 +68,9 @@ zu erkennen\ref{pic:blueNoiseFFT}.
     \end{minipage}
 \end{figure}
 
+\subsubsection{Kachelung}
+Möglichkeit der Kachelung. 
+Eine weitere nützliche Eigenschaft der blue noise Verteilung ist die 
 \begin{figure}[H]\label{pic:tiledBlueNoiseFFT}
     \centering
     \begin{minipage}[t]{0.45\linewidth}
@@ -67,14 +85,3 @@ zu erkennen\ref{pic:blueNoiseFFT}.
         \caption{Fourier Spektrum $512^{2}$ bayer pattern Textur}
     \end{minipage}
 \end{figure}
-
-\subsubsection{Isotropie}
-Die Isotropie(altgr. \textit{isos}-gleich und \textit{tropos}-Richtung)
-einer blue noise Textur wird ausgenutzt. Dabei haben wir in allen
-Dimensionen (in dieser Arbeit werden Texturen mit zwei benutzt) 
-die Unabhängigkeit einer Eigenschaft. 
-
-
-\subsubsection{Kachelung}
-Eine weitere nützliche Eigenschaft der blue noise Verteilung ist die 
-Möglichkeit der Kachelung. 
