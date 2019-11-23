@@ -1,9 +1,9 @@
 \subsubsection{Funktionsweise}
 Bei der Bilderzeugung, ausgehend von Szenen, welche viel Geometrie beinhalten bzw. bei Szenen 
-die generelle BRDF's verwenden eignet sich der \nameref{ch:Content1:sec:PathTracer} \cite{kajiya1986rendering}.
-Der\nameref{ch:Content1:sec:PathTracer} ist in Hinsicht der Beleuchtung komplett. Deshalb lässt sich damit
+die generelle BRDF's verwenden eignet sich der \nameref{ch:Content1:sec:PathTracer}.
+Der \nameref{ch:Content1:sec:PathTracer} ist in Hinsicht der Beleuchtung komplett. Deshalb lässt sich damit
 \textit{Global Illumination} erreichen. Der hier verwendete \nameref{ch:Content1:sec:PathTracer} in 
-\cite[eragae]{Benty18} verwendet eine klassische Umsetzung.\par
+\cite{Benty18} verwendet eine klassische Umsetzung.\par
 
 \begin{figure}[H]
     \centering
@@ -12,12 +12,11 @@ Der\nameref{ch:Content1:sec:PathTracer} ist in Hinsicht der Beleuchtung komplett
     \caption{Grundkonzept path tracer}
 \end{figure}
 
+Ausgehend von der Rendergleichung \ref{eq:kajiya} vorgestellt in \cite{kajiya1986rendering} lässt sich
+die vollständige Transportgleichung\ref{eq:vollstaendige Transportgleichung} des \nameref{ch:Content1:sec:PathTracer}
+beschreiben.
+ 
 
-Wie in \cite{marschner2009fundamentals} beschrieben wird ausgehend von der vollständigen Transportgleichung
-\begin{equation}\label{eq:vollstaendige Transportgleichung}
-    L_s(k_0) = L_e(k_0) + \int_{all(k_i)}^{} \rho(k_i, k_0)*L_f(k_i)*cos(\theta_i)d\theta_i
-\end{equation}
-    
 \begin{equation}\label{eq:kajiya}
         I(x,{x}^{'}) = g(x,{x}^{'}) * \biggl[\epsilon(x,{x}^{'}) + 
                         \int_{S}^{} \rho(x,{x}^{'},{x}^{''})
@@ -33,6 +32,16 @@ das einfallende Licht von einem Punkt ${x}^{''}$ über ${x}^{'}$ zu x gibt.\par
 Die Schlussfolgerung aus dieser Gleichung \ref{eq:kajiya} ist: Die transportierte
 Intensität von einem Licht zu einem Anderen ist die Summe des ausgestrahlten Lichts 
 und das ausgestrahlte Licht zu x von allen anderen Oberflächen.
+
+Wie in \cite{marschner2009fundamentals} beschrieben wird ausgehend von der vollständigen Transportgleichung
+\ref{eq:vollstaendige Transportgleichung}
+\begin{equation}\label{eq:vollstaendige Transportgleichung}
+    L_s(k_0) = L_e(k_0) + \int_{all(k_i)}^{} \rho(k_i, k_0)*L_f(k_i)*cos(\theta_i)d\theta_i
+\end{equation}
+der vollständige Lichttransport beschrieben. Man kann deutlich die Ähnlichkeit
+zu \ref{eq:kajiya} erkennen. Wir haben den Emissionsterm, die relative Lage der 
+Punkte zueinander und die bidirektionale Verteilungsfunktion welche den Energietransport
+beeinflussen.
 
 
 \subsubsection{Monte-Carlo-Integration}
