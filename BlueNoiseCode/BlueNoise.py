@@ -411,8 +411,10 @@ if(__name__=="__main__"):
         #ChannelNames=["","L","LA","RGB","RGBA"][nChannel];
         #GenerateNDBlueNoiseTexture((8,8,8,8),nChannel,"../Data/8_8_8_8/HDR_"+ChannelNames+".raw",1.9);
         #GenerateNDBlueNoiseTexture((16,16,16,16),nChannel,"../Data/16_16_16_16/HDR_"+ChannelNames+".raw",1.9);
-    Texture=GetVoidAndClusterBlueNoise((64,64),1.9);
+    #Texture=GetVoidAndClusterBlueNoise((64,64),1.9);
+    Texture=GetBayerPattern(9);
+    png.from_array(Texture, 'RGB;8').save("\Data\Bayer.png");
     #Texture=GetVoidAndClusterBlueNoise((32,32,32),1.9)[:,:,0];
-    AnalyzeNoiseTexture(Texture,True);
-    PlotBinaryPatterns(Texture,3,5);
-    pyplot.show();
+    #AnalyzeNoiseTexture(Texture,True);
+    #PlotBinaryPatterns(Texture,3,5);
+    #pyplot.show();
