@@ -1,5 +1,5 @@
 \newcommand{\etalchar}[1]{$^{#1}$}
-\begin{thebibliography}{BYF{\etalchar{+}}18}
+\begin{thebibliography}{HBO{\etalchar{+}}19}
   \providebibliographyfont{name}{}%
   \providebibliographyfont{lastname}{}%
   \providebibliographyfont{title}{\emph}%
@@ -54,6 +54,22 @@
 \newblock {\latintext
   \btxurlfont{http://momentsingraphics.de/3DBlueNoise.html}}, \small
   \texttt{Blogpost}.
+
+\bibitem [{HBO{\etalchar{+}}19}]{heitz:hal-02150657}
+\btxnamefont {Eric \btxlastnamefont {Heitz}}, \btxnamefont {Laurent
+  \btxlastnamefont {Belcour}}, \btxnamefont {Victor \btxlastnamefont
+  {Ostromoukhov}}, \btxnamefont {David \btxlastnamefont
+  {Coeurjolly}}\btxandcomma {} \btxandlong {}\ \btxnamefont
+  {Jean\btxfnamespacelong Claude \btxlastnamefont {Iehl}}\btxauthorcolon\
+  \btxtitlefont {\btxifchangecase {{A Low-Discrepancy Sampler that Distributes
+  Monte Carlo Errors as a Blue Noise in Screen Space}}{{A Low-Discrepancy
+  Sampler that Distributes Monte Carlo Errors as a Blue Noise in Screen
+  Space}}}.
+\newblock \Btxinlong {}\ \btxtitlefont {{SIGGRAPH'19 Talks}}, Los Angeles,
+  United States, \btxprintmonthyear{.}{7}{2019}{long}. \btxpublisherfont
+  {{ACM}}.
+\newblock {\latintext
+  \btxurlfont{https://hal.archives-ouvertes.fr/hal-02150657}}.
 
 \bibitem [{Kaj86}]{kajiya1986rendering}
 \btxnamefont {James\btxfnamespacelong T \btxlastnamefont

@@ -394,7 +394,6 @@ INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\t1lmt
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmtt10.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmr10.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmtt10.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmri10.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\rm-lmr10.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\rm-lmr7.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\rm-lmr5.tfm
@@ -412,6 +411,7 @@ INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\a
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfonts\symbols\msbm7.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfonts\symbols\msbm5.tfm
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmri10.tfm
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\ausarbeitung.aux
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\titlepage.aux
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\titlepage.aux
@@ -419,10 +419,10 @@ INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content.aux
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content.aux
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\ausarbeitung.out
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\ausarbeitung.out
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\enc\dvips\lm\lm-rm.enc
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\enc\dvips\lm\lm-ec.enc
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\enc\dvips\lm\lm-mathsy.enc
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\enc\dvips\lm\lm-mathit.enc
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\enc\dvips\lm\lm-rm.enc
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\enc\dvips\base\8r.enc
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\public\amsfonts\cm\cmex10.pfb
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\public\amsfonts\cm\cmex10.pfb
@@ -438,6 +438,8 @@ INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\public
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\public\lm\lmmi8.pfb
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\public\lm\lmr10.pfb
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\public\lm\lmr10.pfb
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\public\lm\lmr7.pfb
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\public\lm\lmr7.pfb
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\public\lm\lmr8.pfb
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\public\lm\lmr8.pfb
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\public\lm\lmr9.pfb
