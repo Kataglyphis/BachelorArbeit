@@ -65,6 +65,7 @@ groupshared pixel sortedBlueNoise[BLOCK_SIZE];
 //we are performing a 1-dimensional-sorting of our seeds
 [numthreads(DIMENSION_SIZE, DIMENSION_SIZE, 1)]
 void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 thread_ID : SV_DISPATCHTHREADID) {
+
     
     //target blue noise tile should change after each frame --> each pixel has a different error in each frame
     //This is important for temporel filtering algorithms to reduce errors by averaging them over multiple frames!!
