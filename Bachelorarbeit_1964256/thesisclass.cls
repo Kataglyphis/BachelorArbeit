@@ -28,12 +28,37 @@
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}    % switched from ISO-8859-1 / Latin1 to UTF-8 (M. Retzlaff)
+\usepackage{xcolor}
+\usepackage{listings}
 
+\definecolor{mGreen}{rgb}{0,0.6,0}
+\definecolor{mGray}{rgb}{0.5,0.5,0.5}
+\definecolor{mPurple}{rgb}{0.58,0,0.82}
+\definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{CStyle}{
+    backgroundcolor=\color{backgroundColour},   
+    commentstyle=\color{mGreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{mGray},
+    stringstyle=\color{mPurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=C
+}
 % M. Retzlaff, 20121114, replaced:  (see ftp://ftp.dante.de/pub/tex/info/german/l2tabu/ )
 %\usepackage{ae}               % Almost european, virtual T1-Font
 % by
 \usepackage{lmodern}
-
 \usepackage[pdftex]{graphicx}
 \usepackage{vmargin}          % Adjust margins in a simple way
 \usepackage{fancyhdr}         % Define simple headings
@@ -42,6 +67,7 @@
 \usepackage[absolute,overlay]{textpos}
 \usepackage{tikz}
 \usepackage[english,ngerman]{babel}
+
 \usepackage{algorithm}		  % Code-Listings
 \usepackage{algorithmic}	  % Code-Listings
 \usepackage{relsize,exscale}
