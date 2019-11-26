@@ -1,4 +1,4 @@
-In diesem Abschnitt wird auf den in \cite{hal-02158423} vorgestellten, temporalen Algorithmus eingegangen.
+In diesem Abschnitt wird auf den in \cite{hal02158423} vorgestellten, temporalen Algorithmus eingegangen.
 Dieser besteht grundsätzlich aus dem \nameref{ch:Content2:sec:Sorting} sowie den 
 \nameref{ch:Content2:sec:Retargeting}. Es sollte unbedingt beachtet werden, dass folgende
 Annahmen getroffen wurden: Der Algorithmus arbeitet Blockweise auf den Pixeln und erwartet, dass benachbarte
@@ -6,11 +6,13 @@ Pixel innerhalb dieses Blockes den selben Wert haben. Da wir einen temporalen Al
 auch über mehrere gerenderte Bilder hinweg gelten. Es sollte also beachtet werden, dass der Algorithmus z.B. nicht 
 für Objektkanten oder ruckartige Bewegungen (der Kamera oder Objekte) ausgelegt ist.
 \cite{heitz:hal-02150657}
+
 \cite{quasirandomsequencesbyRoberts}
+\todo{find the right place for this chapter}\label{code:golden_ratio}
 \begin{lstlisting}[style=CStyle]
-    #include <stdio.h>
-    int main(void)
-    {
-       printf("Hello World!"); 
-    }
-    \end{lstlisting}
+   float g = 1.32471795724474602596;
+   float a1 = 1.0/g;
+   float a2 = 1.0/(g*g);
+   x[n] = (0.5+a1*n) %1; //toroidally shifted
+   y[n] = (0.5+a2*n) %1; //toroidally shifted
+\end{lstlisting}

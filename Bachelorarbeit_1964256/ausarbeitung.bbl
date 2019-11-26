@@ -32,7 +32,7 @@
   sampling}{Efficient Multidimensional Sampling}}.
 \newblock 21:1--8, 2002.
 
-\bibitem [{EH19}]{hal-02158423}
+\bibitem [{EH19}]{hal02158423}
 \btxnamefont {Laurent\btxfnamespacelong Belcour \btxlastnamefont
   {Eric~Heitz}}\btxauthorcolon\ \btxjtitlefont {\btxifchangecase {Distributing
   monte carlo errors as a blue noise in screen space by permuting pixel seeds
@@ -89,6 +89,12 @@
   {Peter \btxlastnamefont {Shirley}}\btxauthorcolon\ \btxtitlefont
   {Fundamentals of computer graphics}.
 \newblock \btxpublisherfont {CRC Press}, 2009.
+
+\bibitem [{Owe98}]{owen1998scrambling}
+\btxnamefont {Art\btxfnamespacelong B \btxlastnamefont {Owen}}\btxauthorcolon\
+  \btxjtitlefont {\btxifchangecase {Scrambling sobol'and niederreiter--xing
+  points}{Scrambling Sobol'and Niederreiter--Xing points}}.
+\newblock \btxjournalfont {Journal of complexity}, 14(4):466--489, 1998.
 
 \bibitem [{Rob18}]{quasirandomsequencesbyRoberts}
 \btxnamefont {Martin \btxlastnamefont {Roberts}}\btxauthorcolon\ \btxtitlefont

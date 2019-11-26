@@ -386,12 +386,18 @@ INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_Blue
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_BlueNoise64Tiled.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_BlueNoise64Tiled.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_BlueNoise64Tiled.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\QuasiZufallsfolgen\quasiRandomSequences.tex
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\QuasiZufallsfolgen\quasiRandomSequences.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\general.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\general.tex
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstlang1.sty
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstlang1.sty
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstmisc.sty
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstmisc.sty
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\t1lmtt.fd
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\t1lmtt.fd
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmtt10.tfm
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmtt9.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmr9.tfm
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\Sorting.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\Sorting.tex
@@ -399,9 +405,6 @@ INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\Retargeting
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\Retargeting.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\ausarbeitung.bbl
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\ausarbeitung.bbl
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\t1lmtt.fd
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\t1lmtt.fd
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmtt10.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmr10.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmtt10.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\rm-lmr10.tfm
@@ -470,6 +473,8 @@ INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\public
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\public\lm\lmsy8.pfb
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\public\lm\lmtt10.pfb
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\public\lm\lmtt10.pfb
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\public\lm\lmtt9.pfb
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\public\lm\lmtt9.pfb
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\public\amsfonts\symbols\msbm10.pfb
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\public\amsfonts\symbols\msbm10.pfb
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\urw\helvetic\uhvb8a.pfb
