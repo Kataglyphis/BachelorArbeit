@@ -10,9 +10,15 @@ für Objektkanten oder ruckartige Bewegungen (der Kamera oder Objekte) ausgelegt
 \cite{quasirandomsequencesbyRoberts}
 \todo{find the right place for this chapter}\label{code:golden_ratio}
 \begin{lstlisting}[style=CStyle]
-   float g = 1.32471795724474602596;
+   float g = 1.32471795724474602596; //Plastische Zahl
    float a1 = 1.0/g;
    float a2 = 1.0/(g*g);
    x[n] = (0.5+a1*n) %1; //toroidally shifted
    y[n] = (0.5+a2*n) %1; //toroidally shifted
 \end{lstlisting}
+Die sogenannte Plastische Zahl in \ref{code:golden_ratio} ist die Lösung der
+Gleichung \ref{eq:plasticnumber}
+\begin{equation}\label{eq:plasticnumber}
+   x^{3} - x - 1 = 0
+\end{equation}
+\todo{add further information and references!!!}
