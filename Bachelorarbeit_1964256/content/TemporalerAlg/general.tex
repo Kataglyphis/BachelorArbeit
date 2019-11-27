@@ -18,7 +18,17 @@ für Objektkanten oder ruckartige Bewegungen (der Kamera oder Objekte) ausgelegt
 \end{lstlisting}
 Die sogenannte Plastische Zahl in \ref{code:golden_ratio} ist die Lösung der
 Gleichung \ref{eq:plasticnumber}
-\begin{equation}\label{eq:plasticnumber}
+\begin{equation}\label{eq:cubic}
    x^{3} - x - 1 = 0
 \end{equation}
+Die Lösung dieser Gleichung lässt sich über die Padovan und Perrin Sequenz
+definieren. Damit erhalten wir Plastische Zahl $\Phi$:
+
+\begin{equation} \label{eq:plasticnumber}
+   \Phi = \frac{(9 - \sqrt{69})^{1/3} + (9 + \sqrt{69})^{1/3}}
+               {2^{1/3}3^{2/3}}
+\end{equation}
+
 \todo{add further information and references!!!}
+\cite{vanderlaanplasticnumber}
+\cite{wolframalphaPlastic}
