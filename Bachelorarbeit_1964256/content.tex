@@ -19,7 +19,18 @@ korrelierte Pixelfolge zu erhalten. All dies erreicht der Algorithmus ohne signi
 \newpage
 
 \section{Einleitung}
+\vspace*{\fill}
+Dithering ist in Echtzeitanwendungen bereits verbreitet. So zu sehen in dem Computerspiel \textit{Call of Duty: Advanced Warfare}, wobei 
+bereits im Post-Processing \cite{callofdutypostprocessing} mit white noise und bayer pattern gearbeitet wird.\par 
+Weitere Entwicklungen \cite{georgiev2016blue} haben sich mit blue noise dither masks \ref{ch:Content1:sec:BlueNoise} beschäftigt
+und ihre Nützlichkeit in Steigung der visuellen Qualität gezeigt. Hierbei lassen sich im Bildraum die entstehenden 
+Monte-Carlo-Integrationsfehler \ref{ch:Content1:sec:PathTracer} zwar nicht verringern, jedoch umverteilen.\par 
+Im Besonderen zeigte \cite{Sch19} die Bedeutung von blue noise Fehlerverteilung im Bildraum für Echtzeitanwendungen mit neuer
+Raytracingtechnologie.
+\cite{heitz:hal-02150657} 
 
+
+\vfill
 %% ==============
 \chapter{Grundlagen}
 \label{ch:Grundlagen}
