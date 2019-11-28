@@ -19,7 +19,20 @@ korrelierte Pixelfolge zu erhalten. All dies erreicht der Algorithmus ohne signi
 \newpage
 
 \section{Einleitung}
+\vspace*{\fill}
+Dithering ist in Echtzeitanwendungen bereits verbreitet. So zu sehen in dem Computerspiel \textit{Call of Duty: Advanced Warfare}, wobei 
+bereits im Post-Processing \cite{callofdutypostprocessing} mit white noise und bayer pattern gearbeitet wird.\par 
+Weitere Entwicklungen \cite{georgiev2016blue} haben sich mit blue noise dither masks \ref{ch:Content1:sec:BlueNoise} beschäftigt
+und ihre Nützlichkeit in Steigung der visuellen Qualität gezeigt. Hierbei lassen sich im Bildraum die entstehenden 
+Monte-Carlo-Integrationsfehler \ref{ch:Content1:sec:PathTracer} zwar nicht verringern, jedoch umverteilen.\par 
+Im Besonderen zeigte \cite{Sch19} die Bedeutung von blue noise Fehlerverteilung im Bildraum für Echtzeitanwendungen mit neuer
+Raytracingtechnologie.
+Das vor dem temporalen Algorithmus erschienene Paper \cite{heitz:hal02150657} zeigt eindrucksvoll die Mächtigkeit von 
+Fehlerumverteilungen im Bildraum. 
+Die Entwickler von INSIDE \cite{10.111712.152707} fanden auch bereits eine Anwendung für blue noise Fehlerverteilungen. 
 
+
+\vfill
 %% ==============
 \chapter{Grundlagen}
 \label{ch:Grundlagen}
@@ -32,8 +45,6 @@ korrelierte Pixelfolge zu erhalten. All dies erreicht der Algorithmus ohne signi
 \input{content/PathTracer/pathTracer.tex}
 %% ===========================
 
-\dots
-
 
 %% ===========================
 \newpage
@@ -42,7 +53,6 @@ korrelierte Pixelfolge zu erhalten. All dies erreicht der Algorithmus ohne signi
 \input{content/BlueNoise/blueNoise.tex}
 %% ===========================
 
-\dots
 
 %% ===========================
 \newpage
@@ -51,7 +61,6 @@ korrelierte Pixelfolge zu erhalten. All dies erreicht der Algorithmus ohne signi
 \input{content/QuasiZufallsfolgen/quasiRandomSequences.tex}
 %% ===========================
 
-\dots
 
 
 %% content.tex
@@ -64,7 +73,14 @@ korrelierte Pixelfolge zu erhalten. All dies erreicht der Algorithmus ohne signi
 \input{content/TemporalerAlg/general.tex}
 %% ==============
 
-\dots
+
+
+%% ===========================
+\section{APosteriori}
+\label{ch:Content2:sec:APosteriori}
+\input{content/TemporalerAlg/APosteriori.tex}
+%% ===========================
+
 
 
 %% ===========================
@@ -73,7 +89,6 @@ korrelierte Pixelfolge zu erhalten. All dies erreicht der Algorithmus ohne signi
 \input{content/TemporalerAlg/Sorting.tex}
 %% ===========================
 
-\dots
 
 
 %% ===========================
@@ -82,4 +97,3 @@ korrelierte Pixelfolge zu erhalten. All dies erreicht der Algorithmus ohne signi
 \input{content/TemporalerAlg/Retargeting.tex}
 %% ===========================
 
-\dots

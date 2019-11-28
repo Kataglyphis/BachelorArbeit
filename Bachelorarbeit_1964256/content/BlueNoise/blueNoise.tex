@@ -121,8 +121,11 @@ bei der white noise (bloß ausschließlich bei höheren Frequenzen)
 zu erkennen. 
 
 \subsubsection{Kachelung}
-Möglichkeit der Kachelung. 
-Eine weitere nützliche Eigenschaft der blue noise Verteilung ist die 
+Bayer Pattern sowie auch white noise lassen sich einfach zur Echtzeit berechnen. Bei blue noise texturen 
+sieht das hingegen anders aus. Für diese Art von Textur müssen wir vor Start der Anwendung eine
+Vorberechnung machen. Daher stellt sich nun die Frage, wie groß (welche Auflösung) die Textur haben sollte. 
+Aufgrund des Aufbaus von aktueller Grafikhardware \cite{turingarchitecture} wollen wir diese Textur
+soweit oben wie möglich in der Cachehierarchie halten.(L1 96KByte, L2 6MByte).
 \begin{figure}[H]\label{pic:tiledBlueNoiseFFT}
     \centering
     \begin{minipage}[t]{0.45\linewidth}
@@ -137,3 +140,10 @@ Eine weitere nützliche Eigenschaft der blue noise Verteilung ist die
         \caption{Fourier Spektrum $512^{2}$ bayer pattern Textur}
     \end{minipage}
 \end{figure}
+
+In \ref{pic:tiledBlueNoiseFFT} lässt sich der blue noise Charakter wieder anhand des
+wenigen niederen Frequenzanteils erkennen. Wiederholungen sind in der Zeitdomäne schwerer zu erkennen,
+wohingegen man bereits bekannten Effekt von Bayer Pattern im Frequenzbereich \ref{pic:bayerPatternFFT}, also Wiederholungen,
+erkennen kann. Jedoch weniger deutlich, weshalb man diese Kacheln als eine gute Approximation für eine
+entsprechend größere Textur halten kann. Vorallem in Anbetracht der bereits angesprochenen 
+Performancevorteile.
