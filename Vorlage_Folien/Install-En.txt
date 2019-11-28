@@ -1,0 +1,307 @@
+
+                                 Installation
+
+                                 Klaus Braune
+                             klaus.braune@kit.edu
+                   Karlsruhe Institute of Technology  (KIT)
+                        Steinbuch Centre for Computing
+
+                          Version 2.0,  May 15, 2012
+
+
+KIT packages
+============
+
+KIT packages for TeX are distributed as zip archives containing installation
+instructions, the user documentation, a zip archive containing files common
+to all KIT packages and two zip archives for every supported document type
+- one containing the installation data, the second containing examples. The
+distributed zip archive - up to now 'KIT-Vorlagen-Briefe.zip',
+'KIT-Vorlagen-Folien.zip', and 'KIT-Vorlagen-Poster.zip' - should be
+extracted at a temporary directory which can be removed completely as soon
+as the installation task is completed. This temporary directory, where
+distributed zip archives are extracted, is called <temp> in the following.
+
+
+Installation directories
+========================
+
+The installation directories differ for different TeX distributions. Here,
+the installation directories of MiKTeX version 2.9 and Linux are discussed.
+
+Both distributions treat installation directories of the distribution itself
+and local installation directories differently: installation directories of
+the distribution are replaced in case of a new installation or occasionally
+even in case of an upgrade, whereas local installation directories are not
+changed.
+
+Thus, packages belonging to the distribution should be installed at the
+installation directories of the distribution in the usual way additional
+packages are installed. On the other hand, packages like the KIT packages
+should be installed at a local installation directory which is not involved
+when the distribution is changed.
+
+In the following the choosen installation directory - in case of MiKTeX as
+well as in case of Linux - will be called <texmf-local>.
+
+
+MiKTeX
+------
+In case of MiKTeX a list of all known installation directories is available
+by opening "Start" -> "Programs" -> "MiKTeX" -> "Maintenance" -> "Settings" and
+changing to the tab "Roots". To display the directories (paths) maintained
+by MiKTeX (including directories created by the user) "Show MiKTeX-maintained
+root directories" must be activated. The directories set up by MiKTeX hold
+the files of the MiKTeX distribution and should according to the MiKTeX
+documentation not be used to install files not being part of the distribution
+like the KIT packages. Directories in the list which can be used to install
+additional packages show the information "This directory can be used for
+local additions" in case the mouse is moved onto the path displayed. In case
+no such directory exists a new one should be created for example as
+subdirectory of own documents and settings or - using a privileged user like
+'Administrator" to make them available to all users at the computer - of the
+corresponding parallel directory for all users. The created directory in
+addition must be made known to MiKTeX using the button >Add ...<.
+
+
+Linux
+-----
+With Linux a list of the 'texmf' trees inspected while formatting is shown
+by the following command:
+    kpsewhich --var-value TEXMF
+Displayed are the roots of the 'texmf' trees. Trees, for which only the
+"data base" (a recursive directory listing) is inspected, start with '!!';
+other trees are inspected using a recursive directory search. The list
+shows as well the installation directories of the distribution as the local
+installation directories and the private 'texmf' tree.
+
+To restrict the list to the local installation directories, to which
+packages like the KIT packages should be installed, the more specific
+command
+    kpsewhich --var-value TEXMFLOCAL
+should be used. In case the installation is only for a single user,
+alternatively the private 'texmf' tree '~/texmf' can be used. The local
+installation directories and the private 'texmf' tree are not involved by
+changes of the distribution as mentioned above.
+
+
+Required Packages
+=================
+
+The "Gestaltungsrichtlinien" of the KIT require to use the font "Arial".
+Thus, the KIT document classes do load the package 'uarial' using the
+command '\RequirePackage{uarial}'. For formulas, in addition the package
+'mathpazo' is loaded.
+
+To format letters, faxes and scientific posters using the LaTeX classes
+'KITbrief', 'KITfax' and 'KITposter' and slides using the LaTeX class
+'beamer' in combination with the KIT adaptations, some more LaTeX packages
+and classes must be installed. The following list names all packages needed
+except those required by LaTeX2e:
+
+    a0poster                        | rcs
+    beamer                          | refcount
+    bophook                         | sciposter
+    boxedminipage                   | shadow
+    dinbrief                        | tikz        (pgf)
+    hyperref                        | uarial      (arial, urw-arial)
+    lettrine                        | xcolor
+    mathpazo                        |
+
+If a LaTeX package is part of a package with differing name, the names used
+by MiKTeX or the TeX Catalogue are given in addition. In case some of these
+packages are missing, please install them using the TeX installer of your
+TeX installation (the "Package manager" in case of MiKTeX and 'tlmgr' in
+case of a TeX Live distribution). In case an installation using the TeX
+installer is not possible, please install the package(s) as specified by
+the package description.
+
+
+Installation of the font "Arial"
+================================
+
+According to the "Gestaltungsrichtlinien" of the KIT the font "Arial" is
+to be used. However, this font practically does not differ from the font
+"Helvetica" which is part of any TeX installation in contrary to the
+required Arial font. Since these fonts are nearly identical it would be
+sufficient to make the Helvetica font available under the name "uarial.sty".
+However, to make the requested Arial font available this font must be
+installed in addition. How the installation is done depends on the TeX
+installation in use.
+
+
+MiKTeX
+------
+The installation for MiKTeX ist straight forward by using the default
+mechanism for installation of additional packages, since the package needed
+is part of the MiKTeX distribution.
+
+Opening "Start" -> "Programs" -> "MiKTeX" -> "Package Manager" shows the
+packages supported by MiKTeX. Look there for the package "arial".
+Alternatively, you can restrict the display to the searched package by
+entering 'arial' into the field Name: and hitting the Filter button.
+In case the package already is installed the installation date is shown.
+Otherwise select the package "arial" and press the entry <+> or select
+the menu entry "Task" -> "Install..." to install the package. Please be
+sure to have access to the internet since in general a network is needed
+to install packages. As soon as the installation is finished, TeX should
+be able to use the font "Arial". The package 'uarial' requires to use the
+font "Arial" as sans serif family.
+
+
+Linux
+-----
+A bit more complicated is the installation of the font "Arial" under Linux.
+This is caused by the fact that the font itself is not integrated into the
+TeX system automatically. To install it, you can proceed as follows:
+
+ 1. Load the zip archive of the Arial font:
+      wget ftp://ftp.dante.de/tex-archive/fonts/urw/arial.zip
+ 2. Unpack the archive to a temporary directory called <temp>
+ 3. Change to the 'texmf' directory <texmf-local> choosen above in the
+    following
+
+ At older versions the files needed by LaTeX have been distributed packed
+ within the zip archive ua1.zip unpacked by the last step. These old
+ versions should no longer be used, and this instructions are not related to
+ the old versions.
+
+ 4. Create the following directories:
+      mkdir -p fonts/afm/urw fonts/tfm/urw fonts/type1/urw fonts/vf/urw \
+               fonts/map/dvips/ua1 fonts/map/vtex dvips/config doc/fonts
+ 5. Move or copy the directories 'afm', 'tfm', 'type1', and 'vf' to the
+    corresponding directories just created:
+      mv <dir> fonts/<dir>/urw/arial
+ 6. Move or copy the directory 'latex':
+      mv latex tex/latex/ua1
+ 7. Copy and move the map files:
+      cp -p map/ua1.map dvips/config
+      mv map/ua1.map fonts/map/dvips/ua1
+      mv map/ua1.ali fonts/map/vtex
+ 8. Install the documentation files (optional):
+      mv doc doc/fonts/urw
+      mv README doc/fonts/urw
+ 9. Update the list of available TeX files of this 'texmf' directory:
+      mktexlsr <texmf-local>
+10. Integrate the new fonts into the TeX system (often root privileges are
+    required to do this):
+      updmap-sys --enable Map ua1.map
+11. Finally, update the list of available TeX files again - for all 'texmf'
+    directories (again, often root privileges are required):
+      mktexlsr
+
+In case no errors occurred during the installation, now the Arial font can
+be used by TeX.
+
+
+Installing KIT Packages
+=======================
+
+With these packages installed, the wanted KIT packages can be installed.
+A KIT package consists - as mentioned above - out of the base package
+'KITbase.zip' containing data needed by all KIT packages and the packages
+itself, up to now 'KITbrief.zip' for letters and faxes, 'KITbeamer.zip'
+for presentations created using the 'beamer' class, and 'KITposter.zip'
+for scientific Posters.
+
+The base package should be current as far as possible - anyways at least
+the version distributed with the current KIT packages. Software on Web
+pages of the PKM department are not updated soon after new versions are
+available. Thus, versions not already available on PKM pages are distributed
+along with other KIT packages. The names of the packages available up to
+now are mentioned above. Hence, everybody can decide whether additional
+packages are to be installed or not.
+
+The base package 'KITbase.zip' as well as the wanted zip archives
+'KITbrief.zip', 'KITbeamer.zip' and/or 'KITposter.zip' should be extracted at
+the root of the 'texmf' directory tree <texmf-local>. Finally, the 'data base'
+used by the TeX programs must be refreshed (according to your TeX
+installation).
+
+
+MiKTeX
+------
+Change to the installation directory <texmf-local> choosen above and unpack
+there the wanted archives '<temp>/KIT*.zip' ('<temp>/KITbrief.zip' /
+\Code{<temp>/KITbrief.zip} / \Code{<temp>/KITbeamer.zip} /
+\Code{<temp>/KITposter.zip}).
+
+Now, the list of files within this directory (the 'database') must be updated.
+To run the refresh, follow "Start" -> "Programs" -> "MiKTeX" -> "Settings"
+and select the tab "General". Klick there on the button >Refresh FNDB<.
+Finally, close the window MiKTeX Options by klicking on >OK<.
+
+
+Linux
+-----
+Change to the directory '<texmf-local>' and unpack there the wanted
+archives '<temp>/KIT*.zip' ('<temp>/KITbase.zip' / '<temp>/KITbrief.zip' /
+'<temp>/KITbeamer.zip' / '<temp>/KITposter.zip').
+
+To refresh the 'data bases' for all 'texmf' trees, run
+    mktexlsr
+In general, you will need root privileges to do this. Alternatively, you
+can run
+    mktexlsr <texmf-local>
+to refresh the 'data base' of a single 'texmf' tree <texmf-local>, where
+<texmf-local> is the directory the KIT archives (e.g. 'KITbrief.zip') have
+been unpacked to.
+
+
+Examples
+========
+
+To all KIT packages the distribution contains an archive with at least one
+example. The name of the example archive is build from the name of the KIT
+archive by appending "Xmpl". Thus, to the letter and fax archive
+'KITbrief.zip' belongs the example archive 'KITbriefXmpl.zip', to
+'KITbeamer.zip' the example archive 'KITbeamerXmpl.zip' and to
+'KITposter.zip' the example archive 'KITposterXmpl.zip'. All examples
+consist of the LaTeX source code together with all files needed in
+addition to the KIT package when formatting the example, and the formatted
+PDF file.
+
+Archives containing examples can be unpacked to any - possibly temporary
+- directory. Alternatively, examples can be put to the directory
+<texmf-local>/doc/latex/KIT, but in this case be sure that additional
+packages like 'blindtext.sty' and 'lipsum.sty' - both used to generate
+pseudo text - do not collide with a previously installed version. Thus,
+any additional packages from the example archive should be placed at
+a directory outside the 'texmf' tree. In case you want to use some of these
+additional packages yourself you should install it separately (since the
+KIT distributions e.g. do not contain documentation).
+
+
+Letters and Faxes
+-----------------
+The example for KIT letters is 'KITbrfXmpl.tex' and generates some letters
+of one and more pages. The corresponding example for faxes is
+'KITfaxXmpl.tex'.
+
+
+Presentations
+-------------
+For presentations three examples are offered: The PowerPoint example is
+available at 'KIT-Folien-de.tex' and its English version at
+'KIT-Folien-en.tex'. The integration of mathematical formulas as well as
+different font sizes are shown by the example 'KITfolXmpl.tex'.
+
+
+Posters
+-------
+For posters the example 'KITposXmpl.tex' is provided. Depending on the
+selected \documentclass command German or English portrait or landscape
+posters can be generated at different sizes. Variants of headings can be
+used e.g. by using the package 'sectionbox.sty'; the corresponding lines
+are present as comments (containing the string 'sectionbox'). For
+portrait posters the example provides an alternate title with an explicit
+linebreak (in case of landscape posters the title must be not longer than 
+a single line).
+
+In addition two pdf examples - the portrait poster 'KIT-Poster_b0.pdf' and
+the landscape poster 'KIT-Poster_b0_l.pdf' - are part of the zip archive
+with poster examples. Both posters show all supported poster sizes A4 to
+A0 and B4 to B0 combined within a single poster. Since at the SCC only
+posters up to size A0 can be printed, in addition the two A0 size posters
+are included, where the size B0 is skipped. Since these posters can not
+be generated by a single step, the source is not included.

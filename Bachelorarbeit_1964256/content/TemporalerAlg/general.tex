@@ -6,5 +6,10 @@ Pixel innerhalb dieses Blockes den selben Wert haben. Da wir einen temporalen Al
 auch über mehrere gerenderte Bilder hinweg gelten. Es sollte also beachtet werden, dass der Algorithmus z.B. nicht 
 für Objektkanten oder ruckartige Bewegungen (der Kamera oder Objekte) ausgelegt ist.
 \cite{heitz:hal-02150657}
-
+\cite{bluenoisechrisschied} empfiehlt die Benutzung von $64^{2}$ 8-bit 
+Texturen. Eine Benutzung in der Hinsicht, alle 64 bereitgestellten Varianten
+in ein Array zu laden, jedes Frame ein neues Zufälliges zu verwenden und
+mit einem zufälligen Offset drauf zuzugreifen. Die Database von Texturen 
+\cite{bluenoisechrisschied} enthält für die empfohlene Auflösung jeweils
+Varianten mit einer unterschiedlicher Anzahl von Kanälen.
 
