@@ -1,5 +1,10 @@
 \cite{hal02158423}
 
+Zu Grunde liegender Sinn dieses Schrittes: Vertauschen der Anfangswerte, die 
+verteilt sind wie $BlueNoise_{t}$, sodass Sie verteilt sind wie die 
+$BlueNoise_{t+1}$. Aufgrund dessen haben wir eine Aufsummierung der
+blue noise Fehlerverteilungen über viele Frames.
+
 \begin{algorithm}[H]
     \caption{\textbf{Retargeting Schritt} t Vor Rendern Frame t+1 nach Sortier Schritt}
     \begin{algorithmic}[1]
