@@ -1,7 +1,10 @@
 In diesem Schritt wollen wir nun die Untersuchungen aus 
 \ref{ch:Content2:sec:APosteriori} durchführen. Nach dem Rendern eines
-Frames t(vor dem Rendern von Frame t+1) approximieren wir das Histogramm
-der Pixelwerte anhand der Pixelwerte von Frame t.
+$Frames_{t}$(vor dem Rendern von $Frame_{t+1}$) approximieren wir das Histogramm
+der Pixelwerte anhand der Pixelwerte von $Frame_{t}$. Dabei betrachten wir
+Anzahl Pixel pro BLOCK in der unmittelbaren Nachbarschaft und nehmen diese
+wie anfangs erwähnt als Schätzung des Histogramms.
+
 \cite{hal02158423}
 \begin{algorithm}[H]
     \caption{\textbf{Sortier Schritt t} nach dem Rendern von Frame t
@@ -29,3 +32,10 @@ der Pixelwerte anhand der Pixelwerte von Frame t.
     \end{algorithmic}
     \label{alg:Sortier}
 \end{algorithm}
+
+Hierbei muss noch eine wichtige Anmerkung gemacht werden. Die Fehlerverteilung
+der Pixelwerte im Bildraum konvergiert auf diese Weise nicht zu einer 
+blue noise Verteilung. Wir wechseln in jedem Frame die 
+verwendeten blue noise Texturen um gewissen Artefakten zu entgehen und 
+andere temporale Algorithmen zu ermöglichen. Dieser Schritt alleine reicht
+also nicht für den erwünschten Effekt.
