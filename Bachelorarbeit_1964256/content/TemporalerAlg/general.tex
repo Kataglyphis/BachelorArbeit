@@ -5,7 +5,16 @@ Annahmen getroffen wurden: Der Algorithmus arbeitet Blockweise auf den Pixeln un
 Pixel innerhalb dieses Blockes den selben Wert haben. Da wir einen temporalen Algorithmus haben, soll diese Annahme 
 auch über mehrere gerenderte Bilder hinweg gelten. Es sollte also beachtet werden, dass der Algorithmus z.B. nicht 
 für Objektkanten oder ruckartige Bewegungen (der Kamera oder Objekte) ausgelegt ist.
-\cite{heitz:hal-02150657}
+Des Weiteren gehen wir aus den \textit{nachträglichen Eigenschaften}
+\ref{ch:Content2:sec:APosteriori} gewonnen Einsicht, dass die Wahl 
+unserer Anfangswerte des \nameref{ch:Content1:sec:PathTracer} unsere 
+Fehlerverteilung im Bildraum beeinflusst, aus. Somit werden wir ein Umsortieren
+unserer Anfangswerte anhand einer blue noise Textur vornehmen, um so auch 
+für die gerenderten Farbwerte der Pixel eine blue noise Fehlerverteilung zu 
+erhalten. 
+
+
+\par
 \cite{bluenoisechrisschied} empfiehlt die Benutzung von $64^{2}$ 8-bit 
 Texturen. Eine Benutzung in der Hinsicht, alle 64 bereitgestellten Varianten
 in ein Array zu laden, jedes Frame ein neues Zufälliges zu verwenden und
@@ -14,4 +23,6 @@ mit einem zufälligen Offset drauf zuzugreifen. Die Database von Texturen
 Varianten mit einer unterschiedlicher Anzahl von Kanälen. Wir wählen
 die Anzahl der Kanäle anhand der Anzahl der Dimensionen, die gleichzeitig
 blue noise verteilt werden sollen.
+
+
 

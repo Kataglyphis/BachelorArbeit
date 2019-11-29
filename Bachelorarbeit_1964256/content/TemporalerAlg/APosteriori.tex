@@ -1,0 +1,48 @@
+Der nun behandelte temporale Algorithmus von \cite{hal02158423} beruht 
+im Gegensatz zu \cite{georgiev2016blue} auf \textit{nachträglichen} 
+Annahmen. Welches zur Folge hat, dass die Dimension unseres Path Tracers
+\ref{ch:Content1:sec:PathTracer}, sowie die Stichprobenanzahl einhergehen 
+mit der Verteilung der Integrationsfehler als blue noise im Bildraum.
+Die zu Grunde liegenden Annahmen sollen nun im Folgenden untersucht werden.
+
+\subsection{Theoretische Grundlage}
+Im Kapitel \nameref{ch:Content1:sec:PathTracer} haben wir gesehen, dass 
+wir den Wert eines Pixels (i,j) klassischerweise mit einem zufälligen
+Startwert durch eine Monte-Carlo Integration erhalten. Wir betrachten im
+Folgenden eine (theoretische) Menge von allen möglichen Werten eines 
+Pixels, welche durch alle möglichen Startwerte generiert wurde.
+In \ref{eq:pixelschaetzungPDF} ist die Wahrscheinlichkeitsdichtefunktion
+$h_{ij}$ aufgetragen, als eine Funktion über alle möglichen Werte 
+$I_{ij}$ eines Pixels (i,j).
+
+\begin{equation}\label{eq:pixelschaetzungPDF}
+    H_{ij}([I_{Anfang},I_{Ende}]) = \int_{I_{Anfang}}^{I_{Ende}} h_{ij} dI
+\end{equation}
+
+Daraus lässt sich die Gleichbedeutung zweier Aussagen begründen:
+Das Rendern des Pixels (i,j) und das Wählen eines Pixelswertes $I_{ij}$
+von unser zuvor formulierten Wahrscheinlichkeitsdichtefunktion $h_{ij}$.
+
+\begin{equation}\label{eq:inverseFunc}
+    I_{ij} = H_{ij}^{-1}(x), x \in [0,1]
+\end{equation}
+
+Nun betrachte man die Werte für x in \ref{eq:inverseFunc} als im Bildraum
+blue noise verteilte Zahlen. Daraus folgt, dass die resultierenden
+Integrationsfehler auch als blue noise im Bildraum verteilt sind.
+
+
+\subsection{Praktische Durchführung}
+Die Berechnung des vollständigen Histogramms ist für eine Echtzeitanwendung
+zu kostenintensiv. Stattdessen könnte man auch die dadurch beanspruchte 
+Rechenleistung auf z.B mehrere Samples pro Pixel verteilen.
+Stattdessen werden wir in dem temporalen Algorithmus von \cite{hal02158423}
+das Histogramm mit dem vorherigen Frame approximieren. 
+Bereits vorherige Arbeiten \cite{Schied:2018:GER:3273023.3233301} haben die 
+Wirksamkeit eines solchen temporalen Ansatzes(Zugriff auf das vorherige Frame)
+gezeigt. Die Approximation des Histogramms erfolgt dadurch mit dem $Frame_{t}$ 
+für $Frame_{t+1}$,indem umliegende Pixel in das Histogramm aufgenommen werden.
+Offensichtliche Konsequenzen dieser blockweisen Verarbeitung sind schlechte blue noise 
+Fehlerverteilungen im Bildraum bei sich stark ändernden Bildausschnitten
+(so z.B. bei Objektkanten), da dort die Annahme, dass eine ähnliche Oberfläche
+zur Farbgebung beiträgt verletzt wird.
