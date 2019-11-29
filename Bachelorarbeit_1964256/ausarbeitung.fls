@@ -319,11 +319,11 @@ INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content.tex
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmr12.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmbx12.tfm
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmri10.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmro10.tfm
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\pathTracer.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\pathTracer.tex
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmbx10.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmri10.tfm
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\Grundkonzept_path_tracing.pdf
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\Grundkonzept_path_tracing.pdf
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\Grundkonzept_path_tracing.pdf
@@ -338,6 +338,11 @@ INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\FFT_Aus
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\FFT_Ausschnitt2.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\FFT_Ausschnitt2.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\FFT_Ausschnitt2.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\DirectXRaytracingPipeline.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\DirectXRaytracingPipeline.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\DirectXRaytracingPipeline.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\DirectXRaytracingPipeline.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\DirectXRaytracingPipeline.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\blueNoise.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\blueNoise.tex
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmr8.tfm
@@ -399,6 +404,8 @@ INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\l
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmr9.tfm
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\general.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\general.tex
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\APosteriori.tex
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\APosteriori.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\Sorting.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\Sorting.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\Retargeting.tex
@@ -407,6 +414,7 @@ INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\ausarbeitung.bbl
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\ausarbeitung.bbl
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmr10.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmtt10.tfm
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmri10.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\rm-lmr10.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\rm-lmr7.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\rm-lmr5.tfm
@@ -424,7 +432,6 @@ INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\a
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfonts\symbols\msbm7.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfonts\symbols\msbm5.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmri10.tfm
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\ausarbeitung.aux
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\titlepage.aux
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\titlepage.aux
