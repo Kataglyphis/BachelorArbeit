@@ -1,14 +1,13 @@
-\todo{replace dummy code with correct code}
 \cite{hal02158423}
-
 
 \begin{algorithm}[H]
     \caption{\textbf{Retargeting Schritt} t Vor Rendern Frame t+1 nach Sortier Schritt}
     \begin{algorithmic}[1]
         \STATE //permutation indices from precomputed texture
-        \STATE List<PixelPermutation> L = getRetargetedSeedsIndices(incomingSeeds); 
+        \STATE $retaget_{t}$ = retargettexure[calcCorrectOffset(incomingbluenoisetexture)];
+        \STATE List<PixelPermutation> L = $retaget_{t}$
         \FORALL{i = 1 .. numberOfPixelsPerBlock}
-        \STATE $retargetedSeeds(L.getPermIndices()) = incomingSeeds(L.getOldIndices());$
+        \STATE $retargetedSeeds(L.getNewIndices()) = incomingSeeds(L.getOldIndices());$
         \ENDFOR
     \end{algorithmic}
     \label{alg:retargeting}
