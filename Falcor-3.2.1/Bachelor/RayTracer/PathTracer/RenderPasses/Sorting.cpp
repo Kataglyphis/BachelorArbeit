@@ -6,6 +6,7 @@
 ***************************************************************************/
 
 #include "Sorting.h"
+#include "Graphics/TextureHelper.h"
 
 // global varibles
 namespace {
@@ -47,13 +48,20 @@ RenderPassReflection Sorting::reflect(void) const {
 void Sorting::initialize(RenderContext * pContext, const RenderData * pRenderData) {
 
     //load prog from file
-    mpProg = ComputeProgram::createFromFile("Sort.hlsl", "main");
+    mpComputeProg = ComputeProgram::createFromFile("Sort.hlsl", "main");
     //initialize state
-    mpState = ComputeState::create();
-    mpState->setProgram(mpProg);
-    mpProgVars = ComputeVars::create(mpProg->getReflector());
+    mpComputeState = ComputeState::create();
+    mpComputeState->setProgram(mpComputeProg);
+    mpComputeProgVars = ComputeVars::create(mpComputeProg->getReflector());
 
-    if (mpProg != nullptr) {
+    //uniform buffers
+
+    //initiallize textures
+    //createTextureFromFile!!!!!
+    Texture::SharedPtr bluenoise = createTextureFromFile("../Data/64_64/HDR_L_0.png", false, true);
+    Texture::SharedPtr retarget = createTextureFromFile(".. / Data / 64_64 / retarget / HDR_L_0_Retarget.png", false, true);
+
+    if (mpComputeProg != nullptr) {
         //mpProgVars = ComputeVars::create();
     }
 
@@ -69,16 +77,27 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
 
     }
 
-    rwBuffer = StructuredBuffer::create(mpProg, "seed_Texture", 1920*1080);
-    mpProgVars->setStructuredBuffer("seed_Texture", rwBuffer);
+    rwBuffer = StructuredBuffer::create(mpComputeProg, "seed_Texture", 1920*1080);
+    mpComputeProgVars->setStructuredBuffer("seed_Texture", rwBuffer);
     //info for the frame
-    frameInfo = StructuredBuffer::create(mpProg, "gInfo", 3);
-    mpProgVars->setStructuredBuffer("gInfo", frameInfo);
+    frameInfo = StructuredBuffer::create(mpComputeProg, "gInfo", 3);
+    mpComputeProgVars->setStructuredBuffer("gInfo", frameInfo);
 
-    mpProgVars->getStructuredBuffer("gInfo")[0]["uintVal"] = (uint)1920;
-    mpProgVars->getStructuredBuffer("gInfo")[1]["uintVal"] = (uint)1080;
-    mpProgVars->getStructuredBuffer("gInfo")[2]["uintVal"] = (uint)5;
+    mpComputeProgVars->getStructuredBuffer("gInfo")[0]["uintVal"] = (uint)1920;
+    mpComputeProgVars->getStructuredBuffer("gInfo")[1]["uintVal"] = (uint)1080;
+    mpComputeProgVars->getStructuredBuffer("gInfo")[2]["uintVal"] = (uint)5;
 
+    //mpComputeProgVars->setTexture("gOutput", mpTmpTexture);
+
+    pContext->setComputeState(mpComputeState);
+    pContext->setComputeVars(mpComputeProgVars);
+
+    //implementation info from here : https://hal.archives-ouvertes.fr/hal-02158423/file/blueNoiseTemporal2019_slides.pdf 
+    uint32_t w = 4;
+    uint32_t h = 4;
+    //Dispatch groupSizeX,GroupSizeY,GroupSizeZ;
+    pContext->dispatch(w, h, 1);
+    //pContext->copyResource(pTargetFbo->getColorTexture(0).get(), mpTmpTexture.get());
 }
 
 void Sorting::renderUI(Gui* pGui, const char* uiGroup) {

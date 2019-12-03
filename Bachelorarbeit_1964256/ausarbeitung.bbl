@@ -171,6 +171,17 @@
 \newblock Game Developer Conference, 2019.
 \newblock {\latintext \btxurlfont{https://www.gdcvault.com/play/1026185/}}.
 
+\bibitem [{SPD18}]{Schied:2018:GER:3273023.3233301}
+\btxnamefont {Christoph \btxlastnamefont {Schied}}, \btxnamefont {Christoph
+  \btxlastnamefont {Peters}}\btxandcomma {} \btxandlong {}\ \btxnamefont
+  {Carsten \btxlastnamefont {Dachsbacher}}\btxauthorcolon\ \btxjtitlefont
+  {\btxifchangecase {Gradient estimation for real-time adaptive temporal
+  filtering}{Gradient Estimation for Real-time Adaptive Temporal Filtering}}.
+\newblock \btxjournalfont {Proc. ACM Comput. Graph. Interact. Tech.},
+  1(2):24:1--24:16, \btxprintmonthyear{.}{8}{2018}{long}\ifbtxprintISSN {,
+  \mbox{\btxISSN~\btxISSNfont {2577-6193}}}.
+\newblock {\latintext \btxurlfont{http://doi.acm.org/10.1145/3233301}}.
+
 \bibitem [{{Uli}88}]{3288}
 \btxnamefont {R.\btxfnamespacelong A. \btxlastnamefont
   {{Ulichney}}}\btxauthorcolon\ \btxjtitlefont {\btxifchangecase {Dithering

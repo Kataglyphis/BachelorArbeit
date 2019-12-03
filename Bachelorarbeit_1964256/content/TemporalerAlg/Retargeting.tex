@@ -8,12 +8,12 @@ blue noise Fehlerverteilungen über viele Frames.
 \begin{algorithm}[H]
     \caption{\textbf{Retargeting Schritt} t Vor Rendern Frame t+1 nach Sortier Schritt}
     \begin{algorithmic}[1]
-        \STATE //permutation indices from precomputed texture
-        \STATE $retaget_{t}$ = retargettexure[calcCorrectOffset(incomingbluenoisetexture)];
-        \STATE List<PixelPermutation> L = $retaget_{t}$
-        \FORALL{i = 1 .. numberOfPixelsPerBlock}
-        \STATE $retargetedSeeds(L.getNewIndices()) = incomingSeeds(L.getOldIndices());$
-        \ENDFOR
+        \State //permutation indices from precomputed texture
+        \State $retaget_{t}$ = retargettexure[calcCorrectOffset(incomingbluenoisetexture)];
+        \State List<PixelPermutation> L = $retaget_{t}$
+        \For{i = 1 .. numberOfPixelsPerBlock}
+        \State $retargetedSeeds(L.getNewIndices()) = incomingSeeds(L.getOldIndices());$
+        \EndFor
     \end{algorithmic}
     \label{alg:retargeting}
 \end{algorithm}

@@ -48,16 +48,23 @@ beeinflussen.
 
 \subsubsection{Monte-Carlo-Integration}
 Mit der Monte Carlo Integration approximieren wir die Rendergleichung.\par 
-Bei gegebener Funktion \textit{f }:\textit{ S}$\rightarrow \mathbb{R}$ und der 
-Wahrscheinlichkeitsdichtefunktion $x \sim p$
+Bei gegebener Dimensionalität n des Renderintegrals und der 
+Wahrscheinlichkeitsdichtefunktion $\rho(x_i)$
 \cite{KK02}
-\cite{caflisch_1998}
-Bildraum Fehler Randomisierung
-\label{pic:MonteCarloIntegration}
-\begin{equation}\label{eq:montcarlo}
-    \int_{x\in S} g(x) d\mu \simeq \frac{1}{N}*\sum_{i=1}^{N}\frac{g(x_i)}{p(x_i)}
-\end{equation}
 
+\begin{equation}\label{eq:montcarlo}
+    E\biggl[\frac{1}{k}\sum_{i=1}^{k}\frac{f(X_{i}}{\rho(X_{i})})\biggl] = \int_{[0,1]^{n}}f(x)dx
+\end{equation}
+Dabei wird das n-dimensionale Integral\ref{eq:kajiya} approximiert. Die Dichtefunktion $\rho(x_i)$ 
+beschreibt deutet an, dass hierbei die Stichproben auch nicht-uniform 
+genommen werden können. Varianzreduktionsmethoden machen sich diese Dichtefunktion zu Nutze um 
+ein besseres Ergebnis zu bekommen.
+\cite{caflisch_1998}
+Konvergenzrate, unabhängig von der Dimension unseres Tracers.\textit{O}($N^{-\frac{1}{2}}$).
+Sie ist robust, das heißt Exaktheit hängt nur vom ungenauesten Parameter ab. Eine Variante des Verfahrens, 
+Monte Carlo Quadratur, wird mit quasi zufälligen Sequenzen \ref{ch:Content1:sec:QuasiRandomSequences}, 
+welche eine niedrige Abweichung aufweisen, durchgeführt. Laufzeit quasi-Monte Carlo \textit{O}(($\log N)^{k}N^{-1}$).
+Um die Konvergenzrate zu steigern liegen eine Reihe von Varianzreduktionsmethoden vor.
 \begin{figure}[H]\label{pic:WeissesRauschenTracer}
     \centering
     \begin{minipage}[t]{0.45\linewidth}
@@ -73,9 +80,11 @@ Bildraum Fehler Randomisierung
     \end{minipage}
 \end{figure}
 
+
 \subsubsection{DirectX Raytracing}
 Für besseres Verständnis möchte ich hier eine Einführung in das Path Tracing\cite{Benty18} mit Hilfe der
 neuen DirectX-Schnittstelle geben.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{content/PathTracer/Bilder/DirectXRaytracingPipeline.png}
@@ -91,8 +100,33 @@ shader}. Von hier aus werden Rays gestartet \textbf{TraceRay()}.
 konkreten, nähsten Schnitt für jeden Strahl durch.
 Der \textbf{miss shader} wird immer dann ausgeführt, wenn ein Strahl die
 Szenengeometrie nicht schneidet. Kann also für das Nachschauen in einer 
-Environment Map verwendet werden.
+Environment Map verwendet werden. Im Folgenden \ref{alg:pathtracerconcept}
+nochmal vereinfacht in Pseudocode dargestellt, wobei die entsprechenden shader
+im jeweiligen Codeabschnitt markiert sind.
 
+\begin{algorithm}[H]
+    \caption{Was macht ein Path Tracer}
+    \begin{algorithmic}[1]
+        \Procedure{Trace Path}{$BVH$}\Comment{verfolge Pfad durch Szene}
+        \For{(x,y) $\in$ frame}
+        \State nähesterSchnittpunkt;
+        \State strahl = verschiesseStrahlInPixel(x,y); // \textbf{ray generation shader}
+        \For{blatt = bekommeBVHBlatt()}
+        \State schnittpunkt = schneideGeometrie(strahl, blatt); //\textbf{Intersection shader}
+        \If{schnittpunkt $\leq$ nähesterSchnittpunkt}
+        \State aktualisiereNähestenSchnittpunkt();
+        \EndIf
+        \EndFor
+        \If{Schnittpunkt gefunden}
+        \State frame(x,y) = gebeFarbe(strahl,nähesterSchnittpunkt); //\textbf{closest-hit shader}
+        \Else
+        \State frame(x,y) = Umgebungskarte(x,y);//\textbf{miss shader}
+        \EndIf
+        \EndFor
+        \EndProcedure
+    \end{algorithmic}
+    \label{alg:pathtracerconcept}
+\end{algorithm}
 
 
 

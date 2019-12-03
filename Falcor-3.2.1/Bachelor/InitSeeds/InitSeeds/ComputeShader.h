@@ -43,10 +43,7 @@ private:
     ComputeState::SharedPtr mpState;
     ComputeVars::SharedPtr mpProgVars;
     Texture::SharedPtr mpImage;
-
-    //Buffer Objects
-    StructuredBuffer::SharedPtr rwBuffer;
-
+  
     Texture::SharedPtr mpTmpTexture;
     void loadImage(SampleCallbacks* pSample);
     void loadImageFromFile(SampleCallbacks* pSample, std::string file);

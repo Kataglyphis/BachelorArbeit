@@ -68,11 +68,14 @@
 \usepackage{tikz}
 \usepackage[english,ngerman]{babel}
 
-\usepackage{algorithm}		  % Code-Listings
-\usepackage{algorithmic}	  % Code-Listings
-\usepackage{relsize,exscale}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{algorithm}		  % Code-Listings
+%\usepackage{algorithmic}	  % Code-Listings
+%\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+%\usepackage{relsize,exscale}
+
 %%packages added to use pseudo code!
 % see http://www.ctan.org/tex-archive/macros/latex/contrib/algorithm2e/algorithm2e.pdf
 % for more sophisticated algorithm listings

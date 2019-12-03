@@ -10,25 +10,25 @@ wie anfangs erwähnt als Schätzung des Histogramms.
     \caption{\textbf{Sortier Schritt t} nach dem Rendern von Frame t
     und vor dem Rendern von Frame t+1}
     \begin{algorithmic}[1]
-        \STATE pixel \textbf{consists of} value,index;
-        \STATE List framePixelsIntensities, noiseIntensities;
-        \STATE $assert(sizeof(framePixelsIntensities)==BLOCKSIZE)$;
-        \STATE $assert(sizeof(noiseIntensities)==BLOCKSIZE)$;
-        \STATE List L $\leftarrow$ pixels of frame t in block;
-        \STATE \hfill
-        \STATE //init lists
-        \STATE initList(framePixelsIntensities, pixelIntensity(L);
-        \STATE $blueNoise_{t}$ = calcCorrectOffset(incomingbluenoisetexture);
-        \STATE initList(noiseIntensities, pixelIntensity($blueNoise_{t}$));
-        \STATE \hfill
-        \STATE //sort the two lists by means of intensities
-        \STATE sort(framePixelsIntensities);
-        \STATE Sort(noiseIntensities);
-        \STATE \hfill
-        \STATE //now we reorder our seeds hence the sorted lists
-        \FORALL{$i = 1 .. BLOCKSIZE$}
-        \STATE $sortedSeeds(noiseIntensities.getIndex(i)) = incomingSeeds(framePixelIntensities.getIndex(i))$;
-        \ENDFOR
+        \State pixel \textbf{consists of} value,index;
+        \State List framePixelsIntensities, noiseIntensities;
+        \State $assert(sizeof(framePixelsIntensities)==BLOCKSIZE)$;
+        \State $assert(sizeof(noiseIntensities)==BLOCKSIZE)$;
+        \State List L $\leftarrow$ pixels of frame t in block;
+        \State \hfill
+        \State //init lists
+        \State initList(framePixelsIntensities, pixelIntensity(L);
+        \State $blueNoise_{t}$ = calcCorrectOffset(incomingbluenoisetexture);
+        \State initList(noiseIntensities, pixelIntensity($blueNoise_{t}$));
+        \State \hfill
+        \State //sort the two lists by means of intensities
+        \State sort(framePixelsIntensities);
+        \State Sort(noiseIntensities);
+        \State \hfill
+        \State //now we reorder our seeds hence the sorted lists
+        \For{$i = 1 .. BLOCKSIZE$}
+        \State $sortedSeeds(noiseIntensities.getIndex(i)) = incomingSeeds(framePixelIntensities.getIndex(i))$;
+        \EndFor
     \end{algorithmic}
     \label{alg:Sortier}
 \end{algorithm}

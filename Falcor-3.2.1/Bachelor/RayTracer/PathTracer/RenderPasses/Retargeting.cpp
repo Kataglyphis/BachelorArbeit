@@ -6,6 +6,7 @@
 ***************************************************************************/
 
 #include "Retargeting.h"
+#include "Graphics/TextureHelper.h"
 
 // global varibles
 namespace {
@@ -45,13 +46,13 @@ RenderPassReflection Retargeting::reflect(void) const {
 void Retargeting::initialize(RenderContext * pContext, const RenderData * pRenderData) {
 
     //load prog from file
-    mpProg = ComputeProgram::createFromFile("Retargeting.hlsl", "main");
+    mpComputeProg = ComputeProgram::createFromFile("Retargeting.hlsl", "main");
     //initialize state
-    mpState = ComputeState::create();
-    mpState->setProgram(mpProg);
-    mpProgVars = ComputeVars::create(mpProg->getReflector());
+    mpComputeState = ComputeState::create();
+    mpComputeState->setProgram(mpComputeProg);
+    mpComputeProgVars = ComputeVars::create(mpComputeProg->getReflector());
 
-    if (mpProg != nullptr) {
+    if (mpComputeProg != nullptr) {
         //mpProgVars = ComputeVars::create();
     }
 
@@ -74,7 +75,7 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     if (pDstTex == nullptr) return;
 
     // Set our variables into the global HLSL namespace
-    ConstantBuffer::SharedPtr pCB = mpProgVars->getConstantBuffer("GlobalCB");
+    ConstantBuffer::SharedPtr pCB = mpComputeProgVars->getConstantBuffer("GlobalCB");
     pCB["width"] = 1920;
     pCB["height"] = 1080;
     pCB["index"] = 1;
@@ -82,7 +83,16 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     //mpProgVars->setTexture("",);
     //mpProgVars->setTexture("",);
 
+     //mpComputeProgVars->setTexture("gOutput", mpTmpTexture);
 
+    pContext->setComputeState(mpComputeState);
+    pContext->setComputeVars(mpComputeProgVars);
+
+    //implementation info from here : https://hal.archives-ouvertes.fr/hal-02158423/file/blueNoiseTemporal2019_slides.pdf 
+    uint32_t w = 4;
+    uint32_t h = 4;
+    pContext->dispatch(w, h, 1);
+    //pContext->copyResource(pTargetFbo->getColorTexture(0).get(), mpTmpTexture.get());
 }
 
 void Retargeting::renderUI(Gui* pGui, const char* uiGroup) {

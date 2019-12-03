@@ -27,6 +27,12 @@
 ***************************************************************************/
 #include "ComputeShader.h"
 
+static const std::string kDst = "dst";
+static const std::string kImage = "fileName";
+static const std::string kMips = "mips";
+static const std::string kSrgb = "srgb";
+static const std::string kDefaultImage = "image";
+
 void ComputeShader::onGuiRender(SampleCallbacks* pSample, Gui* pGui)
 {
     if (pGui->addButton("Load Image"))
@@ -47,20 +53,12 @@ void ComputeShader::onLoad(SampleCallbacks* pSample, RenderContext* pContext)
     mpState = ComputeState::create();
     mpState->setProgram(mpProg);
     mpProgVars = ComputeVars::create(mpProg->getReflector());
-
-    Fbo::SharedPtr pFbo = pSample->getCurrentFbo();
-    mpTmpTexture = createTmpTex(pFbo->getWidth(), pFbo->getHeight());
-   
-    //TODO: size of buffer is only dummy
-    rwBuffer = StructuredBuffer::create(mpProg, "seed_Texture", pFbo->getWidth() * pFbo->getHeight());
-    mpProgVars->setStructuredBuffer("seed_Texture", rwBuffer);
-    //info for the frame
-    StructuredBuffer::SharedPtr frameData = StructuredBuffer::create(mpProg, "gInfo", 3);
-    mpProgVars->setStructuredBuffer("gInfo", frameData);
-
-    mpProgVars->getStructuredBuffer("gInfo")[0]["uintVal"] = (uint)1920;
-    mpProgVars->getStructuredBuffer("gInfo")[1]["uintVal"] = (uint)1080;
-    mpProgVars->getStructuredBuffer("gInfo")[2]["uintVal"] = (uint)5;
+    //loadImage(pSample);
+    //if (!mpTmpTexture) {
+      //  mpTmpTexture = createTextureFromFile("Data/Seeds.png", false, true);
+    //}
+    //Fbo::SharedPtr pFbo = pSample->getCurrentFbo();
+    //mpTmpTexture = createTmpTex(pFbo->getWidth(), pFbo->getHeight());
 }
 
 
@@ -76,43 +74,33 @@ void ComputeShader::loadImage(SampleCallbacks* pSample)
 
 void ComputeShader::loadImageFromFile(SampleCallbacks* pSample, std::string filename)
 {
-    mpImage = createTextureFromFile(filename, false, true);
-    mpProgVars->setTexture("gInput", mpImage);
-    mpTmpTexture = createTmpTex(mpImage->getWidth(), mpImage->getHeight());
+    Falcor::ResourceBindFlags::DepthStencil;
+    mpImage = createTextureFromFile(filename, false, false, Falcor::ResourceBindFlags::UnorderedAccess | Falcor::ResourceBindFlags::ShaderResource);
+    mpProgVars->setTexture("gTexture", mpImage);
+    //mpTmpTexture = createTmpTex(mpImage->getWidth(), mpImage->getHeight());
 
     pSample->resizeSwapChain(mpImage->getWidth(), mpImage->getHeight());
 }
 
 void ComputeShader::onFrameRender(SampleCallbacks* pSample, RenderContext* pContext, const Fbo::SharedPtr& pTargetFbo)
 {
-	const glm::vec4 clearColor(0.38f, 0.52f, 0.10f, 1);
 
     if(mpImage)
     {
-        pContext->clearUAV(mpTmpTexture->getUAV().get(), clearColor);
-        
-        mpProgVars->setTexture("gOutput", mpTmpTexture);
-
+        //mpProgVars->setTexture("gOutput", mpTmpTexture);
         pContext->setComputeState(mpState);
         pContext->setComputeVars(mpProgVars);
 
         uint32_t w = (mpImage->getWidth() / 16) + 1;
         uint32_t h = (mpImage->getHeight() / 16) + 1;
         pContext->dispatch(w, h, 1);
-        pContext->copyResource(pTargetFbo->getColorTexture(0).get(), mpTmpTexture.get());
-    }
-    else
-    {
-        pContext->clearRtv(pTargetFbo->getRenderTargetView(0).get(), clearColor);
+        mpImage->captureToFile(1,0,"Data/Seeds.PNG");
     }
 }
 
 void ComputeShader::onResizeSwapChain(SampleCallbacks* pSample, uint32_t width, uint32_t height)
 {
-    if (mpTmpTexture)
-    {
-        mpTmpTexture = createTmpTex(width, height);
-    }
+    
 }
 
 #ifdef _WIN32

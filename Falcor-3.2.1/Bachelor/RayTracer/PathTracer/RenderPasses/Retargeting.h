@@ -51,9 +51,9 @@ private:
     void initialize(RenderContext* pContext, const RenderData* pRenderData);
 
     //Internal pass state
-    ComputeProgram::SharedPtr mpProg;
-    ComputeState::SharedPtr mpState;
-    ComputeVars::SharedPtr mpProgVars;
+    ComputeProgram::SharedPtr mpComputeProg;
+    ComputeState::SharedPtr mpComputeState;
+    ComputeVars::SharedPtr mpComputeProgVars;
 
     Texture::SharedPtr  mpBlackHDR = nullptr;
 
