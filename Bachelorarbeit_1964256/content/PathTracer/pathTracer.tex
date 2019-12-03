@@ -55,6 +55,7 @@ Wahrscheinlichkeitsdichtefunktion $\rho(x_i)$
 \begin{equation}\label{eq:montcarlo}
     E\biggl[\frac{1}{k}\sum_{i=1}^{k}\frac{f(X_{i}}{\rho(X_{i})})\biggl] = \int_{[0,1]^{n}}f(x)dx
 \end{equation}
+
 Dabei wird das n-dimensionale Integral\ref{eq:kajiya} approximiert. Die Dichtefunktion $\rho(x_i)$ 
 beschreibt deutet an, dass hierbei die Stichproben auch nicht-uniform 
 genommen werden können. Varianzreduktionsmethoden machen sich diese Dichtefunktion zu Nutze um 
@@ -65,6 +66,18 @@ Sie ist robust, das heißt Exaktheit hängt nur vom ungenauesten Parameter ab. E
 Monte Carlo Quadratur, wird mit quasi zufälligen Sequenzen \ref{ch:Content1:sec:QuasiRandomSequences}, 
 welche eine niedrige Abweichung aufweisen, durchgeführt. Laufzeit quasi-Monte Carlo \textit{O}(($\log N)^{k}N^{-1}$).
 Um die Konvergenzrate zu steigern liegen eine Reihe von Varianzreduktionsmethoden vor.
+
+Abseits dieser herkömmlichen Strategien zeigen wir hier die Steigerung der 
+visuellen Qualität durch blue noise Fehlerverteilung im Bildraum.
+
+\begin{equation}\label{eq:montecarloVarianz}
+    V[X] = E\biggl[(X-E[X])^{2}\biggl] = E[X^{2}]
+    - E[X]^{2}
+\end{equation}
+
+Die Varianz \ref{eq:montecarloVarianz} ist ein quadratischer Fehler.
+
+
 \begin{figure}[H]\label{pic:WeissesRauschenTracer}
     \centering
     \begin{minipage}[t]{0.45\linewidth}
