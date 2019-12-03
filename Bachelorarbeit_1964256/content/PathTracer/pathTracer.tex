@@ -91,8 +91,33 @@ shader}. Von hier aus werden Rays gestartet \textbf{TraceRay()}.
 konkreten, nähsten Schnitt für jeden Strahl durch.
 Der \textbf{miss shader} wird immer dann ausgeführt, wenn ein Strahl die
 Szenengeometrie nicht schneidet. Kann also für das Nachschauen in einer 
-Environment Map verwendet werden.
+Environment Map verwendet werden. Im Folgenden \ref{alg:pathtracerconcept}
+nochmal vereinfacht in Pseudocode dargestellt, wobei die entsprechenden shader
+im jeweiligen Codeabschnitt markiert sind.
 
+\begin{algorithm}[H]
+    \caption{Was macht ein Path Tracer}
+    \begin{algorithmic}[1]
+        \Procedure{Trace Path}{$BVH$}\Comment{verfolge Pfad durch Szene}
+        \For{(x,y) $\in$ frame}
+        \State nähesterSchnittpunkt;
+        \State strahl = verschiesseStrahlInPixel(x,y); // \textbf{ray generation shader}
+        \For{blatt = bekommeBVHBlatt()}
+        \State schnittpunkt = schneideGeometrie(strahl, blatt); //\textbf{Intersection shader}
+        \If{schnittpunkt $\leq$ nähesterSchnittpunkt}
+        \State aktualisiereNähestenSchnittpunkt();
+        \EndIf
+        \EndFor
+        \If{Schnittpunkt gefunden}
+        \State frame(x,y) = gebeFarbe(strahl,nähesterSchnittpunkt); //\textbf{closest-hit shader}
+        \Else
+        \State frame(x,y) = Umgebungskarte(x,y);//\textbf{miss shader}
+        \EndIf
+        \EndFor
+        \EndProcedure
+    \end{algorithmic}
+    \label{alg:pathtracerconcept}
+\end{algorithm}
 
 
 
