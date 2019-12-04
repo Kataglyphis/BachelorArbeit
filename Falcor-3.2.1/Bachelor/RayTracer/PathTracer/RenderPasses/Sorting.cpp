@@ -59,7 +59,8 @@ void Sorting::initialize(RenderContext * pContext, const RenderData * pRenderDat
     //initiallize textures
     //createTextureFromFile!!!!!
     Texture::SharedPtr bluenoise = createTextureFromFile("../Data/64_64/HDR_L_0.png", false, true);
-    Texture::SharedPtr retarget = createTextureFromFile(".. / Data / 64_64 / retarget / HDR_L_0_Retarget.png", false, true);
+    mpComputeProgVars->setTexture("input_blue_noise_texture", bluenoise);
+    //Texture::SharedPtr retarget = createTextureFromFile(".. / Data / 64_64 / retarget / HDR_L_0_Retarget.png", false, true);
 
     if (mpComputeProg != nullptr) {
         //mpProgVars = ComputeVars::create();
@@ -86,6 +87,8 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
     mpComputeProgVars->getStructuredBuffer("gInfo")[0]["uintVal"] = (uint)1920;
     mpComputeProgVars->getStructuredBuffer("gInfo")[1]["uintVal"] = (uint)1080;
     mpComputeProgVars->getStructuredBuffer("gInfo")[2]["uintVal"] = (uint)5;
+    mpComputeProgVars->setTexture("input_frame_texture",pData->getTexture("frameInput"));
+    //mpComputeProgVars->setTexture("input_seed_texture", pData->getTexture("inputSeedTexture"));
 
     //mpComputeProgVars->setTexture("gOutput", mpTmpTexture);
 

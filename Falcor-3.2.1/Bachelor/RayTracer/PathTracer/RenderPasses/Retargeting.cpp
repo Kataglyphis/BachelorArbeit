@@ -37,6 +37,7 @@ RenderPassReflection Retargeting::reflect(void) const {
     RenderPassReflection r;
     //input
     r.addInput("inputSeedTexture", "resorted seeds from the sorting phase");
+    r.addInput("inputRetargetTexture", "incoming retarget texture for dithering tile");
     //output
     r.addOutput("outputSeedTexture", "the retargeted seed texture outgoing to path tracer");
 
@@ -68,17 +69,12 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
 
     }
 
-    // Get the output buffer an dclear it
-    Texture::SharedPtr pDstTex = pData->getTexture("output");
-    pContext->clearUAV(pDstTex->getUAV().get(), vec4(0.0f, 0.0f, 0.0f, 1.0f));
-
-    if (pDstTex == nullptr) return;
-
     // Set our variables into the global HLSL namespace
     ConstantBuffer::SharedPtr pCB = mpComputeProgVars->getConstantBuffer("GlobalCB");
     pCB["width"] = 1920;
     pCB["height"] = 1080;
     pCB["index"] = 1;
+    mpComputeProgVars->setTexture("srcseed_texture", pData->getTexture("inputSeedTexture"));
     //mpProgVars->setTexture("",);
     //mpProgVars->setTexture("",);
     //mpProgVars->setTexture("",);

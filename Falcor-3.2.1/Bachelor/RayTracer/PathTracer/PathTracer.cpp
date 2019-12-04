@@ -101,19 +101,15 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->addEdge("GlobalIllumination.output", "ToneMapping.src");
 
     //Edges for our temporal algorithm
-    /**
+    
     //the retargeted seeds will come into our path tracer
     //mpGraph->addEdge("Retargeting.outputSeedTexture", "GlobalIllumination.inputSeedTexture");
     //the rendered frame from our path tracer where we get our values to sort
     mpGraph->addEdge("GlobalIllumination.output", "Sorting.frameInput");
-    mpGraph->addEdge("GlobalIllumination.outputSeedTexture","Sorting.inputSeedTexture");
-    //TODO: does it really come from the global illumination render pass???
-    mpGraph->addEdge("GlobalIllumination.outputBlueNoiseTexture","Sorting.inputBlueNoiseTexture");
-    //TODO:where comes the retargeting texture from
-    //edges for our retargeting pass
-    mpGraph->addEdge("Sorting.outputSeedTexture","Retargeting.inputSeedTexture");
+    //mpGraph->addEdge("GlobalIllumination.outputSeedTexture","Sorting.inputSeedTexture");
 
-    */
+    //edges for our retargeting pass
+    //mpGraph->addEdge("Sorting.outputSeedTexture","Retargeting.inputSeedTexture");
 
     mpGraph->markOutput("ToneMapping.dst");
 
