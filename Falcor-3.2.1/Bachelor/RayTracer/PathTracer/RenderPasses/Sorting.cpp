@@ -38,6 +38,10 @@ RenderPassReflection Sorting::reflect(void) const {
     //input
     r.addInput("frameInput", "rendered frame from path tracing").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
     r.addInput("inputSeedTexture", "the incoming seed texture").format(ResourceFormat::R32Uint);
+    //ResourceFormat::RGBA8Uint
+    //(color&0xff000000)>>24
+    //(color&0x00ff0000)>>16
+
 
     //output
     r.addOutput("outputSeedTexture", "the outgoing seed texture").format(ResourceFormat::R32Uint);
