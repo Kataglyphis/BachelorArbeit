@@ -39,8 +39,8 @@ void GGXGlobalIllumRayGen()
     // Initialize our random number generator
     uint randSeed = rand_init(launchIndex.x + launchIndex.y * launchDim.x, gFrameCount, 16);
     //store the seeds in a read/write buffer
-    seeds[launchIndex.x + launchIndex.y * launchDim.x] = randSeed;
-
+    gSeeds[launchIndex.x + launchIndex.y * launchDim.x] = randSeed;
+    
     // Load g-buffer data
     float4 posW = gPos[launchIndex];
     float3 normW = gNorm[launchIndex].xyz;

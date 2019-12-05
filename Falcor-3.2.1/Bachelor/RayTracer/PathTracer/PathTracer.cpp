@@ -103,13 +103,14 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     //Edges for our temporal algorithm
     
     //the retargeted seeds will come into our path tracer
+    //this will create cycle in graph!!! not allowed
     //mpGraph->addEdge("Retargeting.outputSeedTexture", "GlobalIllumination.inputSeedTexture");
     //the rendered frame from our path tracer where we get our values to sort
     mpGraph->addEdge("GlobalIllumination.output", "Sorting.frameInput");
-    //mpGraph->addEdge("GlobalIllumination.outputSeedTexture","Sorting.inputSeedTexture");
+    mpGraph->addEdge("GlobalIllumination.seed_output","Sorting.inputSeedTexture");
 
     //edges for our retargeting pass
-    //mpGraph->addEdge("Sorting.outputSeedTexture","Retargeting.inputSeedTexture");
+    mpGraph->addEdge("Sorting.outputSeedTexture","Retargeting.inputSeedTexture");
 
     mpGraph->markOutput("ToneMapping.dst");
 

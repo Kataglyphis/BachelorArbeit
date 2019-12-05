@@ -36,10 +36,10 @@ RenderPassReflection Retargeting::reflect(void) const {
 
     RenderPassReflection r;
     //input
-    r.addInput("inputSeedTexture", "resorted seeds from the sorting phase");
-    r.addInput("inputRetargetTexture", "incoming retarget texture for dithering tile");
+    r.addInput("inputSeedTexture", "resorted seeds from the sorting phase").format(ResourceFormat::R32Uint);
+
     //output
-    r.addOutput("outputSeedTexture", "the retargeted seed texture outgoing to path tracer");
+    r.addOutput("outputSeedTexture", "the retargeted seed texture outgoing to path tracer").format(ResourceFormat::R32Uint);
 
     return r;
 }
@@ -56,6 +56,9 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
     if (mpComputeProg != nullptr) {
         //mpProgVars = ComputeVars::create();
     }
+
+    Texture::SharedPtr retarget = createTextureFromFile(".. / Data / 64_64 / retarget / HDR_L_0_Retarget.png", false, true);
+    mpComputeProgVars->setTexture("retarget_texture", retarget);
 
     mIsInitialized = true;
 
@@ -75,11 +78,6 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     pCB["height"] = 1080;
     pCB["index"] = 1;
     mpComputeProgVars->setTexture("srcseed_texture", pData->getTexture("inputSeedTexture"));
-    //mpProgVars->setTexture("",);
-    //mpProgVars->setTexture("",);
-    //mpProgVars->setTexture("",);
-
-     //mpComputeProgVars->setTexture("gOutput", mpTmpTexture);
 
     pContext->setComputeState(mpComputeState);
     pContext->setComputeVars(mpComputeProgVars);
@@ -88,7 +86,6 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     uint32_t w = 4;
     uint32_t h = 4;
     pContext->dispatch(w, h, 1);
-    //pContext->copyResource(pTargetFbo->getColorTexture(0).get(), mpTmpTexture.get());
 }
 
 void Retargeting::renderUI(Gui* pGui, const char* uiGroup) {
