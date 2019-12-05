@@ -1,0 +1,3 @@
+[submodule "submodules/falcor"]
+	path = submodules/falcor
+	url = git@github.com:NVIDIAGameWorks/Falcor.git
