@@ -82,6 +82,7 @@ RenderPassReflection GGXGlobalIllumination::reflect(void) const
     r.addInput("matlExtra", "");
 
     r.addOutput("output", "").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
+    r.addOutput("seed_output", "seeds used for generating rays").format(ResourceFormat::R32Uint);
     return r;
 }
 
@@ -132,6 +133,9 @@ void GGXGlobalIllumination::execute(RenderContext* pContext, const RenderData* p
     Texture::SharedPtr pDstTex = pData->getTexture("output");
     pContext->clearUAV(pDstTex->getUAV().get(), vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
+    //seed texture
+    Texture::SharedPtr seeds = pData->getTexture("seed_output");
+
     if (pDstTex == nullptr || mpScene == nullptr) return;
 
     // Set our variables into the global HLSL namespace
@@ -152,6 +156,9 @@ void GGXGlobalIllumination::execute(RenderContext* pContext, const RenderData* p
     globalVars->setTexture("gExtraMatl", pData->getTexture("matlExtra"));
     globalVars->setTexture("gEmissive", pData->getTexture("emissive"));
     globalVars->setTexture("gOutput", pDstTex);
+
+    //seed buffer
+    globalVars->setTexture("gSeeds", seeds);
 
     const Texture::SharedPtr& pEnvMap = mpScene->getEnvironmentMap();
     globalVars->setTexture("gEnvMap", (mEnvMapMode == EnvMapMode::Black || pEnvMap == nullptr) ? mpBlackHDR : pEnvMap);

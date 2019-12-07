@@ -22,9 +22,7 @@ Algorithm 1 The sorting pass permutes pixel seeds by blocks.
 #define DIMENSION_SIZE 4
 
 //some helper functions; make coding easier
-#define Swap(A,B) {pixel temp = A;
-                         A = B;
-                         B = temp;}
+#define Swap(A,B) {pixel temp = A; A = B; B = temp;}
 #define Even(x) (fmod((x), 2) == 0)
 #define Odd(x)  (fmod((x), 2) != 0)
 
@@ -49,12 +47,12 @@ Texture2D<float> input_blue_noise_texture;
 RWStructuredBuffer<uint> input_seed_texture;
 
 //given variables for our frame
-cbuffer GlobalCB
+/**cbuffer GlobalCB
 {
     uint width; // width of the frame
     uint heigth; // height of the frame
     uint index; // the actual index of the frame
-};
+};*/
 
 //shared beneath all threads of the group
 //must be shared! wen want to sort all the pixels
@@ -64,26 +62,29 @@ groupshared pixel sortedBlueNoise[BLOCK_SIZE];
 
 //we are performing a 1-dimensional-sorting of our seeds
 [numthreads(DIMENSION_SIZE, DIMENSION_SIZE, 1)]
-void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 thread_ID : SV_DISPATCHTHREADID) {
+void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 thread_ID : SV_DISPATCHTHREADID)
+{
 
-    
+    int width = 1920;
+    int height = 1080;
+    int index = 5;
     //target blue noise tile should change after each frame --> each pixel has a different error in each frame
     //This is important for temporel filtering algorithms to reduce errors by averaging them over multiple frames!!
     float g = 1.32471795724474602596;
-    float offset_x = (1.0/g) * width * index; //multiply with index for changes frame by frame!
-    float offset_y = (1.0/(pow(g,2))) * height * index; //multiply with index for changes frame by frame!
-    float2 offset = (offset_x,offset_y);
+    float offset_x = (1.0 / g) * width * index; //multiply with index for changes frame by frame!
+    float offset_y = (1.0 / (pow(g, 2))) * height * index; //multiply with index for changes frame by frame!
+    float2 offset = (offset_x, offset_y);
     uint2 bluenoise_index = (offset + thread_ID);
     bluenoise_index.x = bluenoise_index.x % width;
-    bluenoise_index.y = bluenoise_index.y % heigth;
+    bluenoise_index.y = bluenoise_index.y % height;
     
     //we have the values shared beneath all threads of a groupshared
     //before we start to sort we have to firstly simply copy
     //we need all threads to reach this point
-    sortedImage[group_Index].value = getIntensity(frame_texture[thread_ID]);
+    sortedImage[group_Index].value = getIntensity(input_frame_texture[thread_ID]);
     sortedImage[group_Index].index = input_seed_texture[width * thread_ID.y + thread_ID.x];
 
-    sortedBlueNoise[group_Index].value = blue_noise_texture[bluenoise_index];
+    sortedBlueNoise[group_Index].value = input_blue_noise_texture[bluenoise_index];
     //save the group_index as inital value before sorting
     sortedBlueNoise[group_Index].index = group_Index;
 
@@ -95,39 +96,44 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
         //first round
         if (group_Index < (BLOCK_SIZE - 1) && (group_Index % 2 != 0)) {
             //sorting pixels of the frame
-            if(sortedImage[group_Index].value > sortedImage[group_Index + 1].value) {
+            if (sortedImage[group_Index].value > sortedImage[group_Index + 1].value) {
+                
                 Swap(sortedImage[group_Index], sortedImage[group_Index + 1]);
-            } 
+                    
+             }
             //sorting pixels of gryscal
-            if(sortedBlueNoise[group_Index].value > sortedBlueNoise[group_Index + 1].value) {
+             if (sortedBlueNoise[group_Index].value > sortedBlueNoise[group_Index + 1].value) {
                 Swap(sortedBlueNoise[group_Index], sortedBlueNoise[group_Index + 1]);
-            }
-        }
-        GroupMemoryBarrierWithGroupSync();
+             }
+         }
+         GroupMemoryBarrierWithGroupSync();
         //wait for all,then second round!!
-        if ((group_Index < BLOCK_SIZE - 1) && (group_Index % 2 == 0)) {
+         if ((group_Index < BLOCK_SIZE - 1) && (group_Index % 2 == 0)) {
             //first round
-            if(sortedImage[group_Index].value > sortedImage[group_Index + 1].value) {
+            if (sortedImage[group_Index].value > sortedImage[group_Index + 1].value)  {
                 Swap(sortedImage[group_Index], sortedImage[group_Index + 1]);
-            }
+             }
             //second round
-            if(sortDither[groupIndex + 1].value < sortDither[groupIndex].value) {
-                Swap(sortedBlueNoise[group_Index], sortedBlueNoise[group_Index + 1]);
-            }
+             if (sortedBlueNoise[group_Index + 1].value < sortedBlueNoise[group_Index].value) {
+                 Swap(sortedBlueNoise[group_Index], sortedBlueNoise[group_Index + 1]);
+             }
         }
         //wait for all before continuing!
-         GroupMemoryBarrierWithGroupSync();
-    }
+        GroupMemoryBarrierWithGroupSync();   
+     }
+
     //save the new sorted seeds correctly!
     //we have sorted the texture by their greyscales and saved the now fetched index
     uint local_bluenoise_index = sortedBlueNoise[group_Index].index;
     //we need a global index for writing data into the seed texture, calc global indices
     uint x = local_bluenoise_index % DIMENSION_SIZE;
     uint y = local_bluenoise_index / DIMENSION_SIZE;
-    uint2 global_seed_index = uint2(x, y) + group_ID * DIMENSION_SIZE //NOT BLOCK_SIZE!! we will be 2 dimensional here first
+    uint2 global_seed_index = uint2(x, y) + group_ID * DIMENSION_SIZE; //NOT BLOCK_SIZE!! we will be 2 dimensional here first
     //get the the 1-dimensional index into the texture
     //new seed index in result of sorting blue noise texture
     uint new_seed_index = global_seed_index.y * width + global_seed_index.x;
-    //fedd the input_seed_texture with the now sorted seeds!!!!
-    input_seed_texture[new_seed_index] = sortedImage[group_Index].index;//we've copied the global position above; so just enter with group_Index
+    //fed the input_seed_texture with the now sorted seeds!!!!
+    input_seed_texture[new_seed_index] = sortedImage[group_Index].index; //we've copied the global position above; so just enter with group_Index
+             
 }
+
