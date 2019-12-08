@@ -1,0 +1,27 @@
+Im vorherigen Kapitel, dem Retargeting Schritt \ref{ch:Content2:sec:Retargeting},
+wird eine vorberechnete Retargeting-Textur verwendet. Diese speichert eine
+Permutation, die unsere blue noise Textur vom frame t in eine
+blue noise Textur vom frame t+1 umwandelt. Diese Permutation wird 
+dann auf die Startwerte angewandt bevor das nächste frame t+1 gerendert wird.
+Dadurch werden die blue noise Umverteilung der Sorting Phase \ref{ch:Content2:sec:Sorting}
+akkumuliert und die optische Aufwertung erst richtig sichtbar.
+Die retarget Textur wird mit Hilfe von \textbf{simulated annealing} 
+\cite{hal02158423} berechnet. Wir wollen somit eine approximativ 
+optimale Lösung finden: Permutiere Pixel der blue noise Textur von 
+frame t bis Sie sehr ähnlich verteilt sind wie die Pixel der blue noise
+Textur von frame t+1. Dabei ist die Lokalität der Vertauschungen, 
+welche wir bereits in der Sorting Phase\ref{ch:Content2:sec:Sorting}
+verwendet haben, wichtig.
+
+Die Funktion nach der optimiert wird ist an die Formel aus\cite{georgiev2016blue} angelehnt.
+\begin{equation}\label{eq:pixelenergyfunction}
+    E(M) = \sum_{p \neq q}E(p,q) = 
+           \sum_{p \neq q} \mathrm{e}^{-\frac{\Vert{p_{i}-q_{i}}\Vert^{2}}{\sigma_{i}^{2}} -
+           \frac{\Vert{p_{s}-q_{s}}\Vert^{d/2}}{\sigma_{s}^{2}}}
+\end{equation}
+Wähle nach \cite{ulichney1993void} $\sigma_{i} = 2.1$ und $\sigma_{s} = 1$ 
+Zu den Pixeln p,q beschreibt $p_{i} und q_{i}$ ihre jeweiligen Koordinaten.
+Und $p_{s} und q_{s}$ sind ihre d-dimensionalen Samplewerte.
+
+
+

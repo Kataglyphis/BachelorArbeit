@@ -16,7 +16,7 @@ Die in \cite{Pet17} vorgestellten blue noise Texturen und ihre Eigenschaften geb
 Aufschluss über ihre Wirksamkeit. Deshalb werden im Folgenden, die dort bereit 
 gestellten Texturen verwendet, welche anhand des in \cite{ulichney1993void} 
 vorgestellten Algorithmus erstellt wurden.
-Die korrespondierenden Spektren wurden mit Hilfe von \cite{FFTProgWeb} erstellt.
+Die korrespondierenden Spektren wurden mit Hilfe von \cite{JCrystalSoft2018} erstellt.
 
 \subsubsection{Uniformität}
 Wie bereits erwähnt, entsteht der neue Grauwert anhand einer Mittlung über 
@@ -103,13 +103,13 @@ in allen Richtungen.
     \centering
     \begin{minipage}[t]{0.45\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{content/BlueNoise/Bilder/LDR_LLL1_0.png}
+        \includegraphics[width=\linewidth]{content/BlueNoise/Bilder/HDR_L_0.png}
         \caption{$512^{2}$ blue noise Textur}
     \end{minipage}
     \hfill
     \begin{minipage}[t]{0.45\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{content/BlueNoise/Bilder/FFT_LDR_LLL1_0.png}
+        \includegraphics[width=\linewidth]{content/BlueNoise/Bilder/FFT_HDR_L_0.png}
         \caption{Fourier Spektrum $512^{2}$ blue noise Textur}
     \end{minipage}
 \end{figure}
@@ -129,14 +129,14 @@ soweit oben wie möglich in der Cachehierarchie halten.(L1 96KByte, L2 6MByte).
     \centering
     \begin{minipage}[t]{0.45\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{content/BlueNoise/Bilder/BlueNoise64Tiled.png}
-        \caption{$512^{2}$ bayer pattern Textur}
+        \includegraphics[width=\linewidth]{content/BlueNoise/Bilder/tiled4times.png}
+        \caption{$512^{2}$ gekachelte Textur von 64x64}
     \end{minipage}
     \hfill
     \begin{minipage}[t]{0.45\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{content/BlueNoise/Bilder/FFT_BlueNoise64Tiled.png}
-        \caption{Fourier Spektrum $512^{2}$ bayer pattern Textur}
+        \includegraphics[width=\linewidth]{content/BlueNoise/Bilder/FFTtiled4times.png}
+        \caption{Fourier Spektrum $512^{2}$ 4-fach getiled 64x64 Textur}
     \end{minipage}
 \end{figure}
 
