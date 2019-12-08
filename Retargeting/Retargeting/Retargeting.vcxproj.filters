@@ -36,6 +36,9 @@
     <ClInclude Include="imgui\imgui_internal.h">
       <Filter>imgui</Filter>
     </ClInclude>
+    <ClInclude Include="cppOpt\inc\cppOpt.h">
+      <Filter>Quelldateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

@@ -81,14 +81,14 @@ int main(int, char**)
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
     //Image data
-    helpers* helper;
+    helpers helper;
     int my_image_width = 0;
     int my_image_height = 0;
     ID3D11ShaderResourceView* my_texture = NULL;
-    bool ret = helper->LoadTextureFromFile(
+    bool ret = helper.LoadTextureFromFile(
         "pictures/BlueNoiseCode/FreeBlueNoiseTextures/Data/64_64/HDR_L_0.png", 
         &my_texture, g_pd3dDevice, &my_image_width, &my_image_height);
-
+	if (!ret) return 1;
     // Main loop
     MSG msg;
     ZeroMemory(&msg, sizeof(msg));
@@ -120,11 +120,14 @@ int main(int, char**)
             static float f = 0.0f;
             static int counter = 0;
 
-            ImGui::Begin("Hello, world!");                          // Create a window for displaying blue noise and retargeting texture!!
+            ImGui::Begin("Calculate Retargeting texture!");                          // Create a window for displaying blue noise and retargeting texture!!
 
             ImGui::Text("Load Blue Noise Texture to Retarget!");              
-            ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-            ImGui::Checkbox("Another Window", &show_another_window);
+            ImGui::Checkbox("Blue Noise Window", &show_demo_window);      // Edit bools storing our window open/close state
+            ImGui::Checkbox("Retargeting Window", &show_another_window);
+
+			//show image
+			ImGui::Image((void*)my_texture, ImVec2(my_image_width, my_image_height));
 
             ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
             ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
