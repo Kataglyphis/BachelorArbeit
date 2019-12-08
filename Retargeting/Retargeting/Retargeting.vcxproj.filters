@@ -16,6 +16,9 @@
     <Filter Include="imgui">
       <UniqueIdentifier>{892846e7-881e-403e-a071-41c50e046bab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lpng">
+      <UniqueIdentifier>{92cc832d-ecff-472f-8870-60ba85431db7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imgui_impl_win32.h">
@@ -37,6 +40,24 @@
       <Filter>imgui</Filter>
     </ClInclude>
     <ClInclude Include="cppOpt\inc\cppOpt.h">
+      <Filter>Quelldateien</Filter>
+    </ClInclude>
+    <ClInclude Include="lpng\pngconf.h">
+      <Filter>lpng</Filter>
+    </ClInclude>
+    <ClInclude Include="lpng\pngdebug.h">
+      <Filter>lpng</Filter>
+    </ClInclude>
+    <ClInclude Include="lpng\pnginfo.h">
+      <Filter>lpng</Filter>
+    </ClInclude>
+    <ClInclude Include="lpng\pngpriv.h">
+      <Filter>lpng</Filter>
+    </ClInclude>
+    <ClInclude Include="lpng\pngstruct.h">
+      <Filter>lpng</Filter>
+    </ClInclude>
+    <ClInclude Include="SimulatedAnnealing.h">
       <Filter>Quelldateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -64,6 +85,54 @@
     </ClCompile>
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="lpng\pngerror.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="lpng\pngget.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="lpng\pngmem.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="lpng\pngpread.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="lpng\pngread.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="lpng\pngrio.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="lpng\pngrtran.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="lpng\pngrutil.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="lpng\pngset.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="lpng\pngtest.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="lpng\pngtrans.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="lpng\pngwio.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="lpng\pngwrite.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="lpng\pngwtran.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="lpng\pngwutil.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="SimulatedAnnealing.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
