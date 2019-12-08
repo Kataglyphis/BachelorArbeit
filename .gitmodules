@@ -1,0 +1,3 @@
+[submodule "PathTracer/falcor"]
+	path = PathTracer/falcor
+	url = git@github.com:NVIDIAGameWorks/Falcor.git

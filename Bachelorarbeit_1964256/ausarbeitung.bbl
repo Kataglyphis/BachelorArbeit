@@ -48,11 +48,6 @@
 \newblock {\latintext
   \btxurlfont{https://hal.archives-ouvertes.fr/hal-02158423/document}}.
 
-\bibitem [{FFT}]{FFTProgWeb}
-\btxtitlefont {\btxifchangecase {Fftprog}{FFTProg}}.
-\newblock \url{http://bigwww.epfl.ch/demo/ip/demos/FFT/}.
-\newblock Accessed: 21.11.2019.
-
 \bibitem [{Gam17}]{Pet17}
 \btxnamefont {Epic \btxlastnamefont {Games}}\btxauthorcolon\ \btxtitlefont
   {\btxifchangecase {The problem with 3d blue noise}{The problem with 3d blue
@@ -91,6 +86,12 @@
   {{ACM}}.
 \newblock {\latintext
   \btxurlfont{https://hal.archives-ouvertes.fr/hal-02150657}}.
+
+\bibitem [{JCr18}]{JCrystalSoft2018}
+\btxtitlefont {\btxifchangecase {jcrystal}{jcrystal}}, 2018.
+\newblock {\latintext
+  \btxurlfont{http://www.jcrystal.com/products/ftlse/index.htm}}, performing
+  fft on images.
 
 \bibitem [{Jim14}]{callofdutypostprocessing}
 \btxnamefont {Jorge \btxlastnamefont {Jimenez}}\btxauthorcolon\ \btxtitlefont
