@@ -1,12 +1,11 @@
-/**#pragma once
-#include "cppOpt/inc/cppOpt.h"
+#pragma once
+#include "helpers.h"
 
-namespace Annealing {
-
-	class SimulatedAnnealing {
+class SimulatedAnnealing {
 	public:
+		SimulatedAnnealing() {};
 		bool fromBlueNoiseToRetarget();
+		bool toroidallyShift();
 	private:
-
-		};
-}*/
+		helpers helper;
+};
