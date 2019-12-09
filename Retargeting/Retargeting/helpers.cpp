@@ -47,3 +47,25 @@ bool helpers::LoadTextureFromFile(const char* filename,ID3D11ShaderResourceView*
 	return true;
 }
 
+bool helpers::freeImageFunction() {
+	using namespace std;
+
+	FreeImage_Initialise();
+	
+	FIBITMAP* bitmap = FreeImage_Allocate(64, 64, 16);
+	if (!bitmap) exit(1);
+	RGBQUAD color;
+	for (int i = 0; i < 64;i++) {
+		for (int j = 0; j < 64;j++) {
+			color.rgbRed = 0;
+			color.rgbGreen = (double)i / 64 * 255.0;
+			color.rgbBlue = (double)j / 64 * 255.0;
+			FreeImage_SetPixelColor(bitmap, i, j, &color);
+		}
+	}
+	FreeImage_Save(FIF_PNG, bitmap, "test.png", 0);
+
+	FreeImage_DeInitialise();
+
+	return true;
+}

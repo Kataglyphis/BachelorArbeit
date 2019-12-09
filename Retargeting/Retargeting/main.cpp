@@ -52,7 +52,6 @@ int main(int, char**)
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
@@ -91,6 +90,7 @@ int main(int, char**)
         "pictures/BlueNoiseCode/FreeBlueNoiseTextures/Data/64_64/HDR_L_0.png", 
         &my_texture, g_pd3dDevice, &my_image_width, &my_image_height);
 	if (!ret) return 1;
+    helper.freeImageFunction();
     // Main loop
     MSG msg;
     ZeroMemory(&msg, sizeof(msg));
@@ -129,7 +129,7 @@ int main(int, char**)
 			//show image
 			ImGui::Image((void*)my_texture, ImVec2(my_image_width, my_image_height));
 
-            if (ImGui::Button("Save Image")) stbi_write_png("Experimental.png",my_image_width, my_image_height,3, (void*)my_texture);
+            //if (ImGui::Button("Save Image")) stbi_write_png("Experimental.png",my_image_width, my_image_height,3, (void*)my_texture);
 
             ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
             ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
