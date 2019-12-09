@@ -102,3 +102,7 @@ bool helpers::generateSeedPNG() {
 
 	return true;
 }
+
+bool helpers::loadImageFromFile() {
+	blueNoiseBitMap = FreeImage_Load(FIF_PNG ,blueNoiseFile,0);
+}
