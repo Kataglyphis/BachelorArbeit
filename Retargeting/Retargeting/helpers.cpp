@@ -1,7 +1,9 @@
 
 #include "helpers.h"
+#include "WangHash.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
+#include <stdint.h>
 
 
 bool helpers::LoadTextureFromFile(const char* filename,ID3D11ShaderResourceView** srv , ID3D11Device* g_pd3dDevice, int* width, int* height) {
@@ -64,6 +66,37 @@ bool helpers::freeImageFunction() {
 		}
 	}
 	FreeImage_Save(FIF_PNG, bitmap, "test.png", 0);
+
+	FreeImage_DeInitialise();
+
+	return true;
+}
+
+bool helpers::generateSeedPNG() {
+	using namespace std;
+
+	FreeImage_Initialise();
+
+	WangHash hashHelper;
+
+	unsigned int width = 1920;
+	unsigned int height = 720;
+	unsigned int resolution = 24;
+	FIBITMAP* bitmap = FreeImage_Allocate(width, height, resolution);
+	if (!bitmap) exit(1);
+	RGBQUAD color;
+
+	for (int i = 0; i < width; i++) {
+		for (int j = 0; j < height; j++) {
+			uint32_t hash = hashHelper.generate(uint32_t(i + j * width));
+			color.rgbRed = (hash & 0x00FF0000) >> 16;
+			color.rgbGreen = (hash & 0x0000FF00) >> 8;
+			color.rgbBlue = (hash & 0x000000FF);
+			FreeImage_SetPixelColor(bitmap, i, j, &color);
+		}
+	}
+	//FreeImage_ConvertToGreyscale(bitmap);
+	FreeImage_Save(FIF_PNG, bitmap, "seeds.png", 0);
 
 	FreeImage_DeInitialise();
 

@@ -42,6 +42,9 @@
     <ClInclude Include="SimulatedAnnealing.h">
       <Filter>Quelldateien</Filter>
     </ClInclude>
+    <ClInclude Include="WangHash.h">
+      <Filter>Quelldateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -69,6 +72,9 @@
       <Filter>imgui</Filter>
     </ClCompile>
     <ClCompile Include="SimulatedAnnealing.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="WangHash.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

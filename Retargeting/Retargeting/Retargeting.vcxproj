@@ -143,6 +143,7 @@
     <ClInclude Include="imgui\imgui_impl_win32.h" />
     <ClInclude Include="imgui\imgui_internal.h" />
     <ClInclude Include="SimulatedAnnealing.h" />
+    <ClInclude Include="WangHash.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="helpers.cpp">
@@ -157,6 +158,7 @@
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SimulatedAnnealing.cpp" />
+    <ClCompile Include="WangHash.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

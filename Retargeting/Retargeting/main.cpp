@@ -91,6 +91,7 @@ int main(int, char**)
         &my_texture, g_pd3dDevice, &my_image_width, &my_image_height);
 	if (!ret) return 1;
     helper.freeImageFunction();
+    helper.generateSeedPNG();
     // Main loop
     MSG msg;
     ZeroMemory(&msg, sizeof(msg));
