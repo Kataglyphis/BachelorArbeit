@@ -11,6 +11,8 @@
 #include <dinput.h>
 #include <tchar.h>
 #include "helpers.h"
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb/stb_image_write.h"
 
 // Data
 static ID3D11Device* g_pd3dDevice = NULL;
@@ -123,11 +125,11 @@ int main(int, char**)
             ImGui::Begin("Calculate Retargeting texture!");                          // Create a window for displaying blue noise and retargeting texture!!
 
             ImGui::Text("Load Blue Noise Texture to Retarget!");              
-            ImGui::Checkbox("Blue Noise Window", &show_demo_window);      // Edit bools storing our window open/close state
-            ImGui::Checkbox("Retargeting Window", &show_another_window);
 
 			//show image
 			ImGui::Image((void*)my_texture, ImVec2(my_image_width, my_image_height));
+
+            if (ImGui::Button("Save Image")) stbi_write_png("Experimental.png",my_image_width, my_image_height,3, (void*)my_texture);
 
             ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
             ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color

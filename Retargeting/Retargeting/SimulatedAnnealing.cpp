@@ -1,4 +1,4 @@
-#include "SimulatedAnnealing.h"
+/**#include "SimulatedAnnealing.h"
 
 using namespace cppOpt;
 
@@ -56,4 +56,4 @@ bool Annealing::SimulatedAnnealing::fromBlueNoiseToRetarget() {
 	OptCalculation<double> best = coordinator.get_best_calculation();
 
 	return true;
-}
+}*/

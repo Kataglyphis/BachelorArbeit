@@ -81,6 +81,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -94,7 +95,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxgi.lib;d3dx11.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -110,6 +111,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -125,7 +127,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);d3d11.lib;d3dcompiler.lib;dxgi.lib</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -139,11 +141,6 @@
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_win32.h" />
     <ClInclude Include="imgui\imgui_internal.h" />
-    <ClInclude Include="lpng\pngconf.h" />
-    <ClInclude Include="lpng\pngdebug.h" />
-    <ClInclude Include="lpng\pnginfo.h" />
-    <ClInclude Include="lpng\pngpriv.h" />
-    <ClInclude Include="lpng\pngstruct.h" />
     <ClInclude Include="SimulatedAnnealing.h" />
   </ItemGroup>
   <ItemGroup>
@@ -157,21 +154,6 @@
     <ClCompile Include="imgui\imgui_draw.cpp" />
     <ClCompile Include="imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
-    <ClCompile Include="lpng\pngerror.c" />
-    <ClCompile Include="lpng\pngget.c" />
-    <ClCompile Include="lpng\pngmem.c" />
-    <ClCompile Include="lpng\pngpread.c" />
-    <ClCompile Include="lpng\pngread.c" />
-    <ClCompile Include="lpng\pngrio.c" />
-    <ClCompile Include="lpng\pngrtran.c" />
-    <ClCompile Include="lpng\pngrutil.c" />
-    <ClCompile Include="lpng\pngset.c" />
-    <ClCompile Include="lpng\pngtest.c" />
-    <ClCompile Include="lpng\pngtrans.c" />
-    <ClCompile Include="lpng\pngwio.c" />
-    <ClCompile Include="lpng\pngwrite.c" />
-    <ClCompile Include="lpng\pngwtran.c" />
-    <ClCompile Include="lpng\pngwutil.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SimulatedAnnealing.cpp" />
   </ItemGroup>
