@@ -84,7 +84,7 @@ RenderPassReflection GGXGlobalIllumination::reflect(void) const
 
     r.addOutput("seed_input", "").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
     r.addOutput("output", "").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
-    r.addOutput("seed_output", "seeds used for generating rays");
+    //r.addOutput("seed_output", "seeds used for generating rays");
     return r;
 }
 

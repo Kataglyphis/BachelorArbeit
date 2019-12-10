@@ -60,7 +60,7 @@ void Sorting::initialize(RenderContext * pContext, const RenderData * pRenderDat
 
     //initiallize textures
     //createTextureFromFile!!!!!
-    Texture::SharedPtr bluenoise = createTextureFromFile("../Data/64_64/HDR_L_0.png", false, true);
+    Texture::SharedPtr bluenoise = createTextureFromFile("TiledFrom64x64.png", false, true, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
     mpComputeProgVars->setTexture("input_blue_noise_texture", bluenoise);
     mpComputeProgVars->setTexture("input_seed_texture", pRenderData->getTexture("seed_input"));
     
@@ -98,7 +98,7 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
     uint32_t h = 4;
     //Dispatch groupSizeX,GroupSizeY,GroupSizeZ;
     pContext->dispatch(w, h, 1);
-    exit(1);
+  
 }
 
 void Sorting::renderUI(Gui* pGui, const char* uiGroup) {

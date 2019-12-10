@@ -87,9 +87,10 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->addPass(GBufferRaster::create(), "GBuffer");
     auto pGIPass = GGXGlobalIllumination::create();
     mpGraph->addPass(pGIPass, "GlobalIllumination");
-    mpGraph->addPass(ToneMapping::create(), "ToneMapping");
     mpGraph->addPass(Sorting::create(), "Sorting");
     mpGraph->addPass(Retargeting::create(), "Retargeting");
+    //mpGraph->addPass(ToneMapping::create(), "ToneMapping");
+    
 
     mpGraph->addEdge("GBuffer.posW", "GlobalIllumination.posW");
     mpGraph->addEdge("GBuffer.normW", "GlobalIllumination.normW");
@@ -98,21 +99,20 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->addEdge("GBuffer.emissive", "GlobalIllumination.emissive");
     mpGraph->addEdge("GBuffer.matlExtra", "GlobalIllumination.matlExtra");
 
-    mpGraph->addEdge("GlobalIllumination.output", "ToneMapping.src");
+    //mpGraph->addEdge("GlobalIllumination.output", "ToneMapping.src");
 
     //Edges for our temporal algorithm
     
     //the retargeted seeds will come into our path tracer
-    //this will create cycle in graph!!! not allowed
-    //mpGraph->addEdge("Retargeting.outputSeedTexture", "GlobalIllumination.inputSeedTexture");
     //the rendered frame from our path tracer where we get our values to sort
-    //mpGraph->addEdge("GlobalIllumination.output", "Sorting.frame_input");
-    mpGraph->addEdge("GlobalIllumination.seed_output","Sorting.seed_input");
+    mpGraph->addEdge("GlobalIllumination.output", "Sorting.frame_input");
+    mpGraph->addEdge("GlobalIllumination.seed_input","Sorting.seed_input");
 
     //edges for our retargeting pass
     //mpGraph->addEdge("Sorting.outputSeedTexture","Retargeting.inputSeedTexture");
 
-    mpGraph->markOutput("ToneMapping.dst");
+    mpGraph->markOutput("GlobalIllumination.output");
+    //mpGraph->markOutput("ToneMapping.dst");
 
     // Initialize the graph's record of what the swapchain size is, for texture creation
     mpGraph->onResize(pCallbacks->getCurrentFbo().get());
@@ -142,7 +142,7 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
         mpGraph->getScene()->update(pCallbacks->getCurrentTime(), &mCamController);
         mpGraph->execute(pRenderContext);
         //Shader Resource View, Render target view
-        pRenderContext->blit(mpGraph->getOutput("ToneMapping.dst")->getSRV(), pTargetFbo->getRenderTargetView(0));
+        pRenderContext->blit(mpGraph->getOutput("GlobalIllumination.output")->getSRV(), pTargetFbo->getRenderTargetView(0));
     }
 }
 
