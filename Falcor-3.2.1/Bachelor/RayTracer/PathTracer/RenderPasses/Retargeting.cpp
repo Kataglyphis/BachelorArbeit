@@ -36,18 +36,18 @@ RenderPassReflection Retargeting::reflect(void) const {
 
     RenderPassReflection r;
     //input
-    r.addInput("inputSeedTexture", "resorted seeds from the sorting phase").format(ResourceFormat::R32Uint);
+    r.addInput("input_seed_texture", "resorted seeds from the sorting phase");
 
     //output
-    r.addOutput("outputSeedTexture", "the retargeted seed texture outgoing to path tracer").format(ResourceFormat::R32Uint);
-
+    r.addOutput("output_seed_texture", "the retargeted seed texture outgoing to path tracer").format(ResourceFormat::RGBA8Int).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
+    r.addOutput("retarget_texture","texture were our retargeting is stored").format(ResourceFormat::RGBA8Int).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
     return r;
 }
 
 void Retargeting::initialize(RenderContext * pContext, const RenderData * pRenderData) {
 
     //load prog from file
-    mpComputeProg = ComputeProgram::createFromFile("Retargeting.hlsl", "main");
+    mpComputeProg = ComputeProgram::createFromFile("Retarget.hlsl", "main");
     //initialize state
     mpComputeState = ComputeState::create();
     mpComputeState->setProgram(mpComputeProg);
@@ -57,7 +57,7 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
         //mpProgVars = ComputeVars::create();
     }
 
-    Texture::SharedPtr retarget = createTextureFromFile(".. / Data / 64_64 / retarget / HDR_L_0_Retarget.png", false, true);
+    Texture::SharedPtr retarget = createTextureFromFile("seeds.png", false, false, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
     mpComputeProgVars->setTexture("retarget_texture", retarget);
 
     mIsInitialized = true;
@@ -77,7 +77,7 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     pCB["width"] = 1920;
     pCB["height"] = 1080;
     pCB["index"] = 1;*/
-    mpComputeProgVars->setTexture("srcseed_texture", pData->getTexture("inputSeedTexture"));
+    mpComputeProgVars->setTexture("src_seed_texture", pData->getTexture("input_seed_texture"));
 
     pContext->setComputeState(mpComputeState);
     pContext->setComputeVars(mpComputeProgVars);

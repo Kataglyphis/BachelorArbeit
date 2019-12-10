@@ -26,7 +26,7 @@ public:
     */
     virtual RenderPassReflection reflect(void) const override;
 
-    /** Run our multibounce GI pass
+    /** Run our sorting pass!
     */
     virtual void execute(RenderContext* pContext, const RenderData* pRenderData) override;
 
@@ -57,10 +57,5 @@ private:
     ComputeProgram::SharedPtr mpComputeProg;
     ComputeState::SharedPtr mpComputeState;
     ComputeVars::SharedPtr mpComputeProgVars;
-
-    Texture::SharedPtr  mpBlackHDR = nullptr;
-    //all buffer objects
-    StructuredBuffer::SharedPtr rwBuffer;
-    StructuredBuffer::SharedPtr frameInfo;
 
 };

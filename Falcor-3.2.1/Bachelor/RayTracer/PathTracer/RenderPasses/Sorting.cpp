@@ -42,32 +42,32 @@ RenderPassReflection Sorting::reflect(void) const {
     //(color&0xff000000)>>24
     //(color&0x00ff0000)>>16
 
-
     //output
-    r.addOutput("output_seed_texture", "the outgoing seed texture");
+    r.addOutput("blue_noise", "our blue noise texture").format(ResourceFormat::RGBA8Int).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
+    r.addOutput("seed_output", "the outgoing seed texture").format(ResourceFormat::RGBA8Int).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
 
     return r;
 }
 
 void Sorting::initialize(RenderContext * pContext, const RenderData * pRenderData) {
-
+   
     //load prog from file
     mpComputeProg = ComputeProgram::createFromFile("Sort.hlsl", "main");
     //initialize state
     mpComputeState = ComputeState::create();
     mpComputeState->setProgram(mpComputeProg);
-    mpComputeProgVars = ComputeVars::create(mpComputeProg->getReflector());
 
-    //initiallize textures
+    Falcor::ProgramReflection::SharedConstPtr reflector = mpComputeProg->getReflector();
+
+    mpComputeProgVars = ComputeVars::create(mpComputeProg->getReflector());
     //createTextureFromFile!!!!!
-    Texture::SharedPtr bluenoise = createTextureFromFile("TiledFrom64x64.png", false, true, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
+    Texture::SharedPtr bluenoise = createTextureFromFile("Tiled.png", false, true, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
     mpComputeProgVars->setTexture("input_blue_noise_texture", bluenoise);
     mpComputeProgVars->setTexture("input_seed_texture", pRenderData->getTexture("seed_input"));
     
     if (mpComputeProg != nullptr) {
         mIsInitialized = true;
     }
-
 
 }
 
@@ -88,7 +88,7 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
 
     mpComputeProgVars->setTexture("input_frame_texture",pData->getTexture("frameInput"));
     mpComputeProgVars->setTexture("input_seed_texture", pData->getTexture("seed_input"));
-    mpComputeProgVars->setTexture("output_seed_texture", pData->getTexture("seed_input"));
+    //mpComputeProgVars->setTexture("output_seed_texture", pData->getTexture("seed_input"));
 
     pContext->setComputeState(mpComputeState);
     pContext->setComputeVars(mpComputeProgVars);
@@ -107,7 +107,7 @@ void Sorting::renderUI(Gui* pGui, const char* uiGroup) {
 }
 
 void Sorting::setScene(const std::shared_ptr<Scene>& pScene) {
-
+   
 }
 void Sorting::onResize(uint32_t width, uint32_t height) {
 

@@ -91,6 +91,7 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->addPass(Retargeting::create(), "Retargeting");
     //mpGraph->addPass(ToneMapping::create(), "ToneMapping");
     
+    mpGraph->addEdge("GBuffer", "GlobalIllumination");
 
     mpGraph->addEdge("GBuffer.posW", "GlobalIllumination.posW");
     mpGraph->addEdge("GBuffer.normW", "GlobalIllumination.normW");
@@ -99,7 +100,9 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->addEdge("GBuffer.emissive", "GlobalIllumination.emissive");
     mpGraph->addEdge("GBuffer.matlExtra", "GlobalIllumination.matlExtra");
 
-    //mpGraph->addEdge("GlobalIllumination.output", "ToneMapping.src");
+    //add edges for marking dependencies!!
+    mpGraph->addEdge("GlobalIllumination", "Sorting");
+    mpGraph->addEdge("Sorting","Retargeting");
 
     //Edges for our temporal algorithm
     
@@ -109,7 +112,7 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->addEdge("GlobalIllumination.seed_input","Sorting.seed_input");
 
     //edges for our retargeting pass
-    //mpGraph->addEdge("Sorting.outputSeedTexture","Retargeting.inputSeedTexture");
+    mpGraph->addEdge("Sorting.seed_output","Retargeting.input_seed_texture");
 
     mpGraph->markOutput("GlobalIllumination.output");
     //mpGraph->markOutput("ToneMapping.dst");

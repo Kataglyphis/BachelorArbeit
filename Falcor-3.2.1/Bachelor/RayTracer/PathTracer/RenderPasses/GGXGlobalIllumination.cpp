@@ -80,11 +80,9 @@ RenderPassReflection GGXGlobalIllumination::reflect(void) const
     r.addInput("specRough", "");
     r.addInput("emissive", "");
     r.addInput("matlExtra", "");
-    //r.addInput("seed_input","our seeds coming into ray generation!");
 
-    r.addOutput("seed_input", "").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
+    r.addOutput("seed_input", "").format(ResourceFormat::RGBA8Uint).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
     r.addOutput("output", "").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
-    //r.addOutput("seed_output", "seeds used for generating rays");
     return r;
 }
 

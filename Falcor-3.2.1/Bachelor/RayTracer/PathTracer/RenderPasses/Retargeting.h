@@ -23,7 +23,7 @@ public:
     */
     virtual RenderPassReflection reflect(void) const override;
 
-    /** Run our multibounce GI pass
+    /** Runs the retargeting pass
     */
     virtual void execute(RenderContext* pContext, const RenderData* pRenderData) override;
 
@@ -54,8 +54,6 @@ private:
     ComputeProgram::SharedPtr mpComputeProg;
     ComputeState::SharedPtr mpComputeState;
     ComputeVars::SharedPtr mpComputeProgVars;
-
-    Texture::SharedPtr  mpBlackHDR = nullptr;
 
     //survey variables
     bool mIsInitialized = false;
