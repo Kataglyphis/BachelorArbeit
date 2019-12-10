@@ -43,7 +43,7 @@ public:
     /** Serialize the render pass parameters out to a python dictionary
     */
     virtual Dictionary getScriptingDictionary() const override;
-
+    
 private:
     GGXGlobalIllumination() : RenderPass("GGXGlobalIllumination") {}
 
@@ -65,6 +65,7 @@ private:
     bool                mUseEmissiveGeom = true;
     float               mEmissiveGeomMult = 1.0f;
     Texture::SharedPtr  mpBlackHDR = nullptr;
+    
 
     enum class EnvMapMode : uint32_t
     {

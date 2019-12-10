@@ -44,7 +44,7 @@ Texture2D<float4> input_frame_texture;
 //needed as comparisson for sorting
 Texture2D<float> input_blue_noise_texture;
 //texture we are becoming and will again put out filled with sorted seeds;
-RWStructuredBuffer<uint> input_seed_texture;
+RWTexture2D input_seed_texture;
 
 //given variables for our frame
 /**cbuffer GlobalCB

@@ -73,10 +73,10 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     }
 
     // Set our variables into the global HLSL namespace
-    ConstantBuffer::SharedPtr pCB = mpComputeProgVars->getConstantBuffer("GlobalCB");
+    /**ConstantBuffer::SharedPtr pCB = mpComputeProgVars->getConstantBuffer("GlobalCB");
     pCB["width"] = 1920;
     pCB["height"] = 1080;
-    pCB["index"] = 1;
+    pCB["index"] = 1;*/
     mpComputeProgVars->setTexture("srcseed_texture", pData->getTexture("inputSeedTexture"));
 
     pContext->setComputeState(mpComputeState);

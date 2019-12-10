@@ -36,15 +36,15 @@ RenderPassReflection Sorting::reflect(void) const {
 
     RenderPassReflection r;
     //input
-    r.addInput("frameInput", "rendered frame from path tracing").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
-    r.addInput("inputSeedTexture", "the incoming seed texture").format(ResourceFormat::R32Uint);
+    r.addInput("frame_input", "rendered frame from path tracing").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
+    r.addInput("seed_input", "the incoming seed texture");
     //ResourceFormat::RGBA8Uint
     //(color&0xff000000)>>24
     //(color&0x00ff0000)>>16
 
 
     //output
-    r.addOutput("outputSeedTexture", "the outgoing seed texture").format(ResourceFormat::R32Uint);
+    r.addOutput("output_seed_texture", "the outgoing seed texture");
 
     return r;
 }
@@ -58,12 +58,11 @@ void Sorting::initialize(RenderContext * pContext, const RenderData * pRenderDat
     mpComputeState->setProgram(mpComputeProg);
     mpComputeProgVars = ComputeVars::create(mpComputeProg->getReflector());
 
-    //uniform buffers
-
     //initiallize textures
     //createTextureFromFile!!!!!
     Texture::SharedPtr bluenoise = createTextureFromFile("../Data/64_64/HDR_L_0.png", false, true);
     mpComputeProgVars->setTexture("input_blue_noise_texture", bluenoise);
+    mpComputeProgVars->setTexture("input_seed_texture", pRenderData->getTexture("seed_input"));
     
     if (mpComputeProg != nullptr) {
         mIsInitialized = true;
@@ -81,14 +80,15 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
     }
 
     //info for the frame
-    frameInfo = StructuredBuffer::create(mpComputeProg, "gInfo", 3);
+    /**frameInfo = StructuredBuffer::create(mpComputeProg, "gInfo", 3);
     mpComputeProgVars->setStructuredBuffer("gInfo", frameInfo);
     mpComputeProgVars->getStructuredBuffer("gInfo")[0]["uintVal"] = (uint)1920;
     mpComputeProgVars->getStructuredBuffer("gInfo")[1]["uintVal"] = (uint)1080;
-    mpComputeProgVars->getStructuredBuffer("gInfo")[2]["uintVal"] = (uint)5;
+    mpComputeProgVars->getStructuredBuffer("gInfo")[2]["uintVal"] = (uint)5;*/
 
     mpComputeProgVars->setTexture("input_frame_texture",pData->getTexture("frameInput"));
-    mpComputeProgVars->setTexture("input_seed_texture", pData->getTexture("inputSeedTexture"));
+    mpComputeProgVars->setTexture("input_seed_texture", pData->getTexture("seed_input"));
+    mpComputeProgVars->setTexture("output_seed_texture", pData->getTexture("seed_input"));
 
     pContext->setComputeState(mpComputeState);
     pContext->setComputeVars(mpComputeProgVars);
@@ -98,7 +98,7 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
     uint32_t h = 4;
     //Dispatch groupSizeX,GroupSizeY,GroupSizeZ;
     pContext->dispatch(w, h, 1);
-   
+    exit(1);
 }
 
 void Sorting::renderUI(Gui* pGui, const char* uiGroup) {

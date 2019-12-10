@@ -106,11 +106,11 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     //this will create cycle in graph!!! not allowed
     //mpGraph->addEdge("Retargeting.outputSeedTexture", "GlobalIllumination.inputSeedTexture");
     //the rendered frame from our path tracer where we get our values to sort
-    mpGraph->addEdge("GlobalIllumination.output", "Sorting.frameInput");
-    mpGraph->addEdge("GlobalIllumination.seed_output","Sorting.inputSeedTexture");
+    //mpGraph->addEdge("GlobalIllumination.output", "Sorting.frame_input");
+    mpGraph->addEdge("GlobalIllumination.seed_output","Sorting.seed_input");
 
     //edges for our retargeting pass
-    mpGraph->addEdge("Sorting.outputSeedTexture","Retargeting.inputSeedTexture");
+    //mpGraph->addEdge("Sorting.outputSeedTexture","Retargeting.inputSeedTexture");
 
     mpGraph->markOutput("ToneMapping.dst");
 
@@ -189,6 +189,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
     PathTracer::UniquePtr pRenderer = std::make_unique<PathTracer>();
     SampleConfig config;
     config.windowDesc.title = "Blue Noise Distribution Path Tracer";
+    config.windowDesc.width = 1920;
+    config.windowDesc.height = 720;
     config.windowDesc.resizableWindow = true;
     config.freezeTimeOnStartup = true;
     Sample::run(config, pRenderer);
