@@ -1,1 +1,4 @@
 
+[submodule "TemporalAlgorithm"]
+	path = TemporalAlgorithm
+	url = git@github.com:NVIDIAGameWorks/Falcor.git
