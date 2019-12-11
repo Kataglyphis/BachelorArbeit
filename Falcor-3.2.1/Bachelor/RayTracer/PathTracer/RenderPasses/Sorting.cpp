@@ -85,9 +85,7 @@ void Sorting::initialize(RenderContext * pContext, const RenderData * pRenderDat
 void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
     //on first run we want it to intialize
     if (!mIsInitialized) {
-
         initialize(pContext, pData);
-
     }
 
     //info for the frame
