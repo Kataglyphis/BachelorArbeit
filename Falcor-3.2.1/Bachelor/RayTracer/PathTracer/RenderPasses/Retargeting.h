@@ -11,19 +11,23 @@ class Retargeting : public RenderPass, inherit_shared_from_this<RenderPass, Reta
 public:
     using SharedPtr = std::shared_ptr<Retargeting>;
 
+    uint32_t frame_count = 0;
+    uint32_t frame_width = 1920;
+    uint32_t frame_height = 720;
+
     /** Instantiate our pass.  The input Python dictionary is where you can extract pass parameters
     */
     static SharedPtr create(const Dictionary& params = {});
 
     /** Get a string describing what the pass is doing
     */
-    virtual std::string getDesc() override { return "Sorting and retargeting seed for having a blue noise distributions."; }
+    virtual std::string getDesc() override { return "Retarget Seeds with precomputed texture for accumulate improvements!"; }
 
     /** Defines the inputs/outputs required for this render pass
     */
     virtual RenderPassReflection reflect(void) const override;
 
-    /** Run our multibounce GI pass
+    /** Runs the retargeting pass
     */
     virtual void execute(RenderContext* pContext, const RenderData* pRenderData) override;
 
@@ -55,10 +59,8 @@ private:
     ComputeState::SharedPtr mpComputeState;
     ComputeVars::SharedPtr mpComputeProgVars;
 
-    Texture::SharedPtr  mpBlackHDR = nullptr;
-
     //survey variables
     bool mIsInitialized = false;
-    bool distributeAsBlueNoise = false;
+    bool retargetSeeds = true;
 
 };

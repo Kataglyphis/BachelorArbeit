@@ -87,9 +87,11 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->addPass(GBufferRaster::create(), "GBuffer");
     auto pGIPass = GGXGlobalIllumination::create();
     mpGraph->addPass(pGIPass, "GlobalIllumination");
-    mpGraph->addPass(ToneMapping::create(), "ToneMapping");
     mpGraph->addPass(Sorting::create(), "Sorting");
     mpGraph->addPass(Retargeting::create(), "Retargeting");
+    //mpGraph->addPass(ToneMapping::create(), "ToneMapping");
+    
+    mpGraph->addEdge("GBuffer", "GlobalIllumination");
 
     mpGraph->addEdge("GBuffer.posW", "GlobalIllumination.posW");
     mpGraph->addEdge("GBuffer.normW", "GlobalIllumination.normW");
@@ -98,21 +100,22 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->addEdge("GBuffer.emissive", "GlobalIllumination.emissive");
     mpGraph->addEdge("GBuffer.matlExtra", "GlobalIllumination.matlExtra");
 
-    mpGraph->addEdge("GlobalIllumination.output", "ToneMapping.src");
+    //add edges for marking dependencies!!
+    mpGraph->addEdge("GlobalIllumination", "Sorting");
+    mpGraph->addEdge("Sorting","Retargeting");
 
     //Edges for our temporal algorithm
     
     //the retargeted seeds will come into our path tracer
-    //this will create cycle in graph!!! not allowed
-    //mpGraph->addEdge("Retargeting.outputSeedTexture", "GlobalIllumination.inputSeedTexture");
     //the rendered frame from our path tracer where we get our values to sort
-    mpGraph->addEdge("GlobalIllumination.output", "Sorting.frameInput");
-    mpGraph->addEdge("GlobalIllumination.seed_output","Sorting.inputSeedTexture");
+    mpGraph->addEdge("GlobalIllumination.output", "Sorting.frame_input");
+    mpGraph->addEdge("GlobalIllumination.seed_input","Sorting.seed_input");
 
     //edges for our retargeting pass
-    mpGraph->addEdge("Sorting.outputSeedTexture","Retargeting.inputSeedTexture");
+    mpGraph->addEdge("Sorting.seed_output","Retargeting.input_seed_texture");
 
-    mpGraph->markOutput("ToneMapping.dst");
+    mpGraph->markOutput("GlobalIllumination.output");
+    //mpGraph->markOutput("ToneMapping.dst");
 
     // Initialize the graph's record of what the swapchain size is, for texture creation
     mpGraph->onResize(pCallbacks->getCurrentFbo().get());
@@ -142,7 +145,7 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
         mpGraph->getScene()->update(pCallbacks->getCurrentTime(), &mCamController);
         mpGraph->execute(pRenderContext);
         //Shader Resource View, Render target view
-        pRenderContext->blit(mpGraph->getOutput("ToneMapping.dst")->getSRV(), pTargetFbo->getRenderTargetView(0));
+        pRenderContext->blit(mpGraph->getOutput("GlobalIllumination.output")->getSRV(), pTargetFbo->getRenderTargetView(0));
     }
 }
 
@@ -189,6 +192,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
     PathTracer::UniquePtr pRenderer = std::make_unique<PathTracer>();
     SampleConfig config;
     config.windowDesc.title = "Blue Noise Distribution Path Tracer";
+    config.windowDesc.width = 1920;
+    config.windowDesc.height = 720;
     config.windowDesc.resizableWindow = true;
     config.freezeTimeOnStartup = true;
     Sample::run(config, pRenderer);

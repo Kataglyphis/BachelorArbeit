@@ -13,7 +13,10 @@ public:
 
     // survey variables
     bool mIsInitialized = false;
-    bool distributeAsBlueNoise = false;
+    bool distributeAsBlueNoise = true;
+    uint32_t frame_count = 0;
+    uint32_t frame_width = 1920;
+    uint32_t frame_height = 720;
     /** Instantiate our pass.  The input Python dictionary is where you can extract pass parameters
     */
     static SharedPtr create(const Dictionary& params = {});
@@ -26,7 +29,7 @@ public:
     */
     virtual RenderPassReflection reflect(void) const override;
 
-    /** Run our multibounce GI pass
+    /** Run our sorting pass!
     */
     virtual void execute(RenderContext* pContext, const RenderData* pRenderData) override;
 
@@ -57,10 +60,5 @@ private:
     ComputeProgram::SharedPtr mpComputeProg;
     ComputeState::SharedPtr mpComputeState;
     ComputeVars::SharedPtr mpComputeProgVars;
-
-    Texture::SharedPtr  mpBlackHDR = nullptr;
-    //all buffer objects
-    StructuredBuffer::SharedPtr rwBuffer;
-    StructuredBuffer::SharedPtr frameInfo;
 
 };

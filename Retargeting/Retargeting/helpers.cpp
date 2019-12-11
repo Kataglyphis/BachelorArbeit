@@ -81,7 +81,7 @@ bool helpers::generateSeedPNG() {
 
 	unsigned int width = 1920;
 	unsigned int height = 720;
-	unsigned int resolution = 24;
+	unsigned int resolution = 32;
 	FIBITMAP* bitmap = FreeImage_Allocate(width, height, resolution);
 	if (!bitmap) exit(1);
 	RGBQUAD color;
@@ -89,9 +89,10 @@ bool helpers::generateSeedPNG() {
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < height; j++) {
 			uint32_t hash = hashHelper.generate(uint32_t(i + j * width));
-			color.rgbRed = (hash & 0x00FF0000) >> 16;
-			color.rgbGreen = (hash & 0x0000FF00) >> 8;
-			color.rgbBlue = (hash & 0x000000FF);
+			color.rgbRed = (hash & 0xFF000000) >> 24;
+			color.rgbGreen = (hash & 0x00FF0000) >> 16;
+			color.rgbBlue = (hash & 0x0000FF00) >> 8;
+			color.rgbReserved = (hash & 0x000000FF);
 			FreeImage_SetPixelColor(bitmap, i, j, &color);
 		}
 	}
@@ -105,4 +106,6 @@ bool helpers::generateSeedPNG() {
 
 bool helpers::loadImageFromFile() {
 	blueNoiseBitMap = FreeImage_Load(FIF_PNG ,blueNoiseFile,0);
+
+	return true;
 }
