@@ -29,6 +29,9 @@ public:
     size_t height_offset;
     size_t frame_count_offset;
 
+    //compute context
+    ComputeContext::SharedPtr compute_context;
+
     /** Instantiate our pass.  The input Python dictionary is where you can extract pass parameters
     */
     static SharedPtr create(const Dictionary& params = {});
@@ -62,7 +65,7 @@ public:
     virtual Dictionary getScriptingDictionary() const override;
 
 private:
-    Sorting() : RenderPass("Sorting") {}
+    Sorting() : RenderPass("Sorting")  {}
 
     /** Runs on first execute() to initialize rendering resources
     */

@@ -97,9 +97,9 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     pContext->setComputeVars(mpComputeProgVars);
 
     //implementation info from here : https://hal.archives-ouvertes.fr/hal-02158423/file/blueNoiseTemporal2019_slides.pdf 
-    uint32_t w = 4;
-    uint32_t h = 4;
-    pContext->dispatch(w, h, 1);
+    uint32_t groupSizeX = frame_width / groupDimX;
+    uint32_t groupSizeY = frame_height / groupDimY;
+    pContext->dispatch(groupSizeX, groupSizeY, 1);
 
     Texture::SharedPtr textureToSave = pData->getTexture("output_seed_texture");
     textureToSave->setName("retargeted Seeds");
@@ -107,7 +107,8 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     uint32_t size = getFormatChannelCount(textureToSave->getFormat());
     bool alpha = doesFormatHasAlpha(textureToSave->getFormat());
     ResourceBindFlags flags = getFormatBindFlags(textureToSave->getFormat());
-    //textureToSave->captureToFile(1u,2u,"Retargeting.output_seed_texture", Bitmap::FileFormat::PngFile, Bitmap::ExportFlags::ExportAlpha);
+
+    //textureToSave->captureToFile(1u,32u,"Retargeting.output_seed_texture", Bitmap::FileFormat::PngFile, Bitmap::ExportFlags::ExportAlpha);
 }
 
 void Retargeting::renderUI(Gui* pGui, const char* uiGroup) {

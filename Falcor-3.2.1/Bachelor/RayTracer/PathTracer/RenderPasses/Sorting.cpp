@@ -96,19 +96,21 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
     pCB->setVariable("height", frame_height);
     pCB->setVariable("frame_count", frame_count++);
     
-
     mpComputeProgVars->setTexture("input_frame_texture",pData->getTexture("frameInput"));
     mpComputeProgVars->setTexture("input_seed_texture", pData->getTexture("seed_input"));
 
     pContext->setComputeState(mpComputeState);
     pContext->setComputeVars(mpComputeProgVars);
 
-    //implementation info from here : https://hal.archives-ouvertes.fr/hal-02158423/file/blueNoiseTemporal2019_slides.pdf 
-    uint32_t w = 4;
-    uint32_t h = 4;
+    //implementation info from here : https://hal.archives-ouvertes.fr/hal-02158423/file/blueNoiseTemporal2019_slides.pdf
     //Dispatch groupSizeX,GroupSizeY,GroupSizeZ;
-    pContext->dispatch(w, h, 1);
-  
+    uint32_t groupDimX = 4;
+    uint32_t groupDimY = 4;
+    uint32_t groupSizeX = frame_width / groupDimX;
+    uint32_t groupSizeY = frame_height / groupDimY;
+    pContext->dispatch(groupSizeX, groupSizeY, 1);
+    //Dispatch groupSizeX,GroupSizeY,GroupSizeZ;
+
 }
 
 void Sorting::renderUI(Gui* pGui, const char* uiGroup) {
