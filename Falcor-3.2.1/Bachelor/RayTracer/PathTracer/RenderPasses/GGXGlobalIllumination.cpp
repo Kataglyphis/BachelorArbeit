@@ -131,17 +131,11 @@ void GGXGlobalIllumination::execute(RenderContext* pContext, const RenderData* p
         auto vars = mpVars->getGlobalVars();
 
         vars->setTexture("seed_input", seed_texture);
-
-        //seed texture
-         //vars->setTexture("seed_output", seed_texture);
     }
 
     // Get our output buffer and clear it
     Texture::SharedPtr pDstTex = pData->getTexture("output");
     pContext->clearUAV(pDstTex->getUAV().get(), vec4(0.0f, 0.0f, 0.0f, 1.0f));
-
-    //seed texture
-    //Texture::SharedPtr seeds = pData->getTexture("seed_output");
 
     if (pDstTex == nullptr || mpScene == nullptr) return;
 

@@ -15,6 +15,8 @@ public:
     bool mIsInitialized = false;
     bool distributeAsBlueNoise = true;
     uint32_t frame_count = 0;
+    uint32_t frame_width = 1920;
+    uint32_t frame_height = 720;
     /** Instantiate our pass.  The input Python dictionary is where you can extract pass parameters
     */
     static SharedPtr create(const Dictionary& params = {});

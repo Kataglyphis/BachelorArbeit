@@ -39,8 +39,8 @@ RenderPassReflection Retargeting::reflect(void) const {
     r.addInput("input_seed_texture", "resorted seeds from the sorting phase");
 
     //output
-    r.addOutput("output_seed_texture", "the retargeted seed texture outgoing to path tracer").format(ResourceFormat::RGBA8Int).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
-    r.addOutput("retarget_texture","texture were our retargeting is stored").format(ResourceFormat::RGBA8Int).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
+    r.addOutput("output_seed_texture", "the retargeted seed texture outgoing to path tracer").format(ResourceFormat::RGBA8Uint).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
+    r.addOutput("retarget_texture","texture were our retargeting is stored").format(ResourceFormat::RGBA8Uint).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
     return r;
 }
 
@@ -89,6 +89,8 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     pCB->setVariable("frame_count", frame_count++);
 
     mpComputeProgVars->setTexture("src_seed_texture", pData->getTexture("input_seed_texture"));
+    //set the putput seed tex in HLSL namespace!!
+    mpComputeProgVars->setTexture("output_seed_texture", pData->getTexture("input_seed_texture"));
 
     pContext->setComputeState(mpComputeState);
     pContext->setComputeVars(mpComputeProgVars);
@@ -97,6 +99,9 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     uint32_t w = 4;
     uint32_t h = 4;
     pContext->dispatch(w, h, 1);
+
+    Texture::SharedPtr textureToSave = pData->getTexture("output_seed_texture");
+    textureToSave->captureToFile(1u,1u,"newComputedSeeds", Bitmap::FileFormat::PngFile, Bitmap::ExportFlags::ExportAlpha);
 }
 
 void Retargeting::renderUI(Gui* pGui, const char* uiGroup) {
@@ -108,5 +113,7 @@ void Retargeting::setScene(const std::shared_ptr<Scene>& pScene) {
 
 }
 void Retargeting::onResize(uint32_t width, uint32_t height) {
-
+    //Upadate frame data 
+    frame_width = width;
+    frame_height = height;
 }

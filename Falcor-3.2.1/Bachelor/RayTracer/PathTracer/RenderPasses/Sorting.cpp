@@ -43,8 +43,8 @@ RenderPassReflection Sorting::reflect(void) const {
     //(color&0x00ff0000)>>16
 
     //output
-    r.addOutput("blue_noise", "our blue noise texture").format(ResourceFormat::RGBA8Int).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
-    r.addOutput("seed_output", "the outgoing seed texture").format(ResourceFormat::RGBA8Int).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
+    r.addOutput("blue_noise", "our blue noise texture").format(ResourceFormat::RGBA8Uint).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
+    r.addOutput("seed_output", "the outgoing seed texture").format(ResourceFormat::RGBA8Uint).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
 
     return r;
 }
@@ -98,7 +98,6 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
 
     mpComputeProgVars->setTexture("input_frame_texture",pData->getTexture("frameInput"));
     mpComputeProgVars->setTexture("input_seed_texture", pData->getTexture("seed_input"));
-    //mpComputeProgVars->setTexture("output_seed_texture", pData->getTexture("seed_input"));
 
     pContext->setComputeState(mpComputeState);
     pContext->setComputeVars(mpComputeProgVars);
@@ -121,4 +120,7 @@ void Sorting::setScene(const std::shared_ptr<Scene>& pScene) {
 }
 void Sorting::onResize(uint32_t width, uint32_t height) {
 
+    //Upadate frame data 
+    frame_width = width;
+    frame_height = height;
 }

@@ -12,6 +12,8 @@ public:
     using SharedPtr = std::shared_ptr<Retargeting>;
 
     uint32_t frame_count = 0;
+    uint32_t frame_width = 1920;
+    uint32_t frame_height = 720;
 
     /** Instantiate our pass.  The input Python dictionary is where you can extract pass parameters
     */
@@ -19,7 +21,7 @@ public:
 
     /** Get a string describing what the pass is doing
     */
-    virtual std::string getDesc() override { return "Sorting and retargeting seed for having a blue noise distributions."; }
+    virtual std::string getDesc() override { return "Retarget Seeds with precomputed texture for accumulate improvements!"; }
 
     /** Defines the inputs/outputs required for this render pass
     */

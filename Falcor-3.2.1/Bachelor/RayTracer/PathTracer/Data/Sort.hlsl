@@ -46,7 +46,7 @@ struct pixel {
 //input of our ray traced frame stored in a texture
 Texture2D<float4> input_frame_texture;
 //needed as comparisson for sorting
-Texture2D<float> input_blue_noise_texture;
+Texture2D<float4> input_blue_noise_texture;
 //texture we are becoming and will again put out filled with sorted seeds;
 RWTexture2D input_seed_texture;
 
@@ -85,7 +85,8 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     //.x is hard coded for compiling reason; please correct it later
     sortedImage[group_Index].index = getSeedFromTex(input_seed_texture[thread_ID]);
 
-    sortedBlueNoise[group_Index].value = input_blue_noise_texture[bluenoise_index];
+    //blue noise value; we use only one value; R-Channel
+    sortedBlueNoise[group_Index].value = input_blue_noise_texture[bluenoise_index].x;
     //save the group_index as inital value before sorting
     sortedBlueNoise[group_Index].index = group_Index;
 
