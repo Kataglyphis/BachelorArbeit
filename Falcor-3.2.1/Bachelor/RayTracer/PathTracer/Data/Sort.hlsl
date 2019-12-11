@@ -31,6 +31,10 @@ float getIntensity(float3 pixel) {
     return (pixel.x + pixel.y + pixel.z) / 3.0f;
 }
 
+float getSeedFromTex(float4 pixelValue) {
+    return (float) (pixelValue.x << 16 | pixelValue.y << 8 | pixelValue.z);
+}
+
 //central struct for the sorting; each pixel has a value and an index in our
 //4x4 block; sorting like the pair data structure in C++-Library; sorting
 //the value by simultaneously keeping track of their indices!!  
@@ -79,7 +83,7 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     //we need all threads to reach this point
     sortedImage[group_Index].value = getIntensity(input_frame_texture[thread_ID].xyz);
     //.x is hard coded for compiling reason; please correct it later
-    sortedImage[group_Index].index = input_seed_texture[width * thread_ID.y + thread_ID.x].x;
+    sortedImage[group_Index].index = getSeedFromTex(input_seed_texture[thread_ID]);
 
     sortedBlueNoise[group_Index].value = input_blue_noise_texture[bluenoise_index];
     //save the group_index as inital value before sorting
