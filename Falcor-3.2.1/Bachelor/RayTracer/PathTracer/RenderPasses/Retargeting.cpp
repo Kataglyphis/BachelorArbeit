@@ -97,8 +97,8 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     pContext->setComputeVars(mpComputeProgVars);
 
     //implementation info from here : https://hal.archives-ouvertes.fr/hal-02158423/file/blueNoiseTemporal2019_slides.pdf 
-    uint32_t groupSizeX = frame_width / groupDimX;
-    uint32_t groupSizeY = frame_height / groupDimY;
+    uint32_t groupSizeX = (frame_width / groupDimX) + 1;
+    uint32_t groupSizeY = (frame_height / groupDimY) + 1;
     pContext->dispatch(groupSizeX, groupSizeY, 1);
 
     Texture::SharedPtr textureToSave = pData->getTexture("output_seed_texture");

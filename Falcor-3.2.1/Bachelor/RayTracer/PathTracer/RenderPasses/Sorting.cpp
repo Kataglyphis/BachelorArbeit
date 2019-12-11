@@ -102,10 +102,8 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
 
     //implementation info from here : https://hal.archives-ouvertes.fr/hal-02158423/file/blueNoiseTemporal2019_slides.pdf
     //Dispatch groupSizeX,GroupSizeY,GroupSizeZ;
-    uint32_t groupDimX = 4;
-    uint32_t groupDimY = 4;
-    uint32_t groupSizeX = frame_width / groupDimX;
-    uint32_t groupSizeY = frame_height / groupDimY;
+    uint32_t groupSizeX = (frame_width / groupDimX) + 1;
+    uint32_t groupSizeY = (frame_height / groupDimY) + 1;
     pContext->dispatch(groupSizeX, groupSizeY, 1);
     //Dispatch groupSizeX,GroupSizeY,GroupSizeZ;
 

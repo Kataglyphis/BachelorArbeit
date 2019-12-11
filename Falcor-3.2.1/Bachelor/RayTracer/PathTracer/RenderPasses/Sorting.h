@@ -30,7 +30,8 @@ public:
     size_t frame_count_offset;
 
     //compute context
-    ComputeContext::SharedPtr compute_context;
+    uint32_t groupDimX = 4;
+    uint32_t groupDimY = 4;
 
     /** Instantiate our pass.  The input Python dictionary is where you can extract pass parameters
     */

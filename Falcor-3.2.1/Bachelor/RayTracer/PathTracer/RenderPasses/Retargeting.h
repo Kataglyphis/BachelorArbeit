@@ -26,6 +26,7 @@ public:
     size_t height_offset;
     size_t frame_count_offset;
 
+    //for compute context
     uint32_t groupDimX = 4;
     uint32_t groupDimY = 4;
     /** Instantiate our pass.  The input Python dictionary is where you can extract pass parameters
