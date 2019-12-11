@@ -15,7 +15,8 @@ Algorithm 1 The sorting pass permutes pixel seeds by blocks.
 8:  seeds_sorted(D(n).i, D(n). j) = seeds(F(n).i, F(n). j)
 9: end for
 */
-
+__import ShaderCommon;
+__import Helpers;
 // number of pixels we group togehter and we are sorting for itself
 #define BLOCK_SIZE 16//pow(DIMENSION_SIZE,2)
 //sorting 4 pixel blocks each for itself
@@ -51,10 +52,10 @@ Texture2D<float4> input_blue_noise_texture;
 RWTexture2D input_seed_texture;
 
 //given variables for our frame
-cbuffer PerFrameData
+cbuffer perFrameData : register(b0)
 {
     uint width; // width of the frame
-    uint heigth; // height of the frame
+    uint height; // height of the frame
     uint frame_count; // the actual index of the frame
 };
 
@@ -72,11 +73,11 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     //This is important for temporel filtering algorithms to reduce errors by averaging them over multiple frames!!
     float g = 1.32471795724474602596;
     float offset_x = (1.0 / g) * width * frame_count; //multiply with index for changes frame by frame!
-    float offset_y = (1.0 / (pow(g, 2))) * heigth * frame_count; //multiply with index for changes frame by frame!
+    float offset_y = (1.0 / (pow(g, 2))) * height * frame_count; //multiply with index for changes frame by frame!
     float2 offset = (offset_x, offset_y);
     uint2 bluenoise_index = (offset + thread_ID);
     bluenoise_index.x = bluenoise_index.x % width;
-    bluenoise_index.y = bluenoise_index.y % heigth;
+    bluenoise_index.y = bluenoise_index.y % height;
     
     //we have the values shared beneath all threads of a groupshared
     //before we start to sort we have to firstly simply copy

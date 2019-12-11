@@ -39,8 +39,12 @@ RenderPassReflection Retargeting::reflect(void) const {
     r.addInput("input_seed_texture", "resorted seeds from the sorting phase");
 
     //output
-    r.addOutput("output_seed_texture", "the retargeted seed texture outgoing to path tracer").format(ResourceFormat::RGBA8Uint).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
-    r.addOutput("retarget_texture","texture were our retargeting is stored").format(ResourceFormat::RGBA8Uint).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
+    r.addOutput("output_seed_texture", "the retargeted seed texture outgoing to path tracer").format(ResourceFormat::RGBA8Uint).bindFlags(Resource::BindFlags::ShaderResource |
+                                                                                                                                                                                                                                                                Resource::BindFlags::UnorderedAccess |
+                                                                                                                                                                                                                                                                Resource::BindFlags::RenderTarget);
+    r.addOutput("retarget_texture","texture were our retargeting is stored").format(ResourceFormat::RGBA8Uint).bindFlags(Resource::BindFlags::ShaderResource |
+                                                                                                                                                                                                                              Resource::BindFlags::UnorderedAccess |
+                                                                                                                                                                                                                              Resource::BindFlags::RenderTarget);
     return r;
 }
 
@@ -53,24 +57,21 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
     mpComputeState->setProgram(mpComputeProg);
     mpComputeProgVars = ComputeVars::create(mpComputeProg->getReflector());
 
-    if (mpComputeProg != nullptr) {
-        //mpProgVars = ComputeVars::create();
-    }
-
     //textures for retargeting
     Texture::SharedPtr retarget = createTextureFromFile("seeds.png", false, false, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
     mpComputeProgVars->setTexture("retarget_texture", retarget);
 
     //create PerFrameData
-    ReflectionResourceType::SharedConstPtr reflResType = ReflectionResourceType::create(ReflectionResourceType::Type::ConstantBuffer,
-                                                                                                                                                                        ReflectionResourceType::Dimensions::Buffer,
-                                                                                                                                                                        ReflectionResourceType::StructuredType::Invalid,
-                                                                                                                                                                        ReflectionResourceType::ReturnType::Uint,
-                                                                                                                                                                        ReflectionResourceType::ShaderAccess::Read);
-    ConstantBuffer::SharedPtr pCB = ConstantBuffer::create("PerFrameData", reflResType, 3);
-    mpComputeProgVars->setConstantBuffer("PerFrameData", pCB);
+    const ParameterBlockReflection* pDefaultBlockReflection = mpComputeProg->getReflector()->getDefaultParameterBlock().get();
+    mBindLocations.perFrameData = pDefaultBlockReflection->getResourceBinding("perFrameData");
 
-    mIsInitialized = true;
+    ParameterBlock* pDefaultBlock = mpComputeProgVars->getDefaultBlock().get();
+    ConstantBuffer* pCB = pDefaultBlock->getConstantBuffer(mBindLocations.perFrameData, 0).get();
+    width_offset = pCB->getVariableOffset("width");
+    height_offset = pCB->getVariableOffset("height");
+    frame_count_offset = pCB->getVariableOffset("frame_count");
+
+    if (mpComputeProg != nullptr) mIsInitialized = true;
 
 }
 
@@ -83,9 +84,9 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     }
 
     //info for the frame
-    ConstantBuffer::SharedPtr pCB = mpComputeProgVars->getConstantBuffer("PerFrameData");
-    pCB->setVariable("width", 1920u);
-    pCB->setVariable("height", 720u);
+    ConstantBuffer* pCB = mpComputeProgVars->getDefaultBlock()->getConstantBuffer(mBindLocations.perFrameData, 0).get();
+    pCB->setVariable("width", frame_width);
+    pCB->setVariable("height", frame_height);
     pCB->setVariable("frame_count", frame_count++);
 
     mpComputeProgVars->setTexture("src_seed_texture", pData->getTexture("input_seed_texture"));
@@ -101,7 +102,12 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     pContext->dispatch(w, h, 1);
 
     Texture::SharedPtr textureToSave = pData->getTexture("output_seed_texture");
-    textureToSave->captureToFile(1u,1u,"newComputedSeeds", Bitmap::FileFormat::PngFile, Bitmap::ExportFlags::ExportAlpha);
+    textureToSave->setName("retargeted Seeds");
+    textureToSave->setSourceFilename("newComputedSeeds.png");
+    uint32_t size = getFormatChannelCount(textureToSave->getFormat());
+    bool alpha = doesFormatHasAlpha(textureToSave->getFormat());
+    ResourceBindFlags flags = getFormatBindFlags(textureToSave->getFormat());
+    //textureToSave->captureToFile(1u,2u,"Retargeting.output_seed_texture", Bitmap::FileFormat::PngFile, Bitmap::ExportFlags::ExportAlpha);
 }
 
 void Retargeting::renderUI(Gui* pGui, const char* uiGroup) {

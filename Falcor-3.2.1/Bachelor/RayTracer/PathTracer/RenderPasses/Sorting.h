@@ -17,6 +17,18 @@ public:
     uint32_t frame_count = 0;
     uint32_t frame_width = 1920;
     uint32_t frame_height = 720;
+
+    //our bind locations
+    struct
+    {
+        ProgramReflection::BindLocation perFrameData;
+    } mBindLocations;
+
+    //offsets for our struct variables
+    size_t width_offset;
+    size_t height_offset;
+    size_t frame_count_offset;
+
     /** Instantiate our pass.  The input Python dictionary is where you can extract pass parameters
     */
     static SharedPtr create(const Dictionary& params = {});

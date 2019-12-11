@@ -60,20 +60,21 @@ void Sorting::initialize(RenderContext * pContext, const RenderData * pRenderDat
     Falcor::ProgramReflection::SharedConstPtr reflector = mpComputeProg->getReflector();
 
     mpComputeProgVars = ComputeVars::create(mpComputeProg->getReflector());
-    //createTextureFromFile!!!!!
 
+    //createTextureFromFile!!!!
     Texture::SharedPtr bluenoise = createTextureFromFile("Tiled.png", false, true, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
     mpComputeProgVars->setTexture("input_blue_noise_texture", bluenoise);
     mpComputeProgVars->setTexture("input_seed_texture", pRenderData->getTexture("seed_input"));
 
     //create PerFrameData
-    ReflectionResourceType::SharedConstPtr reflResType = ReflectionResourceType::create(ReflectionResourceType::Type::ConstantBuffer,
-                                                                                                                                                                      ReflectionResourceType::Dimensions::Buffer,
-                                                                                                                                                                       ReflectionResourceType::StructuredType::Invalid,
-                                                                                                                                                                       ReflectionResourceType::ReturnType::Uint,
-                                                                                                                                                                        ReflectionResourceType::ShaderAccess::Read);
-    ConstantBuffer::SharedPtr pCB = ConstantBuffer::create("PerFrameData", reflResType, 3);
-    mpComputeProgVars->setConstantBuffer("PerFrameData", pCB);
+    const ParameterBlockReflection* pDefaultBlockReflection = mpComputeProg->getReflector()->getDefaultParameterBlock().get();
+    mBindLocations.perFrameData = pDefaultBlockReflection->getResourceBinding("perFrameData");
+
+    ParameterBlock* pDefaultBlock = mpComputeProgVars->getDefaultBlock().get();
+    ConstantBuffer* pCB = pDefaultBlock->getConstantBuffer(mBindLocations.perFrameData, 0).get();
+    width_offset = pCB->getVariableOffset("width");
+    height_offset = pCB->getVariableOffset("height");
+    frame_count_offset = pCB->getVariableOffset("frame_count");
     
     if (mpComputeProg != nullptr) {
         mIsInitialized = true;
@@ -90,9 +91,9 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
     }
 
     //info for the frame
-    ConstantBuffer::SharedPtr pCB = mpComputeProgVars->getConstantBuffer("PerFrameData");
-    pCB->setVariable("width", 1920u);
-    pCB->setVariable("height", 720u);
+    ConstantBuffer* pCB = mpComputeProgVars->getDefaultBlock()->getConstantBuffer(mBindLocations.perFrameData, 0).get();
+    pCB->setVariable("width", frame_width);
+    pCB->setVariable("height", frame_height);
     pCB->setVariable("frame_count", frame_count++);
     
 
