@@ -61,9 +61,19 @@ void Sorting::initialize(RenderContext * pContext, const RenderData * pRenderDat
 
     mpComputeProgVars = ComputeVars::create(mpComputeProg->getReflector());
     //createTextureFromFile!!!!!
+
     Texture::SharedPtr bluenoise = createTextureFromFile("Tiled.png", false, true, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
     mpComputeProgVars->setTexture("input_blue_noise_texture", bluenoise);
     mpComputeProgVars->setTexture("input_seed_texture", pRenderData->getTexture("seed_input"));
+
+    //create PerFrameData
+    ReflectionResourceType::SharedConstPtr reflResType = ReflectionResourceType::create(ReflectionResourceType::Type::ConstantBuffer,
+                                                                                                                                                                      ReflectionResourceType::Dimensions::Buffer,
+                                                                                                                                                                       ReflectionResourceType::StructuredType::Invalid,
+                                                                                                                                                                       ReflectionResourceType::ReturnType::Uint,
+                                                                                                                                                                        ReflectionResourceType::ShaderAccess::Read);
+    ConstantBuffer::SharedPtr pCB = ConstantBuffer::create("PerFrameData", reflResType, 3);
+    mpComputeProgVars->setConstantBuffer("PerFrameData", pCB);
     
     if (mpComputeProg != nullptr) {
         mIsInitialized = true;
@@ -80,11 +90,11 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
     }
 
     //info for the frame
-    /**frameInfo = StructuredBuffer::create(mpComputeProg, "gInfo", 3);
-    mpComputeProgVars->setStructuredBuffer("gInfo", frameInfo);
-    mpComputeProgVars->getStructuredBuffer("gInfo")[0]["uintVal"] = (uint)1920;
-    mpComputeProgVars->getStructuredBuffer("gInfo")[1]["uintVal"] = (uint)1080;
-    mpComputeProgVars->getStructuredBuffer("gInfo")[2]["uintVal"] = (uint)5;*/
+    ConstantBuffer::SharedPtr pCB = mpComputeProgVars->getConstantBuffer("PerFrameData");
+    pCB->setVariable("width", 1920u);
+    pCB->setVariable("height", 720u);
+    pCB->setVariable("frame_count", frame_count++);
+    
 
     mpComputeProgVars->setTexture("input_frame_texture",pData->getTexture("frameInput"));
     mpComputeProgVars->setTexture("input_seed_texture", pData->getTexture("seed_input"));
@@ -102,7 +112,7 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
 }
 
 void Sorting::renderUI(Gui* pGui, const char* uiGroup) {
-    //pGui->addText("Distributing Errors as Blue Noise");
+
     pGui->addCheckBox("Distributing Errors as Blue Noise", distributeAsBlueNoise);
 }
 

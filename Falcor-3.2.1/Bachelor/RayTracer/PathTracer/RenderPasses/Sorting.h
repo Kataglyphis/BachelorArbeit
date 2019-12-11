@@ -13,7 +13,8 @@ public:
 
     // survey variables
     bool mIsInitialized = false;
-    bool distributeAsBlueNoise = false;
+    bool distributeAsBlueNoise = true;
+    uint32_t frame_count = 0;
     /** Instantiate our pass.  The input Python dictionary is where you can extract pass parameters
     */
     static SharedPtr create(const Dictionary& params = {});

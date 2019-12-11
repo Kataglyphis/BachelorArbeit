@@ -47,12 +47,12 @@ Texture2D<float> input_blue_noise_texture;
 RWTexture2D input_seed_texture;
 
 //given variables for our frame
-/**cbuffer GlobalCB
+cbuffer PerFrameData
 {
     uint width; // width of the frame
     uint heigth; // height of the frame
-    uint index; // the actual index of the frame
-};*/
+    uint frame_count; // the actual index of the frame
+};
 
 //shared beneath all threads of the group
 //must be shared! wen want to sort all the pixels
@@ -64,19 +64,15 @@ groupshared pixel sortedBlueNoise[BLOCK_SIZE];
 [numthreads(DIMENSION_SIZE, DIMENSION_SIZE, 1)]
 void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 thread_ID : SV_DISPATCHTHREADID)
 {
-
-    uint width = 1920;
-    uint height = 1080;
-    uint index = 5;
     //target blue noise tile should change after each frame --> each pixel has a different error in each frame
     //This is important for temporel filtering algorithms to reduce errors by averaging them over multiple frames!!
     float g = 1.32471795724474602596;
-    float offset_x = (1.0 / g) * width * index; //multiply with index for changes frame by frame!
-    float offset_y = (1.0 / (pow(g, 2))) * height * index; //multiply with index for changes frame by frame!
+    float offset_x = (1.0 / g) * width * frame_count; //multiply with index for changes frame by frame!
+    float offset_y = (1.0 / (pow(g, 2))) * heigth * frame_count; //multiply with index for changes frame by frame!
     float2 offset = (offset_x, offset_y);
     uint2 bluenoise_index = (offset + thread_ID);
     bluenoise_index.x = bluenoise_index.x % width;
-    bluenoise_index.y = bluenoise_index.y % height;
+    bluenoise_index.y = bluenoise_index.y % heigth;
     
     //we have the values shared beneath all threads of a groupshared
     //before we start to sort we have to firstly simply copy

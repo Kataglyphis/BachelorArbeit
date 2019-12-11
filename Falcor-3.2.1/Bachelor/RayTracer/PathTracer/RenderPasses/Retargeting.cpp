@@ -57,8 +57,18 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
         //mpProgVars = ComputeVars::create();
     }
 
+    //textures for retargeting
     Texture::SharedPtr retarget = createTextureFromFile("seeds.png", false, false, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
     mpComputeProgVars->setTexture("retarget_texture", retarget);
+
+    //create PerFrameData
+    ReflectionResourceType::SharedConstPtr reflResType = ReflectionResourceType::create(ReflectionResourceType::Type::ConstantBuffer,
+                                                                                                                                                                        ReflectionResourceType::Dimensions::Buffer,
+                                                                                                                                                                        ReflectionResourceType::StructuredType::Invalid,
+                                                                                                                                                                        ReflectionResourceType::ReturnType::Uint,
+                                                                                                                                                                        ReflectionResourceType::ShaderAccess::Read);
+    ConstantBuffer::SharedPtr pCB = ConstantBuffer::create("PerFrameData", reflResType, 3);
+    mpComputeProgVars->setConstantBuffer("PerFrameData", pCB);
 
     mIsInitialized = true;
 
@@ -72,11 +82,12 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
 
     }
 
-    // Set our variables into the global HLSL namespace
-    /**ConstantBuffer::SharedPtr pCB = mpComputeProgVars->getConstantBuffer("GlobalCB");
-    pCB["width"] = 1920;
-    pCB["height"] = 1080;
-    pCB["index"] = 1;*/
+    //info for the frame
+    ConstantBuffer::SharedPtr pCB = mpComputeProgVars->getConstantBuffer("PerFrameData");
+    pCB->setVariable("width", 1920u);
+    pCB->setVariable("height", 720u);
+    pCB->setVariable("frame_count", frame_count++);
+
     mpComputeProgVars->setTexture("src_seed_texture", pData->getTexture("input_seed_texture"));
 
     pContext->setComputeState(mpComputeState);
@@ -90,7 +101,7 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
 
 void Retargeting::renderUI(Gui* pGui, const char* uiGroup) {
     //pGui->addText("Distributing Errors as Blue Noise");
-    pGui->addCheckBox("Distributing Errors as Blue Noise", distributeAsBlueNoise);
+    pGui->addCheckBox("Retarget Seeds", retargetSeeds);
 }
 
 void Retargeting::setScene(const std::shared_ptr<Scene>& pScene) {

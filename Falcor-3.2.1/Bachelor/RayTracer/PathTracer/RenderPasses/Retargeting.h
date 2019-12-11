@@ -11,6 +11,8 @@ class Retargeting : public RenderPass, inherit_shared_from_this<RenderPass, Reta
 public:
     using SharedPtr = std::shared_ptr<Retargeting>;
 
+    uint32_t frame_count = 0;
+
     /** Instantiate our pass.  The input Python dictionary is where you can extract pass parameters
     */
     static SharedPtr create(const Dictionary& params = {});
@@ -57,6 +59,6 @@ private:
 
     //survey variables
     bool mIsInitialized = false;
-    bool distributeAsBlueNoise = false;
+    bool retargetSeeds = true;
 
 };
