@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <iostream>
 #include "FreeImage/FreeImage.h"
+#include "FreeImage/FreeImagePlus.h"
 
 
 class helpers {
