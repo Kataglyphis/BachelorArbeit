@@ -11,6 +11,7 @@
 #include <dinput.h>
 #include <tchar.h>
 #include "helpers.h"
+#include "SimulatedAnnealing.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb/stb_image_write.h"
 
@@ -92,6 +93,12 @@ int main(int, char**)
 	if (!ret) return 1;
     helper.freeImageFunction();
     helper.generateSeedPNG();
+
+    //calc retargeted texture with temporal annealing!
+    SimulatedAnnealing retarget;
+    const char* filename = "pictures/BigTiled.png";
+    retarget.execute(3000, filename, 1920, 720);
+
     // Main loop
     MSG msg;
     ZeroMemory(&msg, sizeof(msg));

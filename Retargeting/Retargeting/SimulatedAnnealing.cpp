@@ -2,15 +2,16 @@
 
 bool SimulatedAnnealing::fromBlueNoiseToRetarget(const char* blue_noise_filename, uint32_t image_width, uint32_t image_height, const char* retarget_filename){
 	
-	int*** image_data = (int***)malloc(image_width * image_height * 4 * sizeof(uint32_t));
+	Image* image_data;
 	loadPNGinArray(blue_noise_filename, image_data);
 	FIBITMAP* retarget_fibitmap = FreeImage_Allocate(image_width, image_height, 32);
 
 	return SimulatedAnnealing::saveRetargetImageToFile(retarget_filename, retarget_fibitmap);
 }
 
-bool SimulatedAnnealing::toroidallyShift(unsigned int oldFrameDitherX, unsigned int oldFrameDitherY, int* next_dither_x, int* next_dither_y, uint32_t frame_width, uint32_t frame_height) {
+std::vector<int> SimulatedAnnealing::toroidallyShift(unsigned int oldFrameDitherX, unsigned int oldFrameDitherY, uint32_t frame_width, uint32_t frame_height) {
 
+	std::vector<int> new_positions(2, 0);
 	using namespace std;
 	double g = 1.32471795724474602596;
 	double a1 = 1.0 / g;
@@ -25,28 +26,38 @@ bool SimulatedAnnealing::toroidallyShift(unsigned int oldFrameDitherX, unsigned 
 	unsigned int oldFrameDitherXOffset = oldFrameDitherX + xOffest;
 	unsigned int oldFrameDitherYOffset = oldFrameDitherY + yOffset;
 	// now here the modulo 1!
-	(*next_dither_x) = oldFrameDitherXOffset % frame_width;
-	(*next_dither_y) = oldFrameDitherYOffset % frame_height;
+	new_positions[0] = oldFrameDitherXOffset % frame_width;
+	new_positions[1] = oldFrameDitherYOffset % frame_height;
 
-	return true;
+	return new_positions;
 }
 
-bool SimulatedAnnealing::loadPNGinArray(const char* fileName, int*** image_data) {
+bool SimulatedAnnealing::loadPNGinArray(const char* fileName, Image* image_data) {
 
 	FIBITMAP* bitmap = FreeImage_Load(FIF_PNG, fileName, PNG_DEFAULT);
 	int image_height = FreeImage_GetHeight(bitmap);
     int image_width = FreeImage_GetWidth(bitmap);
 	//allocate store in appropriate size
-	image_data = (int***)malloc(image_width * image_height * sizeof(uint32_t));
 	RGBQUAD color;
 	for (int i = 0; i < image_width; i++) {
+
+		Row row(image_width);
+
 		for (int j = 0; j < image_height; j++) {
+
 			if(!FreeImage_GetPixelColor(bitmap, i, j, &color)) exit(1);
-			image_data[i][j][0] = color.rgbRed;
+			Pixel pixel;
+			pixel.push_back(color.rgbRed);
+			pixel.push_back(color.rgbGreen);
+			pixel.push_back(color.rgbBlue);
+			pixel.push_back(color.rgbReserved);
+			/**image_data[i][j][0] = color.rgbRed;
 			image_data[i][j][1] = color.rgbGreen;
 			image_data[i][j][2] = color.rgbBlue;
-			image_data[i][j][3] = color.rgbReserved;
+			image_data[i][j][3] = color.rgbReserved;*/
+			row[j] = pixel;
 		}
+		(*image_data).push_back(row);
 	}
 }
 
@@ -86,24 +97,24 @@ bool SimulatedAnnealing::saveRetargetImageToFile(const char* filenameToSave, FIB
 
 }
 
-bool SimulatedAnnealing::execute(uint32_t  number_steps, const uint32_t image_width, const uint32_t image_height) {
+bool SimulatedAnnealing::execute(uint32_t  number_steps, const char* filename, const uint32_t image_width, const uint32_t image_height) {
 	
 	//generate a state with starting permutation: this means
 	//nothing will be switched; just apply where everything will stay
 	//we have a 2D-Array with each entry possessing 2 ints for permutation reasins
-	int*** dither_data = (int***)malloc(image_width * image_height * 2 * sizeof(uint32_t));
+	Image* dither_data;
 	SimulatedAnnealing::loadPNGinArray("dither_texture.png", dither_data);
-	int*** permutation =(int***) malloc(image_width * image_height * 2 * sizeof(uint32_t));
 
+	Image permutation_data;
 	for (int i = 0; i < image_width; i++) {
+		
+		Row row(image_width);
 
 		for (int j = 0; j < image_height; j++) {
 			//just assign the standard distribution
-			permutation[i][j][0] = i;
-			permutation[i][j][1] = j;
-
-		}
-		 
+			
+			
+		} 
 	}
 
 	for (int i = 0; i < number_steps; i++) {
@@ -159,32 +170,20 @@ bool SimulatedAnnealing::selectRandomNeighbor(int*** candiadate, int* neighbor_i
 
 }
 
-bool SimulatedAnnealing::fromArrayToBitmap(int*** image_data, FIBITMAP* bitmap, uint32_t image_height, uint32_t image_width) {
+bool SimulatedAnnealing::fromArrayToBitmap(Image* image_data, FIBITMAP* bitmap, uint32_t image_height, uint32_t image_width) {
 
-	/**FIBITMAP* bitmap = FreeImage_Load(FIF_PNG, fileName, PNG_DEFAULT);
-	int image_height = FreeImage_GetHeight(bitmap);
-	int image_width = FreeImage_GetWidth(bitmap);
-	//allocate store in appropriate size
-	image_data = (int***)malloc(image_width * image_height * sizeof(uint32_t));
-	RGBQUAD color;
-	for (int i = 0; i < image_width; i++) {
-		for (int j = 0; j < image_height; j++) {
-			if (!FreeImage_GetPixelColor(bitmap, i, j, &color)) exit(1);
-			image_data[i][j][0] = color.rgbRed;
-			image_data[i][j][1] = color.rgbGreen;
-			image_data[i][j][2] = color.rgbBlue;
-			image_data[i][j][3] = color.rgbReserved;
-		}
-	}*/
 	bitmap =  FreeImage_Allocate(image_width, image_height, 32);
 	RGBQUAD color;
 	for (int i = 0; i < image_width; i++) {
+		
+		Row row = (*image_data)[i];
+
 		for (int j = 0; j < image_height; j++) {
 
-			color.rgbRed = image_data[i][j][0];
-			color.rgbGreen = image_data[i][j][1];
-			color.rgbBlue = image_data[i][j][2];
-			color.rgbReserved = image_data[i][j][3];
+			color.rgbRed = row[j][0];
+			color.rgbGreen = row[j][1];
+			color.rgbBlue = row[j][2];
+			color.rgbReserved = row[j][3];
 
 			FreeImage_SetPixelColor(bitmap, i, j, &color);
 		}
@@ -193,17 +192,20 @@ bool SimulatedAnnealing::fromArrayToBitmap(int*** image_data, FIBITMAP* bitmap, 
 	return true;
 }
 
-bool SimulatedAnnealing::getNextDither(int*** frame, int*** next_frame, uint32_t frame_width, uint32_t frame_height) {
+bool SimulatedAnnealing::getNextDither(Image* dither_data, Image* next_dither_data, uint32_t frame_width, uint32_t frame_height) {
+
+	std::vector<int> new_dither_positions(2,0);
 
 	for (int i = 0; i < frame_width; i++) {
 		for (int j = 0; j < frame_height; j++) {
-			int* next_dither_x;
-			int* next_dither_y;
-			(*next_dither_x) = -1;
-			(*next_dither_y) = -1;
-			SimulatedAnnealing::toroidallyShift(i, j, next_dither_x, next_dither_y, frame_width, frame_height);
-			if (((*next_dither_x) == -1)| ((*next_dither_y) = -1)) return false;
-			*next_frame[*next_dither_x][*next_dither_y] = *frame[i][j];
+			
+			new_dither_positions = SimulatedAnnealing::toroidallyShift(i, j, frame_width, frame_height);
+			int new_dither_x = new_dither_positions[0];
+			int new_dither_y = new_dither_positions[1];
+			(*next_dither_data)[new_dither_x][new_dither_y] = (*dither_data)[i][j];
+			//if something went wrong return false
+			if (new_dither_positions.size != 2 /**|| ((new_dither_positions[0]==0) && (new_dither_positions[1] == 0))*/) return false;
+
 		}
 	}
 	

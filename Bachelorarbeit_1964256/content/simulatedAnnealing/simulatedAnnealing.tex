@@ -20,18 +20,40 @@ Die Funktion nach der optimiert wird ist an die Formel aus\cite{georgiev2016blue
            \frac{\Vert{p_{s}-q_{s}}\Vert^{d/2}}{\sigma_{s}^{2}}}
 \end{equation}
 Wähle nach \cite{ulichney1993void} $\sigma_{i} = 2.1$ und $\sigma_{s} = 1$ 
-Zu den Pixeln p,q beschreibt $p_{i} und q_{i}$ ihre jeweiligen Koordinaten.
-Und $p_{s} und q_{s}$ sind ihre d-dimensionalen Samplewerte.
+Zu den Pixeln p,q beschreibt $p_{i}$ und $q_{i}$ ihre jeweiligen Koordinaten.
+Und $p_{s}$ und $q_{s}$ sind ihre d-dimensionalen Samplewerte.
 
 
 \begin{algorithm}[H]
     \caption{\textbf{Simulated Annealing} finde sehr gute Lösung}
     \begin{algorithmic}[1]
-        \State initialisiere Startzustand $s_{0}$
-        \For{i=0...$i_{max}$}
-        \State
+        \State initialisiere Startzustand $s=s_{0}$
+        \For{i=1...maxSteps}
+        \State //Radius für Nachbarschaftssuche ist auf 6 festgesetzt
+        \State $s_{neu}\leftarrow$Nachbarzustand(s)
+        \If{P(Energie(s), Energie($s_{new}$))$\ge$ random(0,1)} 
+        \State s = $s_{new}$
+        \EndIf
         \EndFor
-        \State return Endzustand;
+        \State return Endzustand s;
     \end{algorithmic}
     \label{alg:retargeting}
 \end{algorithm}
+
+Als Startzustand $s_{0}$ definieren wir eine Permutation, die alle 
+Elemente auf sich selbst abbildet.
+Um von einem Zustand s zu einem neuem Zustand $s_{new}$ zu kommen,
+definieren wir eine Nachbarschaftsfunktion \textit{Nachbarzustand()}. 
+Diese kann zwei Elemente genau dann vertauschen, wenn Sie in einem 
+gegenseitigen Radius r = 6 erreichbar sind. Dabei vertauschen wir
+in jedem Schritt ein Pixelpaar. 
+Die Wahrscheinlichkeitsfunktion zur neuen Zustandsannahme
+P(Energie(s), Energie($s_{new}$)) beschreibt, ob wir den neu
+gewählten Zustand $s_{new}$ übernehmen. Dabei wird klassischerweise die
+Akzeptanz von Zuständen mit höherer Energie immer kleiner.(bzw. die 
+Toleranz gegenüber größeren Fehlern im Bezug zur Zeit). Die allgemeine Akzeptanz von 
+Zuständen mit höherer Energie ist dabei von fundamentaler Bedeutung.
+Somit verlassen wir möglicherweiße nur lokale Maxima.
+Die zu minimierende Energiefunktion E\ref{eq:pixelenergyfunction} betrachtet
+dabei zwei 
+
