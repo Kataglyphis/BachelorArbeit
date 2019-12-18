@@ -103,9 +103,9 @@ bool SimulatedAnnealing::execute(uint32_t  number_steps, const char* filename, c
 	//nothing will be switched; just apply where everything will stay
 	//we have a 2D-Array with each entry possessing 2 ints for permutation reasins
 	Image* dither_data;
-	SimulatedAnnealing::loadPNGinArray("dither_texture.png", dither_data);
+	SimulatedAnnealing::loadPNGinArray(filename, dither_data);
 
-	Image permutation_data;
+	Image* permutation_data;
 	for (int i = 0; i < image_width; i++) {
 		
 		Row row(image_width);
@@ -119,14 +119,7 @@ bool SimulatedAnnealing::execute(uint32_t  number_steps, const char* filename, c
 
 	for (int i = 0; i < number_steps; i++) {
 
-		int index_x, index_y;
-		int*** candidate;
-		int* neighbor_index_x;
-		int* neighbor_index_y;
-		(*neighbor_index_y) = -1;
-		(*neighbor_index_x) = -1;
-		SimulatedAnnealing::selectRandomNeighbor(candidate, neighbor_index_x, neighbor_index_y, index_x, index_y, image_width, image_height);
-		if ((*neighbor_index_x == -1) | (*neighbor_index_y == -1)) return false;
+		//SimulatedAnnealing::selectRandomNeighbor(candidate, neighbor_index_x, neighbor_index_y, index_x, index_y, image_width, image_height);
 
 	}
 
