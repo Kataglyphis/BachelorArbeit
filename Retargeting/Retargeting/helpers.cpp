@@ -89,10 +89,10 @@ bool helpers::generateSeedPNG() {
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < height; j++) {
 			uint32_t hash = hashHelper.generate(uint32_t(i + j * width));
-			color.rgbRed = (hash & 0xFF000000) >> 24;
-			color.rgbGreen = (hash & 0x00FF0000) >> 16;
-			color.rgbBlue = (hash & 0x0000FF00) >> 8;
-			color.rgbReserved = (hash & 0x000000FF);
+			color.rgbRed = 255;// (hash & 0xFF000000) >> 24;
+			//color.rgbGreen = (hash & 0x00FF0000) >> 16;
+			//color.rgbBlue = (hash & 0x0000FF00) >> 8;
+			//color.rgbReserved = (hash & 0x000000FF);
 			FreeImage_SetPixelColor(bitmap, i, j, &color);
 		}
 	}
