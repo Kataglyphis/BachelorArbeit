@@ -89,7 +89,6 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->addPass(pGIPass, "GlobalIllumination");
     mpGraph->addPass(Sorting::create(), "Sorting");
     mpGraph->addPass(Retargeting::create(), "Retargeting");
-    //mpGraph->addPass(ToneMapping::create(), "ToneMapping");
     
     mpGraph->addEdge("GBuffer", "GlobalIllumination");
 
@@ -105,17 +104,16 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->addEdge("Sorting","Retargeting");
 
     //Edges for our temporal algorithm
-    
     //the retargeted seeds will come into our path tracer
     //the rendered frame from our path tracer where we get our values to sort
     mpGraph->addEdge("GlobalIllumination.output", "Sorting.frame_input");
-    mpGraph->addEdge("GlobalIllumination.seed_input","Sorting.seed_input");
+    mpGraph->addEdge("GlobalIllumination.seed_output","Sorting.seed_input");
 
     //edges for our retargeting pass
-    mpGraph->addEdge("Sorting.seed_output","Retargeting.input_seed_texture");
+    mpGraph->addEdge("Sorting.seed_output","Retargeting.input_seed");
 
     mpGraph->markOutput("GlobalIllumination.output");
-    //mpGraph->markOutput("ToneMapping.dst");
+    mpGraph->markOutput("Retargeting.output_seed");
 
     // Initialize the graph's record of what the swapchain size is, for texture creation
     mpGraph->onResize(pCallbacks->getCurrentFbo().get());
@@ -139,6 +137,22 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
     // const glm::vec4 clearColor(0.38f, 0.52f, 0.10f, 1);
     const glm::vec4 clearColor(0.f, 0.f, 0.0f, 1);
     pRenderContext->clearFbo(pTargetFbo.get(), clearColor, 1.0f, 0, FboAttachmentType::All);
+
+    if (!hasrunonce) {
+
+        Texture::SharedPtr seed_texture = createTextureFromFile("seeds_INT.png", false, false,Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess |
+                                                                                                                                                                                                                                                      Resource::BindFlags::RenderTarget);
+        mpGraph->setInput("GlobalIllumination.seed_input", seed_texture);
+        //just do nothing; we will load starting seed texture in globalillumination pass 
+        hasrunonce = true;
+
+    } else {
+
+        //bring our retargeted seeds into the globalillumination stage
+        Resource::SharedPtr retarget_seeds = mpGraph->getOutput("Retargeting.output_seed");
+        mpGraph->setInput("GlobalIllumination.seed_input", retarget_seeds);
+
+    }
 
     if (mpGraph->getScene() != nullptr)
     {

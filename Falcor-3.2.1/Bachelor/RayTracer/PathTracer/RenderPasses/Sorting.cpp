@@ -36,15 +36,23 @@ RenderPassReflection Sorting::reflect(void) const {
 
     RenderPassReflection r;
     //input
-    r.addInput("frame_input", "rendered frame from path tracing").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
-    r.addInput("seed_input", "the incoming seed texture");
+    r.addInput("frame_input", "rendered frame from path tracing").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource |
+                                                                                                                                                                                                                Resource::BindFlags::UnorderedAccess |
+                                                                                                                                                                                                                 Resource::BindFlags::RenderTarget);
+    r.addInput("seed_input", "the incoming seed texture").bindFlags(Resource::BindFlags::ShaderResource |
+        Resource::BindFlags::UnorderedAccess |
+        Resource::BindFlags::RenderTarget);;
     //ResourceFormat::RGBA8Uint
     //(color&0xff000000)>>24
     //(color&0x00ff0000)>>16
 
     //output
-    r.addOutput("blue_noise", "our blue noise texture").format(ResourceFormat::RGBA8Uint).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
-    r.addOutput("seed_output", "the outgoing seed texture").format(ResourceFormat::RGBA8Uint).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
+    r.addOutput("blue_noise", "our blue noise texture").format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::ShaderResource |
+                                                                                                                                                                                            Resource::BindFlags::UnorderedAccess |
+                                                                                                                                                                                            Resource::BindFlags::RenderTarget);
+    r.addOutput("seed_output", "the outgoing seed texture").format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::ShaderResource |
+                                                                                                                                                                                                        Resource::BindFlags::UnorderedAccess |
+                                                                                                                                                                                                        Resource::BindFlags::RenderTarget);
 
     return r;
 }
@@ -68,10 +76,10 @@ void Sorting::initialize(RenderContext * pContext, const RenderData * pRenderDat
 
     //create PerFrameData
     const ParameterBlockReflection* pDefaultBlockReflection = mpComputeProg->getReflector()->getDefaultParameterBlock().get();
-    mBindLocations.perFrameData = pDefaultBlockReflection->getResourceBinding("perFrameData");
+    perFrameData = pDefaultBlockReflection->getResourceBinding("perFrameData");
 
     ParameterBlock* pDefaultBlock = mpComputeProgVars->getDefaultBlock().get();
-    ConstantBuffer* pCB = pDefaultBlock->getConstantBuffer(mBindLocations.perFrameData, 0).get();
+    ConstantBuffer* pCB = pDefaultBlock->getConstantBuffer(perFrameData, 0).get();
     width_offset = pCB->getVariableOffset("width");
     height_offset = pCB->getVariableOffset("height");
     frame_count_offset = pCB->getVariableOffset("frame_count");
@@ -83,18 +91,19 @@ void Sorting::initialize(RenderContext * pContext, const RenderData * pRenderDat
 }
 
 void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
+
     //on first run we want it to intialize
     if (!mIsInitialized) {
         initialize(pContext, pData);
     }
 
     //info for the frame
-    ConstantBuffer* pCB = mpComputeProgVars->getDefaultBlock()->getConstantBuffer(mBindLocations.perFrameData, 0).get();
+    ConstantBuffer* pCB = mpComputeProgVars->getDefaultBlock()->getConstantBuffer(perFrameData, 0).get();
     pCB->setVariable("width", frame_width);
     pCB->setVariable("height", frame_height);
     pCB->setVariable("frame_count", frame_count++);
     
-    mpComputeProgVars->setTexture("input_frame_texture",pData->getTexture("frameInput"));
+    mpComputeProgVars->setTexture("input_frame_texture",pData->getTexture("frame_input"));
     mpComputeProgVars->setTexture("input_seed_texture", pData->getTexture("seed_input"));
 
     pContext->setComputeState(mpComputeState);

@@ -80,8 +80,13 @@ RenderPassReflection GGXGlobalIllumination::reflect(void) const
     r.addInput("specRough", "");
     r.addInput("emissive", "");
     r.addInput("matlExtra", "");
+    r.addInput("seed_input","").format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::ShaderResource |
+                                                                                                                                                    Resource::BindFlags::UnorderedAccess |
+                                                                                                                                                    Resource::BindFlags::RenderTarget);
 
-    r.addOutput("seed_input", "").format(ResourceFormat::RGBA8Uint).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
+    r.addOutput("seed_output", "").format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::ShaderResource |
+                                                                                                                                                        Resource::BindFlags::UnorderedAccess |
+                                                                                                                                                        Resource::BindFlags::RenderTarget);
     r.addOutput("output", "").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
     return r;
 }
@@ -127,11 +132,13 @@ void GGXGlobalIllumination::execute(RenderContext* pContext, const RenderData* p
     if (!mIsInitialized)
     {
         initialize(pContext, pData);
-        Texture::SharedPtr seed_texture = createTextureFromFile("seeds.png", false, false, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
-        auto vars = mpVars->getGlobalVars();
+        //Texture::SharedPtr seed_texture = createTextureFromFile("seeds_INT.png", false, false, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
 
-        vars->setTexture("seed_input", seed_texture);
+        //on first runnig we will load the initialized seed texture
+        //auto vars = mpVars->getGlobalVars();
+        //vars->setTexture("seed_input", seed_texture);
     }
+    //Texture::SharedPtr test =  pData->getTexture("Retargeting.output_seed");
 
     // Get our output buffer and clear it
     Texture::SharedPtr pDstTex = pData->getTexture("output");
@@ -141,6 +148,8 @@ void GGXGlobalIllumination::execute(RenderContext* pContext, const RenderData* p
 
     // Set our variables into the global HLSL namespace
     auto globalVars = mpVars->getGlobalVars();
+    //Here set our outgoing seed texture!!!
+    globalVars->setTexture("seed_output", pData->getTexture("seed_input"));
 
     ConstantBuffer::SharedPtr pCB = globalVars->getConstantBuffer("GlobalCB");
     pCB["gMinT"] = 1.0e-3f;
@@ -160,6 +169,9 @@ void GGXGlobalIllumination::execute(RenderContext* pContext, const RenderData* p
 
     const Texture::SharedPtr& pEnvMap = mpScene->getEnvironmentMap();
     globalVars->setTexture("gEnvMap", (mEnvMapMode == EnvMapMode::Black || pEnvMap == nullptr) ? mpBlackHDR : pEnvMap);
+
+    //set the seed texture in our rendering data as texture in our hlsl namespace!
+    globalVars->setTexture("seed_input", pData->getTexture("seed_input"));
 
     // Launch our ray tracing
     mpSceneRenderer->renderScene(pContext, mpVars, mpState, mRayLaunchDims);

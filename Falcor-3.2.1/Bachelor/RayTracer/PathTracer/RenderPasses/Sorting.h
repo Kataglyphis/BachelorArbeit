@@ -19,10 +19,7 @@ public:
     uint32_t frame_height = 720;
 
     //our bind locations
-    struct
-    {
-        ProgramReflection::BindLocation perFrameData;
-    } mBindLocations;
+    ProgramReflection::BindLocation perFrameData;
 
     //offsets for our struct variables
     size_t width_offset;

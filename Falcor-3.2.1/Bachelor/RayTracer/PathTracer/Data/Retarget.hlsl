@@ -7,14 +7,14 @@
 . Permute seeds
 2: seeds_retargeted(k,l) = seeds(i, j)
 */
-__import ShaderCommon;
-__import Helpers;
+//__import ShaderCommon;
+//__import Helpers;
 // here we are defining our line size for the retargeting
 #define BLOCK_SIZE 4
 
 //retarget texture simulates t + 1;
 //each <float i,float j> position stores its retargeted coordinates <float k,float l>;vertical and horizontal offset
-Texture2D<float2> retarget_texture;
+Texture2D<uint4> retarget_texture;
 //incoming buffer with the given seeds; StructuredBuffer<uint>?
 Texture2D<uint4> src_seed_texture;
 //output to render our new frame t + 1 to
@@ -22,9 +22,11 @@ RWTexture2D<uint4> output_seed_texture;
 
 //given variables for our frame
 cbuffer perFrameData : register(b0){
+    
     uint width; // width of the frame
     uint height; // height of the frame
     uint frame_count; // the actual index of the frame
+    
 };
 
 
@@ -43,7 +45,7 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     bluenoise_index.x = bluenoise_index.x % width;
     bluenoise_index.y = bluenoise_index.y % height;
 
-    int2 retarget = int2(retarget_texture[bluenoise_index]);
+    uint2 retarget = uint2(retarget_texture[bluenoise_index.x, bluenoise_index.y].xy);
 
     //retargeting of the seeds
     uint2 retargetCoordinates = thread_ID + uint2(width, height) + retarget;
