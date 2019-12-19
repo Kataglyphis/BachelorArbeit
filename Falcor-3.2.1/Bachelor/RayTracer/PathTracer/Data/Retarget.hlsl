@@ -16,9 +16,9 @@
 //each <float i,float j> position stores its retargeted coordinates <float k,float l>;vertical and horizontal offset
 Texture2D<uint4> retarget_texture;
 //incoming buffer with the given seeds; StructuredBuffer<uint>?
-Texture2D<uint4> src_seed_texture;
+Texture2D<float4> src_seed_texture;
 //output to render our new frame t + 1 to
-RWTexture2D<uint4> output_seed_texture;
+RWTexture2D<float4> output_seed_texture;
 
 //given variables for our frame
 cbuffer perFrameData : register(b0){
@@ -52,5 +52,6 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     retargetCoordinates.x = retargetCoordinates.x % width;
     retargetCoordinates.y = retargetCoordinates.y % height;
     //apply permutation to the seeds
-    output_seed_texture[retargetCoordinates] = src_seed_texture[thread_ID];
+    //output_seed_texture[retargetCoordinates] = src_seed_texture[thread_ID];
+    output_seed_texture[thread_ID] = src_seed_texture[thread_ID];
 }

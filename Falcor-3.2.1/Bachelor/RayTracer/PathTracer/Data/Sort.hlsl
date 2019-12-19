@@ -33,7 +33,11 @@ float getIntensity(float3 pixel) {
 }
 
 uint getSeedFromTex(uint4 pixelValue) {
-    return ((pixelValue.x << 24) | (pixelValue.y << 16) | (pixelValue.z << 8) | pixelValue.w);
+    return (((pixelValue.x * 255.f) << 24) | ((pixelValue.y * 255.f) << 16) | ((pixelValue.z << 8) * 255.f) | pixelValue.w * 255.f);
+}
+
+float4 fromSeedToTexture(uint seed) {
+    return float4(((seed & 0xFF000000) >> 24) / 255.f, ((seed & 0x00FF0000) >> 16) / 255.f, ((seed & 0x0000FF00) >> 8) / 255.f, ((seed | 0x000000FF)) / 255.f);
 }
 
 //central struct for the sorting; each pixel has a value and an index in our
@@ -49,9 +53,9 @@ struct pixel {
 //input of our ray traced frame stored in a texture
 Texture2D<float4> input_frame_texture;
 //needed as comparisson for sorting
-Texture2D<uint4> input_blue_noise_texture;
+Texture2D<float4> input_blue_noise_texture;
 //texture we are becoming and will again put out filled with sorted seeds;
-RWTexture2D<uint4> input_seed_texture;
+RWTexture2D<float4> input_seed_texture;
 
 //given variables for our frame
 cbuffer perFrameData : register(b0)
@@ -90,7 +94,7 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     sortedImage[group_Index].index = getSeedFromTex(input_seed_texture[thread_ID]);
 
     //blue noise value; we use only one value; R-Channel
-    sortedBlueNoise[group_Index].value = input_blue_noise_texture[bluenoise_index].x;
+    sortedBlueNoise[group_Index].value = input_blue_noise_texture[bluenoise_index].x * 255.f;
     //save the group_index as inital value before sorting
     sortedBlueNoise[group_Index].index = group_Index;
 
@@ -137,9 +141,9 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     uint2 global_seed_index = uint2(x, y) + group_ID * DIMENSION_SIZE; //NOT BLOCK_SIZE!! we will be 2 dimensional here first
     //get the the 1-dimensional index into the texture
     //new seed index in result of sorting blue noise texture
-    uint new_seed_index = global_seed_index.y * width + global_seed_index.x;
+    //uint new_seed_index = global_seed_index.y * width + global_seed_index.x;
     //fed the input_seed_texture with the now sorted seeds!!!!
-    input_seed_texture[new_seed_index] = sortedImage[group_Index].index; //we've copied the global position above; so just enter with group_Index
+    input_seed_texture[global_seed_index] = fromSeedToTexture(sortedImage[group_Index].index); //we've copied the global position above; so just enter with group_Index
              
 }
 
