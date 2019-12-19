@@ -7,6 +7,7 @@
 
 
 bool helpers::LoadTextureFromFile(const char* filename,ID3D11ShaderResourceView** srv , ID3D11Device* g_pd3dDevice, int* width, int* height) {
+	
 	int image_width = 0;
 	int image_height = 0;
 	unsigned char* image_data = stbi_load(filename, &image_width, &image_height, NULL,4);
@@ -79,25 +80,30 @@ bool helpers::generateSeedPNG() {
 
 	WangHash hashHelper;
 
-	unsigned int width = 1920;
-	unsigned int height = 720;
-	unsigned int resolution = 32;
-	FIBITMAP* bitmap = FreeImage_Allocate(width, height, resolution);
+	int width = 1920;
+	int height = 720;
+	int resolution = 32;
+	FIBITMAP* bitmap = FreeImage_Allocate(width, height, resolution, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
 	if (!bitmap) exit(1);
 	RGBQUAD color;
 
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < height; j++) {
 			uint32_t hash = hashHelper.generate(uint32_t(i + j * width));
-			color.rgbRed = 255;// (hash & 0xFF000000) >> 24;
-			//color.rgbGreen = (hash & 0x00FF0000) >> 16;
-			//color.rgbBlue = (hash & 0x0000FF00) >> 8;
-			//color.rgbReserved = (hash & 0x000000FF);
+			//cout << hash;
+			color.rgbRed =(UINT) ((hash & 0xFF000000) >> 24);
+			//cout << (UINT)color.rgbRed << "\n";
+			color.rgbGreen = (UINT)((hash & 0x00FF0000) >> 16);
+			//cout << (UINT)color.rgbGreen << "\n";
+			color.rgbBlue = (UINT)(hash & 0x0000FF00) >> 8;
+			//cout << (UINT)color.rgbBlue << "\n";
+			color.rgbReserved = (UINT)(hash & 0x000000FF);
+			//cout << (UINT)color.rgbReserved << "\n";
 			FreeImage_SetPixelColor(bitmap, i, j, &color);
 		}
 	}
-	//FreeImage_ConvertToGreyscale(bitmap);
-	FreeImage_Save(FIF_PNG, bitmap, "seeds.png", 0);
+
+	FreeImage_Save(FIF_PNG, bitmap, "seeds_INT.png", PNG_Z_NO_COMPRESSION);
 
 	FreeImage_DeInitialise();
 

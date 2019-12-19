@@ -7,23 +7,26 @@
 . Permute seeds
 2: seeds_retargeted(k,l) = seeds(i, j)
 */
-
+//__import ShaderCommon;
+//__import Helpers;
 // here we are defining our line size for the retargeting
 #define BLOCK_SIZE 4
 
 //retarget texture simulates t + 1;
 //each <float i,float j> position stores its retargeted coordinates <float k,float l>;vertical and horizontal offset
-Texture2D<float2> retarget_texture;
+Texture2D<uint4> retarget_texture;
 //incoming buffer with the given seeds; StructuredBuffer<uint>?
 Texture2D<uint4> src_seed_texture;
 //output to render our new frame t + 1 to
 RWTexture2D<uint4> output_seed_texture;
 
 //given variables for our frame
-cbuffer PerFrameData {
+cbuffer perFrameData : register(b0){
+    
     uint width; // width of the frame
-    uint heigth; // height of the frame
+    uint height; // height of the frame
     uint frame_count; // the actual index of the frame
+    
 };
 
 
@@ -36,18 +39,18 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     //This is important for temporel filtering algorithms to reduce errors by averaging them over multiple frames!!
     float g = 1.32471795724474602596;
     float offset_x = (1.0/g) * width * frame_count;
-    float offset_y = (1.0/(pow(g,2))) * heigth * frame_count;
+    float offset_y = (1.0/(pow(g,2))) * height * frame_count;
     float2 offset = (offset_x,offset_y);
     uint2 bluenoise_index = (offset + thread_ID);
     bluenoise_index.x = bluenoise_index.x % width;
-    bluenoise_index.y = bluenoise_index.y % heigth;
+    bluenoise_index.y = bluenoise_index.y % height;
 
-    int2 retarget = int2(retarget_texture[bluenoise_index]);
+    uint2 retarget = uint2(retarget_texture[bluenoise_index.x, bluenoise_index.y].xy);
 
     //retargeting of the seeds
-    uint2 retargetCoordinates = thread_ID + uint2(width, heigth) + retarget;
+    uint2 retargetCoordinates = thread_ID + uint2(width, height) + retarget;
     retargetCoordinates.x = retargetCoordinates.x % width;
-    retargetCoordinates.y = retargetCoordinates.y % heigth;
+    retargetCoordinates.y = retargetCoordinates.y % height;
     //apply permutation to the seeds
     output_seed_texture[retargetCoordinates] = src_seed_texture[thread_ID];
 }

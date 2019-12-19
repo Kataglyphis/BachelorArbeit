@@ -15,7 +15,8 @@ Algorithm 1 The sorting pass permutes pixel seeds by blocks.
 8:  seeds_sorted(D(n).i, D(n). j) = seeds(F(n).i, F(n). j)
 9: end for
 */
-
+//__import ShaderCommon;
+//__import Helpers;
 // number of pixels we group togehter and we are sorting for itself
 #define BLOCK_SIZE 16//pow(DIMENSION_SIZE,2)
 //sorting 4 pixel blocks each for itself
@@ -31,31 +32,34 @@ float getIntensity(float3 pixel) {
     return (pixel.x + pixel.y + pixel.z) / 3.0f;
 }
 
-float getSeedFromTex(float4 pixelValue) {
-    return (float) (pixelValue.x << 16 | pixelValue.y << 8 | pixelValue.z);
+uint getSeedFromTex(uint4 pixelValue) {
+    return ((pixelValue.x << 24) | (pixelValue.y << 16) | (pixelValue.z << 8) | pixelValue.w);
 }
 
 //central struct for the sorting; each pixel has a value and an index in our
 //4x4 block; sorting like the pair data structure in C++-Library; sorting
 //the value by simultaneously keeping track of their indices!!  
 struct pixel {
+    
     float value;
     float index;
+    
 };
 
 //input of our ray traced frame stored in a texture
 Texture2D<float4> input_frame_texture;
 //needed as comparisson for sorting
-Texture2D<float4> input_blue_noise_texture;
+Texture2D<uint4> input_blue_noise_texture;
 //texture we are becoming and will again put out filled with sorted seeds;
-RWTexture2D input_seed_texture;
+RWTexture2D<uint4> input_seed_texture;
 
 //given variables for our frame
-cbuffer PerFrameData
+cbuffer perFrameData : register(b0)
 {
     uint width; // width of the frame
-    uint heigth; // height of the frame
+    uint height; // height of the frame
     uint frame_count; // the actual index of the frame
+    
 };
 
 //shared beneath all threads of the group
@@ -72,11 +76,11 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     //This is important for temporel filtering algorithms to reduce errors by averaging them over multiple frames!!
     float g = 1.32471795724474602596;
     float offset_x = (1.0 / g) * width * frame_count; //multiply with index for changes frame by frame!
-    float offset_y = (1.0 / (pow(g, 2))) * heigth * frame_count; //multiply with index for changes frame by frame!
+    float offset_y = (1.0 / (pow(g, 2))) * height * frame_count; //multiply with index for changes frame by frame!
     float2 offset = (offset_x, offset_y);
     uint2 bluenoise_index = (offset + thread_ID);
     bluenoise_index.x = bluenoise_index.x % width;
-    bluenoise_index.y = bluenoise_index.y % heigth;
+    bluenoise_index.y = bluenoise_index.y % height;
     
     //we have the values shared beneath all threads of a groupshared
     //before we start to sort we have to firstly simply copy
@@ -123,7 +127,7 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
         //wait for all before continuing!
         GroupMemoryBarrierWithGroupSync();   
      }
-
+  
     //save the new sorted seeds correctly!
     //we have sorted the texture by their greyscales and saved the now fetched index
     uint local_bluenoise_index = sortedBlueNoise[group_Index].index;

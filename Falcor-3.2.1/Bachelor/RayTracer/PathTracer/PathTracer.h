@@ -49,4 +49,5 @@ private:
     bool mDisableCameraPath = false;
     FirstPersonCameraController mCamController;
     RenderGraph::SharedPtr mpGraph;
+    bool hasrunonce = false;
 };

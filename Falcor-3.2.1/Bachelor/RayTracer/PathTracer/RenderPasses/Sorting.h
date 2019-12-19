@@ -17,6 +17,19 @@ public:
     uint32_t frame_count = 0;
     uint32_t frame_width = 1920;
     uint32_t frame_height = 720;
+
+    //our bind locations
+    ProgramReflection::BindLocation perFrameData;
+
+    //offsets for our struct variables
+    size_t width_offset;
+    size_t height_offset;
+    size_t frame_count_offset;
+
+    //compute context
+    uint32_t groupDimX = 4;
+    uint32_t groupDimY = 4;
+
     /** Instantiate our pass.  The input Python dictionary is where you can extract pass parameters
     */
     static SharedPtr create(const Dictionary& params = {});
@@ -50,7 +63,7 @@ public:
     virtual Dictionary getScriptingDictionary() const override;
 
 private:
-    Sorting() : RenderPass("Sorting") {}
+    Sorting() : RenderPass("Sorting")  {}
 
     /** Runs on first execute() to initialize rendering resources
     */
