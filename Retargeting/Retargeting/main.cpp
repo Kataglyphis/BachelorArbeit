@@ -83,21 +83,21 @@ int main(int, char**)
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
     //Image data
-    helpers helper;
+    helpers* helper = new helpers();
     int my_image_width = 0;
     int my_image_height = 0;
     ID3D11ShaderResourceView* my_texture = NULL;
-    bool ret = helper.LoadTextureFromFile(
+    bool ret = helper->LoadTextureFromFile(
         "pictures/BlueNoiseCode/FreeBlueNoiseTextures/Data/64_64/HDR_L_0.png", 
         &my_texture, g_pd3dDevice, &my_image_width, &my_image_height);
 	if (!ret) return 1;
-    helper.freeImageFunction();
-    helper.generateSeedPNG();
+    helper->freeImageFunction();
+    helper->generateSeedPNG();
 
     //calc retargeted texture with temporal annealing!
-    SimulatedAnnealing retarget;
+    SimulatedAnnealing* retarget = new SimulatedAnnealing();
     const char* filename = "pictures/BigTiled.png";
-    retarget.execute(3000, filename, 1920, 720);
+    retarget->execute(3000, filename, 1920, 720);
 
     // Main loop
     MSG msg;
