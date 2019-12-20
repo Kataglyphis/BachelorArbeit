@@ -64,12 +64,11 @@ private:
 		bool loadPNGinArray(const char* fileName, Image& img_data);
 		float calculateEnergy(Image& image_t, Image& image_next, Image& permutation, int width, int height);
 		bool saveRetargetImageToFile(const char* filenameToSave, FIBITMAP* retargetBitMap);
-		std::vector<int> selectRandomNeighborCondition(Image& image_data, int index_x, int index_y, int image_width, int image_height);
 		bool fromArrayToBitmap(Image& img_data, FIBITMAP* bitmap, uint32_t image_width, uint32_t image_height);
 		bool getNextDither(Image& dither_data, Image& next_dither_data, uint32_t frame_width, uint32_t frame_height);
         std::vector<int> selectRandomPixelIndices(int image_width, int image_height);
         bool acceptanceProbabilityFunction(float energy_old_condition, float energy_new_condition, float ratio_steps);
         bool applyOneRandomPermutation(Image& dither_data, Image& next_dither_data, Image& permutation_data_output, uint32_t image_width, uint32_t image_height);
-        bool isApplicablePermutation(int random_x, int random_y, int random_step_x, int random_step_y, int image_width, int image_height);
+        bool isApplicablePermutation(Image& permutation_data_step, int random_x, int random_y, int random_step_x, int random_step_y, int image_width, int image_height);
 		helpers helper;
 };

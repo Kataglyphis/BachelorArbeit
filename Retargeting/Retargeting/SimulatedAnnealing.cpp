@@ -116,11 +116,10 @@ float SimulatedAnnealing::calculateEnergy(Image& image_t, Image& image_next, Ima
 		for (int j = 0; j < height; j++) {
 			int permutation_coordinates_x = i + permutation[i][j][0];
 			int permutation_coordinates_y = j + permutation[i][j][1];
-			float pixel_value_difference = 0;
-				//pixel difference
-				for (int m = 0; m < 4; m++) {
+
+			for (int m = 0; m < 1; m++) {
 					energy += std::abs((image_t[permutation_coordinates_x][permutation_coordinates_y][m] - image_next[permutation_coordinates_x][permutation_coordinates_y][m]));
-				}
+			}
 		}
 	}
 
@@ -131,34 +130,6 @@ bool SimulatedAnnealing::saveRetargetImageToFile(const char* filenameToSave, FIB
 
 	return FreeImage_Save(FIF_PNG, retargetBitMap, filenameToSave, PNG_Z_NO_COMPRESSION);
 
-}
-
-
-/**
-take in consideration, that only local swaps in a radius r = 6 is considered!
-*/
-std::vector<int> SimulatedAnnealing::selectRandomNeighborCondition(Image& image_data, int index_x, int index_y, int image_width, int image_height) {
-
-	std::vector<int> result(2,0);
-
-	int random_number_x = (rand() % 6) + 1;
-	int random_number_y = (rand() % 6) + 1;
-
-	//random number, either 0 or 1
-	int sign_choosing_x = rand() % 2;
-	int sign_choosing_y = rand() % 2;
-	
-	if (sign_choosing_x) {
-		random_number_x *= -1;
-	} 
-	if (sign_choosing_y) {
-		random_number_y *= -1;
-	}
-
-	int new_index_x = index_x + random_number_x;
-	int new_index_y = index_y + random_number_y;
-
-	return result;
 }
 
 bool SimulatedAnnealing::fromArrayToBitmap(Image& image_data, FIBITMAP* bitmap, uint32_t image_width, uint32_t image_height) {
@@ -220,36 +191,56 @@ bool SimulatedAnnealing::acceptanceProbabilityFunction(float energy_old_conditio
 bool SimulatedAnnealing::applyOneRandomPermutation(Image& dither_data, Image& next_dither_data, Image& permutation_data_step, uint32_t image_width, uint32_t image_height) {
 	
 	bool no_permutation_found = true;
-	int random_x = std::rand() % image_width;
-	int random_y = std::rand() % image_height;
-	int random_step_x = std::rand() % 7 - 6;
-	int random_step_y = std::rand() % 7 - 6;
+	int32_t random_x = std::rand() % image_width;
+	int32_t random_y = std::rand() % image_height;
+	int32_t random_step_x = std::rand() % 7 - 6;
+	int32_t random_step_y = std::rand() % 7 - 6;
 
 	//we have to check, whether this all happens in a radius of 6!
-	while (no_permutation_found) {
+	do {
 		random_x = std::rand() % image_width;
 		random_y = std::rand() % image_height;
 		random_step_x = std::rand() % 7 - 6;
 		random_step_y = std::rand() % 7 - 6;
-		if (SimulatedAnnealing::isApplicablePermutation(random_x, random_y, random_step_x, random_step_y, image_width, image_height)) {
+		if (SimulatedAnnealing::isApplicablePermutation(permutation_data_step,  random_x, random_y, random_step_x, random_step_y, image_width, image_height)) {
 			no_permutation_found = false;
 		}
-	}
+	} while (no_permutation_found);
+
+	/**assert((random_x + random_step_x) < 0);
+	assert((random_y + random_step_y) < 0);
+	assert((random_x + random_step_x) >= image_width);
+	assert((random_y + random_step_y) >= image_height);*/
 
 	permutation_data_step[random_x][random_y][0] += random_step_x;
 	permutation_data_step[random_x][random_y][1] += random_step_y;
-	permutation_data_step[random_x + random_step_x][random_y + random_step_y][0] += (-random_step_x);
-	permutation_data_step[random_x + random_step_x][random_y + random_step_y][1] += (-random_step_y);
+	permutation_data_step[random_x + random_step_x][random_y + random_step_y][0] -= (random_step_x);
+	permutation_data_step[random_x + random_step_x][random_y + random_step_y][1] -= (random_step_y);
 
 	return true;
 }
 
-bool SimulatedAnnealing::isApplicablePermutation(int random_x, int random_y, int random_step_x, int random_step_y, int image_width, int image_height) {
+bool SimulatedAnnealing::isApplicablePermutation(Image& permutation_data_step, int random_x, int random_y, int random_step_x, int random_step_y, int image_width, int image_height) {
+	
 	if (((random_x + random_step_x) < 0) |
 	     ((random_y + random_step_y) < 0) |
 		 ((random_x + random_step_x) >= image_width) |
 		((random_y + random_step_y) >= image_height)) {
 		return false;
 	}
+	if (((permutation_data_step[random_x][random_y][0] +random_step_x) > 6) |
+		 ((permutation_data_step[random_x][random_y][1] +random_step_y) > 6) |
+		((permutation_data_step[random_x][random_y][0] + random_step_x) < -6) |
+	   ((permutation_data_step[random_x][random_y][1] + random_step_y) < -6)) {
+		return false;
+	}
+	
+	if (((permutation_data_step[random_x + random_step_x][random_y + random_step_y][0] - random_step_x) > 6) |
+		((permutation_data_step[random_x + random_step_x][random_y + random_step_y][1] - random_step_y) > 6) |
+		((permutation_data_step[random_x + random_step_x][random_y + random_step_y][0] - random_step_x) < -6) |
+		((permutation_data_step[random_x + random_step_x][random_y + random_step_y][1] - random_step_y) < -6)) {
+		return false;
+	}
+	//hold the regional permutation!!
 	return true;
 }
