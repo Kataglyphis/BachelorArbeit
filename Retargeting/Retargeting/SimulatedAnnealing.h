@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include"boost/boost/multi_array.hpp"
 #include <cassert>
+#include <iostream>
 
 
 //for moredimensional arrays!!
@@ -68,5 +69,7 @@ private:
 		bool getNextDither(Image& dither_data, Image& next_dither_data, uint32_t frame_width, uint32_t frame_height);
         std::vector<int> selectRandomPixelIndices(int image_width, int image_height);
         bool acceptanceProbabilityFunction(float energy_old_condition, float energy_new_condition, float ratio_steps);
+        bool applyOneRandomPermutation(Image& dither_data, Image& next_dither_data, Image& permutation_data_output, uint32_t image_width, uint32_t image_height);
+        bool isApplicablePermutation(int random_x, int random_y, int random_step_x, int random_step_y, int image_width, int image_height);
 		helpers helper;
 };

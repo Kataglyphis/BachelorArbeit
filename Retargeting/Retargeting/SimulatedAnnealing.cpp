@@ -21,8 +21,8 @@ bool SimulatedAnnealing::execute(uint32_t  number_steps, const char* filename, c
 			//just assign the standard distribution
 			//how this looks like; look at th etop for it 
 
-			permutation_data_output[i][j][0] = i;
-			permutation_data_output[i][j][1] = j;
+			permutation_data_output[i][j][0] = 0;
+			permutation_data_output[i][j][1] = 0;
 
 		}
 	}
@@ -33,11 +33,13 @@ bool SimulatedAnnealing::execute(uint32_t  number_steps, const char* filename, c
 
 		//calc the energy of our permutation
 		float energy_old_condition = SimulatedAnnealing::calculateEnergy(dither_data, next_dither_data, permutation_data_output, image_width, image_height);
+		std::cout << energy_old_condition << std::endl;
 		//first we will go with the previous calculated permutation
 		permutation_data_step = permutation_data_output;
 		//now permute and have a look whether it is better
-		int random_x = std::rand() % image_width;
-		int random_y = std::rand() % image_height;
+		//here we actually apply one permutation!
+		SimulatedAnnealing::applyOneRandomPermutation(dither_data, next_dither_data, permutation_data_step, image_width, image_height);
+	
 		float energy_new_condition = SimulatedAnnealing::calculateEnergy(dither_data, next_dither_data, permutation_data_step, image_width, image_height);
 		float ratio_steps = number_steps/(i+1);
 
@@ -112,10 +114,12 @@ float SimulatedAnnealing::calculateEnergy(Image& image_t, Image& image_next, Ima
 
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < height; j++) {
+			int permutation_coordinates_x = i + permutation[i][j][0];
+			int permutation_coordinates_y = j + permutation[i][j][1];
 			float pixel_value_difference = 0;
 				//pixel difference
 				for (int m = 0; m < 4; m++) {
-					energy += std::abs((image_t[i][j][m] - image_next[i][j][m]));
+					energy += std::abs((image_t[permutation_coordinates_x][permutation_coordinates_y][m] - image_next[permutation_coordinates_x][permutation_coordinates_y][m]));
 				}
 		}
 	}
@@ -165,8 +169,8 @@ bool SimulatedAnnealing::fromArrayToBitmap(Image& image_data, FIBITMAP* bitmap, 
 
 		for (int j = 0; j < image_height; j++) {
 
-			color.rgbRed = image_data[i][j][0];
-			color.rgbGreen = image_data[i][j][1];
+			color.rgbRed = image_data[i][j][0] + 6;
+			color.rgbGreen = image_data[i][j][1] + 6;
 			//to store permutation we will only need to save in rg - channel !!
 			color.rgbBlue = 0x00;
 			color.rgbReserved = 0xFF;
@@ -211,4 +215,41 @@ bool SimulatedAnnealing::acceptanceProbabilityFunction(float energy_old_conditio
 	else {
 		return false;
 	}
+}
+
+bool SimulatedAnnealing::applyOneRandomPermutation(Image& dither_data, Image& next_dither_data, Image& permutation_data_step, uint32_t image_width, uint32_t image_height) {
+	
+	bool no_permutation_found = true;
+	int random_x = std::rand() % image_width;
+	int random_y = std::rand() % image_height;
+	int random_step_x = std::rand() % 7 - 6;
+	int random_step_y = std::rand() % 7 - 6;
+
+	//we have to check, whether this all happens in a radius of 6!
+	while (no_permutation_found) {
+		random_x = std::rand() % image_width;
+		random_y = std::rand() % image_height;
+		random_step_x = std::rand() % 7 - 6;
+		random_step_y = std::rand() % 7 - 6;
+		if (SimulatedAnnealing::isApplicablePermutation(random_x, random_y, random_step_x, random_step_y, image_width, image_height)) {
+			no_permutation_found = false;
+		}
+	}
+
+	permutation_data_step[random_x][random_y][0] += random_step_x;
+	permutation_data_step[random_x][random_y][1] += random_step_y;
+	permutation_data_step[random_x + random_step_x][random_y + random_step_y][0] += (-random_step_x);
+	permutation_data_step[random_x + random_step_x][random_y + random_step_y][1] += (-random_step_y);
+
+	return true;
+}
+
+bool SimulatedAnnealing::isApplicablePermutation(int random_x, int random_y, int random_step_x, int random_step_y, int image_width, int image_height) {
+	if (((random_x + random_step_x) < 0) |
+	     ((random_y + random_step_y) < 0) |
+		 ((random_x + random_step_x) >= image_width) |
+		((random_y + random_step_y) >= image_height)) {
+		return false;
+	}
+	return true;
 }
