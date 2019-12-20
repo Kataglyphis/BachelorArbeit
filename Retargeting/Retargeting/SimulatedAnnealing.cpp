@@ -13,7 +13,7 @@ bool SimulatedAnnealing::execute(uint32_t  number_steps, const char* filename, c
 	Image next_dither_data(boost::extents[image_width][image_height][4]);
 	SimulatedAnnealing::getNextDither(dither_data, next_dither_data, image_width, image_height);
 
-	Image permutation_data(boost::extents[image_width][image_height][2]);
+	Image permutation_data_output(boost::extents[image_width][image_height][2]);
 	for (int i = 0; i < image_width; i++) {
 
 		for (int j = 0; j < image_height; j++) {
@@ -21,20 +21,37 @@ bool SimulatedAnnealing::execute(uint32_t  number_steps, const char* filename, c
 			//just assign the standard distribution
 			//how this looks like; look at th etop for it 
 
-			permutation_data[i][j][0] = i % 13;
-			permutation_data[i][j][1] = i % 13;
+			permutation_data_output[i][j][0] = i;
+			permutation_data_output[i][j][1] = j;
 
 		}
 	}
 
-	//for (int i = 0; i < number_steps; i++) {
+	Image permutation_data_step(boost::extents[image_width][image_height][2]);
 
-		//std::vector<int> indices = SimulatedAnnealing::selectRandomPixelIndices(image_width, image_height);
+	for (int i = 0; i < number_steps; i++) {
 
-	//}
+		//calc the energy of our permutation
+		float energy_old_condition = SimulatedAnnealing::calculateEnergy(dither_data, next_dither_data, permutation_data_output, image_width, image_height);
+		//first we will go with the previous calculated permutation
+		permutation_data_step = permutation_data_output;
+		//now permute and have a look whether it is better
+		int random_x = std::rand() % image_width;
+		int random_y = std::rand() % image_height;
+		float energy_new_condition = SimulatedAnnealing::calculateEnergy(dither_data, next_dither_data, permutation_data_step, image_width, image_height);
+		float ratio_steps = number_steps/(i+1);
+
+		if (SimulatedAnnealing::acceptanceProbabilityFunction(energy_old_condition, energy_new_condition, ratio_steps)) {
+			//we will have a new condition
+			//https://www.boost.org/doc/libs/1_63_0/libs/multi_array/doc/user.html docs are garanteing deep copying!!
+			permutation_data_output = permutation_data_step;
+
+		}
+
+	}
 
 	FIBITMAP* retarget_bitmap = FreeImage_Allocate(image_width, image_height, 32);
-	SimulatedAnnealing::fromArrayToBitmap(permutation_data, retarget_bitmap, image_width, image_height);
+	SimulatedAnnealing::fromArrayToBitmap(permutation_data_output, retarget_bitmap, image_width, image_height);
 
 	SimulatedAnnealing::saveRetargetImageToFile("retargeted_texture.png", retarget_bitmap);
 
@@ -89,25 +106,17 @@ bool SimulatedAnnealing::loadPNGinArray(const char* fileName, Image& image_data)
 }
 
 // https://www.arnoldrenderer.com/research/dither_abstract.pdf
-int SimulatedAnnealing::calculateEnergy(Image& image_t, Image& image_next, Image& permutation, int width, int height, int numChannelUsed) {
+float SimulatedAnnealing::calculateEnergy(Image& image_t, Image& image_next, Image& permutation, int width, int height) {
 	
 	float energy = 0;
 
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < height; j++) {
-			float pixel_position_difference = 0;
 			float pixel_value_difference = 0;
-
-			if (i != j) {
 				//pixel difference
 				for (int m = 0; m < 4; m++) {
-					
-					pixel_value_difference += std::abs((image_t[i][j][m] - image_next[i][j][m]));
-
+					energy += std::abs((image_t[i][j][m] - image_next[i][j][m]));
 				}
-				//pixel_position_difference += std::pow(, 2) + std::pow(, 2) / (std::pow(2.1, 2);
-			}
-			energy += std::exp(-pixel_position_difference - std::abs(pixel_value_difference));
 		}
 	}
 
@@ -191,4 +200,15 @@ std::vector<int> SimulatedAnnealing::selectRandomPixelIndices(int image_width, i
 	indices[1] = std::rand() % image_height;
 
 	return indices;
+}
+
+bool SimulatedAnnealing::acceptanceProbabilityFunction(float energy_old_condition, float energy_new_condition, float ratio_steps) {
+	//TODO: important!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! to make this a simulated annealing we have to bring in the temperature in the decision function
+	//right now it is a simple hill climbing algorithm!!!!
+	if (energy_new_condition < energy_old_condition) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }

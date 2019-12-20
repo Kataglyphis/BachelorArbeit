@@ -61,11 +61,12 @@ class SimulatedAnnealing {
 private:
 		std::vector<int> toroidallyShift(unsigned int oldFrameDitherX, unsigned int oldFrameDitherY, uint32_t frame_width, uint32_t frame_height);
 		bool loadPNGinArray(const char* fileName, Image& img_data);
-		int calculateEnergy(Image& image_t, Image& image_next, Image& permutation, int width, int height, int numChannelUsed);
+		float calculateEnergy(Image& image_t, Image& image_next, Image& permutation, int width, int height);
 		bool saveRetargetImageToFile(const char* filenameToSave, FIBITMAP* retargetBitMap);
 		std::vector<int> selectRandomNeighborCondition(Image& image_data, int index_x, int index_y, int image_width, int image_height);
 		bool fromArrayToBitmap(Image& img_data, FIBITMAP* bitmap, uint32_t image_width, uint32_t image_height);
 		bool getNextDither(Image& dither_data, Image& next_dither_data, uint32_t frame_width, uint32_t frame_height);
         std::vector<int> selectRandomPixelIndices(int image_width, int image_height);
+        bool acceptanceProbabilityFunction(float energy_old_condition, float energy_new_condition, float ratio_steps);
 		helpers helper;
 };

@@ -88,7 +88,7 @@ int main(int, char**)
     int my_image_height = 0;
     ID3D11ShaderResourceView* my_texture = NULL;
     bool ret = helper->LoadTextureFromFile(
-        "pictures/BlueNoiseCode/FreeBlueNoiseTextures/Data/64_64/HDR_L_0.png", 
+        "LDR_RGBA_0.png", 
         &my_texture, g_pd3dDevice, &my_image_width, &my_image_height);
 	if (!ret) return 1;
     helper->freeImageFunction();
@@ -96,8 +96,17 @@ int main(int, char**)
 
     //calc retargeted texture with temporal annealing!
     SimulatedAnnealing* retarget = new SimulatedAnnealing();
-    const char* filename = "pictures/BigTiled.png";
-    retarget->execute(3000, filename, 1920, 720);
+    const char* filename = "LDR_RGBA_0.png";
+    retarget->execute(30, filename, 512, 512);
+
+    //retarget image
+    int my_retarget_width = 0;
+    int my_retarget_height = 0;
+    ID3D11ShaderResourceView* my_retarget_texture = NULL;
+    bool erstellt = helper->LoadTextureFromFile(
+        "retargeted_texture.png",
+        &my_retarget_texture, g_pd3dDevice, &my_retarget_width, &my_retarget_height);
+    if (!erstellt) return 1;
 
     // Main loop
     MSG msg;
@@ -136,6 +145,7 @@ int main(int, char**)
 
 			//show image
 			ImGui::Image((void*)my_texture, ImVec2(my_image_width, my_image_height));
+            ImGui::Image((void*)my_retarget_texture, ImVec2(my_retarget_width, my_retarget_height));
 
             //if (ImGui::Button("Save Image")) stbi_write_png("Experimental.png",my_image_width, my_image_height,3, (void*)my_texture);
 
