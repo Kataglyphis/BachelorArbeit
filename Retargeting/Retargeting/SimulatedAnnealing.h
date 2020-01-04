@@ -60,7 +60,7 @@ typedef vector<Column> Image;
 class SimulatedAnnealing {
 	public:
 		SimulatedAnnealing() {};
-		bool execute(const uint32_t  number_steps, const char* filename, uint32_t image_width, uint32_t image_height);
+		bool execute(const uint32_t  number_steps, const char* filename, const uint32_t image_width, const uint32_t image_height);
 private:
 		std::vector<int> toroidallyShift(const unsigned int oldFrameDitherX, const unsigned int oldFrameDitherY, const uint32_t frame_width, const uint32_t frame_height);
 		bool loadPNGinArray(const char* fileName, Image& img_data);
@@ -68,8 +68,8 @@ private:
 		bool saveRetargetImageToFile(const char* filenameToSave, FIBITMAP* retargetBitMap);
 		bool fromArrayToBitmap(Image& img_data, FIBITMAP* bitmap, const uint32_t image_width, const uint32_t image_height);
 		bool getNextDither(Image& dither_data, Image& next_dither_data, const uint32_t frame_width, const uint32_t frame_height);
-        bool acceptanceProbabilityFunction(float energy_old_condition, float energy_new_condition, float ratio_steps);
+        bool acceptanceProbabilityFunction(const float energy_old_condition, const float energy_new_condition, const float ratio_steps);
         bool applyOneRandomPermutation(Image& permutation_data_output, Image& permutation_positions, const uint32_t image_width, const uint32_t image_height);
-        bool isApplicablePermutation(Image& permutation_data_step, Image& permutation_positions, int random_x, int random_y, int random_step_x, int random_step_y, int image_width, int image_height);
+        bool isApplicablePermutation(Image& permutation_data_step, Image& permutation_positions, const int random_x, const int random_y, const int random_step_x, const int random_step_y, const int image_width, const int image_height);
 		helpers helper;
 };

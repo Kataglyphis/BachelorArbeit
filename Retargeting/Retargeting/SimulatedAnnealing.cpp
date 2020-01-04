@@ -52,6 +52,7 @@ bool SimulatedAnnealing::execute(const uint32_t  number_steps, const char* filen
 
 	//help var for counting the good swaps
 	uint32_t goodswaps = 0;
+
 	for (int i = 0; i < number_steps; i++) {
 
 		//calc the energy of our permutation
@@ -194,7 +195,7 @@ bool SimulatedAnnealing::getNextDither(Image& dither_data, Image& next_dither_da
 	return true;
 }
 
-bool SimulatedAnnealing::acceptanceProbabilityFunction(float energy_old_condition, float energy_new_condition, float ratio_steps) {
+bool SimulatedAnnealing::acceptanceProbabilityFunction(const float energy_old_condition, const float energy_new_condition, const float ratio_steps) {
 	//TODO: important!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! to make this a simulated annealing we have to bring in the temperature in the decision function
 	//right now it is a simple hill climbing algorithm!!!!
 	if (energy_new_condition < energy_old_condition) {
@@ -251,37 +252,43 @@ bool SimulatedAnnealing::applyOneRandomPermutation(Image& permutation_data_step,
 	int position_x = permutation_positions[random_x][random_y][0];
 	int position_y = permutation_positions[random_x][random_y][1];
 
-	permutation_data_step[position_x][position_y][0] += random_step_x;
-	permutation_data_step[position_x][position_y][1] += random_step_y;
+	int permute_x = permutation_data_step[position_x][position_y][0];
+	int permute_y = permutation_data_step[position_x][position_y][1];
 
-	int index_swap_x = position_x + permutation_data_step[position_x][position_y][0];
-	int index_swap_y = position_y + permutation_data_step[position_x][position_y][1];
+	permutation_data_step[position_x][position_y][0] = permute_x + random_step_x;
+	permutation_data_step[position_x][position_y][1] = permute_y + random_step_y;
 
-	int pos_swap_x = permutation_positions[index_swap_x][index_swap_y][0];
-	int pos_swap_y = permutation_positions[index_swap_x][index_swap_y][1];
+	int index_swap_position_x = random_x + random_step_x;
+	int index_swap_position_y = random_y + random_step_y;
 
-	permutation_data_step[pos_swap_x][pos_swap_y][0] -= (random_step_x);
-	permutation_data_step[pos_swap_x][pos_swap_y][1] -= (random_step_y);
+	int swap_position_x = permutation_positions[index_swap_position_x][index_swap_position_y][0];
+	int swap_position_y = permutation_positions[index_swap_position_x][index_swap_position_y][1];
+
+	int swap_permute_x_value = permutation_data_step[swap_position_x][swap_position_y][0];
+	int swap_permute_y_value = permutation_data_step[swap_position_x][swap_position_y][1];
+
+	permutation_data_step[swap_position_x][swap_position_y][0] = swap_permute_x_value - random_step_x;
+	permutation_data_step[swap_position_x][swap_position_y][1] = swap_permute_y_value - random_step_y;
 
 	//update position data; normal swap...
-	int tmp_X = position_x;
-	int tmp_Y = position_y;
+	permutation_positions[random_x][random_y][0] = swap_position_x;
+	permutation_positions[random_x][random_y][1] = swap_position_y;
 
-	permutation_positions[random_x][random_y][0] = pos_swap_x;
-	permutation_positions[random_x][random_y][1] = pos_swap_y;
+	permutation_positions[index_swap_position_x][index_swap_position_y][0] = position_x;
+	permutation_positions[index_swap_position_x][index_swap_position_y][1] = position_y;
 
-	permutation_positions[index_swap_x][index_swap_y][0] = tmp_X;
-	permutation_positions[index_swap_x][index_swap_y][1] = tmp_Y;
-
-	std::cout << "Dies sind die Permutationen x =" << permutation_data_step[position_x][position_y][0] << " und y =" << permutation_data_step[position_x][position_y][1] << endl;
+	std::cout << "Dies sind die Permutationen x = " << permutation_data_step[position_x][position_y][0] << " und y = " << permutation_data_step[position_x][position_y][1] << endl;
 	std::cout << "Position x = " << position_x << "y = " << position_y << endl;
 	return true;
 }
 
-bool SimulatedAnnealing::isApplicablePermutation(Image& permutation_data_step, Image& permutation_positions, int random_x, int random_y, int random_step_x, int random_step_y, int image_width, int image_height) {
+bool SimulatedAnnealing::isApplicablePermutation(Image& permutation_data_step, Image& permutation_positions, const int random_x, const int random_y, const int random_step_x, const int random_step_y, const int image_width, const int image_height) {
 	
 	int position_x = permutation_positions[random_x][random_y][0];
 	int position_y = permutation_positions[random_x][random_y][1];
+
+	int permute_x = permutation_data_step[position_x][position_y][0];
+	int permute_y = permutation_data_step[position_x][position_y][1];
 
 	if (((random_x + random_step_x) < 0) |
 	     ((random_y + random_step_y) < 0) |
@@ -291,23 +298,26 @@ bool SimulatedAnnealing::isApplicablePermutation(Image& permutation_data_step, I
 	}
 
 
-	if (((permutation_data_step[position_x][position_y][0] + random_step_x) > 6) |
-		 ((permutation_data_step[position_x][position_y][1] + random_step_y) > 6) |
-		((permutation_data_step[position_x][position_y][0] + random_step_x) < -6) |
-	   ((permutation_data_step[position_x][position_y][1] + random_step_y) < -6)) {
+	if (((permute_x + random_step_x) > 6) |
+		 ((permute_y + random_step_y) > 6) |
+		((permute_x + random_step_x) < -6) |
+	   ((permute_y + random_step_y) < -6)) {
 		return false;
 	}
 
-	int index_swap_x = random_x + random_step_x;
-	int index_swap_y = random_y + random_step_y;
+	int index_swap_position_x = random_x + random_step_x;
+	int index_swap_position_y = random_y + random_step_y;
 
-	int pos_swap_x = permutation_positions[index_swap_x][index_swap_y][0];
-	int pos_swap_y = permutation_positions[index_swap_x][index_swap_y][1];
+	int swap_position_x = permutation_positions[index_swap_position_x][index_swap_position_y][0];
+	int swap_position_y = permutation_positions[index_swap_position_x][index_swap_position_y][1];
 
-	if (((permutation_data_step[pos_swap_x][pos_swap_y][0] - random_step_x) > 6) |
-		((permutation_data_step[pos_swap_x][pos_swap_y][1] - random_step_y) > 6) |
-		((permutation_data_step[pos_swap_x][pos_swap_y][0] - random_step_x) < -6) |
-		((permutation_data_step[pos_swap_x][pos_swap_y][1] - random_step_y) < -6)) {
+	int swap_permute_x_value = permutation_data_step[swap_position_x][swap_position_y][0];
+	int swap_permute_y_value = permutation_data_step[swap_position_x][swap_position_y][1];
+
+	if (((swap_permute_x_value - random_step_x) > 6) |
+		((swap_permute_y_value - random_step_y) > 6) |
+		((swap_permute_x_value - random_step_x) < -6) |
+		((swap_permute_y_value - random_step_y) < -6)) {
 		return false;
 	}
 
