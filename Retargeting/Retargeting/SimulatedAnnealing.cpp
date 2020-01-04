@@ -21,8 +21,8 @@ bool SimulatedAnnealing::execute(uint32_t  number_steps, const char* filename, c
 			//just assign the standard distribution
 			//how this looks like; look at th etop for it 
 
-			permutation_data_output[i][j][0] = 0;
-			permutation_data_output[i][j][1] = 0;
+			permutation_data_output[i][j][0] = 1;
+			permutation_data_output[i][j][1] = 2;
 
 		}
 	}
@@ -35,7 +35,7 @@ bool SimulatedAnnealing::execute(uint32_t  number_steps, const char* filename, c
 		float energy_old_condition = SimulatedAnnealing::calculateEnergy(dither_data, next_dither_data, permutation_data_output, image_width, image_height);
 		std::cout << energy_old_condition << std::endl;
 		//first we will go with the previous calculated permutation
-		permutation_data_step = permutation_data_output;
+		permutation_data_step.operator=(permutation_data_output);
 		//now permute and have a look whether it is better
 		//here we actually apply one permutation!
 		SimulatedAnnealing::applyOneRandomPermutation(dither_data, next_dither_data, permutation_data_step, image_width, image_height);
@@ -46,7 +46,7 @@ bool SimulatedAnnealing::execute(uint32_t  number_steps, const char* filename, c
 		if (SimulatedAnnealing::acceptanceProbabilityFunction(energy_old_condition, energy_new_condition, ratio_steps)) {
 			//we will have a new condition
 			//https://www.boost.org/doc/libs/1_63_0/libs/multi_array/doc/user.html docs are garanteing deep copying!!
-			permutation_data_output = permutation_data_step;
+			permutation_data_output.operator= (permutation_data_step);
 
 		}
 

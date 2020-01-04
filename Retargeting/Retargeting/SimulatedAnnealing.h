@@ -13,8 +13,6 @@ typedef std::vector<std::vector<int>> Row;
 typedef std::vector<int> Pixel;
 //permutation, stores (i,j) - pair*/
 typedef boost::multi_array<double, 3> Image;
-typedef Image::index index;
-//typedef array_type::index index;
 /**
 	stores permutation in this pixel manner; numbers representing indices
    0 --- 1 --- 2 --- 3 --- 4 --- 5 --- 6 --- 7 --- 8 --- 9 --- 10 --- 11 --- 12

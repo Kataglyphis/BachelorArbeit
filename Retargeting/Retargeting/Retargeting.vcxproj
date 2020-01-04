@@ -92,7 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\BachelorArbeit\Retargeting\Retargeting\boost;C:\BachelorArbeit\Retargeting\Retargeting\FreeImage;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\local\boost;C:\BachelorArbeit\Retargeting\Retargeting\FreeImage;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,7 +125,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\BachelorArbeit\Retargeting\Retargeting\boost;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\local\boost;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
