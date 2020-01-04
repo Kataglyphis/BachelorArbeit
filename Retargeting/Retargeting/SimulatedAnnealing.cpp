@@ -263,11 +263,13 @@ bool SimulatedAnnealing::applyOneRandomPermutation(Image& permutation_data_step,
 	permutation_data_step[pos_swap_x][pos_swap_y][0] -= (random_step_x);
 	permutation_data_step[pos_swap_x][pos_swap_y][1] -= (random_step_y);
 
-	//update position data; normal swap
-	int tmp_X = permutation_positions[random_x][random_y][0];
-	int tmp_Y = permutation_positions[random_x][random_y][1];
+	//update position data; normal swap...
+	int tmp_X = position_x;
+	int tmp_Y = position_y;
+
 	permutation_positions[random_x][random_y][0] = pos_swap_x;
 	permutation_positions[random_x][random_y][1] = pos_swap_y;
+
 	permutation_positions[index_swap_x][index_swap_y][0] = tmp_X;
 	permutation_positions[index_swap_x][index_swap_y][1] = tmp_Y;
 
@@ -281,10 +283,10 @@ bool SimulatedAnnealing::isApplicablePermutation(Image& permutation_data_step, I
 	int position_x = permutation_positions[random_x][random_y][0];
 	int position_y = permutation_positions[random_x][random_y][1];
 
-	if (((position_x + random_step_x + permutation_data_step[position_x][position_y][0]) < 0) |
-	     ((position_y + random_step_y + permutation_data_step[position_x][position_y][1]) < 0) |
-		 ((position_x + random_step_x + permutation_data_step[position_x][position_y][0]) >= image_width) |
-		((position_y + random_step_y + permutation_data_step[position_x][position_y][1]) >= image_height)) {
+	if (((random_x + random_step_x) < 0) |
+	     ((random_y + random_step_y) < 0) |
+		 ((random_x + random_step_x) >= image_width) |
+		((random_y + random_step_y) >= image_height)) {
 		return false;
 	}
 
@@ -296,8 +298,8 @@ bool SimulatedAnnealing::isApplicablePermutation(Image& permutation_data_step, I
 		return false;
 	}
 
-	int index_swap_x = position_x + random_step_x + permutation_data_step[position_x][position_y][0];
-	int index_swap_y = position_y + random_step_y + permutation_data_step[position_x][position_y][1];
+	int index_swap_x = random_x + random_step_x;
+	int index_swap_y = random_y + random_step_y;
 
 	int pos_swap_x = permutation_positions[index_swap_x][index_swap_y][0];
 	int pos_swap_y = permutation_positions[index_swap_x][index_swap_y][1];
