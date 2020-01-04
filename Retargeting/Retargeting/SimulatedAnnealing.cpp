@@ -290,10 +290,10 @@ bool SimulatedAnnealing::isApplicablePermutation(Image& permutation_data_step, I
 	int permute_x = permutation_data_step[position_x][position_y][0];
 	int permute_y = permutation_data_step[position_x][position_y][1];
 
-	if (((random_x + random_step_x) < 0) |
-	     ((random_y + random_step_y) < 0) |
-		 ((random_x + random_step_x) >= image_width) |
-		((random_y + random_step_y) >= image_height)) {
+	if (((position_x + permute_x + random_step_x) < 0) |
+	     ((position_y + permute_y + random_step_y) < 0) |
+		 ((position_x + permute_x +random_step_x) >= image_width) |
+		((position_y + permute_y + random_step_y) >= image_height)) {
 		return false;
 	}
 
