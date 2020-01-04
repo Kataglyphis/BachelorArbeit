@@ -34,7 +34,7 @@ int main(int, char**)
     // Create application window
     WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("ImGui Example"), NULL };
     ::RegisterClassEx(&wc);
-    HWND hwnd = ::CreateWindow(wc.lpszClassName, _T("Dear ImGui DirectX11 Example"), WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, wc.hInstance, NULL);
+    HWND hwnd = ::CreateWindow(wc.lpszClassName, _T("Retargeting pixel seeds"), WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, wc.hInstance, NULL);
 
     // Initialize Direct3D
     if (!CreateDeviceD3D(hwnd))
@@ -88,7 +88,7 @@ int main(int, char**)
     int my_image_height = 0;
     ID3D11ShaderResourceView* my_texture = NULL;
     bool ret = helper->LoadTextureFromFile(
-        "LDR_RGBA_0.png", 
+        "LDR_RGBA_0_64.png", 
         &my_texture, g_pd3dDevice, &my_image_width, &my_image_height);
 	if (!ret) return 1;
     helper->freeImageFunction();
@@ -96,8 +96,8 @@ int main(int, char**)
 
     //calc retargeted texture with temporal annealing!
     SimulatedAnnealing* retarget = new SimulatedAnnealing();
-    const char* filename = "LDR_RGBA_0.png";
-    retarget->execute(30, filename, 512, 512);
+    const char* filename = "LDR_RGBA_0_64.png";
+    retarget->execute(30000, filename, 64, 64);
 
     //retarget image
     int my_retarget_width = 0;
