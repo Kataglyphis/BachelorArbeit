@@ -71,5 +71,6 @@ private:
         bool acceptanceProbabilityFunction(const float energy_old_condition, const float energy_new_condition, const float ratio_steps);
         bool applyOneRandomPermutation(Image& permutation_data_output, Image& permutation_positions, const uint32_t image_width, const uint32_t image_height);
         bool isApplicablePermutation(Image& permutation_data_step, Image& permutation_positions, const int random_x, const int random_y, const int random_step_x, const int random_step_y, const int image_width, const int image_height);
+        bool deepCopyImage(Image& source, Image& dest, const int image_width, const int image_height);
 		helpers helper;
 };
