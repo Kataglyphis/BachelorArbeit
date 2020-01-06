@@ -5,7 +5,7 @@
 Quasi-zufällige Sequenzen mit niedriger Abweichung sind deterministisch 
 erzeugte Sequenzen, welche die Likelihood-Funktion der Clusterbildung
 
-\begin{equation}\label{eq:likelihood}
+\begin{equation}\label{eq:Likeli-Hood-Gleichung}
     L_{x}(\delta) = f_{\delta}(x)
 \end{equation}
 
@@ -19,7 +19,7 @@ wir vom ein- über zum zweidimensionalen schauen werden.
 \subsection{1-Dimension}
 Diese Arbeit betrachtet Rekurrenz Sequenzen, basierend auf irrationalem 
 Bruchrechnen der Form
-\begin{equation}\label{eq:RekurrenzSequenz}
+\begin{equation}\label{eq:Rekurrenz Sequenz}
     R_{1}(\alpha) : t_n = s_0 + n\alpha(mod 1); n = 1,2,3,...
 \end{equation}
 wobei $\alpha \in \mathbb{I}$ und das (mod 1) einen \textit{"toroidally shift"}
@@ -27,24 +27,24 @@ bezeichnet. Will man mit dieser Formel eine Sequenz mit möglichst geringer
 Abweichung schaffen, und genau das wollen wir, so wählen wir 
 $\alpha = \Phi$ wobei $\Phi \approx 1.618033$ den goldenen Schnitt bezeichnet.
 Wie \cite{quasirandomsequencesbyRoberts} gezeigt wird, ist diese Form von 
-Sequenz die beste für das \nameref{pic:MonteCarloIntegration}.  
+Sequenz die beste für das \nameref{eq:Rekurrenz Sequenz}.  
 
 \subsection{2-Dimensionen}
 
 Für mehrere Dimensionen, hier zwei, kombiniert man in gängigen Methoden 
-einfach zwei \ref{subsec:onedimensional} eindimensionale Sequenzen.
+einfach zwei \nameref{subsec:onedimensional} eindimensionale Sequenzen.
 Für unsere Zwecke untersuchen wir hier die Generalisierung des bereits 
-zuvor beschriebenen goldenen Schnitts \ref{subsec:onedimensional}, wie
+zuvor beschriebenen goldenen Schnitts \nameref{subsec:onedimensional}, wie
 hier \cite{krcadinac2006new} beschrieben. 
-Die sogenannte Plastische Zahl in \ref{code:golden_ratio} ist die Lösung der
-Gleichung \ref{eq:plasticnumber}
-\begin{equation}\label{eq:cubic}
+Die sogenannte Plastische Zahl in ist die Lösung der
+Gleichung \nameref{eq:plastische Nummer}
+\begin{equation}\label{eq:kubisch}
    x^{3} - x - 1 = 0
 \end{equation}
 Die Lösung dieser Gleichung lässt sich über die Padovan und Perrin Sequenz
 definieren. Damit erhalten wir Plastische Zahl $\Phi$:
 
-\begin{equation} \label{eq:plasticnumber}
+\begin{equation} \label{eq:plastische Nummer}
    \Phi = \frac{(9 - \sqrt{69})^{1/3} + (9 + \sqrt{69})^{1/3}}
                {2^{1/3}3^{2/3}} \approx 1.32471795
 \end{equation}
@@ -52,16 +52,15 @@ definieren. Damit erhalten wir Plastische Zahl $\Phi$:
 \cite{vanderlaanplasticnumber}
 \cite{wolframalphaPlastic}
 Folgende Gleichung ist auch einfach erweiterbar für höhere Dimensionen.
-\begin{equation}\label{eq:getVektor}
+\begin{equation}\label{eq:1 zu N - Dimensional}
     t_{n} = n\alpha(mod 1), n = 1,2,3,..
     \alpha = (\frac{1}{\Phi_{d}}, \frac{1}{\Phi_{d}^{2}}),
 \end{equation}
 Dabei ist $\Phi_{d}$ der goldene Schnitt. $\Phi_{d}^{2}$ ist Lösung der
-\ref{eq:cubic} obigen Gleichung.
+\nameref{eq:kubisch} obigen Gleichung.
 
 
 \cite{quasirandomsequencesbyRoberts}
-\todo{find the right place for this chapter}\label{code:golden_ratio}
 \begin{lstlisting}[style=CStyle]
    float g = 1.32471795724474602596; //Plastische Zahl
    float a1 = 1.0/g;

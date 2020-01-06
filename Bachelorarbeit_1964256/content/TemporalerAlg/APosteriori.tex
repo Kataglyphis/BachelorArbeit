@@ -1,7 +1,7 @@
 Der nun behandelte temporale Algorithmus von \cite{hal02158423} beruht 
 im Gegensatz zu \cite{georgiev2016blue} auf \textit{nachträglichen} 
 Annahmen. Welches zur Folge hat, dass die Dimension unseres Path Tracers
-\ref{ch:Content1:sec:PathTracer}, sowie die Stichprobenanzahl einhergehen 
+\nameref{ch:Content1:sec:PathTracer}, sowie die Stichprobenanzahl einhergehen 
 mit der Verteilung der Integrationsfehler als blue noise im Bildraum.
 Die zu Grunde liegenden Annahmen sollen nun im Folgenden untersucht werden.
 
@@ -11,11 +11,11 @@ wir den Wert eines Pixels (i,j) klassischerweise mit einem zufälligen
 Startwert durch eine Monte-Carlo Integration erhalten. Wir betrachten im
 Folgenden eine (theoretische) Menge von allen möglichen Werten eines 
 Pixels, welche durch alle möglichen Startwerte generiert wurde.
-In \ref{eq:pixelschaetzungPDF} ist die Wahrscheinlichkeitsdichtefunktion
+In \nameref{eq:Pixel Schätzung Wahrscheinlichkeitsdichtefunktion} ist die Wahrscheinlichkeitsdichtefunktion
 $h_{ij}$ aufgetragen, als eine Funktion über alle möglichen Werte 
 $I_{ij}$ eines Pixels (i,j).
 
-\begin{equation}\label{eq:pixelschaetzungPDF}
+\begin{equation}\label{eq:Pixel Schätzung Wahrscheinlichkeitsdichtefunktion}
     H_{ij}([I_{Anfang},I_{Ende}]) = \int_{I_{Anfang}}^{I_{Ende}} h_{ij} dI
 \end{equation}
 
@@ -23,11 +23,11 @@ Daraus lässt sich die Gleichbedeutung zweier Aussagen begründen:
 Das Rendern des Pixels (i,j) und das Wählen eines Pixelswertes $I_{ij}$
 von unser zuvor formulierten Wahrscheinlichkeitsdichtefunktion $h_{ij}$.
 
-\begin{equation}\label{eq:inverseFunc}
+\begin{equation}\label{eq:inverse Funktion}
     I_{ij} = H_{ij}^{-1}(x), x \in [0,1]
 \end{equation}
 
-Nun betrachte man die Werte für x in \ref{eq:inverseFunc} als im Bildraum
+Nun betrachte man die Werte für x in \nameref{eq:inverse Funktion} als im Bildraum
 blue noise verteilte Zahlen. Daraus folgt, dass die resultierenden
 Integrationsfehler auch als blue noise im Bildraum verteilt sind.
 
