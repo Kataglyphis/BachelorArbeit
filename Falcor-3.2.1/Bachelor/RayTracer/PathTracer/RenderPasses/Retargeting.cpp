@@ -70,8 +70,8 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
 
     ParameterBlock* pDefaultBlock = mpComputeProgVars->getDefaultBlock().get();
     ConstantBuffer* pCB = pDefaultBlock->getConstantBuffer(mBindLocations.perFrameData, 0).get();
-    width_offset = pCB->getVariableOffset("width");
-    height_offset = pCB->getVariableOffset("height");
+    width_offset = pCB->getVariableOffset("tile_width");
+    height_offset = pCB->getVariableOffset("tile_height");
     frame_count_offset = pCB->getVariableOffset("frame_count");
 
     if (mpComputeProg != nullptr) mIsInitialized = true;
@@ -88,8 +88,8 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
 
     //info for the frame
     ConstantBuffer* pCB = mpComputeProgVars->getDefaultBlock()->getConstantBuffer(mBindLocations.perFrameData, 0).get();
-    pCB->setVariable("width", frame_width);
-    pCB->setVariable("height", frame_height);
+    pCB->setVariable("tile_width", tile_width);
+    pCB->setVariable("tile_height", tile_height);
     pCB->setVariable("frame_count", frame_count++);
 
     mpComputeProgVars->setTexture("src_seed_texture", pData->getTexture("input_seed"));

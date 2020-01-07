@@ -23,8 +23,8 @@ RWTexture2D<float4> output_seed_texture;
 //given variables for our frame
 cbuffer perFrameData : register(b0){
     
-    uint width; // width of the frame
-    uint height; // height of the frame
+    uint tile_width; // width of the frame
+    uint tile_height; // height of the frame
     uint frame_count; // the actual index of the frame
     
 };
@@ -38,19 +38,19 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     //Big TODO: target blue noise tile should change after each frame --> each pixel has a different error in each frame
     //This is important for temporel filtering algorithms to reduce errors by averaging them over multiple frames!!
     float g = 1.32471795724474602596;
-    float offset_x = (1.0/g) * width * frame_count;
-    float offset_y = (1.0/(pow(g,2))) * height * frame_count;
+    float offset_x = (1.0 / g) * tile_width * frame_count;
+    float offset_y = (1.0 / (pow(g, 2))) * tile_height * frame_count;
     float2 offset = (offset_x,offset_y);
     uint2 bluenoise_index = (offset + thread_ID);
-    bluenoise_index.x = bluenoise_index.x % width;
-    bluenoise_index.y = bluenoise_index.y % height;
+    bluenoise_index.x = bluenoise_index.x % tile_width;
+    bluenoise_index.y = bluenoise_index.y % tile_height;
 
-    uint2 retarget = uint2(retarget_texture[bluenoise_index.x, bluenoise_index.y].xy);
+    uint2 retarget = uint2((retarget_texture[bluenoise_index].xy * 255.f) - 6.f);
 
     //retargeting of the seeds
-    uint2 retargetCoordinates = thread_ID + uint2(width, height) + retarget;
-    retargetCoordinates.x = retargetCoordinates.x % width;
-    retargetCoordinates.y = retargetCoordinates.y % height;
+    uint2 retargetCoordinates = thread_ID + uint2(tile_width, tile_height) + retarget;
+    retargetCoordinates.x = retargetCoordinates.x % tile_width;
+    retargetCoordinates.y = retargetCoordinates.y % tile_height;
     //apply permutation to the seeds
     //output_seed_texture[retargetCoordinates] = src_seed_texture[thread_ID];
     output_seed_texture[thread_ID] = src_seed_texture[thread_ID];

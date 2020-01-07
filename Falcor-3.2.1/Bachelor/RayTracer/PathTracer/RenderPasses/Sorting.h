@@ -15,6 +15,8 @@ public:
     bool mIsInitialized = false;
     bool distributeAsBlueNoise = true;
     uint32_t frame_count = 0;
+    uint32_t tile_width = 64;
+    uint32_t tile_height = 64;
     uint32_t frame_width = 1920;
     uint32_t frame_height = 720;
 

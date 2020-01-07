@@ -43,7 +43,7 @@ void GGXGlobalIllumRayGen()
                      (seed_input[launchIndex].z * 255.f)<< 8 |
                      (seed_input[launchIndex].w * 255.f);
     //uint randSeed = rand_init(launchIndex.x + launchIndex.y * launchDim.x, gFrameCount, 16);
-    //uint randSeed = 1000;
+    //uint randSeed = launchIndex.x + launchIndex.y;
     
     // Load g-buffer data
     float4 posW = gPos[launchIndex];

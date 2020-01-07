@@ -80,8 +80,8 @@ void Sorting::initialize(RenderContext * pContext, const RenderData * pRenderDat
 
     ParameterBlock* pDefaultBlock = mpComputeProgVars->getDefaultBlock().get();
     ConstantBuffer* pCB = pDefaultBlock->getConstantBuffer(perFrameData, 0).get();
-    width_offset = pCB->getVariableOffset("width");
-    height_offset = pCB->getVariableOffset("height");
+    width_offset = pCB->getVariableOffset("tile_width");
+    height_offset = pCB->getVariableOffset("tile_height");
     frame_count_offset = pCB->getVariableOffset("frame_count");
     
     if (mpComputeProg != nullptr) {
@@ -99,8 +99,8 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
 
     //info for the frame
     ConstantBuffer* pCB = mpComputeProgVars->getDefaultBlock()->getConstantBuffer(perFrameData, 0).get();
-    pCB->setVariable("width", frame_width);
-    pCB->setVariable("height", frame_height);
+    pCB->setVariable("tile_width", frame_width);
+    pCB->setVariable("tile_height", frame_height);
     pCB->setVariable("frame_count", frame_count++);
     
     mpComputeProgVars->setTexture("input_frame_texture",pData->getTexture("frame_input"));
