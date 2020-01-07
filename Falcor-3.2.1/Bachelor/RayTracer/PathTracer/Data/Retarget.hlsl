@@ -45,7 +45,7 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     bluenoise_index.x = bluenoise_index.x % tile_width;
     bluenoise_index.y = bluenoise_index.y % tile_height;
 
-    uint2 retarget = uint2((retarget_texture[bluenoise_index].xy * 255.f) - 6.f);
+    uint2 retarget = uint2((retarget_texture[bluenoise_index].xy * 255.f) - uint2(6.f));
 
     //retargeting of the seeds
     uint2 retargetCoordinates = thread_ID + uint2(tile_width, tile_height) + retarget;
@@ -53,5 +53,5 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     retargetCoordinates.y = retargetCoordinates.y % tile_height;
     //apply permutation to the seeds
     //output_seed_texture[retargetCoordinates] = src_seed_texture[thread_ID];
-    output_seed_texture[thread_ID] = src_seed_texture[thread_ID];
+    output_seed_texture[retargetCoordinates] = src_seed_texture[thread_ID];
 }

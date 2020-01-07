@@ -117,7 +117,7 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     auto mip_levels = texture->getMipCount();
     auto flags = texture->getBindFlags();
 
-    pData->getTexture("output_seed")->createFromApiHandle(handle, type, seed_texture_width, seed_texture_height, depth, format, sampleCount, array_size, mip_levels, Resource::State::UnorderedAccess, flags);
+    pData->getTexture("output_seed") = Texture::createFromApiHandle(handle, type, seed_texture_width, seed_texture_height, depth, format, sampleCount, array_size, mip_levels, Resource::State::UnorderedAccess, flags);
 }
 
 void Retargeting::renderUI(Gui* pGui, const char* uiGroup) {

@@ -18,12 +18,15 @@ Algorithm 1 The sorting pass permutes pixel seeds by blocks.
 //__import ShaderCommon;
 //__import Helpers;
 // number of pixels we group togehter and we are sorting for itself
+
 #define BLOCK_SIZE 16//pow(DIMENSION_SIZE,2)
 //sorting 4 pixel blocks each for itself
 #define DIMENSION_SIZE 4
 
 //some helper functions; make coding easier
 #define Swap(A,B) {pixel temp = A; A = B; B = temp;}
+
+//fmod(x, y) function := return the floating-point reminder f of x/y
 #define Even(x) (fmod((x), 2) == 0)
 #define Odd(x)  (fmod((x), 2) != 0)
 
@@ -44,10 +47,8 @@ float4 fromSeedToTexture(uint seed) {
 //4x4 block; sorting like the pair data structure in C++-Library; sorting
 //the value by simultaneously keeping track of their indices!!  
 struct pixel {
-    
     float value;
     float index;
-    
 };
 
 //input of our ray traced frame stored in a texture

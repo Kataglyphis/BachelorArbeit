@@ -70,7 +70,7 @@ void Sorting::initialize(RenderContext * pContext, const RenderData * pRenderDat
     mpComputeProgVars = ComputeVars::create(mpComputeProg->getReflector());
 
     //createTextureFromFile!!!!
-    bluenoise = createTextureFromFile("LDR_RGBA_0_64.png", false, true, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
+    bluenoise = createTextureFromFile("LDR_RGBA_0_64.png", false, false, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
     mpComputeProgVars->setTexture("input_blue_noise_texture", bluenoise);
     mpComputeProgVars->setTexture("input_seed_texture", pRenderData->getTexture("seed_input"));
 
@@ -129,7 +129,7 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
     auto mip_levels = texture->getMipCount();
     auto flags = texture->getBindFlags();
 
-    pData->getTexture("seed_output")->createFromApiHandle(handle, type, seed_texture_width, seed_texture_height, depth, format, sampleCount, array_size, mip_levels, Resource::State::UnorderedAccess, flags);
+    pData->getTexture("seed_output") = Texture::createFromApiHandle(handle, type, seed_texture_width, seed_texture_height, depth, format, sampleCount, array_size, mip_levels, Resource::State::UnorderedAccess, flags);
 
     //set the outgoing blue noise texture!
     int bluenoise_width =bluenoise->getWidth();
@@ -143,7 +143,7 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
     auto bluenoise_mip_levels = bluenoise->getMipCount();
     auto bluenoise_flags = bluenoise->getBindFlags();
 
-    pData->getTexture("blue_noise")->createFromApiHandle(bluenoise_handle, bluenoise_type, bluenoise_width, bluenoise_height, bluenoise_depth, bluenoise_format,
+    pData->getTexture("blue_noise") = Texture::createFromApiHandle(bluenoise_handle, bluenoise_type, bluenoise_width, bluenoise_height, bluenoise_depth, bluenoise_format,
         bluenoise_sampleCount, bluenoise_array_size, bluenoise_mip_levels, Resource::State::UnorderedAccess, bluenoise_flags);
 
 }

@@ -1,4 +1,4 @@
-/***************************************************************************
+ /***************************************************************************
 # Copyright (c) 2018, NVIDIA CORPORATION. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -133,11 +133,6 @@ void GGXGlobalIllumination::execute(RenderContext* pContext, const RenderData* p
     if (!mIsInitialized)
     {
         initialize(pContext, pData);
-        //Texture::SharedPtr seed_texture = createTextureFromFile("seeds_INT.png", false, false, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
-
-        //on first runnig we will load the initialized seed texture
-        //auto vars = mpVars->getGlobalVars();
-        //vars->setTexture("seed_input", seed_texture);
     }
     //Texture::SharedPtr test =  pData->getTexture("Retargeting.output_seed");
 
@@ -185,7 +180,9 @@ void GGXGlobalIllumination::execute(RenderContext* pContext, const RenderData* p
     auto mip_levels = texture->getMipCount();
     auto flags = texture->getBindFlags();
 
-    pData->getTexture("seed_output")->createFromApiHandle(handle, type, seed_texture_width, seed_texture_height, depth, format, sampleCount, array_size, mip_levels, Resource::State::UnorderedAccess, flags);
+    pData->getTexture("seed_output") = Texture::createFromApiHandle(handle, type, seed_texture_width, seed_texture_height, depth, format, sampleCount, array_size, mip_levels, Resource::State::UnorderedAccess, flags);
+
+    
     // Launch our ray tracing
     mpSceneRenderer->renderScene(pContext, mpVars, mpState, mRayLaunchDims);
 }
