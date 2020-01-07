@@ -258,7 +258,7 @@ bool SimulatedAnnealing::fromArrayToBitmap(Image& image_data, FIBITMAP* bitmap, 
 			color.rgbGreen = image_data[i][j][1] + 6;
 			//to store permutation we will only need to save in rg - channel !!
 			color.rgbBlue = 0x00;
-			color.rgbReserved = 0xFF;
+			color.rgbReserved = i;
 
 			FreeImage_SetPixelColor(bitmap, i, j, &color);
 		}

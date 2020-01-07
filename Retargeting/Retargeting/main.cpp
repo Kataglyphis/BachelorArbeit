@@ -97,7 +97,7 @@ int main(int, char**)
     //calc retargeted texture with temporal annealing!
     SimulatedAnnealing* retarget = new SimulatedAnnealing();
     const char* filename = "LDR_RGBA_0_64.png";
-    retarget->execute(10000, filename, 64, 64);
+    retarget->execute(1000, filename, 64, 64);
 
     //retarget image
     int my_retarget_width = 0;

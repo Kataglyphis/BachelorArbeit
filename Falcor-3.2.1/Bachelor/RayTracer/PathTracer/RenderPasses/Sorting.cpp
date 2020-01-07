@@ -40,8 +40,8 @@ RenderPassReflection Sorting::reflect(void) const {
                                                                                                                                                                                                                 Resource::BindFlags::UnorderedAccess |
                                                                                                                                                                                                                  Resource::BindFlags::RenderTarget);
     r.addInput("seed_input", "the incoming seed texture").bindFlags(Resource::BindFlags::ShaderResource |
-        Resource::BindFlags::UnorderedAccess |
-        Resource::BindFlags::RenderTarget);;
+                                                                                                                            Resource::BindFlags::UnorderedAccess |
+                                                                                                                            Resource::BindFlags::RenderTarget);
     //ResourceFormat::RGBA8Uint
     //(color&0xff000000)>>24
     //(color&0x00ff0000)>>16
@@ -70,7 +70,7 @@ void Sorting::initialize(RenderContext * pContext, const RenderData * pRenderDat
     mpComputeProgVars = ComputeVars::create(mpComputeProg->getReflector());
 
     //createTextureFromFile!!!!
-    Texture::SharedPtr bluenoise = createTextureFromFile("Tiled.png", false, true, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
+    bluenoise = createTextureFromFile("LDR_RGBA_0_64.png", false, true, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
     mpComputeProgVars->setTexture("input_blue_noise_texture", bluenoise);
     mpComputeProgVars->setTexture("input_seed_texture", pRenderData->getTexture("seed_input"));
 
@@ -115,6 +115,36 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
     uint32_t groupSizeY = (frame_height / groupDimY) + 1;
     pContext->dispatch(groupSizeX, groupSizeY, 1);
     //Dispatch groupSizeX,GroupSizeY,GroupSizeZ;
+
+    //set the outgoing seed texture for working in sorting step!
+    auto texture = mpComputeProgVars->getTexture("input_seed_texture");
+    int seed_texture_width = texture->getWidth();
+    int seed_texture_height = texture->getHeight();
+    auto type = texture->getType();
+    auto handle = texture->getApiHandle();
+    auto depth = texture->getDepth();
+    auto format = texture->getFormat();
+    auto sampleCount = texture->getSampleCount();
+    auto array_size = texture->getArraySize();
+    auto mip_levels = texture->getMipCount();
+    auto flags = texture->getBindFlags();
+
+    pData->getTexture("seed_output")->createFromApiHandle(handle, type, seed_texture_width, seed_texture_height, depth, format, sampleCount, array_size, mip_levels, Resource::State::UnorderedAccess, flags);
+
+    //set the outgoing blue noise texture!
+    int bluenoise_width =bluenoise->getWidth();
+    int bluenoise_height = bluenoise->getHeight();
+    auto bluenoise_type = bluenoise->getType();
+    auto bluenoise_handle = bluenoise->getApiHandle();
+    auto bluenoise_depth = bluenoise->getDepth();
+    auto bluenoise_format = bluenoise->getFormat();
+    auto bluenoise_sampleCount = bluenoise->getSampleCount();
+    auto bluenoise_array_size = bluenoise->getArraySize();
+    auto bluenoise_mip_levels = bluenoise->getMipCount();
+    auto bluenoise_flags = bluenoise->getBindFlags();
+
+    pData->getTexture("blue_noise")->createFromApiHandle(bluenoise_handle, bluenoise_type, bluenoise_width, bluenoise_height, bluenoise_depth, bluenoise_format,
+        bluenoise_sampleCount, bluenoise_array_size, bluenoise_mip_levels, Resource::State::UnorderedAccess, bluenoise_flags);
 
 }
 

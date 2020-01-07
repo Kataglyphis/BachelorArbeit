@@ -43,9 +43,9 @@ RenderPassReflection Retargeting::reflect(void) const {
     r.addOutput("output_seed", "the retargeted seed texture outgoing to path tracer").format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::UnorderedAccess |
                                                                                                                                                                                                                                                        Resource::BindFlags::RenderTarget |
                                                                                                                                                                                                                                                         Resource::BindFlags::ShaderResource);
-    r.addOutput("retarget","texture were our retargeting is stored").format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::UnorderedAccess |
+    /**r.addOutput("retarget","texture were our retargeting is stored").format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::UnorderedAccess |
                                                                                                                                                                                                                      Resource::BindFlags::RenderTarget |
-                                                                                                                                                                                                                    Resource::BindFlags::ShaderResource);
+                                                                                                                                                                                                                    Resource::BindFlags::ShaderResource);*/
     return r;
 }
 
@@ -60,7 +60,7 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
 
     //textures for retargeting
 
-    Texture::SharedPtr retarget = createTextureFromFile("retarget_new.png", false, false, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess|
+    Texture::SharedPtr retarget = createTextureFromFile("retargeted_texture.png", false, false, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess|
                                                                                                                                                                                                                                                 Resource::BindFlags::RenderTarget);
     mpComputeProgVars->setTexture("retarget_texture", retarget);
 
@@ -94,7 +94,7 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
 
     mpComputeProgVars->setTexture("src_seed_texture", pData->getTexture("input_seed"));
     //set the putput seed tex in HLSL namespace!!
-    mpComputeProgVars->setTexture("output_seed_texture", pData->getTexture("output_seed"));
+    mpComputeProgVars->setTexture("output_seed_texture", pData->getTexture("input_seed"));
 
     pContext->setComputeState(mpComputeState);
     pContext->setComputeVars(mpComputeProgVars);
@@ -104,21 +104,20 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     uint32_t groupSizeY = (frame_height / groupDimY) + 1;
     pContext->dispatch(groupSizeX, groupSizeY, 1);
 
+    //set the outgoing blue noise texture!
+    auto texture = mpComputeProgVars->getTexture("output_seed_texture");
+    int seed_texture_width = texture->getWidth();
+    int seed_texture_height = texture->getHeight();
+    auto type = texture->getType();
+    auto handle = texture->getApiHandle();
+    auto depth = texture->getDepth();
+    auto format = texture->getFormat();
+    auto sampleCount = texture->getSampleCount();
+    auto array_size = texture->getArraySize();
+    auto mip_levels = texture->getMipCount();
+    auto flags = texture->getBindFlags();
 
-    /**Texture::SharedPtr textureToSave = pData->getTexture("output_seed");
-    textureToSave->setName("retargeted Seeds");
-    textureToSave->setSourceFilename("newComputedSeeds.png");
-    uint32_t channel_count = getFormatChannelCount(textureToSave->getFormat());
-    bool alpha = doesFormatHasAlpha(textureToSave->getFormat());
-    ResourceBindFlags flags = getFormatBindFlags(textureToSave->getFormat());
-    uint32_t array_size = textureToSave->getArraySize();
-    uint32_t mip_depth = textureToSave->getDepth();
-    Falcor::ResourceFormat resource_format = textureToSave->getFormat();
-   Resource::Type type =  textureToSave->getType();
-
-    pData->getTexture("input_seed")-> textureToSave;
-    textureToSave->captureToFile(1u,1u,"RetargetingFromProg.png", Bitmap::FileFormat::PngFile, Bitmap::ExportFlags::ExportAlpha | Bitmap::ExportFlags::Uncompressed);
-    */
+    pData->getTexture("output_seed")->createFromApiHandle(handle, type, seed_texture_width, seed_texture_height, depth, format, sampleCount, array_size, mip_levels, Resource::State::UnorderedAccess, flags);
 }
 
 void Retargeting::renderUI(Gui* pGui, const char* uiGroup) {

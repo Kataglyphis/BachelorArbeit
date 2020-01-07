@@ -141,9 +141,8 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
     if (!hasrunonce) {
 
         Texture::SharedPtr seed_texture = createTextureFromFile("seeds_RGBA.png", false, false,Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess |
-                                                                                                                                                                                                                                                  Resource::BindFlags::RenderTarget);
+                                                                                                                                                                                                                                               Resource::BindFlags::RenderTarget);
         mpGraph->setInput("GlobalIllumination.seed_input", seed_texture);
-        //ResourceFormat format = seed_texture->getFormat();
         //just do nothing; we will load starting seed texture in globalillumination pass 
         hasrunonce = true;
 
@@ -151,7 +150,6 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
 
         //bring our retargeted seeds into the globalillumination stage
         Resource::SharedPtr retarget_seeds = mpGraph->getOutput("Retargeting.output_seed");
-        Resource::Type format = retarget_seeds->getType();
         mpGraph->setInput("GlobalIllumination.seed_input", retarget_seeds);
 
     }
@@ -162,6 +160,7 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
         mpGraph->execute(pRenderContext);
         //Shader Resource View, Render target view
         pRenderContext->blit(mpGraph->getOutput("GlobalIllumination.output")->getSRV(), pTargetFbo->getRenderTargetView(0));
+        //pRenderContext->blit(mpGraph->getOutput("Retargeting.output_seed")->getSRV(), pTargetFbo->getRenderTargetView(0));
     }
 }
 

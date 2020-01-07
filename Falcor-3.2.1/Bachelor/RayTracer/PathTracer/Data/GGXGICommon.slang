@@ -55,7 +55,7 @@ shared IRWTexture2D gOutput;
 shared ITexture2D gEnvMap;
 
 //for the seeds
-RWTexture2D seed_input;
+shared IRWTexture2D seed_input;
 
 // Payload for our shadow rays.
 struct ShadowRayPayload

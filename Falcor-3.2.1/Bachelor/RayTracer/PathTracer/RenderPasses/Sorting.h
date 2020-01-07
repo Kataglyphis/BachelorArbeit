@@ -74,4 +74,6 @@ private:
     ComputeState::SharedPtr mpComputeState;
     ComputeVars::SharedPtr mpComputeProgVars;
 
+    //textures
+    Texture::SharedPtr bluenoise;
 };
