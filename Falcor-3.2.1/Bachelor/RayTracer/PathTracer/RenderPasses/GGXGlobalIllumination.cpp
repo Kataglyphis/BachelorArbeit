@@ -171,23 +171,8 @@ void GGXGlobalIllumination::execute(RenderContext* pContext, const RenderData* p
     // Launch our ray tracing
     mpSceneRenderer->renderScene(pContext, mpVars, mpState, mRayLaunchDims);
 
-    pContext->copyResource(globalVars->getTexture("seed_input").get(), pData->getTexture("seed_output").get());
+    pContext->copyResource(pData->getTexture("seed_output").get(), globalVars->getTexture("seed_input").get());
 
-    /**auto texture = pData->getTexture("seed_input");
-    int seed_texture_width = texture->getWidth();
-    int seed_texture_height = texture->getHeight();
-    auto type = texture->getType();
-    auto handle = texture->getApiHandle();
-    auto depth = texture->getDepth();
-    auto format = texture->getFormat();
-    auto sampleCount = texture->getSampleCount();
-    auto array_size = texture->getArraySize();
-    auto mip_levels = texture->getMipCount();
-    auto flags = texture->getBindFlags();
-
-    pData->getTexture("seed_output") = Texture::createFromApiHandle(handle, type, seed_texture_width, seed_texture_height, depth, format, sampleCount, array_size, mip_levels, Resource::State::UnorderedAccess, flags);*/
-
-    
 }
 
 void GGXGlobalIllumination::renderUI(Gui* pGui, const char* uiGroup)

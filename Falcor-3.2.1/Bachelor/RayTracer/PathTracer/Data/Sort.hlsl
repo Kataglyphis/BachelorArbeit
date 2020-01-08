@@ -27,20 +27,21 @@ Algorithm 1 The sorting pass permutes pixel seeds by blocks.
 #define Swap(A,B) {pixel temp = A; A = B; B = temp;}
 
 //fmod(x, y) function := return the floating-point reminder f of x/y
-#define Even(x) (fmod((x), 2) == 0)
-#define Odd(x)  (fmod((x), 2) != 0)
+//#define Even(x) (fmod((x), 2) == 0)
+//#define Odd(x)  (fmod((x), 2) != 0)
 
 //helpfull functions
 float getIntensity(float3 pixel) {
     return (pixel.x + pixel.y + pixel.z) / 3.0f;
 }
 
-uint getSeedFromTex(uint4 pixelValue) {
-    return (((pixelValue.x) << 24) | ((pixelValue.y) << 16) | ((pixelValue.z << 8)) | pixelValue.w);
+uint getSeedFromTex(float4 pixelValue) {
+    return (((uint) pixelValue.x << 24) | ((uint) pixelValue.y << 16) | ((uint) pixelValue.z << 8) | pixelValue.w);
 }
 
-float4 fromSeedToTexture(uint seed) {
-    return float4(((seed & 0xFF000000) >> 24) / 255.f, ((seed & 0x00FF0000) >> 16) / 255.f, ((seed & 0x0000FF00) >> 8) / 255.f, ((seed & 0x000000FF)) / 255.f);
+float4 fromSeedToTexture(float seed)
+{
+    return float4((((uint) seed & 0xFF000000) >> 24) / 255.f, (((uint) seed & 0x00FF0000) >> 16) / 255.f, (((uint) seed & 0x0000FF00) >> 8) / 255.f, (((uint) seed & 0x000000FF)) / 255.f);
 }
 
 //central struct for the sorting; each pixel has a value and an index in our
@@ -85,9 +86,9 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
 
     //target blue noise tile should change after each frame --> each pixel has a different error in each frame
     //This is important for temporel filtering algorithms to reduce errors by averaging them over multiple frames!!
-    float g = 1.32471795724474602596;
-    float offset_x = (1.0 / g) * tile_width * frame_count; //multiply with index for changes frame by frame!
-    float offset_y = (1.0 / (pow(g, 2))) * tile_height * frame_count; //multiply with index for changes frame by frame!
+    float g = 1.32471795724474602596f;
+    float offset_x = (1.0f / g) * tile_width * frame_count; //multiply with index for changes frame by frame!
+    float offset_y = (1.0f / BLOCK_SIZE) * tile_height * frame_count; //multiply with index for changes frame by frame!
     float2 offset = (offset_x, offset_y);
     uint2 bluenoise_index = (offset + thread_ID);
     bluenoise_index.x = bluenoise_index.x % tile_width;
@@ -96,9 +97,9 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     //we have the values shared beneath all threads of a groupshared
     //before we start to sort we have to firstly simply copy
     //we need all threads to reach this point
-    sortedImage[group_Index].value = getIntensity(input_frame_texture[thread_ID].xyz);
+    sortedImage[group_Index].value = getIntensity(input_frame_texture[thread_ID].xyz * 255.f);
     //.x is hard coded for compiling reason; please correct it later
-    sortedImage[group_Index].index = getSeedFromTex(input_seed_texture[thread_ID]* 255.f);
+    sortedImage[group_Index].index = getSeedFromTex(input_seed_texture[thread_ID] * 255.f);
 
     //blue noise value; we use only one value; R-Channel
     sortedBlueNoise[group_Index].value = input_blue_noise_texture[bluenoise_index].x * 255.f;
@@ -150,7 +151,7 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     //new seed index in result of sorting blue noise texture
     //uint new_seed_index = global_seed_index.y * width + global_seed_index.x;
     //fed the input_seed_texture with the now sorted seeds!!!!
-    input_seed_texture[global_seed_index] = fromSeedToTexture(sortedImage[group_Index].index);//float4(x,y,0,1);////float4(1.0,0,0,1); //we've copied the global position above; so just enter with group_Index
+    input_seed_texture[global_seed_index] = fromSeedToTexture(sortedImage[group_Index].index); //float4(x, y, 0, 1); float4(x,y,0,1);////float4(1.0,0,0,1); //we've copied the global position above; so just enter with group_Index
      
 }
 

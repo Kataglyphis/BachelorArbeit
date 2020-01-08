@@ -42,14 +42,12 @@ RenderPassReflection Sorting::reflect(void) const {
     r.addInput("seed_input", "the incoming seed texture").texture2D(1920, 720).bindFlags(/*Resource::BindFlags::ShaderResource |*/
                                                                                                                             Resource::BindFlags::UnorderedAccess |
                                                                                                                             Resource::BindFlags::RenderTarget);
-    //ResourceFormat::RGBA8Uint
-    //(color&0xff000000)>>24
-    //(color&0x00ff0000)>>16
 
     //output
     r.addOutput("blue_noise", "our blue noise texture").texture2D(tile_width, tile_height).format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::ShaderResource |
-                                                                                                                                                                                            Resource::BindFlags::UnorderedAccess |
+                                                                                                                                                                                            /*Resource::BindFlags::UnorderedAccess |*/
                                                                                                                                                                                             Resource::BindFlags::RenderTarget);
+
     r.addOutput("seed_output", "the outgoing seed texture").texture2D(1920, 720).format(ResourceFormat::BGRA8Unorm).bindFlags(/*Resource::BindFlags::ShaderResource |*/
                                                                                                                                                                                                         Resource::BindFlags::UnorderedAccess |
                                                                                                                                                                                                         Resource::BindFlags::RenderTarget);
@@ -72,7 +70,7 @@ void Sorting::initialize(RenderContext * pContext, const RenderData * pRenderDat
     mpComputeProgVars->setStructuredBuffer("data", StructuredBuffer::create(mpComputeProg, "data", 1));
 
     //createTextureFromFile!!!!
-    bluenoise = createTextureFromFile("LDR_RGBA_0_64.png", false, false, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
+    bluenoise = createTextureFromFile("LDR_RGBA_0_64.png", false, false, Resource::BindFlags::ShaderResource | /*Resource::BindFlags::UnorderedAccess |*/ Resource::BindFlags::RenderTarget);
     mpComputeProgVars->setTexture("input_blue_noise_texture", bluenoise);
     //mpComputeProgVars->setTexture("input_seed_texture", pRenderData->getTexture("seed_input"));
 
@@ -101,7 +99,7 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
     //mpComputeProgVars->setTexture("input_blue_noise_texture", bluenoise);
     //Texture::SharedPtr t2 = pData->getTexture("seed_input");
     //pData->getTexture("blue_noise") = mpComputeProgVars->getTexture("input_blue_noise_texture");
-    Texture::SharedPtr b2 = pData->getTexture("blue_noise");
+    //Texture::SharedPtr b2 = pData->getTexture("blue_noise");
 
     pContext->setComputeState(mpComputeState);
     pContext->setComputeVars(mpComputeProgVars);

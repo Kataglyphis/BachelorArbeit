@@ -38,10 +38,10 @@ void GGXGlobalIllumRayGen()
 
     // Initialize our random number generator
 
-    uint randSeed =  int(seed_input[launchIndex].x * 256.f) << 24|
-                     int(seed_input[launchIndex].y * 256.f) << 16|
-                     int(seed_input[launchIndex].z * 256.f) << 8 |
-                     int(seed_input[launchIndex].w * 256.f);
+    uint randSeed =  int(seed_input[launchIndex].x * 255.f) << 24|
+                     int(seed_input[launchIndex].y * 255.f) << 16|
+                     int(seed_input[launchIndex].z * 255.f) << 8 |
+                     int(seed_input[launchIndex].w * 255.f);
     //uint randSeed = rand_init(launchIndex.x + launchIndex.y * launchDim.x, gFrameCount, 16);
     //uint randSeed = launchIndex.x + launchIndex.y;
     

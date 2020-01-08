@@ -60,7 +60,7 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
 
     //textures for retargeting
 
-    Texture::SharedPtr retarget = createTextureFromFile("retargeted_texture.png", false, false, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess|
+    Texture::SharedPtr retarget = createTextureFromFile("retargeted_texture.png", false, false, Resource::BindFlags::ShaderResource | /*Resource::BindFlags::UnorderedAccess|*/
                                                                                                                                                                                                                                                 Resource::BindFlags::RenderTarget);
     mpComputeProgVars->setTexture("retarget_texture", retarget);
 
@@ -98,7 +98,7 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     pContext->dispatch(groupSizeX, groupSizeY, 1);
 
     //set the outgoing blue noise texture!
-    pContext->copyResource(pData->getTexture("output_seed").get(), pData->getTexture("input_seed").get());
+    pContext->copyResource(pData->getTexture("output_seed").get(),mpComputeProgVars->getTexture("output_seed_texture").get());
 }
 
 void Retargeting::renderUI(Gui* pGui, const char* uiGroup) {
