@@ -36,11 +36,11 @@ float getIntensity(float3 pixel) {
 }
 
 uint getSeedFromTex(uint4 pixelValue) {
-    return (((pixelValue.x * 255) << 24) | ((pixelValue.y * 255) << 16) | ((pixelValue.z << 8) * 255) | pixelValue.w * 255);
+    return (((pixelValue.x) << 24) | ((pixelValue.y) << 16) | ((pixelValue.z << 8)) | pixelValue.w);
 }
 
 float4 fromSeedToTexture(uint seed) {
-    return float4(((seed & 0xFF000000) >> 24) / 255.f, ((seed & 0x00FF0000) >> 16) / 255.f, ((seed & 0x0000FF00) >> 8) / 255.f, ((seed | 0x000000FF)) / 255.f);
+    return float4(((seed & 0xFF000000) >> 24) / 255.f, ((seed & 0x00FF0000) >> 16) / 255.f, ((seed & 0x0000FF00) >> 8) / 255.f, ((seed & 0x000000FF)) / 255.f);
 }
 
 //central struct for the sorting; each pixel has a value and an index in our
@@ -59,13 +59,15 @@ Texture2D<float4> input_blue_noise_texture;
 RWTexture2D<float4> input_seed_texture;
 
 //given variables for our frame
-cbuffer perFrameData : register(b0)
+struct perFrameData
 {
     uint tile_width; // width of the frame
     uint tile_height; // height of the frame
     uint frame_count; // the actual index of the frame
     
 };
+
+StructuredBuffer<perFrameData> data;
 
 //shared beneath all threads of the group
 //must be shared! wen want to sort all the pixels
@@ -77,6 +79,10 @@ groupshared pixel sortedBlueNoise[BLOCK_SIZE];
 [numthreads(DIMENSION_SIZE, DIMENSION_SIZE, 1)]
 void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 thread_ID : SV_DISPATCHTHREADID)
 {
+    uint tile_width = data[0].tile_width;
+    uint tile_height = data[0].tile_height;
+    uint frame_count = data[0].frame_count;
+
     //target blue noise tile should change after each frame --> each pixel has a different error in each frame
     //This is important for temporel filtering algorithms to reduce errors by averaging them over multiple frames!!
     float g = 1.32471795724474602596;
@@ -92,7 +98,7 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     //we need all threads to reach this point
     sortedImage[group_Index].value = getIntensity(input_frame_texture[thread_ID].xyz);
     //.x is hard coded for compiling reason; please correct it later
-    sortedImage[group_Index].index = getSeedFromTex(input_seed_texture[thread_ID]);
+    sortedImage[group_Index].index = getSeedFromTex(input_seed_texture[thread_ID]* 255.f);
 
     //blue noise value; we use only one value; R-Channel
     sortedBlueNoise[group_Index].value = input_blue_noise_texture[bluenoise_index].x * 255.f;
@@ -144,7 +150,7 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     //new seed index in result of sorting blue noise texture
     //uint new_seed_index = global_seed_index.y * width + global_seed_index.x;
     //fed the input_seed_texture with the now sorted seeds!!!!
-    input_seed_texture[global_seed_index] = fromSeedToTexture(sortedImage[group_Index].index); //we've copied the global position above; so just enter with group_Index
-             
+    input_seed_texture[global_seed_index] = fromSeedToTexture(sortedImage[group_Index].index);//float4(x,y,0,1);////float4(1.0,0,0,1); //we've copied the global position above; so just enter with group_Index
+     
 }
 

@@ -80,11 +80,11 @@ RenderPassReflection GGXGlobalIllumination::reflect(void) const
     r.addInput("specRough", "");
     r.addInput("emissive", "");
     r.addInput("matlExtra", "");
-    r.addInput("seed_input","seeds we are putting in from our global path tracer").format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::ShaderResource |
+    r.addInput("seed_input","seeds we are putting in from our global path tracer").texture2D(1920, 720).format(ResourceFormat::BGRA8Unorm).bindFlags(/*Resource::BindFlags::ShaderResource |*/
                                                                                                                                                     Resource::BindFlags::UnorderedAccess |
                                                                                                                                                     Resource::BindFlags::RenderTarget);
 
-    r.addOutput("seed_output", "the outgoing seed texture").format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::ShaderResource |
+    r.addOutput("seed_output", "the outgoing seed texture").texture2D(1920, 720).format(ResourceFormat::BGRA8Unorm).bindFlags(/*Resource::BindFlags::ShaderResource |*/
                                                                                                                                                         Resource::BindFlags::UnorderedAccess |
                                                                                                                                                         Resource::BindFlags::RenderTarget);
 
@@ -168,7 +168,12 @@ void GGXGlobalIllumination::execute(RenderContext* pContext, const RenderData* p
     globalVars->setTexture("gEnvMap", (mEnvMapMode == EnvMapMode::Black || pEnvMap == nullptr) ? mpBlackHDR : pEnvMap);
 
     //set the outgoing seed texture for working in sorting step!
-    auto texture = pData->getTexture("seed_input");
+    // Launch our ray tracing
+    mpSceneRenderer->renderScene(pContext, mpVars, mpState, mRayLaunchDims);
+
+    pContext->copyResource(globalVars->getTexture("seed_input").get(), pData->getTexture("seed_output").get());
+
+    /**auto texture = pData->getTexture("seed_input");
     int seed_texture_width = texture->getWidth();
     int seed_texture_height = texture->getHeight();
     auto type = texture->getType();
@@ -180,11 +185,9 @@ void GGXGlobalIllumination::execute(RenderContext* pContext, const RenderData* p
     auto mip_levels = texture->getMipCount();
     auto flags = texture->getBindFlags();
 
-    pData->getTexture("seed_output") = Texture::createFromApiHandle(handle, type, seed_texture_width, seed_texture_height, depth, format, sampleCount, array_size, mip_levels, Resource::State::UnorderedAccess, flags);
+    pData->getTexture("seed_output") = Texture::createFromApiHandle(handle, type, seed_texture_width, seed_texture_height, depth, format, sampleCount, array_size, mip_levels, Resource::State::UnorderedAccess, flags);*/
 
     
-    // Launch our ray tracing
-    mpSceneRenderer->renderScene(pContext, mpVars, mpState, mRayLaunchDims);
 }
 
 void GGXGlobalIllumination::renderUI(Gui* pGui, const char* uiGroup)

@@ -39,7 +39,7 @@ RenderPassReflection Sorting::reflect(void) const {
     r.addInput("frame_input", "rendered frame from path tracing").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource |
                                                                                                                                                                                                                 Resource::BindFlags::UnorderedAccess |
                                                                                                                                                                                                                  Resource::BindFlags::RenderTarget);
-    r.addInput("seed_input", "the incoming seed texture").bindFlags(Resource::BindFlags::ShaderResource |
+    r.addInput("seed_input", "the incoming seed texture").texture2D(1920, 720).bindFlags(/*Resource::BindFlags::ShaderResource |*/
                                                                                                                             Resource::BindFlags::UnorderedAccess |
                                                                                                                             Resource::BindFlags::RenderTarget);
     //ResourceFormat::RGBA8Uint
@@ -47,10 +47,10 @@ RenderPassReflection Sorting::reflect(void) const {
     //(color&0x00ff0000)>>16
 
     //output
-    r.addOutput("blue_noise", "our blue noise texture").format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::ShaderResource |
+    r.addOutput("blue_noise", "our blue noise texture").texture2D(tile_width, tile_height).format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::ShaderResource |
                                                                                                                                                                                             Resource::BindFlags::UnorderedAccess |
                                                                                                                                                                                             Resource::BindFlags::RenderTarget);
-    r.addOutput("seed_output", "the outgoing seed texture").format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::ShaderResource |
+    r.addOutput("seed_output", "the outgoing seed texture").texture2D(1920, 720).format(ResourceFormat::BGRA8Unorm).bindFlags(/*Resource::BindFlags::ShaderResource |*/
                                                                                                                                                                                                         Resource::BindFlags::UnorderedAccess |
                                                                                                                                                                                                         Resource::BindFlags::RenderTarget);
 
@@ -65,24 +65,17 @@ void Sorting::initialize(RenderContext * pContext, const RenderData * pRenderDat
     mpComputeState = ComputeState::create();
     mpComputeState->setProgram(mpComputeProg);
 
-    Falcor::ProgramReflection::SharedConstPtr reflector = mpComputeProg->getReflector();
-
+    //create vars and immeadiatley set vars
+    //create PerFrameData
+    //get the binding correct
     mpComputeProgVars = ComputeVars::create(mpComputeProg->getReflector());
+    mpComputeProgVars->setStructuredBuffer("data", StructuredBuffer::create(mpComputeProg, "data", 1));
 
     //createTextureFromFile!!!!
     bluenoise = createTextureFromFile("LDR_RGBA_0_64.png", false, false, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
     mpComputeProgVars->setTexture("input_blue_noise_texture", bluenoise);
-    mpComputeProgVars->setTexture("input_seed_texture", pRenderData->getTexture("seed_input"));
+    //mpComputeProgVars->setTexture("input_seed_texture", pRenderData->getTexture("seed_input"));
 
-    //create PerFrameData
-    const ParameterBlockReflection* pDefaultBlockReflection = mpComputeProg->getReflector()->getDefaultParameterBlock().get();
-    perFrameData = pDefaultBlockReflection->getResourceBinding("perFrameData");
-
-    ParameterBlock* pDefaultBlock = mpComputeProgVars->getDefaultBlock().get();
-    ConstantBuffer* pCB = pDefaultBlock->getConstantBuffer(perFrameData, 0).get();
-    width_offset = pCB->getVariableOffset("tile_width");
-    height_offset = pCB->getVariableOffset("tile_height");
-    frame_count_offset = pCB->getVariableOffset("frame_count");
     
     if (mpComputeProg != nullptr) {
         mIsInitialized = true;
@@ -98,13 +91,17 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
     }
 
     //info for the frame
-    ConstantBuffer* pCB = mpComputeProgVars->getDefaultBlock()->getConstantBuffer(perFrameData, 0).get();
-    pCB->setVariable("tile_width", frame_width);
-    pCB->setVariable("tile_height", frame_height);
-    pCB->setVariable("frame_count", frame_count++);
-    
+    // Send data to compute shader; first fill structured buffer
+    mpComputeProgVars->getStructuredBuffer("data")[0]["tile_width"] = tile_width;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["tile_height"] = tile_height;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["frame_count"] = frame_count;
+
     mpComputeProgVars->setTexture("input_frame_texture",pData->getTexture("frame_input"));
     mpComputeProgVars->setTexture("input_seed_texture", pData->getTexture("seed_input"));
+    //mpComputeProgVars->setTexture("input_blue_noise_texture", bluenoise);
+    //Texture::SharedPtr t2 = pData->getTexture("seed_input");
+    //pData->getTexture("blue_noise") = mpComputeProgVars->getTexture("input_blue_noise_texture");
+    Texture::SharedPtr b2 = pData->getTexture("blue_noise");
 
     pContext->setComputeState(mpComputeState);
     pContext->setComputeVars(mpComputeProgVars);
@@ -117,35 +114,12 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
     //Dispatch groupSizeX,GroupSizeY,GroupSizeZ;
 
     //set the outgoing seed texture for working in sorting step!
-    auto texture = mpComputeProgVars->getTexture("input_seed_texture");
-    int seed_texture_width = texture->getWidth();
-    int seed_texture_height = texture->getHeight();
-    auto type = texture->getType();
-    auto handle = texture->getApiHandle();
-    auto depth = texture->getDepth();
-    auto format = texture->getFormat();
-    auto sampleCount = texture->getSampleCount();
-    auto array_size = texture->getArraySize();
-    auto mip_levels = texture->getMipCount();
-    auto flags = texture->getBindFlags();
-
-    pData->getTexture("seed_output") = Texture::createFromApiHandle(handle, type, seed_texture_width, seed_texture_height, depth, format, sampleCount, array_size, mip_levels, Resource::State::UnorderedAccess, flags);
-
+    pContext->copyResource(pData->getTexture("seed_output").get(), mpComputeProgVars->getTexture("input_seed_texture").get());
+    //Texture::SharedPtr t = pData->getTexture("seed_output");
     //set the outgoing blue noise texture!
-    int bluenoise_width =bluenoise->getWidth();
-    int bluenoise_height = bluenoise->getHeight();
-    auto bluenoise_type = bluenoise->getType();
-    auto bluenoise_handle = bluenoise->getApiHandle();
-    auto bluenoise_depth = bluenoise->getDepth();
-    auto bluenoise_format = bluenoise->getFormat();
-    auto bluenoise_sampleCount = bluenoise->getSampleCount();
-    auto bluenoise_array_size = bluenoise->getArraySize();
-    auto bluenoise_mip_levels = bluenoise->getMipCount();
-    auto bluenoise_flags = bluenoise->getBindFlags();
-
-    pData->getTexture("blue_noise") = Texture::createFromApiHandle(bluenoise_handle, bluenoise_type, bluenoise_width, bluenoise_height, bluenoise_depth, bluenoise_format,
-        bluenoise_sampleCount, bluenoise_array_size, bluenoise_mip_levels, Resource::State::UnorderedAccess, bluenoise_flags);
-
+    pContext->copyResource(pData->getTexture("blue_noise").get(), bluenoise.get());
+    //Texture::SharedPtr b = pData->getTexture("blue_noise");
+    
 }
 
 void Sorting::renderUI(Gui* pGui, const char* uiGroup) {

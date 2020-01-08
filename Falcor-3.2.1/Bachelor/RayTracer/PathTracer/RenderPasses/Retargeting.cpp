@@ -36,11 +36,11 @@ RenderPassReflection Retargeting::reflect(void) const {
 
     RenderPassReflection r;
     //input
-    r.addInput("input_seed", "resorted seeds from the sorting phase").format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::UnorderedAccess |
+    r.addInput("input_seed", "resorted seeds from the sorting phase").texture2D(1920, 720).format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::UnorderedAccess |
                                                                                                                                                                                                                         Resource::BindFlags::RenderTarget |
                                                                                                                                                                                                                         Resource::BindFlags::ShaderResource);
     //output
-    r.addOutput("output_seed", "the retargeted seed texture outgoing to path tracer").format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::UnorderedAccess |
+    r.addOutput("output_seed", "the retargeted seed texture outgoing to path tracer").texture2D(1920, 720).format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::UnorderedAccess |
                                                                                                                                                                                                                                                        Resource::BindFlags::RenderTarget |
                                                                                                                                                                                                                                                         Resource::BindFlags::ShaderResource);
     /**r.addOutput("retarget","texture were our retargeting is stored").format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::UnorderedAccess |
@@ -64,15 +64,9 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
                                                                                                                                                                                                                                                 Resource::BindFlags::RenderTarget);
     mpComputeProgVars->setTexture("retarget_texture", retarget);
 
-    //create PerFrameData
-    const ParameterBlockReflection* pDefaultBlockReflection = mpComputeProg->getReflector()->getDefaultParameterBlock().get();
-    mBindLocations.perFrameData = pDefaultBlockReflection->getResourceBinding("perFrameData");
-
-    ParameterBlock* pDefaultBlock = mpComputeProgVars->getDefaultBlock().get();
-    ConstantBuffer* pCB = pDefaultBlock->getConstantBuffer(mBindLocations.perFrameData, 0).get();
-    width_offset = pCB->getVariableOffset("tile_width");
-    height_offset = pCB->getVariableOffset("tile_height");
-    frame_count_offset = pCB->getVariableOffset("frame_count");
+    //info for the frame
+    // Send data to compute shader; first fill structured buffer
+    mpComputeProgVars->setStructuredBuffer("data", StructuredBuffer::create(mpComputeProg, "data", 1));
 
     if (mpComputeProg != nullptr) mIsInitialized = true;
 
@@ -87,10 +81,9 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     }
 
     //info for the frame
-    ConstantBuffer* pCB = mpComputeProgVars->getDefaultBlock()->getConstantBuffer(mBindLocations.perFrameData, 0).get();
-    pCB->setVariable("tile_width", tile_width);
-    pCB->setVariable("tile_height", tile_height);
-    pCB->setVariable("frame_count", frame_count++);
+    mpComputeProgVars->getStructuredBuffer("data")[0]["tile_width"] = tile_width;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["tile_height"] = tile_height;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["frame_count"] = frame_count;
 
     mpComputeProgVars->setTexture("src_seed_texture", pData->getTexture("input_seed"));
     //set the putput seed tex in HLSL namespace!!
@@ -105,19 +98,7 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     pContext->dispatch(groupSizeX, groupSizeY, 1);
 
     //set the outgoing blue noise texture!
-    auto texture = mpComputeProgVars->getTexture("output_seed_texture");
-    int seed_texture_width = texture->getWidth();
-    int seed_texture_height = texture->getHeight();
-    auto type = texture->getType();
-    auto handle = texture->getApiHandle();
-    auto depth = texture->getDepth();
-    auto format = texture->getFormat();
-    auto sampleCount = texture->getSampleCount();
-    auto array_size = texture->getArraySize();
-    auto mip_levels = texture->getMipCount();
-    auto flags = texture->getBindFlags();
-
-    pData->getTexture("output_seed") = Texture::createFromApiHandle(handle, type, seed_texture_width, seed_texture_height, depth, format, sampleCount, array_size, mip_levels, Resource::State::UnorderedAccess, flags);
+    pContext->copyResource(pData->getTexture("output_seed").get(), pData->getTexture("input_seed").get());
 }
 
 void Retargeting::renderUI(Gui* pGui, const char* uiGroup) {

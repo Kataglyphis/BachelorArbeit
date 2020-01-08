@@ -21,13 +21,15 @@ Texture2D<float4> src_seed_texture;
 RWTexture2D<float4> output_seed_texture;
 
 //given variables for our frame
-cbuffer perFrameData : register(b0){
+struct perFrameData {
     
     uint tile_width; // width of the frame
     uint tile_height; // height of the frame
     uint frame_count; // the actual index of the frame
     
 };
+
+StructuredBuffer<perFrameData> data;
 
 
 //fetching precomputed permutation and applying it to the seeds
@@ -45,13 +47,13 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     bluenoise_index.x = bluenoise_index.x % tile_width;
     bluenoise_index.y = bluenoise_index.y % tile_height;
 
-    uint2 retarget = uint2((retarget_texture[bluenoise_index].xy * 255.f) - uint2(6.f));
+    int2 retarget = int2((retarget_texture[bluenoise_index].xy * 255.f) - int2(6.f));
 
     //retargeting of the seeds
     uint2 retargetCoordinates = thread_ID + uint2(tile_width, tile_height) + retarget;
     retargetCoordinates.x = retargetCoordinates.x % tile_width;
     retargetCoordinates.y = retargetCoordinates.y % tile_height;
     //apply permutation to the seeds
+    output_seed_texture[thread_ID] = float4(1,0,0,1);
     //output_seed_texture[retargetCoordinates] = src_seed_texture[thread_ID];
-    output_seed_texture[retargetCoordinates] = src_seed_texture[thread_ID];
 }
