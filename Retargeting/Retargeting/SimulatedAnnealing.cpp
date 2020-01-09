@@ -1,5 +1,9 @@
 ﻿#include "SimulatedAnnealing.h"
 
+SimulatedAnnealing::SimulatedAnnealing() : helper() {
+
+}
+
 bool SimulatedAnnealing::execute(const uint32_t  number_steps, const char* filename, const uint32_t image_width, const uint32_t image_height) {
 	
 	//generate a state with starting permutation: this means

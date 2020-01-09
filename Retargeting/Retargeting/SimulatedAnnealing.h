@@ -7,16 +7,6 @@
 using namespace std;
 
 
-//for moredimensional arrays!!
-/**typedef std::vector<std::vector<std::vector<int>>> Image;
-typedef std::vector<std::vector<int>> Row;
-//pixel structure with r,g,b,a as ints
-typedef std::vector<int> Pixel;
-//permutation, stores (i,j) - pair*/
-//typedef boost::multi_array<int, 3> Image;
-typedef vector<int> Values;
-typedef vector<Values> Column;
-typedef vector<Column> Image;
 //typedef Image::index index;
 /**
 	stores permutation in this pixel manner; numbers representing indices
@@ -59,9 +49,11 @@ typedef vector<Column> Image;
 
 class SimulatedAnnealing {
 	public:
-		SimulatedAnnealing() {};
+        SimulatedAnnealing() {};
 		bool execute(const uint32_t  number_steps, const char* filename, const uint32_t image_width, const uint32_t image_height);
 private:
+        helpers helper;
+
 		std::vector<int> toroidallyShift(const unsigned int oldFrameDitherX, const unsigned int oldFrameDitherY, const uint32_t frame_width, const uint32_t frame_height);
 		bool loadPNGinArray(const char* fileName, Image& img_data);
 		float calculateEnergy(Image& image_t, Image& image_next, Image& permutation, const int width, const int height);
@@ -72,5 +64,5 @@ private:
         bool applyOneRandomPermutation(Image& permutation_data_output, Image& permutation_positions, const uint32_t image_width, const uint32_t image_height);
         bool isApplicablePermutation(Image& permutation_data_step, Image& permutation_positions, const int random_x, const int random_y, const int random_step_x, const int random_step_y, const int image_width, const int image_height);
         bool deepCopyImage(Image& source, Image& dest, const int image_width, const int image_height);
-		helpers helper;
+		
 };

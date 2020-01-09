@@ -45,6 +45,9 @@
     <ClInclude Include="WangHash.h">
       <Filter>Quelldateien</Filter>
     </ClInclude>
+    <ClInclude Include="SimulatedAnnealingTest.h">
+      <Filter>Quelldateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -75,6 +78,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="WangHash.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="SimulatedAnnealingTest.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

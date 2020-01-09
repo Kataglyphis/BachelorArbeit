@@ -115,3 +115,10 @@ bool helpers::loadImageFromFile() {
 
 	return true;
 }
+
+bool helpers::deepCopyImage(Image& source, Image& dest, const int image_width, const int image_height);
+bool helpers::fromArrayToBitmap(Image& img_data, FIBITMAP* bitmap, const uint32_t image_width, const uint32_t image_height);
+bool helpers::getNextDither(Image& dither_data, Image& next_dither_data, const uint32_t frame_width, const uint32_t frame_height);
+bool helpers::saveRetargetImageToFile(const char* filenameToSave, FIBITMAP* retargetBitMap);
+bool helpers::loadPNGinArray(const char* fileName, Image& img_data);
+std::vector<int> helpers::toroidallyShift(const unsigned int oldFrameDitherX, const unsigned int oldFrameDitherY, const uint32_t frame_width, const uint32_t frame_height);
