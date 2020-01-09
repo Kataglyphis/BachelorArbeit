@@ -122,8 +122,14 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     {
         ProgressBar::SharedPtr pBar = ProgressBar::create("Loading Scene", 100);
 
-        RtScene::SharedPtr pScene = RtScene::loadFromFile("Arcade/Arcade.fscene");
-        //RtScene::SharedPtr pScene = RtScene::loadFromFile("Arcade/Arcade.fbx");
+        //RtScene::SharedPtr pScene = RtScene::loadFromFile("Arcade/Arcade.fscene");
+        //RtScene::SharedPtr pScene = RtScene::loadFromFile("pink_room/pink_room.fscene");
+        //RtScene::SharedPtr pScene = RtScene::loadFromFile("Bistro_v4/Bistro_Exterior.fscene");
+        //RtScene::SharedPtr pScene = RtScene::loadFromFile("Bistro_v4/Bistro_Interior.fscene");
+        //RtModel::SharedPtr pModel = RtModel::createFromFile("CornellBox/CornellBox-Original.obj");
+        //RtScene::SharedPtr pScene = RtScene::createFromModel(pModel);
+        //pScene->addModelInstance();
+        RtScene::SharedPtr pScene = RtScene::loadFromFile("EmeraldSquare/EmeraldSquare_Day.fscene");
         if (pScene != nullptr)
         {
             Fbo::SharedPtr pFbo = pCallbacks->getCurrentFbo();
