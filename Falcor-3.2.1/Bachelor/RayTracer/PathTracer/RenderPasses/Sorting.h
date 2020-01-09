@@ -13,15 +13,15 @@ public:
 
     // survey variables
     bool mIsInitialized = false;
-    bool distributeAsBlueNoise = true;
+    //for sorting pass be dis-or enabled
+    bool sortingEnabled = true;
+
+    //frame infos
     uint32_t frame_count = 0;
     uint32_t tile_width = 64;
     uint32_t tile_height = 64;
     uint32_t frame_width = 1920;
     uint32_t frame_height = 720;
-
-    //our bind locations
-    ProgramReflection::BindLocation perFrameData;
 
     //offsets for our struct variables
     size_t width_offset;
@@ -31,6 +31,21 @@ public:
     //compute context
     uint32_t groupDimX = 4;
     uint32_t groupDimY = 4;
+    uint32_t numberOfGroupsX = (frame_width / groupDimX) + 1;
+    uint32_t numberOfGroupsY = (frame_height / groupDimY) +1;
+
+    //Internal pass state
+    ComputeProgram::SharedPtr mpComputeProg;
+    ComputeState::SharedPtr mpComputeState;
+    ComputeVars::SharedPtr mpComputeProgVars;
+
+    //textures
+    Texture::SharedPtr bluenoise;
+    Texture::SharedPtr copyForUnsorted;
+
+    //seed texture stats
+    uint seed_texture_width = 1920;
+    uint seed_texture_height = 720;
 
     /** Instantiate our pass.  The input Python dictionary is where you can extract pass parameters
     */
@@ -71,11 +86,4 @@ private:
     */
     void initialize(RenderContext* pContext, const RenderData* pRenderData);
 
-    //Internal pass state
-    ComputeProgram::SharedPtr mpComputeProg;
-    ComputeState::SharedPtr mpComputeState;
-    ComputeVars::SharedPtr mpComputeProgVars;
-
-    //textures
-    Texture::SharedPtr bluenoise;
 };

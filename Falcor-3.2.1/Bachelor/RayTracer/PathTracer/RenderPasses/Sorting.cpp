@@ -39,7 +39,7 @@ RenderPassReflection Sorting::reflect(void) const {
     r.addInput("frame_input", "rendered frame from path tracing").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource |
                                                                                                                                                                                                                 Resource::BindFlags::UnorderedAccess |
                                                                                                                                                                                                                  Resource::BindFlags::RenderTarget);
-    r.addInput("seed_input", "the incoming seed texture").texture2D(1920, 720).bindFlags(/*Resource::BindFlags::ShaderResource |*/
+    r.addInput("seed_input", "the incoming seed texture").texture2D(seed_texture_width, seed_texture_height).bindFlags(/*Resource::BindFlags::ShaderResource |*/
                                                                                                                             Resource::BindFlags::UnorderedAccess |
                                                                                                                             Resource::BindFlags::RenderTarget);
 
@@ -48,7 +48,7 @@ RenderPassReflection Sorting::reflect(void) const {
                                                                                                                                                                                             /*Resource::BindFlags::UnorderedAccess |*/
                                                                                                                                                                                             Resource::BindFlags::RenderTarget);
 
-    r.addOutput("seed_output", "the outgoing seed texture").texture2D(1920, 720).format(ResourceFormat::BGRA8Unorm).bindFlags(/*Resource::BindFlags::ShaderResource |*/
+    r.addOutput("seed_output", "the outgoing seed texture").texture2D(seed_texture_width, seed_texture_height).format(ResourceFormat::BGRA8Unorm).bindFlags(/*Resource::BindFlags::ShaderResource |*/
                                                                                                                                                                                                         Resource::BindFlags::UnorderedAccess |
                                                                                                                                                                                                         Resource::BindFlags::RenderTarget);
 
@@ -73,8 +73,11 @@ void Sorting::initialize(RenderContext * pContext, const RenderData * pRenderDat
     bluenoise = createTextureFromFile("LDR_RGBA_0_64.png", false, false, Resource::BindFlags::ShaderResource | /*Resource::BindFlags::UnorderedAccess |*/ Resource::BindFlags::RenderTarget);
     mpComputeProgVars->setTexture("input_blue_noise_texture", bluenoise);
     //mpComputeProgVars->setTexture("input_seed_texture", pRenderData->getTexture("seed_input"));
+    //for if we want to disable the sorting pass
+    /**copyForUnsorted = Texture::create2D(seed_texture_width, seed_texture_height, ResourceFormat::BGRA8Unorm,1,1);
+    pContext->copyResource(copyForUnsorted.get(), pRenderData->getTexture("seed_input").get());
+    */
 
-    
     if (mpComputeProg != nullptr) {
         mIsInitialized = true;
     }
@@ -88,15 +91,19 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
         initialize(pContext, pData);
     }
 
+    //
+
     //info for the frame
     // Send data to compute shader; first fill structured buffer
     mpComputeProgVars->getStructuredBuffer("data")[0]["tile_width"] = tile_width;
     mpComputeProgVars->getStructuredBuffer("data")[0]["tile_height"] = tile_height;
-    mpComputeProgVars->getStructuredBuffer("data")[0]["frame_count"] = frame_count;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["frame_width"] = frame_width;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["frame_height"] = frame_height;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["frame_count"] = ++frame_count;
 
-    mpComputeProgVars->setTexture("input_frame_texture",pData->getTexture("frame_input"));
+    mpComputeProgVars->setTexture("input_frame_texture", pData->getTexture("frame_input"));
     mpComputeProgVars->setTexture("input_seed_texture", pData->getTexture("seed_input"));
-    //mpComputeProgVars->setTexture("input_blue_noise_texture", bluenoise);
+
     //Texture::SharedPtr t2 = pData->getTexture("seed_input");
     //pData->getTexture("blue_noise") = mpComputeProgVars->getTexture("input_blue_noise_texture");
     //Texture::SharedPtr b2 = pData->getTexture("blue_noise");
@@ -106,13 +113,18 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
 
     //implementation info from here : https://hal.archives-ouvertes.fr/hal-02158423/file/blueNoiseTemporal2019_slides.pdf
     //Dispatch groupSizeX,GroupSizeY,GroupSizeZ;
-    uint32_t groupSizeX = (frame_width / groupDimX) + 1;
-    uint32_t groupSizeY = (frame_height / groupDimY) + 1;
-    pContext->dispatch(groupSizeX, groupSizeY, 1);
-    //Dispatch groupSizeX,GroupSizeY,GroupSizeZ;
+    pContext->dispatch(numberOfGroupsX, numberOfGroupsY, 1);
 
     //set the outgoing seed texture for working in sorting step!
-    pContext->copyResource(pData->getTexture("seed_output").get(), mpComputeProgVars->getTexture("input_seed_texture").get());
+    if (sortingEnabled) {
+
+        pContext->copyResource(pData->getTexture("seed_output").get(), pData->getTexture("seed_input").get());
+
+    } else {
+
+        //pContext->copyResource(pData->getTexture("seed_output").get(), copyForUnsorted.get());
+
+    }
     //Texture::SharedPtr t = pData->getTexture("seed_output");
     //set the outgoing blue noise texture!
     pContext->copyResource(pData->getTexture("blue_noise").get(), bluenoise.get());
@@ -122,7 +134,8 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
 
 void Sorting::renderUI(Gui* pGui, const char* uiGroup) {
 
-    pGui->addCheckBox("Distributing Errors as Blue Noise", distributeAsBlueNoise);
+    //pGui->addCheckBox("Dis-/Enable Sorting Pass", sortingEnabled);
+
 }
 
 void Sorting::setScene(const std::shared_ptr<Scene>& pScene) {

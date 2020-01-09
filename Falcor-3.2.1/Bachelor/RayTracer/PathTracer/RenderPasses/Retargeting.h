@@ -17,20 +17,30 @@ public:
     uint32_t frame_width = 1920;
     uint32_t frame_height = 720;
 
-    //our bind locations
-    struct
-    {
-        ProgramReflection::BindLocation perFrameData;
-    } mBindLocations;
+    //for compute context
+    uint32_t groupDimX = 4;
+    uint32_t groupDimY = 4;
+
+    //for compute state
+    uint32_t numberOfGroupsX = (frame_width / groupDimX) +1;
+    uint32_t numberOfGroupsY = (frame_height / groupDimY) +1;
 
     //offsets for our struct variables
     size_t width_offset;
     size_t height_offset;
     size_t frame_count_offset;
 
-    //for compute context
-    uint32_t groupDimX = 4;
-    uint32_t groupDimY = 4;
+    //survey variables
+    bool mIsInitialized = false;
+    bool enableRetargetingPass = false;
+
+    //the seed texture for stopping the retargeting and sorting
+    Texture::SharedPtr copyForUnsorted;
+
+    //seed texture stats
+    uint seed_texture_width = 1920;
+    uint seed_texture_height = 720;
+
     /** Instantiate our pass.  The input Python dictionary is where you can extract pass parameters
     */
     static SharedPtr create(const Dictionary& params = {});
@@ -74,9 +84,5 @@ private:
     ComputeProgram::SharedPtr mpComputeProg;
     ComputeState::SharedPtr mpComputeState;
     ComputeVars::SharedPtr mpComputeProgVars;
-
-    //survey variables
-    bool mIsInitialized = false;
-    bool retargetSeeds = true;
 
 };

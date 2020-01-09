@@ -82,11 +82,11 @@ RenderPassReflection GGXGlobalIllumination::reflect(void) const
     r.addInput("matlExtra", "");
     r.addInput("seed_input","seeds we are putting in from our global path tracer").texture2D(1920, 720).format(ResourceFormat::BGRA8Unorm).bindFlags(/*Resource::BindFlags::ShaderResource |*/
                                                                                                                                                     Resource::BindFlags::UnorderedAccess |
-                                                                                                                                                    Resource::BindFlags::RenderTarget);
+                                                                                                                                                    Resource::BindFlags::RenderTarget).mipLevels(1);
 
     r.addOutput("seed_output", "the outgoing seed texture").texture2D(1920, 720).format(ResourceFormat::BGRA8Unorm).bindFlags(/*Resource::BindFlags::ShaderResource |*/
                                                                                                                                                         Resource::BindFlags::UnorderedAccess |
-                                                                                                                                                        Resource::BindFlags::RenderTarget);
+                                                                                                                                                        Resource::BindFlags::RenderTarget).mipLevels(1);
 
     r.addOutput("output", "rendered frame with global illumination").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
     return r;

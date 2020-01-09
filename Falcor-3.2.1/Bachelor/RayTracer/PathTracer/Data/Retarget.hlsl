@@ -25,6 +25,8 @@ struct perFrameData {
     
     uint tile_width; // width of the frame
     uint tile_height; // height of the frame
+    uint frame_width; // width of the current frame
+    uint frame_height; // height of the current frame
     uint frame_count; // the actual index of the frame
     
 };
@@ -39,24 +41,26 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     uint tile_width = data[0].tile_width;
     uint tile_height = data[0].tile_height;
     uint frame_count = data[0].frame_count;
+    uint frame_width = data[0].frame_width;
+    uint frame_height = data[0].frame_height;
     
     //Not finished yet! Same problem as in the sorting pass, how to access texture correctly with OFFSET ???
     //Big TODO: target blue noise tile should change after each frame --> each pixel has a different error in each frame
     //This is important for temporel filtering algorithms to reduce errors by averaging them over multiple frames!!
     float g = 1.32471795724474602596f;
     float offset_x = (1.0f / g) * tile_width * frame_count;
-    float offset_y = (1.0f / (BLOCK_SIZE * BLOCK_SIZE)) * tile_height * frame_count;
+    float offset_y = (1.0f / (g * g)) * tile_height * frame_count;
     float2 offset = (offset_x,offset_y);
     uint2 bluenoise_index = (offset + thread_ID);
     bluenoise_index.x = bluenoise_index.x % tile_width;
     bluenoise_index.y = bluenoise_index.y % tile_height;
 
-    int2 retarget = int2((retarget_texture[bluenoise_index].xy * 255.f) - float2(6));
+    int2 retarget = int2(0);//int2((retarget_texture[bluenoise_index].xy * 256.f) - float2(6));
 
     //retargeting of the seeds
-    uint2 retargetCoordinates = thread_ID + uint2(tile_width, tile_height) + retarget;
-    retargetCoordinates.x = retargetCoordinates.x % tile_width;
-    retargetCoordinates.y = retargetCoordinates.y % tile_height;
+    uint2 retargetCoordinates = thread_ID + retarget;
+    retargetCoordinates.x = retargetCoordinates.x % frame_width;
+    retargetCoordinates.y = retargetCoordinates.y % frame_height;
     //apply permutation to the seeds
     //output_seed_texture[thread_ID] = float4(1,0,0,1);
     output_seed_texture[retargetCoordinates] = src_seed_texture[thread_ID];

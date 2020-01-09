@@ -36,16 +36,13 @@ RenderPassReflection Retargeting::reflect(void) const {
 
     RenderPassReflection r;
     //input
-    r.addInput("input_seed", "resorted seeds from the sorting phase").texture2D(1920, 720).format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::UnorderedAccess |
+    r.addInput("input_seed", "resorted seeds from the sorting phase").texture2D(seed_texture_width, seed_texture_height).format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::UnorderedAccess |
                                                                                                                                                                                                                         Resource::BindFlags::RenderTarget |
-                                                                                                                                                                                                                        Resource::BindFlags::ShaderResource);
+                                                                                                                                                                                                                        Resource::BindFlags::ShaderResource).mipLevels(1);
     //output
-    r.addOutput("output_seed", "the retargeted seed texture outgoing to path tracer").texture2D(1920, 720).format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::UnorderedAccess |
+    r.addOutput("output_seed", "the retargeted seed texture outgoing to path tracer").texture2D(seed_texture_width, seed_texture_height).format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::UnorderedAccess |
                                                                                                                                                                                                                                                        Resource::BindFlags::RenderTarget |
-                                                                                                                                                                                                                                                        Resource::BindFlags::ShaderResource);
-    /**r.addOutput("retarget","texture were our retargeting is stored").format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::UnorderedAccess |
-                                                                                                                                                                                                                     Resource::BindFlags::RenderTarget |
-                                                                                                                                                                                                                    Resource::BindFlags::ShaderResource);*/
+                                                                                                                                                                                                                                                        Resource::BindFlags::ShaderResource).mipLevels(1);
     return r;
 }
 
@@ -70,6 +67,9 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
 
     if (mpComputeProg != nullptr) mIsInitialized = true;
 
+    copyForUnsorted = Texture::create2D(seed_texture_width, seed_texture_height, ResourceFormat::BGRA8Unorm,1,1);
+    pContext->copyResource(copyForUnsorted.get(), pRenderData->getTexture("input_seed").get());
+
 }
 
 void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
@@ -83,7 +83,9 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     //info for the frame
     mpComputeProgVars->getStructuredBuffer("data")[0]["tile_width"] = tile_width;
     mpComputeProgVars->getStructuredBuffer("data")[0]["tile_height"] = tile_height;
-    mpComputeProgVars->getStructuredBuffer("data")[0]["frame_count"] = frame_count;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["frame_width"] = frame_width;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["frame_height"] = frame_height;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["frame_count"] = ++frame_count;
 
     mpComputeProgVars->setTexture("src_seed_texture", pData->getTexture("input_seed"));
     //set the putput seed tex in HLSL namespace!!
@@ -93,22 +95,31 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     pContext->setComputeVars(mpComputeProgVars);
 
     //implementation info from here : https://hal.archives-ouvertes.fr/hal-02158423/file/blueNoiseTemporal2019_slides.pdf 
-    uint32_t groupSizeX = (frame_width / groupDimX) + 1;
-    uint32_t groupSizeY = (frame_height / groupDimY) + 1;
-    pContext->dispatch(groupSizeX, groupSizeY, 1);
+    pContext->dispatch(numberOfGroupsX, numberOfGroupsY, 1);
 
     //set the outgoing blue noise texture!
-    pContext->copyResource(pData->getTexture("output_seed").get(),mpComputeProgVars->getTexture("output_seed_texture").get());
+    if (enableRetargetingPass) {
+
+        pContext->copyResource(pData->getTexture("output_seed").get(),mpComputeProgVars->getTexture("output_seed_texture").get());
+
+    } else {
+
+        pContext->copyResource(pData->getTexture("output_seed").get(), copyForUnsorted.get());
+
+    }
 }
 
 void Retargeting::renderUI(Gui* pGui, const char* uiGroup) {
+
     //pGui->addText("Distributing Errors as Blue Noise");
-    pGui->addCheckBox("Retarget Seeds", retargetSeeds);
+    pGui->addCheckBox("Dis-/Enable the blue nosie", enableRetargetingPass);
+
 }
 
 void Retargeting::setScene(const std::shared_ptr<Scene>& pScene) {
 
 }
+
 void Retargeting::onResize(uint32_t width, uint32_t height) {
     //Upadate frame data 
     frame_width = width;
