@@ -11,6 +11,7 @@
 #include <dinput.h>
 #include <tchar.h>
 #include "helpers.h"
+#include "SimulatedAnnealingTest.h"
 #include "SimulatedAnnealing.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb/stb_image_write.h"
@@ -91,13 +92,13 @@ int main(int, char**)
         "LDR_RGBA_0_64.png", 
         &my_texture, g_pd3dDevice, &my_image_width, &my_image_height);
 	if (!ret) return 1;
-    helper->freeImageFunction();
-    helper->generateSeedPNG();
+    //helper->freeImageFunction();
+    //helper->generateSeedPNG();
 
     //calc retargeted texture with temporal annealing!
     SimulatedAnnealing* retarget = new SimulatedAnnealing();
     const char* filename = "LDR_RGBA_0_64.png";
-    retarget->execute(1000000, filename, 64, 64);
+    //retarget->execute(1000000, filename);
 
     //retarget image
     int my_retarget_width = 0;
@@ -107,6 +108,10 @@ int main(int, char**)
         "retargeted_texture.png",
         &my_retarget_texture, g_pd3dDevice, &my_retarget_width, &my_retarget_height);
     if (!erstellt) return 1;
+
+
+    SimulatedAnnealingTest testing;
+    testing.testPermutation(filename, 100);
 
     // Main loop
     MSG msg;

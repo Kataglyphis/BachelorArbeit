@@ -5,7 +5,9 @@
 #include <iostream>
 #include "FreeImage/FreeImage.h"
 #include "FreeImage/FreeImagePlus.h"
+#include <vector>
 
+using namespace std;
 //for moredimensional arrays!!
 typedef vector<int> Values;
 typedef vector<Values> Column;
@@ -13,10 +15,13 @@ typedef vector<Column> Image;
 
 class helpers {
 	public:
-		helpers(){};
+
+		helpers();
 
 		const char* blueNoiseFile = "pictures/BlueNoiseCode/FreeBlueNoiseTextures/Data/64_64/HDR_L_0.png";
 		FIBITMAP* blueNoiseBitMap;
+		int dither_width;
+		int dither_height;
 
 		bool LoadTextureFromFile(const char* filename, ID3D11ShaderResourceView** srv, ID3D11Device* g_pd3dDevice, int* width, int* height);
 		bool freeImageFunction();
@@ -28,5 +33,6 @@ class helpers {
 		bool saveRetargetImageToFile(const char* filenameToSave, FIBITMAP* retargetBitMap);
 		bool loadPNGinArray(const char* fileName, Image& img_data);
 		std::vector<int> toroidallyShift(const unsigned int oldFrameDitherX, const unsigned int oldFrameDitherY, const uint32_t frame_width, const uint32_t frame_height);
+		void fromArrayToFile(const char* filename, Image image);
 };
 

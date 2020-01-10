@@ -1,10 +1,10 @@
 ﻿#include "SimulatedAnnealing.h"
 
-SimulatedAnnealing::SimulatedAnnealing() : helper() {
+SimulatedAnnealing::SimulatedAnnealing() : helper(), image_width(64), image_height(64) {
 
 }
 
-bool SimulatedAnnealing::execute(const uint32_t  number_steps, const char* filename, const uint32_t image_width, const uint32_t image_height) {
+Image SimulatedAnnealing::execute(const uint32_t  number_steps, const char* filename) {
 	
 	//generate a state with starting permutation: this means
 	//nothing will be switched; just apply where everything will stay
@@ -53,8 +53,8 @@ bool SimulatedAnnealing::execute(const uint32_t  number_steps, const char* filen
 		permutation_positions_output.push_back(column_pos);
 	}
 
-	loadPNGinArray(filename, dither_data);
-	getNextDither(dither_data, next_dither_data, image_width, image_height);
+	helper.loadPNGinArray(filename, dither_data);
+	helper.getNextDither(dither_data, next_dither_data, image_width, image_height);
 
 	//help var for counting the good swaps
 	uint32_t goodswaps = 0;
@@ -62,24 +62,24 @@ bool SimulatedAnnealing::execute(const uint32_t  number_steps, const char* filen
 	for (int i = 0; i < number_steps; i++) {
 
 		//calc the energy of our permutation
-		float energy_old_condition = calculateEnergy(dither_data, next_dither_data, permutation_data_output, image_width, image_height);
+		float energy_old_condition = calculateEnergy(dither_data, next_dither_data, permutation_data_output);
 		std::cout << energy_old_condition << std::endl;
 		std::cout << i << std::endl;
 		//first we will go with the previous calculated permutation
-		deepCopyImage(permutation_data_output, permutation_data_step, image_width, image_height);
-		deepCopyImage(permutation_positions_output, permutation_positions_step, image_width, image_height);
+		helper.deepCopyImage(permutation_data_output, permutation_data_step, image_width, image_height);
+		helper.deepCopyImage(permutation_positions_output, permutation_positions_step, image_width, image_height);
 		//now permute and have a look whether it is better
 		//here we actually apply one permutation!
-		applyOneRandomPermutation(permutation_data_step, permutation_positions_step, image_width, image_height);
+		applyOneRandomPermutation(permutation_data_step, permutation_positions_step);
 	
-		float energy_new_condition = calculateEnergy(dither_data, next_dither_data, permutation_data_step, image_width, image_height);
+		float energy_new_condition = calculateEnergy(dither_data, next_dither_data, permutation_data_step);
 		float ratio_steps = number_steps/(i+1);
 
 		if (acceptanceProbabilityFunction(energy_old_condition, energy_new_condition, ratio_steps)) {
 			//we will have a new condition
 			//https://www.boost.org/doc/libs/1_63_0/libs/multi_array/doc/user.html docs are garanteing deep copying!!
-			deepCopyImage(permutation_data_step, permutation_data_output, image_width, image_height);
-			deepCopyImage(permutation_positions_step, permutation_positions_output, image_width, image_height);
+			helper.deepCopyImage(permutation_data_step, permutation_data_output, image_width, image_height);
+			helper.deepCopyImage(permutation_positions_step, permutation_positions_output, image_width, image_height);
 			goodswaps++;
 			std::cout << "#Gute Tausche: " << goodswaps << endl;
 		}
@@ -87,15 +87,15 @@ bool SimulatedAnnealing::execute(const uint32_t  number_steps, const char* filen
 	}
 
 	FIBITMAP* retarget_bitmap = FreeImage_Allocate(image_width, image_height, 32);
-	fromArrayToBitmap(permutation_data_output, retarget_bitmap, image_width, image_height);
+	helper.fromArrayToBitmap(permutation_data_output, retarget_bitmap, image_width, image_height);
 
-	saveRetargetImageToFile("retargeted_texture.png", retarget_bitmap);
+	helper.saveRetargetImageToFile("retargeted_texture.png", retarget_bitmap);
 
-	return true;
+	return permutation_data_output;
 }
 
 
-bool SimulatedAnnealing::applyOneRandomPermutation(Image& permutation_data_step, Image& permutation_positions, const uint32_t image_width, const uint32_t image_height) {
+bool SimulatedAnnealing::applyOneRandomPermutation(Image& permutation_data_step, Image& permutation_positions) {
 	
 	bool no_permutation_found = true;
 
@@ -131,7 +131,7 @@ bool SimulatedAnnealing::applyOneRandomPermutation(Image& permutation_data_step,
 			random_step_y *= -1;
 		}
 
-		if (isApplicablePermutation(permutation_data_step, permutation_positions, random_x, random_y, random_step_x, random_step_y, image_width, image_height)) {
+		if (isApplicablePermutation(permutation_data_step, permutation_positions, random_x, random_y, random_step_x, random_step_y)) {
 			no_permutation_found = false;
 		}
 
@@ -171,7 +171,7 @@ bool SimulatedAnnealing::applyOneRandomPermutation(Image& permutation_data_step,
 	return true;
 }
 
-bool SimulatedAnnealing::isApplicablePermutation(Image& permutation_data_step, Image& permutation_positions, const int random_x, const int random_y, const int random_step_x, const int random_step_y, const int image_width, const int image_height) {
+bool SimulatedAnnealing::isApplicablePermutation(Image& permutation_data_step, Image& permutation_positions, const int random_x, const int random_y, const int random_step_x, const int random_step_y) {
 	
 	int position_x = permutation_positions[random_x][random_y][0];
 	int position_y = permutation_positions[random_x][random_y][1];
@@ -214,12 +214,12 @@ bool SimulatedAnnealing::isApplicablePermutation(Image& permutation_data_step, I
 }
 
 // https://www.arnoldrenderer.com/research/dither_abstract.pdf
-float SimulatedAnnealing::calculateEnergy(Image& image_t, Image& image_next, Image& permutation, const int width, const int height) {
+float SimulatedAnnealing::calculateEnergy(Image& image_t, Image& image_next, Image& permutation) {
 
 	float energy = 0;
 
-	for (int i = 0; i < width; ++i) {
-		for (int j = 0; j < height; ++j) {
+	for (int i = 0; i < image_width; ++i) {
+		for (int j = 0; j < image_height; ++j) {
 			int permutation_coordinates_x = i + permutation[i][j][0];
 			int permutation_coordinates_y = j + permutation[i][j][1];
 
@@ -242,108 +242,4 @@ bool SimulatedAnnealing::acceptanceProbabilityFunction(const float energy_old_co
 	else {
 		return false;
 	}
-}
-
-bool SimulatedAnnealing::saveRetargetImageToFile(const char* filenameToSave, FIBITMAP* retargetBitMap) {
-
-	return FreeImage_Save(FIF_PNG, retargetBitMap, filenameToSave, PNG_Z_NO_COMPRESSION);
-
-}
-
-bool SimulatedAnnealing::fromArrayToBitmap(Image& image_data, FIBITMAP* bitmap, const uint32_t image_width, const uint32_t image_height) {
-
-	RGBQUAD color;
-
-	for (int i = 0; i < image_width; i++) {
-
-		for (int j = 0; j < image_height; j++) {
-
-			color.rgbRed = image_data[i][j][0] + 6;
-			color.rgbGreen = image_data[i][j][1] + 6;
-			//to store permutation we will only need to save in rg - channel !!
-			color.rgbBlue = 0x00;
-			color.rgbReserved = i;
-
-			FreeImage_SetPixelColor(bitmap, i, j, &color);
-		}
-	}
-
-	return true;
-}
-
-bool SimulatedAnnealing::getNextDither(Image& dither_data, Image& next_dither_data, const uint32_t frame_width, const uint32_t frame_height) {
-
-	for (int i = 0; i < frame_width; i++) {
-		for (int j = 0; j < frame_height; j++) {
-			
-			std::vector<int> new_dither_positions = toroidallyShift(i, j, frame_width, frame_height);
-			int new_dither_x = new_dither_positions[0];
-			int new_dither_y = new_dither_positions[1];
-			next_dither_data[new_dither_x][new_dither_y] = dither_data[i][j];
-		}
-	}
-	
-	return true;
-}
-
-std::vector<int> SimulatedAnnealing::toroidallyShift(const unsigned int oldFrameDitherX, const unsigned int oldFrameDitherY, const uint32_t frame_width, const uint32_t frame_height) {
-
-	std::vector<int> new_positions(2, 0);
-	using namespace std;
-	double g = 1.32471795724474602596;
-	double a1 = 1.0 / g;
-	double a2 = 1.0 / (g * g);
-	
-	unsigned int xOffest = a1 * frame_width;
-	unsigned int yOffset = a2 * frame_height;
-
-	//x[n] = (0.5 + a1 * n) % 1;
-	//y[n] = (0.5 + a2 * n) % 1;
-	//thats happening right here next!!
-	unsigned int oldFrameDitherXOffset = oldFrameDitherX + xOffest;
-	unsigned int oldFrameDitherYOffset = oldFrameDitherY + yOffset;
-	// now here the modulo 1!
-	new_positions[0] = oldFrameDitherXOffset % frame_width;
-	new_positions[1] = oldFrameDitherYOffset % frame_height;
-
-	return new_positions;
-}
-
-bool SimulatedAnnealing::loadPNGinArray(const char* fileName, Image& image_data) {
-
-	FIBITMAP* bitmap = FreeImage_Load(FIF_PNG, fileName, PNG_DEFAULT);
-	int image_height = FreeImage_GetHeight(bitmap);
-    int image_width = FreeImage_GetWidth(bitmap);
-	//allocate store in appropriate size
-	RGBQUAD color;
-	for (int i = 0; i < image_width; i++) {
-
-		for (int j = 0; j < image_height; j++) {
-
-			if(!FreeImage_GetPixelColor(bitmap, i, j, &color)) exit(1);
-			
-			image_data[i][j][0] = color.rgbRed;
-			image_data[i][j][1] = color.rgbGreen;
-			image_data[i][j][2] = color.rgbBlue;
-			image_data[i][j][3] = color.rgbReserved;
-			
-		}
-
-	}
-
-	return true;
-}
-
-bool SimulatedAnnealing::deepCopyImage(Image& source, Image& dest, const int image_width, const int image_height) {
-	
-	for (int i = 0; i < image_width; i++) {
-		for (int j = 0; j < image_height; j++) {
-
-			int x_source = source[i][j][0];
-			int y_source = source[i][j][1];
-			dest[i][j][0] = x_source;
-			dest[i][j][1] = y_source;
-		}
-	}
-	return true;
 }

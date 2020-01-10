@@ -3,9 +3,8 @@
 #include <stdlib.h>
 #include <cassert>
 #include <iostream>
-#include <vector>
-using namespace std;
 
+using namespace std;
 
 //typedef Image::index index;
 /**
@@ -49,20 +48,16 @@ using namespace std;
 
 class SimulatedAnnealing {
 	public:
-        SimulatedAnnealing() {};
-		bool execute(const uint32_t  number_steps, const char* filename, const uint32_t image_width, const uint32_t image_height);
+        SimulatedAnnealing();
+        int image_width;
+        int image_height;
+		Image execute(const uint32_t  number_steps, const char* filename);
 private:
         helpers helper;
 
-		std::vector<int> toroidallyShift(const unsigned int oldFrameDitherX, const unsigned int oldFrameDitherY, const uint32_t frame_width, const uint32_t frame_height);
-		bool loadPNGinArray(const char* fileName, Image& img_data);
-		float calculateEnergy(Image& image_t, Image& image_next, Image& permutation, const int width, const int height);
-		bool saveRetargetImageToFile(const char* filenameToSave, FIBITMAP* retargetBitMap);
-		bool fromArrayToBitmap(Image& img_data, FIBITMAP* bitmap, const uint32_t image_width, const uint32_t image_height);
-		bool getNextDither(Image& dither_data, Image& next_dither_data, const uint32_t frame_width, const uint32_t frame_height);
+		float calculateEnergy(Image& image_t, Image& image_next, Image& permutation);
         bool acceptanceProbabilityFunction(const float energy_old_condition, const float energy_new_condition, const float ratio_steps);
-        bool applyOneRandomPermutation(Image& permutation_data_output, Image& permutation_positions, const uint32_t image_width, const uint32_t image_height);
-        bool isApplicablePermutation(Image& permutation_data_step, Image& permutation_positions, const int random_x, const int random_y, const int random_step_x, const int random_step_y, const int image_width, const int image_height);
-        bool deepCopyImage(Image& source, Image& dest, const int image_width, const int image_height);
+        bool applyOneRandomPermutation(Image& permutation_data_output, Image& permutation_positions);
+        bool isApplicablePermutation(Image& permutation_data_step, Image& permutation_positions, const int random_x, const int random_y, const int random_step_x, const int random_step_y);
 		
 };
