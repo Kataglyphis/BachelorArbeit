@@ -111,7 +111,7 @@ int main(int, char**)
 
 
     SimulatedAnnealingTest testing;
-    testing.testPermutation(filename, 100);
+    testing.testPermutation(filename, 10000);
 
     // Main loop
     MSG msg;
@@ -149,8 +149,8 @@ int main(int, char**)
             ImGui::Text("Load Blue Noise Texture to Retarget!");              
 
 			//show image
-			ImGui::Image((void*)my_texture, ImVec2(my_image_width, my_image_height));
-            ImGui::Image((void*)my_retarget_texture, ImVec2(my_retarget_width, my_retarget_height));
+			ImGui::Image((void*)my_texture, ImVec2((float)my_image_width, (float)my_image_height));
+            ImGui::Image((void*)my_retarget_texture, ImVec2((float)my_retarget_width, (float)my_retarget_height));
 
             //if (ImGui::Button("Save Image")) stbi_write_png("Experimental.png",my_image_width, my_image_height,3, (void*)my_texture);
 

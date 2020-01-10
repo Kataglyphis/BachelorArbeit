@@ -59,7 +59,7 @@ Image SimulatedAnnealing::execute(const uint32_t  number_steps, const char* file
 	//help var for counting the good swaps
 	uint32_t goodswaps = 0;
 
-	for (int i = 0; i < number_steps; i++) {
+	for (unsigned int i = 0; i < number_steps; i++) {
 
 		//calc the energy of our permutation
 		float energy_old_condition = calculateEnergy(dither_data, next_dither_data, permutation_data_output);
@@ -73,7 +73,7 @@ Image SimulatedAnnealing::execute(const uint32_t  number_steps, const char* file
 		applyOneRandomPermutation(permutation_data_step, permutation_positions_step);
 	
 		float energy_new_condition = calculateEnergy(dither_data, next_dither_data, permutation_data_step);
-		float ratio_steps = number_steps/(i+1);
+		float ratio_steps = ((float)(number_steps))/((float)(i+1));
 
 		if (acceptanceProbabilityFunction(energy_old_condition, energy_new_condition, ratio_steps)) {
 			//we will have a new condition
@@ -87,9 +87,9 @@ Image SimulatedAnnealing::execute(const uint32_t  number_steps, const char* file
 	}
 
 	FIBITMAP* retarget_bitmap = FreeImage_Allocate(image_width, image_height, 32);
-	helper.fromArrayToBitmap(permutation_data_output, retarget_bitmap, image_width, image_height);
+	helper.fromPermuteToBitmap(permutation_data_output, retarget_bitmap, image_width, image_height);
 
-	helper.saveRetargetImageToFile("retargeted_texture.png", retarget_bitmap);
+	helper.saveImageToFile("retargeted_texture.png", retarget_bitmap);
 
 	return permutation_data_output;
 }
@@ -224,7 +224,7 @@ float SimulatedAnnealing::calculateEnergy(Image& image_t, Image& image_next, Ima
 			int permutation_coordinates_y = j + permutation[i][j][1];
 
 			for (int m = 0; m < 1; m++) {
-				energy += std::abs(image_t[i][j][m] - image_next[permutation_coordinates_x][permutation_coordinates_y][m]);
+				energy += std::abs(image_t[permutation_coordinates_x][permutation_coordinates_y][m] - image_next[i][j][m]);
 			}
 		}
 	}

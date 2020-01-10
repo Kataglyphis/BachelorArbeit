@@ -28,11 +28,13 @@ class helpers {
 		bool generateSeedPNG();
 		bool loadImageFromFile();
 		bool deepCopyImage(Image& source, Image& dest, const int image_width, const int image_height);
-		bool fromArrayToBitmap(Image& img_data, FIBITMAP* bitmap, const uint32_t image_width, const uint32_t image_height);
+		bool fromPermuteToBitmap(Image& img_data, FIBITMAP* bitmap, const uint32_t image_width, const uint32_t image_height);
+		bool fromImageToBitmap(Image& image_data, FIBITMAP* bitmap, const uint32_t image_width, const uint32_t image_height);
 		bool getNextDither(Image& dither_data, Image& next_dither_data, const uint32_t frame_width, const uint32_t frame_height);
-		bool saveRetargetImageToFile(const char* filenameToSave, FIBITMAP* retargetBitMap);
+		bool saveImageToFile(const char* filenameToSave, FIBITMAP* retargetBitMap);
 		bool loadPNGinArray(const char* fileName, Image& img_data);
 		std::vector<int> toroidallyShift(const unsigned int oldFrameDitherX, const unsigned int oldFrameDitherY, const uint32_t frame_width, const uint32_t frame_height);
-		void fromArrayToFile(const char* filename, Image image);
+		void fromPermuteToFile(const char* filename, Image image);
+		void fromImageToFile(const char* filename, Image image);
 };
 

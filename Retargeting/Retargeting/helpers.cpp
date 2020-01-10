@@ -65,8 +65,8 @@ bool helpers::freeImageFunction() {
 	for (int i = 0; i < 64;i++) {
 		for (int j = 0; j < 64;j++) {
 			color.rgbRed = 0;
-			color.rgbGreen = (double)i / 64 * 255.0;
-			color.rgbBlue = (double)j / 64 * 255.0;
+			color.rgbGreen = (BYTE)(i / 64 * 255.0);
+			color.rgbBlue = (BYTE)(j / 64 * 255.0);
 			FreeImage_SetPixelColor(bitmap, i, j, &color);
 		}
 	}
@@ -135,19 +135,41 @@ bool helpers::deepCopyImage(Image& source, Image& dest, const int image_width, c
 
 }
 
-bool helpers::fromArrayToBitmap(Image& image_data, FIBITMAP* bitmap, const uint32_t image_width, const uint32_t image_height) {
+bool helpers::fromPermuteToBitmap(Image& image_data, FIBITMAP* bitmap, const uint32_t image_width, const uint32_t image_height) {
 
 	RGBQUAD color;
 
-	for (int i = 0; i < image_width; i++) {
+	for (unsigned int i = 0; i < image_width; i++) {
 
-		for (int j = 0; j < image_height; j++) {
+		for (unsigned int j = 0; j < image_height; j++) {
 
 			color.rgbRed = image_data[i][j][0] + 6;
 			color.rgbGreen = image_data[i][j][1] + 6;
 			//to store permutation we will only need to save in rg - channel !!
-			color.rgbBlue = 0x00;
+			color.rgbBlue = 0xFF;
 			color.rgbReserved = i;
+
+			FreeImage_SetPixelColor(bitmap, i, j, &color);
+		}
+	}
+
+	return true;
+
+}
+
+bool helpers::fromImageToBitmap(Image& image_data, FIBITMAP* bitmap, const uint32_t image_width, const uint32_t image_height) {
+
+	RGBQUAD color;
+
+	for (unsigned int i = 0; i < image_width; i++) {
+
+		for (unsigned int j = 0; j < image_height; j++) {
+
+			color.rgbRed = image_data[i][j][0];
+			color.rgbGreen = image_data[i][j][1];
+			//to store permutation we will only need to save in rg - channel !!
+			color.rgbBlue = image_data[i][j][2];
+			color.rgbReserved = image_data[i][j][3];
 
 			FreeImage_SetPixelColor(bitmap, i, j, &color);
 		}
@@ -159,8 +181,8 @@ bool helpers::fromArrayToBitmap(Image& image_data, FIBITMAP* bitmap, const uint3
 
 bool helpers::getNextDither(Image& dither_data, Image& next_dither_data, const uint32_t frame_width, const uint32_t frame_height) {
 
-	for (int i = 0; i < frame_width; i++) {
-		for (int j = 0; j < frame_height; j++) {
+	for (unsigned int i = 0; i < frame_width; i++) {
+		for (unsigned int j = 0; j < frame_height; j++) {
 
 			std::vector<int> new_dither_positions = toroidallyShift(i, j, frame_width, frame_height);
 			int new_dither_x = new_dither_positions[0];
@@ -173,7 +195,7 @@ bool helpers::getNextDither(Image& dither_data, Image& next_dither_data, const u
 
 }
 
-bool helpers::saveRetargetImageToFile(const char* filenameToSave, FIBITMAP* retargetBitMap) {
+bool helpers::saveImageToFile(const char* filenameToSave, FIBITMAP* retargetBitMap) {
 
 	return FreeImage_Save(FIF_PNG, retargetBitMap, filenameToSave, PNG_Z_NO_COMPRESSION);
 
@@ -212,8 +234,8 @@ std::vector<int> helpers::toroidallyShift(const unsigned int oldFrameDitherX, co
 	double a1 = 1.0 / g;
 	double a2 = 1.0 / (g * g);
 
-	unsigned int xOffest = a1 * frame_width;
-	unsigned int yOffset = a2 * frame_height;
+	unsigned int xOffest = (unsigned int)(a1 * frame_width);
+	unsigned int yOffset = (unsigned int)(a2 * frame_height);
 
 	//x[n] = (0.5 + a1 * n) % 1;
 	//y[n] = (0.5 + a2 * n) % 1;
@@ -228,10 +250,18 @@ std::vector<int> helpers::toroidallyShift(const unsigned int oldFrameDitherX, co
 
 }
 
-void helpers::fromArrayToFile(const char* filename, Image image) {
+void helpers::fromPermuteToFile(const char* filename, Image image) {
 
-	FIBITMAP* bm = FreeImage_Allocate(dither_width, dither_height, 8); 
-	fromArrayToBitmap(image, bm, dither_width, dither_height);
-	bool saved = saveRetargetImageToFile(filename, bm);
+	FIBITMAP* bm = FreeImage_Allocate(dither_width, dither_height, 32); 
+	fromPermuteToBitmap(image, bm, dither_width, dither_height);
+	bool saved = saveImageToFile(filename, bm);
+
+}
+
+void helpers::fromImageToFile(const char* filename, Image image) {
+
+	FIBITMAP* bm = FreeImage_Allocate(dither_width, dither_height, 32);
+	fromImageToBitmap(image, bm, dither_width, dither_height);
+	bool saved = saveImageToFile(filename, bm);
 
 }
