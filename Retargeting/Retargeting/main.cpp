@@ -111,7 +111,7 @@ int main(int, char**)
 
 
     SimulatedAnnealingTest testing;
-    testing.testPermutation(filename, 10000);
+    testing.testPermutation(filename, 1000000);
 
     // Main loop
     MSG msg;
