@@ -71,15 +71,37 @@ void SimulatedAnnealingTest::testPermutation(const char* filename, const unsigne
 
 Image SimulatedAnnealingTest::applyPermutationToOriginal(Image original, Image permutation) {
 
+	Image permutatedOriginal;
+	for (int i = 0; i < helper.dither_width; i++) {
+
+		Column column_org;
+
+		for (int j = 0; j < helper.dither_height; j++) {
+
+			//just assign the standard distribution
+			//how this looks like; look at th etop for it 
+
+			using namespace std;
+			Values start_values_dither(4, 0);
+
+			column_org.push_back(start_values_dither);
+
+		}
+
+		permutatedOriginal.push_back(column_org);
+
+	}
+
+	helper.deepCopyImage(original, permutatedOriginal, helper.dither_width, helper.dither_height);
 	for (int i = 0; i < helper.dither_width; i++) {
 
 		for (int j = 0; j < helper.dither_height; j++) {
 
-			original[i + permutation[i][j][0]][j + permutation[i][j][1]] = original[i][j];
+			permutatedOriginal[i + permutation[i][j][0]][j + permutation[i][j][1]] = original[i][j];
 
 		}
 	}
 
-	return original;
+	return permutatedOriginal;
 
 }
