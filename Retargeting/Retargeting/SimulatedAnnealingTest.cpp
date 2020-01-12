@@ -38,21 +38,34 @@ void SimulatedAnnealingTest::testPermutation(const char* filename, const unsigne
 	helper.getNextDither(original, next_dither, helper.dither_width, helper.dither_height);
 
 	Image appliedPerm = applyPermutationToOriginal(original, permutation);
-	const char* appending = "permuted_";
+
+	const char* steps_str = "steps_";
+	int length = snprintf(NULL, 0, "%d", steps);
+	char* num_steps = (char*)malloc(length + 1);
+	snprintf(num_steps, length + 1, "%d", steps);
+
+	//save int in a string
+	//itoa(steps, num_steps, 10);
+	const char* appending = "_permuted_";
 	const char* next_dither_str_app = "next_dither_";
 
 	size_t lenOrg = strlen(filename);
 	size_t lenApp = strlen(appending);
 	size_t lenNext = strlen(next_dither_str_app);
-	char* permuted_image = (char*) malloc(lenOrg + lenApp + 1);
-	char* next_dither_str = (char*)malloc(lenOrg + lenNext + 1);
+	size_t lenStepStr = strlen(steps_str);
+	size_t lenStepNum = strlen(num_steps);
+
+	char* permuted_image = (char*) malloc(lenStepStr + lenStepNum + lenOrg + lenApp + 1);
+	char* next_dither_str = (char*)malloc(lenStepStr + lenStepNum + lenOrg + lenNext + 1);
 	
 	if (permuted_image && next_dither_str) {
 	
 	//concatenate for str permutated original 
-	memcpy(permuted_image, appending, lenApp);
-	memcpy(permuted_image + lenApp, filename, lenOrg);
-	permuted_image[lenOrg + lenApp] = '\0';
+	memcpy(permuted_image, steps_str, lenStepStr);
+	memcpy(permuted_image + lenStepStr, num_steps, lenStepNum);
+	memcpy(permuted_image + lenStepStr + lenStepNum, appending, lenApp);
+	memcpy(permuted_image + lenStepStr + lenStepNum + lenApp, filename, lenOrg);
+	permuted_image[lenOrg + lenApp + lenStepNum + lenStepStr] = '\0';
 
 	//concatenate for next dither png
 	memcpy(next_dither_str, next_dither_str_app, lenNext);
@@ -67,6 +80,12 @@ void SimulatedAnnealingTest::testPermutation(const char* filename, const unsigne
 
 	helper.fromImageToFile(next_dither_str, next_dither);
 	helper.fromImageToFile(permuted_image, appliedPerm);
+
+	//freeing memory
+	free(num_steps);
+	free(permuted_image);
+	free(next_dither_str);
+
 }
 
 Image SimulatedAnnealingTest::applyPermutationToOriginal(Image original, Image permutation) {

@@ -106,6 +106,7 @@ bool SimulatedAnnealing::applyOneRandomPermutation(Image& permutation_data_step,
 	int32_t random_y_VZ = (std::rand() % 2);
 	int32_t random_step_x = (std::rand() % 7);
 	int32_t random_step_y = (std::rand() % 7);
+
 	if (random_x_VZ) {
 		random_step_x *= -1;
 	}
