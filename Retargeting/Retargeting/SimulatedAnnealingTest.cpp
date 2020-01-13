@@ -101,7 +101,7 @@ Image SimulatedAnnealingTest::applyPermutationToOriginal(Image original, Image p
 			//how this looks like; look at th etop for it 
 
 			using namespace std;
-			Values start_values_dither(4, 0);
+			Values start_values_dither = original[i][j];
 
 			column_org.push_back(start_values_dither);
 
@@ -112,6 +112,8 @@ Image SimulatedAnnealingTest::applyPermutationToOriginal(Image original, Image p
 	}
 
 	helper.deepCopyImage(original, permutatedOriginal, helper.dither_width, helper.dither_height);
+
+	
 	for (int i = 0; i < helper.dither_width; i++) {
 
 		for (int j = 0; j < helper.dither_height; j++) {

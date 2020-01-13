@@ -63,8 +63,8 @@ Image SimulatedAnnealing::execute(const uint32_t  number_steps, const char* file
 
 		//calc the energy of our permutation
 		float energy_old_condition = calculateEnergy(dither_data, next_dither_data, permutation_data_output);
-		std::cout << energy_old_condition << std::endl;
-		std::cout << i << std::endl;
+		std::cout << "Energy of the old condition: " << energy_old_condition << std::endl;
+		std::cout << "Step: " << i << std::endl;
 		//first we will go with the previous calculated permutation
 		helper.deepCopyImage(permutation_data_output, permutation_data_step, image_width, image_height);
 		helper.deepCopyImage(permutation_positions_output, permutation_positions_step, image_width, image_height);
@@ -77,11 +77,10 @@ Image SimulatedAnnealing::execute(const uint32_t  number_steps, const char* file
 
 		if (acceptanceProbabilityFunction(energy_old_condition, energy_new_condition, ratio_steps)) {
 			//we will have a new condition
-			//https://www.boost.org/doc/libs/1_63_0/libs/multi_array/doc/user.html docs are garanteing deep copying!!
 			helper.deepCopyImage(permutation_data_step, permutation_data_output, image_width, image_height);
 			helper.deepCopyImage(permutation_positions_step, permutation_positions_output, image_width, image_height);
 			goodswaps++;
-			std::cout << "#Gute Tausche: " << goodswaps << endl;
+			std::cout << "Swap has been successful. \n" << "#Gute Tausche: " << goodswaps << endl;
 		}
 
 	}
@@ -167,7 +166,7 @@ bool SimulatedAnnealing::applyOneRandomPermutation(Image& permutation_data_step,
 	permutation_positions[index_swap_position_x][index_swap_position_y][0] = position_x;
 	permutation_positions[index_swap_position_x][index_swap_position_y][1] = position_y;
 
-	std::cout << "Dies sind die Permutationen x = " << permutation_data_step[position_x][position_y][0] << " und y = " << permutation_data_step[position_x][position_y][1] << endl;
+	std::cout << "Dies sind die Permutationsschritte x = " << permutation_data_step[position_x][position_y][0] << " und y = " << permutation_data_step[position_x][position_y][1] << endl;
 	std::cout << "Position x = " << position_x << "y = " << position_y << endl;
 	return true;
 }
@@ -214,7 +213,7 @@ bool SimulatedAnnealing::isApplicablePermutation(Image& permutation_data_step, I
 	return true;
 }
 
-// https://www.arnoldrenderer.com/research/dither_abstract.pdf
+//https://www.arnoldrenderer.com/research/dither_abstract.pdf
 float SimulatedAnnealing::calculateEnergy(Image& image_t, Image& image_next, Image& permutation) {
 
 	float energy = 0;
@@ -235,12 +234,18 @@ float SimulatedAnnealing::calculateEnergy(Image& image_t, Image& image_next, Ima
 
 
 bool SimulatedAnnealing::acceptanceProbabilityFunction(const float energy_old_condition, const float energy_new_condition, const float ratio_steps) {
+	
 	//TODO: important!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! to make this a simulated annealing we have to bring in the temperature in the decision function
 	//right now it is a simple hill climbing algorithm!!!!
 	if (energy_new_condition < energy_old_condition) {
+
 		return true;
+
 	}
 	else {
+
 		return false;
+
 	}
+
 }
