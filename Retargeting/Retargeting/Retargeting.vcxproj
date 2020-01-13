@@ -93,12 +93,12 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Program Files\Python38\Lib\site-packages\numpy\core\include;C:\Program Files\Python38\include;C:\local\boost;C:\BachelorArbeit\Retargeting\Retargeting\FreeImage;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Jonas\AppData\Local\Programs\Python\Python38\Lib\site-packages\numpy\core\include;C:\Users\Jonas\AppData\Local\Programs\Python\Python38\include;C:\BachelorArbeit\Retargeting\Retargeting\FreeImage;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>d3d11.lib;FreeImage.lib;FreeImagePlus.lib;python38.lib;python38_d.lib;FreeImaged.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files\Python38\libs;C:\BachelorArbeit\Retargeting\Retargeting\FreeImage;C:\Users\jsheinle\BachelorArbeit\Retargeting\Retargeting\FreeImage;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Jonas\AppData\Local\Programs\Python\Python38\libs;C:\BachelorArbeit\Retargeting\Retargeting\FreeImage;C:\Users\jsheinle\BachelorArbeit\Retargeting\Retargeting\FreeImage;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
