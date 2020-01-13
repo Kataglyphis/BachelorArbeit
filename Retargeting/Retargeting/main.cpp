@@ -13,6 +13,7 @@
 #include "helpers.h"
 #include "SimulatedAnnealingTest.h"
 #include "SimulatedAnnealing.h"
+#include "SimulatedAnnealingVisualizer.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb/stb_image_write.h"
 
@@ -96,7 +97,7 @@ int main(int, char**)
     //helper->generateSeedPNG();
 
     //calc retargeted texture with temporal annealing!
-    SimulatedAnnealing* retarget = new SimulatedAnnealing();
+    //SimulatedAnnealing* retarget = new SimulatedAnnealing();
     const char* filename = "LDR_RGBA_0_64.png";
     //retarget->execute(1000000, filename);
 
@@ -111,7 +112,8 @@ int main(int, char**)
 
 
     SimulatedAnnealingTest testing;
-    testing.testPermutation(filename, 10000);
+    testing.testPermutation(filename);
+
 
     // Main loop
     MSG msg;

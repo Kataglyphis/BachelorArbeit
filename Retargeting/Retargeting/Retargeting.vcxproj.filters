@@ -48,6 +48,9 @@
     <ClInclude Include="SimulatedAnnealingTest.h">
       <Filter>Quelldateien</Filter>
     </ClInclude>
+    <ClInclude Include="SimulatedAnnealingVisualizer.h">
+      <Filter>Quelldateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -81,6 +84,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="SimulatedAnnealingTest.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="SimulatedAnnealingVisualizer.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

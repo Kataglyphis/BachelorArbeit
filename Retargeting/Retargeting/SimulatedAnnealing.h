@@ -1,11 +1,14 @@
 ﻿#pragma once
 #include "helpers.h"
+#include "SimulatedAnnealingVisualizer.h"
 #include <stdlib.h>
 #include <cassert>
 #include <iostream>
 #include <stdio.h>
 
 using namespace std;
+
+typedef vector<int> Energy;
 
 //typedef Image::index index;
 /**
@@ -49,13 +52,15 @@ using namespace std;
 
 class SimulatedAnnealing {
 	public:
-        SimulatedAnnealing();
+        SimulatedAnnealing(int number_steps);
         int image_width;
         int image_height;
-		Image execute(const uint32_t  number_steps, const char* filename);
+        Energy energy;
+        int number_steps;
+		Image execute(const char* filename);
+        SimulatedAnnealingVisualizer visualizer;
 private:
         helpers helper;
-
 		float calculateEnergy(Image& image_t, Image& image_next, Image& permutation);
         bool acceptanceProbabilityFunction(const float energy_old_condition, const float energy_new_condition, const float ratio_steps);
         bool applyOneRandomPermutation(Image& permutation_data_output, Image& permutation_positions);

@@ -1,12 +1,13 @@
 #include "SimulatedAnnealingTest.h";
 
-SimulatedAnnealingTest::SimulatedAnnealingTest() : sa(), helper() {
+
+SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(100), sa(100) {
 
 }
 
-void SimulatedAnnealingTest::testPermutation(const char* filename, const unsigned int steps) {
+void SimulatedAnnealingTest::testPermutation(const char* filename) {
 
-	Image permutation = sa.execute(steps, filename);
+	Image permutation = sa.execute(filename);
 
 	Image next_dither;
 	Image original; 
@@ -40,9 +41,9 @@ void SimulatedAnnealingTest::testPermutation(const char* filename, const unsigne
 	Image appliedPerm = applyPermutationToOriginal(original, permutation);
 
 	const char* steps_str = "steps_";
-	int length = snprintf(NULL, 0, "%d", steps);
+	int length = snprintf(NULL, 0, "%d", this->number_steps);
 	char* num_steps = (char*)malloc(length + 1);
-	snprintf(num_steps, length + 1, "%d", steps);
+	snprintf(num_steps, length + 1, "%d", this->number_steps);
 
 	//save int in a string
 	//itoa(steps, num_steps, 10);

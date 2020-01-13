@@ -1,10 +1,10 @@
 ﻿#include "SimulatedAnnealing.h"
 
-SimulatedAnnealing::SimulatedAnnealing() : helper(), image_width(64), image_height(64) {
-
+SimulatedAnnealing::SimulatedAnnealing(int number_steps) : helper(), image_width(64), image_height(64), visualizer() {
+	this->number_steps = number_steps;
 }
 
-Image SimulatedAnnealing::execute(const uint32_t  number_steps, const char* filename) {
+Image SimulatedAnnealing::execute(const char* filename) {
 	
 	//generate a state with starting permutation: this means
 	//nothing will be switched; just apply where everything will stay
@@ -59,10 +59,13 @@ Image SimulatedAnnealing::execute(const uint32_t  number_steps, const char* file
 	//help var for counting the good swaps
 	uint32_t goodswaps = 0;
 
-	for (unsigned int i = 0; i < number_steps; i++) {
+	for (unsigned int i = 0; i < this->number_steps; i++) {
 
 		//calc the energy of our permutation
 		float energy_old_condition = calculateEnergy(dither_data, next_dither_data, permutation_data_output);
+		if (i == 0) {
+			energy.push_back(energy_old_condition);
+		}
 		std::cout << "Energy of the old condition: " << energy_old_condition << std::endl;
 		std::cout << "Step: " << i << std::endl;
 		//first we will go with the previous calculated permutation
@@ -81,6 +84,8 @@ Image SimulatedAnnealing::execute(const uint32_t  number_steps, const char* file
 			helper.deepCopyImage(permutation_positions_step, permutation_positions_output, image_width, image_height);
 			goodswaps++;
 			std::cout << "Swap has been successful. \n" << "#Gute Tausche: " << goodswaps << endl;
+			//push it in the energy array
+			energy.push_back((int)energy_new_condition);
 		}
 
 	}
@@ -89,6 +94,8 @@ Image SimulatedAnnealing::execute(const uint32_t  number_steps, const char* file
 	helper.fromPermuteToBitmap(permutation_data_output, retarget_bitmap, image_width, image_height);
 
 	helper.saveImageToFile("retargeted_texture.png", retarget_bitmap);
+
+	visualizer.visualizeEnergyOverSteps(energy);
 
 	return permutation_data_output;
 }
