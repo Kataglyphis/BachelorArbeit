@@ -125,6 +125,7 @@ void GGXGlobalIllumination::initialize(RenderContext* pContext, const RenderData
     }
 
     mIsInitialized = true;
+    trace_count = 0;
 }
 
 void GGXGlobalIllumination::execute(RenderContext* pContext, const RenderData* pData)
@@ -173,6 +174,15 @@ void GGXGlobalIllumination::execute(RenderContext* pContext, const RenderData* p
 
     pContext->copyResource(pData->getTexture("seed_output").get(), globalVars->getTexture("seed_input").get());
 
+    /**if (this->trace_count <= 10) {
+        std::stringstream ss;
+        ss << "Bilder/" << "frame_t_" << this->trace_count << ".png";
+        std::string filename = ss.str();
+        pDstTex->getSubresourceArraySlice(1);
+        //pContext->
+        pDstTex->captureToFile(1u, 0, filename, Bitmap::FileFormat::PngFile, Bitmap::ExportFlags::Uncompressed);
+
+    }*/
 }
 
 void GGXGlobalIllumination::renderUI(Gui* pGui, const char* uiGroup)

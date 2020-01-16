@@ -7,7 +7,9 @@ SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(1000),
 
 void SimulatedAnnealingTest::testPermutation(const char* filename) {
 
-	Image permutation = sa.execute(filename);
+	int32_t goodswaps = 0;
+
+	Image permutation = sa.execute(filename, goodswaps);
 
 	Image next_dither;
 	Image original; 
@@ -41,9 +43,9 @@ void SimulatedAnnealingTest::testPermutation(const char* filename) {
 	Image appliedPerm = applyPermutationToOriginal(original, permutation);
 
 	const char* steps_str = "steps_";
-	int length = snprintf(NULL, 0, "%d", this->number_steps);
+	int length = snprintf(NULL, 0, "%d", goodswaps);
 	char* num_steps = (char*)malloc(length + 1);
-	snprintf(num_steps, length + 1, "%d", this->number_steps);
+	snprintf(num_steps, length + 1, "%d", goodswaps);
 
 	//save int in a string
 	//itoa(steps, num_steps, 10);
@@ -92,6 +94,7 @@ void SimulatedAnnealingTest::testPermutation(const char* filename) {
 Image SimulatedAnnealingTest::applyPermutationToOriginal(Image original, Image permutation) {
 
 	Image permutatedOriginal;
+
 	for (int i = 0; i < helper.dither_width; i++) {
 
 		Column column_org;
@@ -112,7 +115,7 @@ Image SimulatedAnnealingTest::applyPermutationToOriginal(Image original, Image p
 
 	}
 
-	helper.deepCopyImage(original, permutatedOriginal, helper.dither_width, helper.dither_height);
+	//helper.deepCopyImage(original, permutatedOriginal, helper.dither_width, helper.dither_height);
 
 	
 	for (int i = 0; i < helper.dither_width; i++) {

@@ -31,9 +31,13 @@ void SimulatedAnnealingVisualizer::visualizeEnergyOverSteps(Energy energy) {
     // Set x-axis to interval [0,numberOfSteps]
     plt::xlim(0, size);
     // Add graph title
-    plt::title("Energy over steps");
+    std::stringstream ss;
+    ss << "Energy over  " << size << " steps";
+    plt::title(ss.str());
     // Enable legend.
     plt::legend();
     // Save the image (file format is determined by the extension)
-    plt::save("./Energy.png");
+    std::stringstream ss2;
+    ss2 << "./Energy_" << size << "_steps.png";
+    plt::save(ss2.str());
 }

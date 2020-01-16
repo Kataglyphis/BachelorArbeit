@@ -39,3 +39,24 @@ blue noise Verteilung. Wir wechseln in jedem Frame die
 verwendeten blue noise Texturen um gewissen Artefakten zu entgehen und 
 andere temporale Algorithmen zu ermöglichen. Dieser Schritt alleine reicht
 also nicht für den erwünschten Effekt.
+
+\begin{figure}[H]
+
+    \begin{subfigure}{\textwidth}
+        \centering \includegraphics[scale=.2]{content/TemporalerAlg/Bilder/blue_noise_sorting.png}
+        \caption{Szene}
+        \label{fig:Szene_white_noise}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering \includegraphics[width=0.5\linewidth]{content/TemporalerAlg/Bilder/blue_noise_sorting_64x64.jpg} 
+        \caption{Szenenausschnitt}
+        \label{fig:ausschnitt_white_noise}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering \includegraphics[width=0.5\linewidth]{content/TemporalerAlg/Bilder/blue_noise_sorting_64x64_fourier.png}
+        \caption{Fouriertransformierte des Ausschnitts}
+        \label{fig:Fouriertransformierte_blue_noise_sorting}
+    \end{subfigure}
+        \caption{Path Tracer nur Sorting}
+        \label{fig:blue noise szene}
+\end{figure}

@@ -57,11 +57,11 @@ class SimulatedAnnealing {
         int image_height;
         Energy energy;
         int number_steps;
-		Image execute(const char* filename);
+		Image execute(const char* filename, int& good_swaps);
         SimulatedAnnealingVisualizer visualizer;
 private:
         helpers helper;
-		float calculateEnergy(Image& image_t, Image& image_next, Image& permutation);
+		float calculateEnergy(Image image_t, Image image_next, Image permutation);
         bool acceptanceProbabilityFunction(const float energy_old_condition, const float energy_new_condition, const float ratio_steps);
         bool applyOneRandomPermutation(Image& permutation_data_output, Image& permutation_positions);
         bool isApplicablePermutation(Image& permutation_data_step, Image& permutation_positions, const int random_x, const int random_y, const int random_step_x, const int random_step_y);

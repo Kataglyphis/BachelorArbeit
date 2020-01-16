@@ -135,7 +135,7 @@ bool helpers::deepCopyImage(Image& source, Image& dest, const int image_width, c
 
 }
 
-bool helpers::fromPermuteToBitmap(Image& image_data, FIBITMAP* bitmap, const uint32_t image_width, const uint32_t image_height) {
+bool helpers::fromPermuteToBitmap(Image image_data, FIBITMAP* bitmap, const uint32_t image_width, const uint32_t image_height) {
 
 	RGBQUAD color;
 
@@ -179,7 +179,7 @@ bool helpers::fromImageToBitmap(Image& image_data, FIBITMAP* bitmap, const uint3
 
 }
 
-bool helpers::getNextDither(Image& dither_data, Image& next_dither_data, const uint32_t frame_width, const uint32_t frame_height) {
+bool helpers::getNextDither(Image dither_data, Image& next_dither_data, const uint32_t frame_width, const uint32_t frame_height) {
 
 	for (unsigned int i = 0; i < frame_width; i++) {
 		for (unsigned int j = 0; j < frame_height; j++) {

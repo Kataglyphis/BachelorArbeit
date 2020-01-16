@@ -1,6 +1,9 @@
 #pragma once
 #include "Falcor.h"
 #include "FalcorExperimental.h"
+#include <string>       // std::string
+#include <iostream>     // std::cout
+#include <sstream>      // std::stringstream
 
 using namespace Falcor;
 
@@ -84,4 +87,7 @@ private:
     // Some common pass bookkeeping
     uvec3   mRayLaunchDims = uvec3(0, 0, 0);
     bool    mIsInitialized = false;
+
+    //for following our tracing; to capture the frames
+    uint32_t trace_count;
 };
