@@ -77,25 +77,8 @@ visuellen Qualität durch blue noise Fehlerverteilung im Bildraum.
 
 Die Varianz \nameref{eq:Monte-Carlo-Varianz} ist ein quadratischer Fehler.
 
-
-\begin{figure}[H]\label{pic:Weisses Rauschen Tracer}
-    \centering
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{content/PathTracer/Bilder/WeissesRauschenSzene.png}
-        \caption{Szene mit Weißem Rauschen}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{content/PathTracer/Bilder/FFT_Ausschnitt2.png}
-        \caption{FFT des Ausschnitts}
-    \end{minipage}
-\end{figure}
-
-
 \subsubsection{DirectX Raytracing}
-Für besseres Verständnis möchte ich hier eine Einführung in das Path Tracing\cite{Benty18} mit Hilfe der
+Für besseres Verständniss möchte ich hier eine Einführung in das Path Tracing\cite{Benty18} mit Hilfe der
 neuen DirectX-Schnittstelle geben.
 
 \begin{figure}[H]
@@ -105,12 +88,75 @@ neuen DirectX-Schnittstelle geben.
     \caption{DirectX Raytracing Pipeline aus \cite{Haines2019}}
 \end{figure}
 
-In der obigen Übersicht lässt sich der Start der neuen Pipeline erkennen, der \textbf{Ray Generation
-shader}. Von hier aus werden Rays gestartet \textbf{TraceRay()}.
-\textbf{Intersection shader} führt die Schnittpunktberechnungen durch.
-\textbf{Any-hit shaders} erlauben klassische "Discards" oder informieren
-über einen korrekten Schnitt. Der \textbf{Closest-hit shader} führt den
-konkreten, nähsten Schnitt für jeden Strahl durch.
+In der obigen Übersicht lässt sich der Beginn (Startpunkt eines Strahles) der neuen Pipeline erkennen,
+der \textbf{Ray Generation shader}.
+
+\begin{algorithm}[H]
+    \caption{Wie man Strahlen verschießt}
+    \begin{algorithmic}[1]
+        \State [shader(\dq raygeneration \dq)]
+        \State launchIndex = DispatchRaysIndex().xy;
+        \For{(int i = 0; i < numberOfRays;i++)}
+            \State color = computedirectLighting(launchIndex, i) + computeindirectLighting(launchIndex, i);
+        \EndFor
+        \State output[id] = color;
+    \end{algorithmic}
+    \label{alg:Ray Gen}
+\end{algorithm}
+
+Mit Hilfe der Methode \textbf{TraceRay()} werden dann innerhalb der Methoden zur Beleuchtungsberechnung 
+die Strahlen verschossen. Damit diese Methode richtig arbeiten kann übergeben wir neben unseren Strahl 
+unter Anderem  unsere Szene inklusive Beschleunigungsstruktur, rayflags 
+(beeinflussen Transparaenz, Culling, Abbruch)\cite{RayFlags} und einen payload.
+Mit dem \textit{$payload_t$} Typ können wir einen struct mit Informationen jedem einzelnen Strahl mitgeben.
+
+\begin{algorithm}[H]
+    \caption{beispielhafter payload}
+    \begin{algorithmic}[1]
+        \State struct RayPayload = {
+            \State        float4 color, uint32 seed, uint32 depth
+            \State };
+        \end{algorithmic}
+        \label{alg:payload}
+    \end{algorithm}
+    
+Diese Methode \textbf{TraceRay()} kann auch innerhalb der anderen Shader zum weiteren verschießen
+von Strahlen verwendet werden. Beispiel beim Verschiessen vom Schattenstrahl: Flags 
+RAY\_FLAG\_ACCEPT\_FIRST\_HIT\_AND\_END\_SEARCH, \newline
+RAY\_FLAG\_SKIP\_CLOSEST\_HIT\_SHADER setzen, um unnötige 
+Shadingberechnungen und weitere Schnittpunktberechnungen zu umgehen und mit einem Bit als payload 
+die Sichtbarkeit zur Lichtquelle mitgeben.
+
+
+Mit diesem beispielhaften payload können wir die Farbe akkumulieren, unseren verwendeten 
+seed verwenden um z.B eine weiteren Strahlenschuss in einem Any-Hit Shader zu verwirklichen,  
+solange die mit übergebene Rekursionstiefe in unserem payload eingehalten wird.  
+
+\textbf{Intersection shader} führt die Schnittberechnungen durch.
+Haben wir eine Szene, welche aus ausschließlich Dreiecken besteht, können wir
+die auf Hardware standardmäßig gelieferte Implementierung übernehmen. 
+Optionale Berechnungen für andere Geometrie können hier implementiert werden.
+Bei einem gefundenen nähsten Schnittpunkt einer durchsichtigen Oberfläche wird der 
+\textit{Any-hit shader} aufgerufen.
+\textbf{Any-hit shaders} erlauben klassische \textit{Discards} oder informieren
+über einen korrekten Schnitt. So können wir z.B. einen Alpha Test durchführen.
+
+\begin{algorithm}[H]
+    \caption{Any-Hit shader}
+    \begin{algorithmic}[1]
+        \State [shader(\dq anyhit \dq)]
+        \If{(!alphaTest)} 
+        \State IgnoreHit();
+        \EndIf
+    \end{algorithmic}
+    \label{alg:any hit}
+\end{algorithm}
+
+Der \textbf{Closest-hit shader} führt den konkreten, nähsten Schnitt für jeden Strahl
+durch. Mit der Kennzeichnung [shader(\dq closesthit \dq)] wird die Hauptmethode zur 
+dessen Ausführung markiert. An dieser Stelle bietet es sich an die Shading Farbe 
+mit der Schnittpunktinformation upzudaten und/oder um eine Rekursionstiefe weiter 
+zu gehen einen weiteren Strahl zu verschießen. 
 Der \textbf{miss shader} wird immer dann ausgeführt, wenn ein Strahl die
 Szenengeometrie nicht schneidet. Kann also für das Nachschauen in einer 
 Environment Map verwendet werden. Im Folgenden \nameref{alg:Path Tracer Konzept}

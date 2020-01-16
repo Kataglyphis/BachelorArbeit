@@ -136,6 +136,7 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
             pScene->setCamerasAspectRatio(float(pFbo->getWidth()) / float(pFbo->getHeight()));
             mpGraph->setScene(pScene);
         }
+        trace_count = 0;
     }
 }
 
@@ -146,7 +147,7 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
     pRenderContext->clearFbo(pTargetFbo.get(), clearColor, 1.0f, 0, FboAttachmentType::All);
 
     if (!hasrunonce) {
-
+        this->trace_count = 0;
         Texture::SharedPtr seed_texture = createTextureFromFile("seeds_RGBA.png", false, false,/*Resource::BindFlags::ShaderResource | */Resource::BindFlags::UnorderedAccess |
                                                                                                                                                                                                                                                Resource::BindFlags::RenderTarget);
         mpGraph->setInput("GlobalIllumination.seed_input", seed_texture);
@@ -155,6 +156,13 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
 
     } else {
 
+        if (this->trace_count <= 13) {
+            std::stringstream ss;
+            ss << "frame_t_" << this->trace_count;
+            std::string filename = ss.str();
+            pCallbacks->captureScreen(filename, "Screenshots");
+            trace_count++;
+        }
         //Resource::SharedPtr retarget_seeds = mpGraph->getOutput("Sorting.seed_output");
         //bring our retargeted seeds into the globalillumination stage
         Resource::SharedPtr retarget_seeds = mpGraph->getOutput("Retargeting.output_seed");
@@ -167,6 +175,26 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
         mpGraph->getScene()->update(pCallbacks->getCurrentTime(), &mCamController);
         mpGraph->execute(pRenderContext);
         //Shader Resource View, Render target view
+
+        /**if (this->trace_count <= 10) {
+
+            Resource::SharedPtr resource = mpGraph->getOutput("GlobalIllumination.output");
+            ResourceHandle handle = resource->getApiHandle();
+            uint32_t width = 1920;
+            uint32_t height = 720;
+            uint32_t depth = 1;
+            Resource::Type type = resource->getType();
+            ResourceFormat format = ResourceFormat::RGBA32Float;
+            Resource::State state = resource->getGlobalState();
+
+            Texture::SharedPtr frameToSave = Texture::createFromApiHandle(handle, type, width, height, depth, format, 1, 1, 1, state, ResourceBindFlags::RenderTarget |
+                                                                                                                                        ResourceBindFlags::ShaderResource | ResourceBindFlags::UnorderedAccess);
+            std::stringstream ss;
+            ss << "Bilder/" << "frame_t_" << this->trace_count << ".png";
+            std::string filename = ss.str();
+            frameToSave->captureToFile(1, 1, filename);
+        }*/
+
         pRenderContext->blit(mpGraph->getOutput("GlobalIllumination.output")->getSRV(), pTargetFbo->getRenderTargetView(0));
         //pRenderContext->blit(mpGraph->getOutput("Retargeting.output_seed")->getSRV(), pTargetFbo->getRenderTargetView(0));
     }

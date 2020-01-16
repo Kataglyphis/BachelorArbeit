@@ -5,6 +5,11 @@
 \newblock jcrystal.
 \newblock performing fft on images.
 
+\bibitem[Ray, 2019]{RayFlags}
+ (2019).
+\newblock Rayflag enumeration.
+\newblock control behaviour of a traced ray.
+
 \bibitem[Whi, 2019]{WhiteNoiseGenerator}
  (2019).
 \newblock Whitenoisegenerato.

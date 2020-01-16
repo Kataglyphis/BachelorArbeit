@@ -28,6 +28,10 @@
 #pragma once
 #include "Falcor.h"
 #include "FalcorExperimental.h"
+#include <string>       // std::string
+#include <iostream>     // std::cout
+#include <sstream>      // std::stringstream
+
 
 using namespace Falcor;
 
@@ -50,4 +54,5 @@ private:
     FirstPersonCameraController mCamController;
     RenderGraph::SharedPtr mpGraph;
     bool hasrunonce = false;
+    uint trace_count;
 };
