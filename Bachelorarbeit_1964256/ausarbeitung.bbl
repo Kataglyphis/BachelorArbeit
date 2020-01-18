@@ -70,6 +70,11 @@ Kiencke, U. and J{\"a}kel, H. (2009).
 \newblock {\em Signale und Systeme}.
 \newblock Oldenbourg Verlag.
 
+\bibitem[Kirkpatrick et~al., 1983]{Kirkpatrick671}
+Kirkpatrick, S., Gelatt, C.~D., and Vecchi, M.~P. (1983).
+\newblock Optimization by simulated annealing.
+\newblock {\em Science}, 220(4598):671--680.
+
 \bibitem[Kraft, 2018]{turingarchitecture}
 Kraft, B. (2018).
 \newblock Aufbau turing architektur.

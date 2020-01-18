@@ -1,7 +1,7 @@
 #include "SimulatedAnnealingTest.h";
 
 
-SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(100), sa(100) {
+SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(10000), sa(10000) {
 
 }
 

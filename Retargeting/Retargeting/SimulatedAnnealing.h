@@ -5,6 +5,13 @@
 #include <cassert>
 #include <iostream>
 #include <stdio.h>
+#include <random>
+#include <chrono>
+#include <cstdlib>
+#include <ctime>
+#include "AnnealingSchedule.h"
+
+#define BOLTZMANNKONSTANTE 1,380649 * pow(10,23);
 
 using namespace std;
 
@@ -56,10 +63,17 @@ class SimulatedAnnealing {
         int image_width;
         int image_height;
         Energy energy;
-        int number_steps;
 		Image execute(const char* filename, int& good_swaps);
         SimulatedAnnealingVisualizer visualizer;
 private:
+        float max_energy_difference = 40.f;
+        int number_steps;
+        //map the temperature to the energy!
+        float temperature;
+        //the step we have to go down for reaching temperature 0
+        float temerature_step;
+        AnnealingSchedule schedule;
+
         helpers helper;
 		float calculateEnergy(Image image_t, Image image_next, Image permutation);
         bool acceptanceProbabilityFunction(const float energy_old_condition, const float energy_new_condition, const float ratio_steps);

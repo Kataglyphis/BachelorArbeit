@@ -51,6 +51,12 @@
     <ClInclude Include="SimulatedAnnealingVisualizer.h">
       <Filter>Quelldateien</Filter>
     </ClInclude>
+    <ClInclude Include="AnnealingSchedule.h">
+      <Filter>Quelldateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Hajek.h">
+      <Filter>Quelldateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -87,6 +93,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="SimulatedAnnealingVisualizer.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Hajek.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

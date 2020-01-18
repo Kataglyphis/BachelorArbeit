@@ -29,16 +29,55 @@ Und $p_{s}$ und $q_{s}$ sind ihre d-dimensionalen Samplewerte.
     \begin{algorithmic}[1]
         \State initialisiere Startzustand $s=s_{0}$
         \For{i=1...maxSteps}
+        \State temperature = maxSteps / i;
         \State //Radius für Nachbarschaftssuche ist auf 6 festgesetzt
         \State $s_{neu}\leftarrow$Nachbarzustand(s)
-        \If{P(Energie(s), Energie($s_{new}$))$\ge$ random(0,1)} 
+        \State $energy\Delta = energy(s_{neu}) - energy(s)$
+        \If{$energy\Delta < 0$}
         \State s = $s_{new}$
+        \Else{}
+        \If{P(Energie(s), Energie($s_{new}$), temperature)$\ge$ random(0,1)} 
+        \State s = $s_{new}$
+        \EndIf
         \EndIf
         \EndFor
         \State return Endzustand s;
     \end{algorithmic}
     \label{alg:retargeting}
 \end{algorithm}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering $e^{-(energy(s_{neu}) - energy(s))/ temperature}$
+        \label{fig:APF}
+        \caption{Akzeptanzwahrscheinlichkeitsfunktion}
+    \end{subfigure}
+    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+      %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.7\textwidth}
+        \centering \includegraphics[interpolate=false,width=\linewidth]{content/simulatedAnnealing/Bilder/exponentialfunktion_as_PDF.png}
+        \label{fig:exponentialfunktion}
+        \caption{exponentialfunktion}
+    \end{subfigure}
+
+    \caption{Die Akzeptanzwahrscheinlichkeitsfunktion P(Energie(s), Energie($s_{new}$), temperature)}
+\end{figure}
+
+Die Wahl der Energiefunktion ist angelehnt an die Formulierung der 
+Wahrscheinlichkeitsakzeptanzfunktion in \cite{Kirkpatrick671}. 
+Diese wird bedeutet für positive Energydeltas, d.h. wenn der der Energiezustand
+des Nachbarn höher als der aktuelle ist. Mit absteigender Temperatur erkennt man 
+in der Abbildung \ref{fig:exponentialfunktion} eine ebenfalls abnehmende Wahrscheinlichkeit
+der Akzeptanz. Dies führt zu dem gewünschten Verhalten, energiehöhere Zustände 
+zuzulassen, um somit lokale Maxima zu verlassen. Dies geschieht bei höheren 
+Temperaturen häufiger wohingegen bei niederen Temperaturen ein gefundenes Maxima
+seltener verlassen wird. Höhere Deltas führen passender Weiße zu einem höheren negativen 
+Exponenten und damit eine geringere Akzeptanz als Energiezustände, die nur bisschen 
+drüber liegen. Die Wahl des Abkühlvorgangs (also das Updaten der Temperatur über die Zeit)
+ist problemspezifisch \cite[S. 9]{Kirkpatrick671}. Dabei muss der Abkühlvorgang derart
+gewählt werden, sodass kein bloßer Greedy-Algorithmus entsteht und man in einem lokalen 
+Maxima stecken bleibt aber auch kein wahlloses Vertauschen entsteht.
 
 Als Startzustand $s_{0}$ definieren wir eine Permutation, die alle 
 Elemente auf sich selbst abbildet.
@@ -54,27 +93,27 @@ Akzeptanz von Zuständen mit höherer Energie immer kleiner.(bzw. die
 Toleranz gegenüber größeren Fehlern im Bezug zur Zeit). Die allgemeine Akzeptanz von 
 Zuständen mit höherer Energie ist dabei von fundamentaler Bedeutung.
 Somit verlassen wir möglicherweiße nur lokale Maxima.
-Die zu minimierende Energiefunktion E\nameref{eq:pixel energy function} betrachtet
+Die zu minimierende Energiefunktion \nameref{eq:pixel energy function} betrachtet
 dabei zwei 
 
 \begin{figure}[H]\label{pic:Retargeting}
     \centering
     \begin{minipage}[t]{0.45\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/LDR_RGBA_64.png}
+        \includegraphics[interpolate=false,width=\linewidth]{content/simulatedAnnealing/Bilder/LDR_RGBA_64.png}
         \caption{Blue noise Textur 64x64}
     \end{minipage}
     \hfill
     \begin{minipage}[t]{0.45\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/LDR_RGBA_64_retarget_texture.png}
+        \includegraphics[interpolate=false,width=\linewidth]{content/simulatedAnnealing/Bilder/retargeted_texture_10312_swaps.png}
         \caption{Permutation; gespeichert in R,G-Channel einer .png}
     \end{minipage}
 \end{figure}
 
 \begin{figure}[H]\label{pic:Energy Annealing}
     \centering
-    \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Energy_2279_steps.png}
+    \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Energy_10313_steps.png}
     \caption{Energieverlauf beim Simulated Annealing}
 \end{figure}
 

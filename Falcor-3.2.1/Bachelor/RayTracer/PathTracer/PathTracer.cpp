@@ -156,13 +156,13 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
 
     } else {
 
-        if (this->trace_count <= 13) {
+        /**if (this->trace_count <= 10) {
             std::stringstream ss;
-            ss << "frame_t_" << this->trace_count;
+            ss << "frame_t_bluenosie" << this->trace_count;
             std::string filename = ss.str();
             pCallbacks->captureScreen(filename, "Screenshots");
             trace_count++;
-        }
+        }*/
         //Resource::SharedPtr retarget_seeds = mpGraph->getOutput("Sorting.seed_output");
         //bring our retargeted seeds into the globalillumination stage
         Resource::SharedPtr retarget_seeds = mpGraph->getOutput("Retargeting.output_seed");
