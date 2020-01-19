@@ -57,7 +57,7 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
 
     //textures for retargeting
 
-    Texture::SharedPtr retarget = createTextureFromFile("retargeted_texture.png", false, false, Resource::BindFlags::ShaderResource | /*Resource::BindFlags::UnorderedAccess|*/
+    Texture::SharedPtr retarget = createTextureFromFile("retargeted_texture_10312_swaps.png", false, false, Resource::BindFlags::ShaderResource | /*Resource::BindFlags::UnorderedAccess|*/
                                                                                                                                                                                                                                                 Resource::BindFlags::RenderTarget);
     mpComputeProgVars->setTexture("retarget_texture", retarget);
 

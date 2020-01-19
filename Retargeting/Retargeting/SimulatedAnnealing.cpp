@@ -1,7 +1,19 @@
 ﻿#include "SimulatedAnnealing.h"
 
-SimulatedAnnealing::SimulatedAnnealing(int number_steps) : helper(), image_width(64), image_height(64), visualizer() {
+SimulatedAnnealing::SimulatedAnnealing() : helper(), image_width(64), image_height(64), visualizer() {
 	this->number_steps = number_steps;
+
+	this->schedule = new Hajek();
+	this->temperature = schedule->getTemperature(0);
+}
+
+SimulatedAnnealing::SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule) : helper(), image_width(64), image_height(64), visualizer() {
+	this->number_steps = number_steps;
+	this->temperature = schedule->getTemperature(0);
+	//decide here which cooldown function
+	this->schedule = schedule;
+	//this->temerature_step = this->max_energy_difference / (number_steps + 1);
+	visualizer = SimulatedAnnealingVisualizer(schedule);
 }
 
 Image SimulatedAnnealing::execute(const char* filename, int& good_swaps) {
@@ -58,13 +70,14 @@ Image SimulatedAnnealing::execute(const char* filename, int& good_swaps) {
 
 	for (unsigned int i = 0; i < this->number_steps; i++) {
 
+		this->temperature = schedule->getTemperature(i);
 		//calc the energy of our permutation
 		float energy_old_condition = calculateEnergy(dither_data, next_dither_data, permutation_data_output);
 		if (i == 0) {
 			energy.push_back(energy_old_condition);
 		}
-		//std::cout << "Energy of the old condition: " << energy_old_condition << std::endl;
-		//std::cout << "Step: " << i << std::endl;
+		 std::cout << "Energy of the old condition: " << energy_old_condition << std::endl;
+		std::cout << "Step: " << i << std::endl;
 		//first we will go with the previous calculated permutation
 		helper.deepCopyImage(permutation_data_output, permutation_data_step, image_width, image_height);
 		helper.deepCopyImage(permutation_positions_output, permutation_positions_step, image_width, image_height);
@@ -73,17 +86,19 @@ Image SimulatedAnnealing::execute(const char* filename, int& good_swaps) {
 		applyOneRandomPermutation(permutation_data_step, permutation_positions_step);
 	
 		float energy_new_condition = calculateEnergy(dither_data, next_dither_data, permutation_data_step);
-		float ratio_steps = ((float)(number_steps))/((float)(i+1));
 
-		if (acceptanceProbabilityFunction(energy_old_condition, energy_new_condition, ratio_steps)) {
+		//std::cout << "Energy of the new condition: " << energy_new_condition << std::endl;
+
+		if (acceptanceProbabilityFunction(energy_old_condition, energy_new_condition, this->temperature)) {
 			//we will have a new condition
 			helper.deepCopyImage(permutation_data_step, permutation_data_output, image_width, image_height);
 			helper.deepCopyImage(permutation_positions_step, permutation_positions_output, image_width, image_height);
 			good_swaps++;
-			//std::cout << "Swap has been successful. \n" << "#Gute Tausche: " << good_swaps << endl;
+			std::cout << "Swap has been successful. \n" << "#Gute Tausche: " << good_swaps << endl;
 			//push it in the energy array
 			energy.push_back((int)energy_new_condition);
 		}
+
 
 	}
 
@@ -94,7 +109,7 @@ Image SimulatedAnnealing::execute(const char* filename, int& good_swaps) {
 	helper.fromPermuteToBitmap(permutation_data_output, retarget_bitmap, image_width, image_height);
 
 	stringstream ss;
-	ss << "retargeted_texture_" << good_swaps << "_swaps" <<".png";
+	ss << "retargeted_texture_" << good_swaps << "_swaps" << schedule->getName() <<".png";
 	helper.saveImageToFile(ss.str().c_str(), retarget_bitmap);
 
 	visualizer.visualizeEnergyOverSteps(energy);
@@ -107,6 +122,8 @@ bool SimulatedAnnealing::applyOneRandomPermutation(Image& permutation_data_step,
 	
 	bool no_permutation_found = true;
 
+	std::srand(std::time(0)); //use current time as seed for random generator
+	//int uniform_random_variable = std::rand();
 	//random position on the texture
 	int32_t random_x = std::rand() % image_width;
 	int32_t random_y = std::rand() % image_height;
@@ -125,6 +142,7 @@ bool SimulatedAnnealing::applyOneRandomPermutation(Image& permutation_data_step,
 	//we have to check, whether this all happens in a radius of 6!
 	do {
 
+		std::srand(std::time(0)); //use current time as seed for random generator
 		//random position on the texture
 		random_x = std::rand() % image_width;
 		random_y = std::rand() % image_height;
@@ -242,19 +260,36 @@ float SimulatedAnnealing::calculateEnergy(Image image_t, Image image_next, Image
 }
 
 
-bool SimulatedAnnealing::acceptanceProbabilityFunction(const float energy_old_condition, const float energy_new_condition, const float ratio_steps) {
+bool SimulatedAnnealing::acceptanceProbabilityFunction(const float energy_old_condition, const float energy_new_condition, const float temperature) {
 	
 	//TODO: important!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! to make this a simulated annealing we have to bring in the temperature in the decision function
 	//right now it is a simple hill climbing algorithm!!!!
-	if (energy_new_condition < energy_old_condition) {
+	bool result = false;
+	float delta = energy_new_condition - energy_old_condition;
+	std::cout << "Energy delta is " << delta << "\n";
 
-		return true;
+	if (delta <= 0) {
 
+		result =  true;
+
+	} else {
+
+		std::mt19937_64 rng;
+		// initialize the random number generator with time-dependent seed
+		uint64_t timeSeed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+		std::seed_seq ss{ uint32_t(timeSeed & 0xffffffff), uint32_t(timeSeed >> 32) };
+		rng.seed(ss);
+		// initialize a uniform distribution between 0 and 1
+		std::uniform_real_distribution<float> unif(0, 1);
+		float currentRandomNumber = unif(rng);
+		//prob from our syst
+		float prob = std::exp((-delta)/temperature);
+		std::cout << "Decision Probability is " << prob << "\n";
+		
+		if (prob > currentRandomNumber) {
+			result = true;
+		}
 	}
-	else {
 
-		return false;
-
-	}
-
+	return result;
 }

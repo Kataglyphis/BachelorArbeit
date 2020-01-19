@@ -5,6 +5,12 @@
 #include <cassert>
 #include <iostream>
 #include <stdio.h>
+#include <random>
+#include <chrono>
+#include <cstdlib>
+#include <ctime>
+#include "AnnealingSchedule.h"
+#include "Hajek.h"
 
 using namespace std;
 
@@ -52,14 +58,20 @@ typedef vector<int> Energy;
 
 class SimulatedAnnealing {
 	public:
-        SimulatedAnnealing(int number_steps);
+        SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule);
+        SimulatedAnnealing();
         int image_width;
         int image_height;
         Energy energy;
-        int number_steps;
 		Image execute(const char* filename, int& good_swaps);
         SimulatedAnnealingVisualizer visualizer;
+        AnnealingSchedule* schedule;
+
 private:
+        float max_energy_difference = 40.f;
+        int number_steps;
+        float temperature;
+
         helpers helper;
 		float calculateEnergy(Image image_t, Image image_next, Image permutation);
         bool acceptanceProbabilityFunction(const float energy_old_condition, const float energy_new_condition, const float ratio_steps);

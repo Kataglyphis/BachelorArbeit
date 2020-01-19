@@ -1,7 +1,10 @@
 #include "SimulatedAnnealingTest.h";
 
 
-SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(1000), sa(1000) {
+SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(1000000), sa() {
+	
+	this->schedule = new Hajek();
+	this->sa = SimulatedAnnealing(number_steps, schedule);
 
 }
 
@@ -42,6 +45,7 @@ void SimulatedAnnealingTest::testPermutation(const char* filename) {
 
 	Image appliedPerm = applyPermutationToOriginal(original, permutation);
 
+	/**
 	const char* steps_str = "steps_";
 	int length = snprintf(NULL, 0, "%d", goodswaps);
 	char* num_steps = (char*)malloc(length + 1);
@@ -80,14 +84,19 @@ void SimulatedAnnealingTest::testPermutation(const char* filename) {
 		cout << "Memory copy went wrong!";
 		exit(1);
 	}
+	*/
+	std::stringstream next_dither_ss;
+	next_dither_ss << "next_dither_" << filename;
+	std::stringstream perm_ss;
+	perm_ss << "steps_" << goodswaps << "_permuted_"  << this->schedule->getName() << "_"<< filename;
 
-	helper.fromImageToFile(next_dither_str, next_dither);
-	helper.fromImageToFile(permuted_image, appliedPerm);
+	helper.fromImageToFile(next_dither_ss.str().c_str(), next_dither);
+	helper.fromImageToFile(perm_ss.str().c_str(), appliedPerm);
 
 	//freeing memory
-	free(num_steps);
+	/**free(num_steps);
 	free(permuted_image);
-	free(next_dither_str);
+	free(next_dither_str);*/
 
 }
 

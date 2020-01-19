@@ -70,6 +70,12 @@
 \usepackage{tikz}
 \usepackage[english,ngerman]{babel}
 
+%using pdf's
+\usepackage{pdfpages}
+
+%using for svg's
+\usepackage{svg}
+\usepackage{import}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{algorithm}		  % Code-Listings

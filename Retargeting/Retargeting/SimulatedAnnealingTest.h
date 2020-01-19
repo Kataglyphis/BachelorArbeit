@@ -10,6 +10,7 @@ public:
 	  const char* dither_texture_path = "LDR_RGBA_0_64.png";
 	  helpers helper;
 	  int number_steps;
+	  AnnealingSchedule* schedule;
 
 	  SimulatedAnnealingTest();
 	  void testPermutation(const char* filename);

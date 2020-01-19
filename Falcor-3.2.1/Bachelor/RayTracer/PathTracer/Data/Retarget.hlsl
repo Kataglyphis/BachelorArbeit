@@ -55,7 +55,7 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     bluenoise_index.x = bluenoise_index.x % tile_width;
     bluenoise_index.y = bluenoise_index.y % tile_height;
 
-    int2 retarget = int2(0);//int2((retarget_texture[bluenoise_index].xy * 256.f) - float2(6));
+    int2 retarget = /**int2(0);*/int2((retarget_texture[bluenoise_index].rg * 255.f) - float2(6.f));
 
     //retargeting of the seeds
     uint2 retargetCoordinates = thread_ID + retarget;
