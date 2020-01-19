@@ -1,21 +1,21 @@
 Der nun behandelte temporale Algorithmus von \cite{hal02158423} beruht 
 im Gegensatz zu \cite{georgiev2016blue} auf \textit{nachträglichen} 
-Annahmen. Welches zur Folge hat, dass die Dimension unseres Path Tracers
+Annahmen. Welches zur Folge hat, dass die Dimension unseres
 \nameref{ch:Content1:sec:PathTracer}, sowie die Stichprobenanzahl einhergehen 
 mit der Verteilung der Integrationsfehler als blue noise im Bildraum.
 Die zu Grunde liegenden Annahmen sollen nun im Folgenden untersucht werden.
 
 \subsection{Theoretische Grundlage}
-Im Kapitel \nameref{ch:Content1:sec:PathTracer} haben wir gesehen, dass 
+Im Kapitel über des \nameref{ch:Content1:sec:PathTracer} haben wir gesehen, dass 
 wir den Wert eines Pixels (i,j) klassischerweise mit einem zufälligen
 Startwert durch eine Monte-Carlo Integration erhalten. Wir betrachten im
 Folgenden eine (theoretische) Menge von allen möglichen Werten eines 
 Pixels, welche durch alle möglichen Startwerte generiert wurde.
-In \nameref{eq:Pixel Schätzung Wahrscheinlichkeitsdichtefunktion} ist die Wahrscheinlichkeitsdichtefunktion
+In der Gleichung zur Abbildung \ref{eq:Pixel Schätzung durch eine Wahrscheinlichkeitsdichtefunktion} ist die Wahrscheinlichkeitsdichtefunktion
 $h_{ij}$ aufgetragen, als eine Funktion über alle möglichen Werte 
 $I_{ij}$ eines Pixels (i,j).
 
-\begin{equation}\label{eq:Pixel Schätzung Wahrscheinlichkeitsdichtefunktion}
+\begin{equation}\label{eq:Pixel Schätzung durch eine Wahrscheinlichkeitsdichtefunktion}
     H_{ij}([I_{Anfang},I_{Ende}]) = \int_{I_{Anfang}}^{I_{Ende}} h_{ij} dI
 \end{equation}
 
@@ -27,7 +27,7 @@ von unser zuvor formulierten Wahrscheinlichkeitsdichtefunktion $h_{ij}$.
     I_{ij} = H_{ij}^{-1}(x), x \in [0,1]
 \end{equation}
 
-Nun betrachte man die Werte für x in \nameref{eq:inverse Funktion} als im Bildraum
+Nun betrachte man die Werte für x in Abbildung \ref{eq:inverse Funktion} als im Bildraum
 blue noise verteilte Zahlen. Daraus folgt, dass die resultierenden
 Integrationsfehler auch als blue noise im Bildraum verteilt sind.
 
