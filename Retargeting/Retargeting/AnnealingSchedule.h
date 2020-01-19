@@ -3,7 +3,7 @@
 class AnnealingSchedule
 {
 	public: 
-		virtual double getTemperature(int step);
-		virtual std::string getName();
+		virtual double getTemperature(int step)=0;
+		virtual std::string getName()=0;
 };
 

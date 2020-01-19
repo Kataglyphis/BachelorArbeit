@@ -10,8 +10,7 @@
 #include <cstdlib>
 #include <ctime>
 #include "AnnealingSchedule.h"
-
-#define BOLTZMANNKONSTANTE 1,380649 * pow(10,23);
+#include "Hajek.h"
 
 using namespace std;
 
@@ -59,20 +58,19 @@ typedef vector<int> Energy;
 
 class SimulatedAnnealing {
 	public:
-        SimulatedAnnealing(int number_steps);
+        SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule);
+        SimulatedAnnealing();
         int image_width;
         int image_height;
         Energy energy;
 		Image execute(const char* filename, int& good_swaps);
         SimulatedAnnealingVisualizer visualizer;
+        AnnealingSchedule* schedule;
+
 private:
         float max_energy_difference = 40.f;
         int number_steps;
-        //map the temperature to the energy!
         float temperature;
-        //the step we have to go down for reaching temperature 0
-        float temerature_step;
-        AnnealingSchedule schedule;
 
         helpers helper;
 		float calculateEnergy(Image image_t, Image image_next, Image permutation);

@@ -6,6 +6,7 @@ class Hajek :
 	public AnnealingSchedule
 {
 public:
+	Hajek();
 	double getTemperature(int step);
 	std::string getName();
 private:

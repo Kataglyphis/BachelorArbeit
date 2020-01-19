@@ -4,6 +4,14 @@ namespace plt = matplotlibcpp;
 
 SimulatedAnnealingVisualizer::SimulatedAnnealingVisualizer() {
 
+    this->schedule = new Hajek();
+
+}
+
+SimulatedAnnealingVisualizer::SimulatedAnnealingVisualizer(AnnealingSchedule* schedule) {
+
+    this->schedule = schedule;
+
 }
 
 void SimulatedAnnealingVisualizer::visualizeEnergyOverSteps(Energy energy) {
@@ -38,6 +46,6 @@ void SimulatedAnnealingVisualizer::visualizeEnergyOverSteps(Energy energy) {
     plt::legend();
     // Save the image (file format is determined by the extension)
     std::stringstream ss2;
-    ss2 << "./Energy_" << size << "_steps.png";
+    ss2 << "./Energy_" << size << "_steps_" << schedule->getName() << ".png";
     plt::save(ss2.str());
 }

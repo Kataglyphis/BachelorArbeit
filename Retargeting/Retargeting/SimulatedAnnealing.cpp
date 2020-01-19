@@ -1,9 +1,19 @@
 ﻿#include "SimulatedAnnealing.h"
 
-SimulatedAnnealing::SimulatedAnnealing(int number_steps) : helper(), image_width(64), image_height(64), visualizer(), schedule() {
+SimulatedAnnealing::SimulatedAnnealing() : helper(), image_width(64), image_height(64), visualizer() {
 	this->number_steps = number_steps;
-	this->temperature = number_steps;
+
+	this->schedule = new Hajek();
+	this->temperature = schedule->getTemperature(0);
+}
+
+SimulatedAnnealing::SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule) : helper(), image_width(64), image_height(64), visualizer() {
+	this->number_steps = number_steps;
+	this->temperature = schedule->getTemperature(0);
+	//decide here which cooldown function
+	this->schedule = schedule;
 	//this->temerature_step = this->max_energy_difference / (number_steps + 1);
+	visualizer = SimulatedAnnealingVisualizer(schedule);
 }
 
 Image SimulatedAnnealing::execute(const char* filename, int& good_swaps) {
@@ -60,7 +70,7 @@ Image SimulatedAnnealing::execute(const char* filename, int& good_swaps) {
 
 	for (unsigned int i = 0; i < this->number_steps; i++) {
 
-		this->temperature = this->schedule.getTemperature(i);
+		this->temperature = schedule->getTemperature(i);
 		//calc the energy of our permutation
 		float energy_old_condition = calculateEnergy(dither_data, next_dither_data, permutation_data_output);
 		if (i == 0) {
@@ -99,7 +109,7 @@ Image SimulatedAnnealing::execute(const char* filename, int& good_swaps) {
 	helper.fromPermuteToBitmap(permutation_data_output, retarget_bitmap, image_width, image_height);
 
 	stringstream ss;
-	ss << "retargeted_texture_" << good_swaps << "_swaps" <<".png";
+	ss << "retargeted_texture_" << good_swaps << "_swaps" << schedule->getName() <<".png";
 	helper.saveImageToFile(ss.str().c_str(), retarget_bitmap);
 
 	visualizer.visualizeEnergyOverSteps(energy);
