@@ -6,6 +6,7 @@
 #include "Hajek.h"
 #include "ExponentialCoolDown.h"
 #include "SimulatedAnnealing.h"
+#include "Lineary.h"
 
 typedef std::vector<int> Energy;
 

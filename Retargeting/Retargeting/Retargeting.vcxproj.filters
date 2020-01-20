@@ -78,6 +78,9 @@
     <ClInclude Include="SimulatedAnnealingVisualizer.h">
       <Filter>Quelldateien\SimulatedAnnealing</Filter>
     </ClInclude>
+    <ClInclude Include="Lineary.h">
+      <Filter>Quelldateien\Schedules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -124,6 +127,9 @@
     </ClCompile>
     <ClCompile Include="SimulatedAnnealingVisualizer.cpp">
       <Filter>Quelldateien\SimulatedAnnealing</Filter>
+    </ClCompile>
+    <ClCompile Include="Lineary.cpp">
+      <Filter>Quelldateien\Schedules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

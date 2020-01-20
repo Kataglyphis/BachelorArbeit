@@ -16,6 +16,7 @@ CoolDownTester::CoolDownTester(int number_steps) {
     this->number_steps = number_steps;
     this->sas.push_back(SimulatedAnnealing(number_steps, new Hajek(), energy, false));
     this->sas.push_back(SimulatedAnnealing(number_steps, new ExponentialCoolDown(), energy, false));
+    this->sas.push_back(SimulatedAnnealing(number_steps, new Lineary(), energy, false));
 }
 
 void CoolDownTester::compareDifferentCoolDownSchedules() {
