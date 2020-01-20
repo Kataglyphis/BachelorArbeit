@@ -22,5 +22,6 @@ private:
 	std::vector<SimulatedAnnealing> sas;
 	const char* dither_texture_path = "LDR_RGBA_0_64.png";
 	int number_steps;
+	std::string folder_energy = "pictures/Energy/";
 };
 

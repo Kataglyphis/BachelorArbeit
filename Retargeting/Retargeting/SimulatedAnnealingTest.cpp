@@ -1,7 +1,7 @@
 #include "SimulatedAnnealingTest.h";
 
 
-SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(1000000), sa() {
+SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(100), sa() {
 	
 	this->schedule = new Hajek();
 	Energy energy;
@@ -18,12 +18,12 @@ void SimulatedAnnealingTest::testPermutation(const char* filename) {
 	Image next_dither;
 	Image original; 
 
-	for (int i = 0; i < helper.dither_width; i++) {
+	for (int i = 0; i < helper.getDitherWith(); i++) {
 
 		Column column_org;
 		Column column_dither;
 
-		for (int j = 0; j < helper.dither_height; j++) {
+		for (int j = 0; j < helper.getDitherHeight; j++) {
 
 			//just assign the standard distribution
 			//how this looks like; look at th etop for it 
@@ -42,7 +42,7 @@ void SimulatedAnnealingTest::testPermutation(const char* filename) {
 	}
 
 	helper.loadPNGinArray(filename, original);
-	helper.getNextDither(original, next_dither, helper.dither_width, helper.dither_height);
+	helper.getNextDither(original, next_dither, helper.getDitherWith, helper.getDitherHeight);
 
 	Image appliedPerm = applyPermutationToOriginal(original, permutation);
 
@@ -87,9 +87,9 @@ void SimulatedAnnealingTest::testPermutation(const char* filename) {
 	}
 	*/
 	std::stringstream next_dither_ss;
-	next_dither_ss << "next_dither_" << filename;
+	next_dither_ss << this->folder_permuted_images << "next_dither_" << filename;
 	std::stringstream perm_ss;
-	perm_ss << "steps_" << goodswaps << "_permuted_"  << this->schedule->getName() << "_" << filename;
+	perm_ss << this->folder_permuted_images << "steps_" << goodswaps << "_permuted_"  << this->schedule->getName() << "_" << filename;
 
 	helper.fromImageToFile(next_dither_ss.str().c_str(), next_dither);
 	helper.fromImageToFile(perm_ss.str().c_str(), appliedPerm);
@@ -105,11 +105,11 @@ Image SimulatedAnnealingTest::applyPermutationToOriginal(Image original, Image p
 
 	Image permutatedOriginal;
 
-	for (int i = 0; i < helper.dither_width; i++) {
+	for (int i = 0; i < helper.getDitherWith; i++) {
 
 		Column column_org;
 
-		for (int j = 0; j < helper.dither_height; j++) {
+		for (int j = 0; j < helper.getDitherHeight; j++) {
 
 			//just assign the standard distribution
 			//how this looks like; look at th etop for it 
@@ -128,9 +128,9 @@ Image SimulatedAnnealingTest::applyPermutationToOriginal(Image original, Image p
 	//helper.deepCopyImage(original, permutatedOriginal, helper.dither_width, helper.dither_height);
 
 	
-	for (int i = 0; i < helper.dither_width; i++) {
+	for (int i = 0; i < helper.getDitherWith; i++) {
 
-		for (int j = 0; j < helper.dither_height; j++) {
+		for (int j = 0; j < helper.getDitherHeight; j++) {
 
 			permutatedOriginal[i + permutation[i][j][0]][j + permutation[i][j][1]] = original[i][j];
 

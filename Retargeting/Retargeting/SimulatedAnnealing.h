@@ -61,16 +61,19 @@ class SimulatedAnnealing {
 
         SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule, Energy& energy, bool visualize_single_annealing);
         SimulatedAnnealing();
-        int image_width;
-        int image_height;
-        Energy energy;
 		Image execute(const char* filename, int& good_swaps);
-        SimulatedAnnealingVisualizer visualizer;
-        AnnealingSchedule* schedule;
-        int good_swaps;
+        Energy getEnergy();
+        AnnealingSchedule* getSchedule();
+        int getNumSwaps();
 
 private:
 
+        SimulatedAnnealingVisualizer visualizer;
+        AnnealingSchedule* schedule;
+        int good_swaps;
+        int image_width;
+        int image_height;
+        Energy energy;
         float max_energy_difference = 40.f;
         int number_steps;
         float temperature;

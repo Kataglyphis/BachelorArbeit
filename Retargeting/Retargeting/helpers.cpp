@@ -265,3 +265,15 @@ void helpers::fromImageToFile(const char* filename, Image image) {
 	bool saved = saveImageToFile(filename, bm);
 
 }
+
+int helpers::getDitherWith() {
+
+	return this->dither_width;
+
+}
+
+int helpers::getDitherHeight() {
+
+	return this->dither_height;
+
+}

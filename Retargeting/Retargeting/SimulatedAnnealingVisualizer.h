@@ -18,6 +18,9 @@ public:
 	SimulatedAnnealingVisualizer(AnnealingSchedule* schedule);
 	void visualizeEnergyOverSteps(Energy energy);
 
+
+private:
 	AnnealingSchedule* schedule;
+	std::string folder_energy = "pictures/Energy/";
 };
 

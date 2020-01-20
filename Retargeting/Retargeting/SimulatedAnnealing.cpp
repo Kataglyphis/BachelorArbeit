@@ -299,3 +299,21 @@ bool SimulatedAnnealing::acceptanceProbabilityFunction(const float energy_old_co
 
 	return result;
 }
+
+Energy SimulatedAnnealing::getEnergy() {
+
+	return this->energy;
+
+}
+
+AnnealingSchedule* SimulatedAnnealing::getSchedule() {
+
+	return this->schedule;
+
+}
+
+int SimulatedAnnealing::getNumSwaps() {
+
+	return this->good_swaps;
+
+}
