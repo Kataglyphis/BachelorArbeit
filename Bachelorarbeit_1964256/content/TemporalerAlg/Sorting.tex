@@ -2,8 +2,8 @@ In diesem Schritt wollen wir nun die Untersuchungen aus
 \nameref{ch:Content2:sec:APosteriori} durchführen. Nach dem Rendern eines
 $Frames_{t}$(vor dem Rendern von $Frame_{t+1}$) approximieren wir das Histogramm
 der Pixelwerte anhand der Pixelwerte von $Frame_{t}$. Dabei betrachten wir
-Anzahl Pixel pro BLOCK in der unmittelbaren Nachbarschaft und nehmen diese
-wie anfangs erwähnt als Schätzung des Histogramms.
+eine Anzahl Pixel pro BLOCK(=16 nach \cite{hal02158423}) in der unmittelbaren Nachbarschaft 
+und nehmen diese wie anfangs erwähnt als Schätzung des Histogramms.
 
 \cite{hal02158423}
 \begin{algorithm}[H]
@@ -35,10 +35,15 @@ wie anfangs erwähnt als Schätzung des Histogramms.
 
 Hierbei muss noch eine wichtige Anmerkung gemacht werden. Die Fehlerverteilung
 der Pixelwerte im Bildraum konvergiert auf diese Weise nicht zu einer 
-blue noise Verteilung. Wir wechseln in jedem Frame die 
-verwendeten blue noise Texturen um gewissen Artefakten zu entgehen und 
-andere temporale Algorithmen zu ermöglichen. Dieser Schritt alleine reicht
-also nicht für den erwünschten Effekt.
+blue noise Verteilung, denn wir wechseln in jedem Frame die 
+verwendeten blue noise Texturen(theoretisch! praktischerweise werden wir hier eine
+Textur verwenden und mit Erkenntnissen aus \nameref{ch:Content1:sec:QuasiRandomSequences}) 
+quasi-zufällig zugreifen um so einen solchen Effekt zu erreichen). 
+Dieser Schritt alleine reicht also nicht für den erwünschten Effekt zu erreichen.
+
+
+Die APosteriori Erkenntnisse zu der inversen Funktion\ref{eq:inverse Funktion} garantieren uns nach dem
+Umsortieren die entsprechenden Seeds in einer ebenfalls blue noise verteilten Struktur zu erhalten.  
 
 \begin{figure}[H]
 

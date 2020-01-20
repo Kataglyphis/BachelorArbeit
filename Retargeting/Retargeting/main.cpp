@@ -14,6 +14,7 @@
 #include "SimulatedAnnealingTest.h"
 #include "SimulatedAnnealing.h"
 #include "SimulatedAnnealingVisualizer.h"
+#include "CoolDownTester.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb/stb_image_write.h"
 
@@ -110,10 +111,13 @@ int main(int, char**)
         &my_retarget_texture, g_pd3dDevice, &my_retarget_width, &my_retarget_height);
     if (!erstellt) return 1;
 
+    //testing the simulated annealing
+    /**SimulatedAnnealingTest testing;
+    testing.testPermutation(filename);*/
 
-    SimulatedAnnealingTest testing;
-    testing.testPermutation(filename);
-
+    //test different cool down functions
+    CoolDownTester test(100);
+    test.compareDifferentCoolDownSchedules();
 
     // Main loop
     MSG msg;
@@ -147,7 +151,7 @@ int main(int, char**)
             static int counter = 0;
 
             ImGui::Begin("Calculate Retargeting texture!");                          // Create a window for displaying blue noise and retargeting texture!!
-
+            
             ImGui::Text("Load Blue Noise Texture to Retarget!");              
 
 			//show image

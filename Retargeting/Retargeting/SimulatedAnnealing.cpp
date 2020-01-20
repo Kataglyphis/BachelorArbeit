@@ -1,19 +1,25 @@
 ﻿#include "SimulatedAnnealing.h"
 
-SimulatedAnnealing::SimulatedAnnealing() : helper(), image_width(64), image_height(64), visualizer() {
+SimulatedAnnealing::SimulatedAnnealing() : helper(), image_width(64), image_height(64), visualizer(), good_swaps(0), visualize(false) {
+	
 	this->number_steps = number_steps;
-
 	this->schedule = new Hajek();
 	this->temperature = schedule->getTemperature(0);
+	visualizer = SimulatedAnnealingVisualizer(this->schedule);
+
 }
 
-SimulatedAnnealing::SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule) : helper(), image_width(64), image_height(64), visualizer() {
+SimulatedAnnealing::SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule, Energy& energy, bool visualize_single_annealing) : helper(), image_width(64), image_height(64), visualizer(), good_swaps(0) {
+	
+	this->visualize = visualize_single_annealing;
 	this->number_steps = number_steps;
 	this->temperature = schedule->getTemperature(0);
 	//decide here which cooldown function
 	this->schedule = schedule;
+	this->energy = energy;
 	//this->temerature_step = this->max_energy_difference / (number_steps + 1);
 	visualizer = SimulatedAnnealingVisualizer(schedule);
+
 }
 
 Image SimulatedAnnealing::execute(const char* filename, int& good_swaps) {
@@ -102,17 +108,17 @@ Image SimulatedAnnealing::execute(const char* filename, int& good_swaps) {
 
 	}
 
-
+	this->good_swaps = good_swaps;
 
 	FIBITMAP* retarget_bitmap = FreeImage_Allocate(image_width, image_height, 32);
 
 	helper.fromPermuteToBitmap(permutation_data_output, retarget_bitmap, image_width, image_height);
 
 	stringstream ss;
-	ss << "retargeted_texture_" << good_swaps << "_swaps" << schedule->getName() <<".png";
+	ss << this->folder_permutation_textures << "permutation_texture_" << good_swaps << "_swaps" << schedule->getName() <<".png";
 	helper.saveImageToFile(ss.str().c_str(), retarget_bitmap);
 
-	visualizer.visualizeEnergyOverSteps(energy);
+	if(visualize) visualizer.visualizeEnergyOverSteps(energy);
 
 	return permutation_data_output;
 }

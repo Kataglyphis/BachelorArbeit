@@ -58,7 +58,8 @@ typedef vector<int> Energy;
 
 class SimulatedAnnealing {
 	public:
-        SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule);
+
+        SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule, Energy& energy, bool visualize_single_annealing);
         SimulatedAnnealing();
         int image_width;
         int image_height;
@@ -66,11 +67,15 @@ class SimulatedAnnealing {
 		Image execute(const char* filename, int& good_swaps);
         SimulatedAnnealingVisualizer visualizer;
         AnnealingSchedule* schedule;
+        int good_swaps;
 
 private:
+
         float max_energy_difference = 40.f;
         int number_steps;
         float temperature;
+        bool visualize;
+        std::string folder_permutation_textures = "pictures/Permutations/";
 
         helpers helper;
 		float calculateEnergy(Image image_t, Image image_next, Image permutation);

@@ -84,6 +84,9 @@
 \usepackage{algpseudocode}
 %\usepackage{relsize,exscale}
 
+%for abs
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 %%packages added to use pseudo code!
 % see http://www.ctan.org/tex-archive/macros/latex/contrib/algorithm2e/algorithm2e.pdf
 % for more sophisticated algorithm listings

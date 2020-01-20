@@ -16,17 +16,26 @@
     <Filter Include="imgui">
       <UniqueIdentifier>{892846e7-881e-403e-a071-41c50e046bab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\Imgui_Impl">
+      <UniqueIdentifier>{0b38ed2a-6be2-44c4-933a-dae48d18cc91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Schedules">
+      <UniqueIdentifier>{24014056-df2c-44a9-a0ed-b3161de86df3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Testing">
+      <UniqueIdentifier>{443acd1f-d413-4bb6-8fc8-3972d0628353}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Randomness">
+      <UniqueIdentifier>{ebaf8927-e535-418e-88f9-db929121bc8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Helper">
+      <UniqueIdentifier>{39880908-71d9-40e8-9a67-7d2cb856ad41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\SimulatedAnnealing">
+      <UniqueIdentifier>{04ec8c65-9d8e-4d8e-8043-6af6c969fb63}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="imgui\imgui_impl_win32.h">
-      <Filter>Quelldateien</Filter>
-    </ClInclude>
-    <ClInclude Include="helpers.h">
-      <Filter>Quelldateien</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\examples\imgui_impl_dx11.h">
-      <Filter>Quelldateien</Filter>
-    </ClInclude>
     <ClInclude Include="imgui\imconfig.h">
       <Filter>imgui</Filter>
     </ClInclude>
@@ -36,39 +45,42 @@
     <ClInclude Include="imgui\imgui_internal.h">
       <Filter>imgui</Filter>
     </ClInclude>
-    <ClInclude Include="cppOpt\inc\cppOpt.h">
-      <Filter>Quelldateien</Filter>
+    <ClInclude Include="imgui\examples\imgui_impl_dx11.h">
+      <Filter>Quelldateien\Imgui_Impl</Filter>
     </ClInclude>
-    <ClInclude Include="SimulatedAnnealing.h">
-      <Filter>Quelldateien</Filter>
-    </ClInclude>
-    <ClInclude Include="WangHash.h">
-      <Filter>Quelldateien</Filter>
-    </ClInclude>
-    <ClInclude Include="SimulatedAnnealingTest.h">
-      <Filter>Quelldateien</Filter>
-    </ClInclude>
-    <ClInclude Include="SimulatedAnnealingVisualizer.h">
-      <Filter>Quelldateien</Filter>
-    </ClInclude>
-    <ClInclude Include="AnnealingSchedule.h">
-      <Filter>Quelldateien</Filter>
+    <ClInclude Include="imgui\imgui_impl_win32.h">
+      <Filter>Quelldateien\Imgui_Impl</Filter>
     </ClInclude>
     <ClInclude Include="Hajek.h">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\Schedules</Filter>
+    </ClInclude>
+    <ClInclude Include="AnnealingSchedule.h">
+      <Filter>Quelldateien\Schedules</Filter>
+    </ClInclude>
+    <ClInclude Include="ExponentialCoolDown.h">
+      <Filter>Quelldateien\Schedules</Filter>
+    </ClInclude>
+    <ClInclude Include="CoolDownTester.h">
+      <Filter>Quelldateien\Testing</Filter>
+    </ClInclude>
+    <ClInclude Include="WangHash.h">
+      <Filter>Quelldateien\Randomness</Filter>
+    </ClInclude>
+    <ClInclude Include="helpers.h">
+      <Filter>Quelldateien\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="SimulatedAnnealing.h">
+      <Filter>Quelldateien\SimulatedAnnealing</Filter>
+    </ClInclude>
+    <ClInclude Include="SimulatedAnnealingTest.h">
+      <Filter>Quelldateien\Testing</Filter>
+    </ClInclude>
+    <ClInclude Include="SimulatedAnnealingVisualizer.h">
+      <Filter>Quelldateien\SimulatedAnnealing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\imgui_impl_win32.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="helpers.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\examples\imgui_impl_dx11.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
@@ -83,20 +95,35 @@
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
-    <ClCompile Include="SimulatedAnnealing.cpp">
-      <Filter>Quelldateien</Filter>
+    <ClCompile Include="imgui\examples\imgui_impl_dx11.cpp">
+      <Filter>Quelldateien\Imgui_Impl</Filter>
     </ClCompile>
-    <ClCompile Include="WangHash.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="SimulatedAnnealingTest.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="SimulatedAnnealingVisualizer.cpp">
-      <Filter>Quelldateien</Filter>
+    <ClCompile Include="imgui\imgui_impl_win32.cpp">
+      <Filter>Quelldateien\Imgui_Impl</Filter>
     </ClCompile>
     <ClCompile Include="Hajek.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\Schedules</Filter>
+    </ClCompile>
+    <ClCompile Include="ExponentialCoolDown.cpp">
+      <Filter>Quelldateien\Schedules</Filter>
+    </ClCompile>
+    <ClCompile Include="CoolDownTester.cpp">
+      <Filter>Quelldateien\Testing</Filter>
+    </ClCompile>
+    <ClCompile Include="WangHash.cpp">
+      <Filter>Quelldateien\Randomness</Filter>
+    </ClCompile>
+    <ClCompile Include="helpers.cpp">
+      <Filter>Quelldateien\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="SimulatedAnnealing.cpp">
+      <Filter>Quelldateien\SimulatedAnnealing</Filter>
+    </ClCompile>
+    <ClCompile Include="SimulatedAnnealingTest.cpp">
+      <Filter>Quelldateien\Testing</Filter>
+    </ClCompile>
+    <ClCompile Include="SimulatedAnnealingVisualizer.cpp">
+      <Filter>Quelldateien\SimulatedAnnealing</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

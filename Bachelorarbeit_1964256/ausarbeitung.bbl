@@ -53,6 +53,11 @@ Haines, E. and Akenine-M\"oller, T., editors (2019).
 \newblock Apress.
 \newblock \url{http://raytracinggems.com}.
 
+\bibitem[Hajek, 1988]{hajek1988cooling}
+Hajek, B. (1988).
+\newblock Cooling schedules for optimal annealing.
+\newblock {\em Mathematics of operations research}, 13(2):311--329.
+
 \bibitem[Heitz et~al., 2019]{heitz:hal02150657}
 Heitz, E., Belcour, L., Ostromoukhov, V., Coeurjolly, D., and Iehl, J.-C.
   (2019).

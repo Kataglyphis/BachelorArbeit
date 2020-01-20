@@ -139,7 +139,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AnnealingSchedule.h" />
-    <ClInclude Include="cppOpt\inc\cppOpt.h" />
+    <ClInclude Include="CoolDownTester.h" />
+    <ClInclude Include="ExponentialCoolDown.h" />
     <ClInclude Include="Hajek.h" />
     <ClInclude Include="helpers.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -156,6 +157,8 @@
     <ClInclude Include="WangHash.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CoolDownTester.cpp" />
+    <ClCompile Include="ExponentialCoolDown.cpp" />
     <ClCompile Include="Hajek.cpp" />
     <ClCompile Include="helpers.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

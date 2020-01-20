@@ -15,5 +15,6 @@ public:
 	  SimulatedAnnealingTest();
 	  void testPermutation(const char* filename);
 	  Image applyPermutationToOriginal(Image original, Image applied_perm);
+private:
 
 };

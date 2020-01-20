@@ -15,6 +15,30 @@ uns an die besprochenen Eigenschaften bei \nameref{ch:Content1:sec:BlueNoise}.
 Im Folgenden wird für uns der zweidimensionale Fall wichtig sein, weswegen
 wir vom ein- über zum zweidimensionalen schauen werden.
 
+\subsection{Low Discrepency Sequenzen}
+Aus dem Vorhandensein einer low discrepency Sequenz folgt dass auch alle 
+Subsequenzen derartiger Gestalt sind: Gemessen am Anteil der Punkte innerhalb
+einer (Sub-)sequenz.
+
+\begin{equation}\label{eq:Low Discrepency}
+    \sup{\abs{\frac{\abs{s_{1}...s_{n} \cap [c,d]}}{N} - \frac{d-c}{b-a}}}
+\end{equation}
+
+Jedes x $\in s_{n}$ fällt mit der annähernd gleichen Wahrscheinlichkeit
+in das Subintervall [c,d]. Wäre es die selbe Wahrscheinlichkeit hätten 
+wir die Uniformität.
+
+\label{sec:quasi monte carlo}
+\subsection{Quasi Monte-Carlo Methode}
+Diese Methode macht sich die \nameref{eq:Low Discrepency} Folgen zu Nutze
+im Gegensatz zu der ursprünglichen Monte-Carlo Methode \ref{ch:Content1:sec:PathTracer},
+welche auf pseudozufälligen Zahlen basiert. Im Gegensatz zu ihr haben wir 
+hier eine schnellere Konvergenz \textit{O}($\frac{1}{N}$).
+Wichtig für das weitere Verständnis ist die Randomisierung einer von Grunde
+her deterministische Low Discrepency Sequenz. Ein Verfahren, das 
+zufällige Shiften, bildet eine neue Sequenz $y_{i}$ aus $x_{i}$ durch 
+eine komponenteweise Addition mit einem zufälligen Wert w.
+
 \label{subsec:onedimensional}
 \subsection{1-Dimension}
 Diese Arbeit betrachtet Rekurrenz Sequenzen, basierend auf irrationalem 

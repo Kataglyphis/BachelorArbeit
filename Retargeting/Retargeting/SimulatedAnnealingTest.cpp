@@ -4,7 +4,8 @@
 SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(1000000), sa() {
 	
 	this->schedule = new Hajek();
-	this->sa = SimulatedAnnealing(number_steps, schedule);
+	Energy energy;
+	this->sa = SimulatedAnnealing(number_steps, schedule, energy, true);
 
 }
 
@@ -88,7 +89,7 @@ void SimulatedAnnealingTest::testPermutation(const char* filename) {
 	std::stringstream next_dither_ss;
 	next_dither_ss << "next_dither_" << filename;
 	std::stringstream perm_ss;
-	perm_ss << "steps_" << goodswaps << "_permuted_"  << this->schedule->getName() << "_"<< filename;
+	perm_ss << "steps_" << goodswaps << "_permuted_"  << this->schedule->getName() << "_" << filename;
 
 	helper.fromImageToFile(next_dither_ss.str().c_str(), next_dither);
 	helper.fromImageToFile(perm_ss.str().c_str(), appliedPerm);

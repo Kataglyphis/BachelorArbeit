@@ -1,17 +1,22 @@
-Im vorherigen Kapitel, dem Retargeting Schritt \nameref{ch:Content2:sec:Retargeting},
-wird eine vorberechnete Retargeting-Textur verwendet. Diese speichert eine
+Im Kapitel \nameref{ch:Content2:sec:Retargeting},
+wird eine vorberechnete Textur verwendet. Diese speichert eine
 Permutation, die unsere blue noise Textur vom frame t in eine
 blue noise Textur vom frame t+1 umwandelt. Diese Permutation wird 
 dann auf die Startwerte angewandt bevor das nächste frame t+1 gerendert wird.
 Dadurch werden die blue noise Umverteilung der Sorting Phase \nameref{ch:Content2:sec:Sorting}
 akkumuliert und die optische Aufwertung erst richtig sichtbar.
-Die retarget Textur wird mit Hilfe von \textbf{simulated annealing} 
-\cite{hal02158423} berechnet. Wir wollen somit eine approximativ 
+Die retarget Textur wird mit Hilfe von \textbf{Simulated Annealing} 
+\cite{hal02158423} berechnet. Angelehnt an metallurgischen Aufheizen und anschließenden Abkühlen wollen wir eine approximativ 
 optimale Lösung finden: Permutiere Pixel der blue noise Textur von 
 frame t bis Sie sehr ähnlich verteilt sind wie die Pixel der blue noise
 Textur von frame t+1. Dabei ist die Lokalität der Vertauschungen, 
 welche wir bereits in der Sorting Phase\nameref{ch:Content2:sec:Sorting}
-verwendet haben, wichtig.
+verwendet haben, wichtig. Wir übernehmen hier die Lokalitätsbestimmung aus 
+der Arbeit \cite{hal02158423}(Radius r = 6). Von einem hohen Energielevel 
+(dither textur zum Zeitpunkt t = 0) wollen wir durch kontrolliertes 
+Abkühlen in ein Niederes gelangen(dither textur zum Teitpunkt t = 1).
+Zugriff auf die dither Textur berechnet sich für weitere Zeitpunkte
+wie hier\ref{alg:Benutzung vorberechneter Texturen} beschrieben.
 
 Die Funktion nach der optimiert wird ist an die Formel aus\cite{georgiev2016blue} angelehnt.
 \begin{equation}\label{eq:pixel energy function}
@@ -19,6 +24,7 @@ Die Funktion nach der optimiert wird ist an die Formel aus\cite{georgiev2016blue
            \sum_{p \neq q} \mathrm{e}^{-\frac{\Vert{p_{i}-q_{i}}\Vert^{2}}{\sigma_{i}^{2}} -
            \frac{\Vert{p_{s}-q_{s}}\Vert^{d/2}}{\sigma_{s}^{2}}}
 \end{equation}
+
 Wähle nach \cite{ulichney1993void} $\sigma_{i} = 2.1$ und $\sigma_{s} = 1$ 
 Zu den Pixeln p,q beschreibt $p_{i}$ und $q_{i}$ ihre jeweiligen Koordinaten.
 Und $p_{s}$ und $q_{s}$ sind ihre d-dimensionalen Samplewerte.
@@ -28,8 +34,9 @@ Und $p_{s}$ und $q_{s}$ sind ihre d-dimensionalen Samplewerte.
     \caption{\textbf{Simulated Annealing} finde sehr gute Lösung}
     \begin{algorithmic}[1]
         \State initialisiere Startzustand $s=s_{0}$
+        \State initialisiere Starttemperatur $T_0$
         \For{i=1...maxSteps}
-        \State temperature = maxSteps / i;
+        \State update Temperatur $t_i$ anhand des Abkühlplanes
         \State //Radius für Nachbarschaftssuche ist auf 6 festgesetzt
         \State $s_{neu}\leftarrow$Nachbarzustand(s)
         \State $energy\Delta = energy(s_{neu}) - energy(s)$
@@ -49,7 +56,7 @@ Und $p_{s}$ und $q_{s}$ sind ihre d-dimensionalen Samplewerte.
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.4\textwidth}
-        \centering $e^{-(energy(s_{neu}) - energy(s))/ temperature}$
+        \centering $P = e^{-(energy(s_{neu}) - energy(s))/ temperature}$
         \label{fig:APF}
         \caption{Akzeptanzwahrscheinlichkeitsfunktion}
     \end{subfigure}
@@ -96,6 +103,17 @@ Somit verlassen wir möglicherweiße nur lokale Maxima.
 Die zu minimierende Energiefunktion \nameref{eq:pixel energy function} betrachtet
 dabei zwei 
 
+\subsection{Abkühlfunktion}
+Im Folgenden wird auf die verschiedenen möglichen Abkühlfunktionen und ihre Eigenschaften
+sowie die Wahl interner Parameter(z.B. Starttemperatur) eingegangen. Denn diese Funktion
+trägt maßgeblich mit ihrem Konvergenzverhalten zur Effizienz des Abkühlvorgangs bei. 
+\subsubsection{Hajek}
+In \cite{hajek1988cooling} haben wir eine Abkühlfunktion wie folgt gegeben
+
+\begin{equation}
+    A(t) = c/\log(1+t)
+\end{equation}
+
 \begin{figure}[H]\label{pic:Retargeting}
     \centering
     \begin{minipage}[t]{0.45\linewidth}
@@ -116,6 +134,8 @@ dabei zwei
     \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Energy_10313_steps.png}
     \caption{Energieverlauf beim Simulated Annealing}
 \end{figure}
+
+
 
 
 
