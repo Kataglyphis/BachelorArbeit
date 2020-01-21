@@ -2,7 +2,7 @@
 
 namespace plt = matplotlibcpp;
 
-CoolDownTester::CoolDownTester() : number_steps(100) {
+CoolDownTester::CoolDownTester() : number_steps(1000) {
 
     Energy energy;
     this->sas.push_back(SimulatedAnnealing(number_steps, new Hajek(), energy, false));

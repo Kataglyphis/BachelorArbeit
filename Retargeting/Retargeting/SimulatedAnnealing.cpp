@@ -118,7 +118,10 @@ Image SimulatedAnnealing::execute(const char* filename, int& good_swaps) {
 	ss << this->folder_permutation_textures << "permutation_texture_" << good_swaps << "_swaps" << schedule->getName() <<".png";
 	helper.saveImageToFile(ss.str().c_str(), retarget_bitmap);
 
-	if(visualize) visualizer.visualizeEnergyOverSteps(energy);
+	if (visualize) {
+		visualizer.visualizeEnergyOverSteps(energy);
+		visualizer.visualizeAcceptanceProbabilities(this->deltas, this->probs);
+	}
 
 	return permutation_data_output;
 }
@@ -292,6 +295,10 @@ bool SimulatedAnnealing::acceptanceProbabilityFunction(const float energy_old_co
 		float prob = std::exp((-delta)/temperature);
 		std::cout << "Decision Probability is " << prob << "\n";
 		
+		//for plotting reasons
+		//this->deltas.push_back(delta);
+		this->probs.push_back((int)(prob * 100));
+
 		if (prob > currentRandomNumber) {
 			result = true;
 		}

@@ -1,7 +1,7 @@
 #include "SimulatedAnnealingTest.h";
 
 
-SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(100000), sa() {
+SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(10000), sa() {
 	
 	this->schedule = new Lineary(511, 510.f / number_steps);
 	Energy energy;
