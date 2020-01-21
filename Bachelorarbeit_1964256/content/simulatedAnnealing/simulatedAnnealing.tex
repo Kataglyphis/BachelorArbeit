@@ -1,22 +1,23 @@
-Im Kapitel \nameref{ch:Content2:sec:Retargeting},
+\subsubsection{Allgemein}
+Im Kapitel \nameref{ch:Content2:sec:Retargeting}
 wird eine vorberechnete Textur verwendet. Diese speichert eine
 Permutation, die unsere blue noise Textur vom frame t in eine
 blue noise Textur vom frame t+1 umwandelt. Diese Permutation wird 
 dann auf die Startwerte angewandt bevor das nächste frame t+1 gerendert wird.
-Dadurch werden die blue noise Umverteilung der Sorting Phase \nameref{ch:Content2:sec:Sorting}
+Dadurch werden die blue noise Umverteilungen der \nameref{ch:Content2:sec:Sorting} Phase
 akkumuliert und die optische Aufwertung erst richtig sichtbar.
-Die retarget Textur wird mit Hilfe von \textbf{Simulated Annealing} 
+Die retarget Textur wird mit Hilfe von \textit{Simulated Annealing} 
 \cite{hal02158423} berechnet. Angelehnt an metallurgischen Aufheizen und anschließenden Abkühlen wollen wir eine approximativ 
 optimale Lösung finden: Permutiere Pixel der blue noise Textur von 
 frame t bis Sie sehr ähnlich verteilt sind wie die Pixel der blue noise
 Textur von frame t+1. Dabei ist die Lokalität der Vertauschungen, 
-welche wir bereits in der Sorting Phase\nameref{ch:Content2:sec:Sorting}
+welche wir bereits in der \nameref{ch:Content2:sec:Sorting} Phase
 verwendet haben, wichtig. Wir übernehmen hier die Lokalitätsbestimmung aus 
 der Arbeit \cite{hal02158423}(Radius r = 6). Von einem hohen Energielevel 
 (dither textur zum Zeitpunkt t = 0) wollen wir durch kontrolliertes 
 Abkühlen in ein Niederes gelangen(dither textur zum Teitpunkt t = 1).
 Zugriff auf die dither Textur berechnet sich für weitere Zeitpunkte
-wie hier\ref{alg:Benutzung vorberechneter Texturen} beschrieben.
+wie hier \ref{alg:Benutzung vorberechneter Texturen} beschrieben.
 
 Die Funktion nach der optimiert wird ist an die Formel aus\cite{georgiev2016blue} angelehnt.
 \begin{equation}\label{eq:pixel energy function}
@@ -29,9 +30,31 @@ Wähle nach \cite{ulichney1993void} $\sigma_{i} = 2.1$ und $\sigma_{s} = 1$
 Zu den Pixeln p,q beschreibt $p_{i}$ und $q_{i}$ ihre jeweiligen Koordinaten.
 Und $p_{s}$ und $q_{s}$ sind ihre d-dimensionalen Samplewerte.
 
+Die günstigen Eigenschaften der \nameref{fig:Exponentialfunktion} für das
+Schmelzen sind vielfältig \cite{van1987simulated}. Eine ist die Konvergenz 
+der Funktion für $\lim\limits_{n \rightarrow -\infty}{\exp{-x}}$.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \begin{equation}\label{eq:unsere Energiefunktion}
+            P = e^{-(energy(s_{neu}) - energy(s))/ temperature}
+        \end{equation}
+        \caption{Akzeptanzwahrscheinlichkeitsfunktion}
+    \end{subfigure}
+    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+      %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.7\textwidth}
+        \centering \includegraphics[interpolate=false,width=\linewidth]{content/simulatedAnnealing/Bilder/exponentialfunktion_as_PDF.png}
+        \label{fig:Exponentialfunktion}
+        \caption{exponentialfunktion}
+    \end{subfigure}
+    \caption{Die Akzeptanzwahrscheinlichkeitsfunktion P(Energie(s), Energie($s_{new}$), temperature)}
+\end{figure}
+
 
 \begin{algorithm}[H]
-    \caption{\textbf{Simulated Annealing} finde sehr gute Lösung}
+    \caption{\textbf{Simulated Annealing} finde eine globale Lösung nahe am Maximum}
     \begin{algorithmic}[1]
         \State initialisiere Startzustand $s=s_{0}$
         \State initialisiere Starttemperatur $T_0$
@@ -53,29 +76,12 @@ Und $p_{s}$ und $q_{s}$ sind ihre d-dimensionalen Samplewerte.
     \label{alg:retargeting}
 \end{algorithm}
 
-\begin{figure}[H]
-    \centering
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering $P = e^{-(energy(s_{neu}) - energy(s))/ temperature}$
-        \label{fig:APF}
-        \caption{Akzeptanzwahrscheinlichkeitsfunktion}
-    \end{subfigure}
-    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
-      %(or a blank line to force the subfigure onto a new line)
-    \begin{subfigure}[b]{0.7\textwidth}
-        \centering \includegraphics[interpolate=false,width=\linewidth]{content/simulatedAnnealing/Bilder/exponentialfunktion_as_PDF.png}
-        \label{fig:exponentialfunktion}
-        \caption{exponentialfunktion}
-    \end{subfigure}
-
-    \caption{Die Akzeptanzwahrscheinlichkeitsfunktion P(Energie(s), Energie($s_{new}$), temperature)}
-\end{figure}
 
 Die Wahl der Energiefunktion ist angelehnt an die Formulierung der 
 Wahrscheinlichkeitsakzeptanzfunktion in \cite{Kirkpatrick671}. 
 Diese wird bedeutet für positive Energydeltas, d.h. wenn der der Energiezustand
 des Nachbarn höher als der aktuelle ist. Mit absteigender Temperatur erkennt man 
-in der Abbildung \ref{fig:exponentialfunktion} eine ebenfalls abnehmende Wahrscheinlichkeit
+in der Abbildung \ref{fig:Exponentialfunktion} eine ebenfalls abnehmende Wahrscheinlichkeit
 der Akzeptanz. Dies führt zu dem gewünschten Verhalten, energiehöhere Zustände 
 zuzulassen, um somit lokale Maxima zu verlassen. Dies geschieht bei höheren 
 Temperaturen häufiger wohingegen bei niederen Temperaturen ein gefundenes Maxima
@@ -104,12 +110,18 @@ Die zu minimierende Energiefunktion \nameref{eq:pixel energy function} betrachte
 dabei zwei 
 
 \subsection{Abkühlfunktion}
-\cite{coolDownOverview} bietet einen guten Überblick.
+Für die Wahl unserer Abkühlfunktion bieten sich einige Optionen.\cite{coolDownOverview}
 Im Folgenden wird auf die verschiedenen möglichen Abkühlfunktionen und ihre Eigenschaften
 sowie die Wahl interner Parameter(z.B. Starttemperatur) eingegangen. Denn diese Funktion
 trägt maßgeblich mit ihrem Konvergenzverhalten zur Effizienz des Abkühlvorgangs bei.
 Nach \cite{Kirkpatrick671} wählen wir die Anfangstemperatur $T_0$ derart, dass anfangs jede Neue generierte Lösung akzeptiert(bzw. nahe 1) wird.
+
 \subsubsection{Hajek}
+
+\begin{equation}\label{eq:Hajek}
+    f(t) = T_0\log(1+t)
+\end{equation}
+
 In \cite{hajek1988cooling} haben wir eine Abkühlfunktion gegeben, welche durch ihre Eigenschaft,
 stets gegen das globale Maximum zu konvergieren, unter allen Anderen heraussticht.
 Jedoch passiert das asymptotisch extrem langsam. Auch in unseren Fall hat 
@@ -118,14 +130,18 @@ Leicht aus dem "energetischen" Gleichgewicht zu bringen. Erreicht dann nicht
 das globale Minimum.
 
 \subsubsection{Linear}
-\cite{Kirkpatrick671}
-typische Werte für $\alpha$ liegen zwischen 0.8 and 0.99.
+
+\begin{equation}\label{eq:lineare Abkühlung}
+    f(t) = T_0 - \mu*t
+\end{equation}
+
+Typische Werte für $\alpha$ liegen zwischen 0.8 and 0.99.\cite{Kirkpatrick671}.
 
 \subsubsection{Exponential}
 \cite{Kirkpatrick671}
 
-\begin{equation}
-    A(t) = c/\log(1+t)
+\begin{equation}\label{eq:Exponential}
+    f(t) = T_0*pow(alpha,t)
 \end{equation}
 
 \begin{figure}[H]\label{pic:Cool Down Comparisson}
@@ -149,12 +165,19 @@ typische Werte für $\alpha$ liegen zwischen 0.8 and 0.99.
     \end{minipage}
 \end{figure}
 
+\subsubsection{Energieverlauf}
+
 \begin{figure}[H]\label{pic:Energy Annealing}
     \centering
     \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Energy_10313_steps.png}
     \caption{Energieverlauf beim Simulated Annealing}
 \end{figure}
 
+\begin{figure}[H]\label{pic:Akzeptanzfunktionsverlauf}
+    \centering
+    \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Acceptance_Probabilities over time 4195_steps_LinearyCooldownSchedule.png}
+    \caption{Akzeptanzfunktionsverlauf bei negativen Energiedeltas}
+\end{figure}
 
 
 
