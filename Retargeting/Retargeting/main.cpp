@@ -112,12 +112,12 @@ int main(int, char**)
     if (!erstellt) return 1;
 
     //testing the simulated annealing
-    //SimulatedAnnealingTest testing;
-    //testing.testPermutation(filename);
+    SimulatedAnnealingTest testing;
+    testing.testPermutation(filename);
 
     //test different cool down functions
-    CoolDownTester test(10000);
-    test.compareDifferentCoolDownSchedules();
+    /**CoolDownTester test(10000);
+    test.compareDifferentCoolDownSchedules();*/
 
     // Main loop
     MSG msg;

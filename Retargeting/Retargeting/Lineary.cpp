@@ -1,6 +1,6 @@
 #include "Lineary.h"
 
-Lineary::Lineary() : T_0(10001), mu(1){
+Lineary::Lineary() : T_0(511), mu(1){
 
 }
 

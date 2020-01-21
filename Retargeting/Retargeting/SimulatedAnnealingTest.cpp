@@ -1,9 +1,9 @@
 #include "SimulatedAnnealingTest.h";
 
 
-SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(100), sa() {
+SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(100000), sa() {
 	
-	this->schedule = new Hajek();
+	this->schedule = new Lineary(511, 510.f / number_steps);
 	Energy energy;
 	this->sa = SimulatedAnnealing(number_steps, schedule, energy, true);
 

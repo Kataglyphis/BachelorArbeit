@@ -11,6 +11,9 @@
 #include <ctime>
 #include "AnnealingSchedule.h"
 #include "Hajek.h"
+#include "ExponentialCoolDown.h"
+#include "Inverse.h"
+#include "Lineary.h"
 
 using namespace std;
 
