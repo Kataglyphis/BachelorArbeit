@@ -18,6 +18,8 @@
 using namespace std;
 
 typedef vector<int> Energy;
+typedef std::vector<double> Deltas;
+typedef std::vector<int> Probabilities;
 
 //typedef Image::index index;
 /**
@@ -77,6 +79,8 @@ private:
         int image_width;
         int image_height;
         Energy energy;
+        Deltas deltas;
+        Probabilities probs;
         float max_energy_difference = 40.f;
         int number_steps;
         float temperature;
