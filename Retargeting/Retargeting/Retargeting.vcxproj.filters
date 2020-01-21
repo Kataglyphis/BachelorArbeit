@@ -81,6 +81,9 @@
     <ClInclude Include="Lineary.h">
       <Filter>Quelldateien\Schedules</Filter>
     </ClInclude>
+    <ClInclude Include="Inverse.h">
+      <Filter>Quelldateien\Schedules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -129,6 +132,9 @@
       <Filter>Quelldateien\SimulatedAnnealing</Filter>
     </ClCompile>
     <ClCompile Include="Lineary.cpp">
+      <Filter>Quelldateien\Schedules</Filter>
+    </ClCompile>
+    <ClCompile Include="Inverse.cpp">
       <Filter>Quelldateien\Schedules</Filter>
     </ClCompile>
   </ItemGroup>

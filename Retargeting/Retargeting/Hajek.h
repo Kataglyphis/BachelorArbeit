@@ -11,12 +11,15 @@ class Hajek :
 {
 public:
 	Hajek();
-	Hajek(double T_0, double c);
+	Hajek(double T_0, double alpha);
 	double getTemperature(int step);
 	std::string getName();
 	std::string getFunction();
 private:
 	double T_0;
-	double c;
+	/**
+		alpha > 1!!
+	*/
+	double alpha;
 };
 

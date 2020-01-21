@@ -104,11 +104,25 @@ Die zu minimierende Energiefunktion \nameref{eq:pixel energy function} betrachte
 dabei zwei 
 
 \subsection{Abkühlfunktion}
+\cite{coolDownOverview} bietet einen guten Überblick.
 Im Folgenden wird auf die verschiedenen möglichen Abkühlfunktionen und ihre Eigenschaften
 sowie die Wahl interner Parameter(z.B. Starttemperatur) eingegangen. Denn diese Funktion
-trägt maßgeblich mit ihrem Konvergenzverhalten zur Effizienz des Abkühlvorgangs bei. 
+trägt maßgeblich mit ihrem Konvergenzverhalten zur Effizienz des Abkühlvorgangs bei.
+Nach \cite{Kirkpatrick671} wählen wir die Anfangstemperatur $T_0$ derart, dass anfangs jede Neue generierte Lösung akzeptiert(bzw. nahe 1) wird.
 \subsubsection{Hajek}
-In \cite{hajek1988cooling} haben wir eine Abkühlfunktion wie folgt gegeben
+In \cite{hajek1988cooling} haben wir eine Abkühlfunktion gegeben, welche durch ihre Eigenschaft,
+stets gegen das globale Maximum zu konvergieren, unter allen Anderen heraussticht.
+Jedoch passiert das asymptotisch extrem langsam. Auch in unseren Fall hat 
+es sich als zu langsam herausgestellt.
+Leicht aus dem "energetischen" Gleichgewicht zu bringen. Erreicht dann nicht 
+das globale Minimum.
+
+\subsubsection{Linear}
+\cite{Kirkpatrick671}
+typische Werte für $\alpha$ liegen zwischen 0.8 and 0.99.
+
+\subsubsection{Exponential}
+\cite{Kirkpatrick671}
 
 \begin{equation}
     A(t) = c/\log(1+t)

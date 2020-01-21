@@ -17,6 +17,9 @@ public:
 	std::string getFunction();
 private:
 	double T_0;
+	/**
+	values of a fluctuate between 0.8 and 0.99.!!
+	*/
 	double mu;
 };
 
