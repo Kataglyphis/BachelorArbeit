@@ -1,6 +1,6 @@
 #include "ExponentialCoolDown.h"
 
-ExponentialCoolDown::ExponentialCoolDown() :T_0(2000) , alpha(0.95){
+ExponentialCoolDown::ExponentialCoolDown() :T_0(2000) , alpha(0.99){
 
 }
 

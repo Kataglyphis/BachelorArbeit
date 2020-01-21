@@ -67,6 +67,6 @@ void SimulatedAnnealingVisualizer::visualizeAcceptanceProbabilities(Deltas delta
     plt::legend();
     // Save the image (file format is determined by the extension)
     std::stringstream ss2;
-    ss2 << this->folder_energy << "Acceptance_Probabilities over time " << size << "_steps_" << schedule->getName() << ".png";
+    ss2 << this->folder_energy << "Acceptance_Probabilities_over_time_" << size << "_steps_" << schedule->getName() << ".png";
     plt::save(ss2.str());
 }
