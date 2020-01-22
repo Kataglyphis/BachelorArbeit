@@ -141,6 +141,7 @@ void Sorting::renderUI(Gui* pGui, const char* uiGroup) {
 void Sorting::setScene(const std::shared_ptr<Scene>& pScene) {
    
 }
+
 void Sorting::onResize(uint32_t width, uint32_t height) {
 
     //Upadate frame data 

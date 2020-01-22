@@ -70,6 +70,9 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
     copyForUnsorted = Texture::create2D(seed_texture_width, seed_texture_height, ResourceFormat::BGRA8Unorm,1,1);
     pContext->copyResource(copyForUnsorted.get(), pRenderData->getTexture("input_seed").get());
 
+    //retargeting pass is initialized in the beginning!
+    this->enable_retarget_pass_shader_var = 0;
+
 }
 
 void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
@@ -86,6 +89,7 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_width"] = frame_width;
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_height"] = frame_height;
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_count"] = ++frame_count;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["enable"] = this->enable_retarget_pass_shader_var;
 
     mpComputeProgVars->setTexture("src_seed_texture", pData->getTexture("input_seed"));
     //set the putput seed tex in HLSL namespace!!
@@ -98,7 +102,7 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     pContext->dispatch(numberOfGroupsX, numberOfGroupsY, 1);
 
     //set the outgoing blue noise texture!
-    if (enableRetargetingPass) {
+    /**if (enableRetargetingPass) {
 
         pContext->copyResource(pData->getTexture("output_seed").get(),mpComputeProgVars->getTexture("output_seed_texture").get());
 
@@ -106,14 +110,15 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
 
         pContext->copyResource(pData->getTexture("output_seed").get(), copyForUnsorted.get());
 
-    }
+    }*/
+    pContext->copyResource(pData->getTexture("output_seed").get(), mpComputeProgVars->getTexture("output_seed_texture").get());
 }
 
 void Retargeting::renderUI(Gui* pGui, const char* uiGroup) {
 
-    //pGui->addText("Distributing Errors as Blue Noise");
-    pGui->addCheckBox("Dis-/Enable the blue nosie", enableRetargetingPass);
+    pGui->addCheckBox("Dis-/Enable the retargeting pass", enableRetargetingPass);
 
+    enable_retarget_pass_shader_var = enableRetargetingPass ? 1 : 0;
 }
 
 void Retargeting::setScene(const std::shared_ptr<Scene>& pScene) {

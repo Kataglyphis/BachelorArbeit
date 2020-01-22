@@ -78,7 +78,7 @@ private:
 
     EnvMapMode mEnvMapMode = EnvMapMode::Scene;
 
-    int32_t         mUserSpecifiedRayDepth = 2; ///<  What is the current maximum ray depth
+    int32_t         mUserSpecifiedRayDepth = 3; ///<  What is the current maximum ray depth
     const int32_t   mMaxPossibleRayDepth = 4;   ///<  The largest ray depth we support (without recompile)
 
     // A frame counter; needs to start at a different value than passes, since it uses to seed the RNG
@@ -90,4 +90,6 @@ private:
 
     //for following our tracing; to capture the frames
     uint32_t trace_count;
+    bool enable_blue_noise;
+    uint32_t distribute_as_blue_noise_shader_var;
 };

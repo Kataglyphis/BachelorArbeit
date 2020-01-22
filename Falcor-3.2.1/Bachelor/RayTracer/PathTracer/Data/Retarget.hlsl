@@ -28,9 +28,11 @@ struct perFrameData {
     uint frame_width; // width of the current frame
     uint frame_height; // height of the current frame
     uint frame_count; // the actual index of the frame
+    uint enable; //0: is disabled; 1: retarget seeds
     
 };
 
+//structure containing our frame data
 StructuredBuffer<perFrameData> data;
 
 
@@ -55,7 +57,14 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     bluenoise_index.x = bluenoise_index.x % tile_width;
     bluenoise_index.y = bluenoise_index.y % tile_height;
 
-    int2 retarget = /**int2(0);*/int2((retarget_texture[bluenoise_index].rg * 255.f) - float2(6.f));
+    int2 retarget = int2(0);
+
+    // if enabled read retarget coords from textures
+    if (data[0].enable == 1) {
+        
+        retarget = int2((retarget_texture[bluenoise_index].rg * 255.f) - float2(6.f));
+        
+    }
 
     //retargeting of the seeds
     uint2 retargetCoordinates = thread_ID + retarget;
@@ -64,4 +73,4 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     //apply permutation to the seeds
     //output_seed_texture[thread_ID] = float4(1,0,0,1);
     output_seed_texture[retargetCoordinates] = src_seed_texture[thread_ID];
-}
+    }

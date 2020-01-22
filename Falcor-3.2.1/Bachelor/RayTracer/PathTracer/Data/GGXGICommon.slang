@@ -43,6 +43,7 @@ shared cbuffer GlobalCB
     bool gDoDirectGI; // A boolean determining if we should compute direct lighting
     uint gMaxDepth; // Maximum number of recursive bounces to allow
     float gEmitMult; // Emissives are currently hacked.  Multiply emissive amount by this factor
+    uint distributeAsBlueNoise; // 0 = distribute as white noise; 1 = distribute as blue noise
 }
 
 shared ITexture2D gPos;

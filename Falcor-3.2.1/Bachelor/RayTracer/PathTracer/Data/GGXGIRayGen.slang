@@ -37,12 +37,20 @@ void GGXGlobalIllumRayGen()
     uint2 launchDim = DispatchRaysDimensions().xy;
 
     // Initialize our random number generator
+    uint randSeed = 0;
 
-    uint randSeed =  int(seed_input[launchIndex].x * 255.f) << 24|
+    if(distributeAsBlueNoise == 1) {
+
+    randSeed =  int(seed_input[launchIndex].x * 255.f) << 24|
                      int(seed_input[launchIndex].y * 255.f) << 16|
                      int(seed_input[launchIndex].z * 255.f) << 8 |
                      int(seed_input[launchIndex].w * 255.f);
-    //uint randSeed = rand_init(launchIndex.x + launchIndex.y * launchDim.x, gFrameCount, 16);
+
+    } else {
+
+    randSeed = rand_init(launchIndex.x + launchIndex.y * launchDim.x, gFrameCount, 16);
+
+    }
     //uint randSeed = launchIndex.x + launchIndex.y;
     
     // Load g-buffer data
