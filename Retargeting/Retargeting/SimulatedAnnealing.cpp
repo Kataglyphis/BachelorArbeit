@@ -82,7 +82,7 @@ Image SimulatedAnnealing::execute(const char* filename, int& good_swaps) {
 		if (i == 0) {
 			energy.push_back(energy_old_condition);
 		}
-		 std::cout << "Energy of the old condition: " << energy_old_condition << std::endl;
+		std::cout << "Energy of the old condition: " << energy_old_condition << std::endl;
 		std::cout << "Step: " << i << std::endl;
 		//first we will go with the previous calculated permutation
 		helper.deepCopyImage(permutation_data_output, permutation_data_step, image_width, image_height);
@@ -131,27 +131,43 @@ bool SimulatedAnnealing::applyOneRandomPermutation(Image& permutation_data_step,
 	
 	bool no_permutation_found = true;
 
-	std::srand(std::time(0)); //use current time as seed for random generator
+	std::random_device rd;
+	std::mt19937_64 gen(rd());
+	// initialize the random number generator with time-dependent seed
+	//uint64_t timeSeed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+	//std::seed_seq ss{ uint32_t(timeSeed & 0xffffffff), uint32_t(timeSeed >> 32) };
+	//rng.seed(ss);
+	// initialize a uniform distribution between 0 and 1
+	std::uniform_real_distribution<> unif_step(-7., 7.);
+	std::uniform_real_distribution<> unif_position_x(0, this->image_width);
+	std::uniform_real_distribution<> unif_position_y(0, this->image_height);
+	//float currentRandomNumber = unif(gen);
+	//std::srand(std::time(0)); //use current time as seed for random generator
 	//int uniform_random_variable = std::rand();
-	//random position on the texture
-	int32_t random_x = std::rand() % image_width;
+	/**int32_t random_x = std::rand() % image_width;
 	int32_t random_y = std::rand() % image_height;
 	int32_t random_x_VZ = (std::rand() % 2);
 	int32_t random_y_VZ = (std::rand() % 2);
 	int32_t random_step_x = (std::rand() % 7);
-	int32_t random_step_y = (std::rand() % 7);
+	int32_t random_step_y = (std::rand() % 7);*/
 
-	if (random_x_VZ) {
+	//random position on the texture
+	int32_t random_x = 0;// (int32_t)unif_position(gen);
+	int32_t random_y = 0; //(int32_t)unif_position(gen);
+	int32_t random_step_x = 0;// (int32_t)unif_step(gen);
+	int32_t random_step_y = 0;// (int32_t)unif_step(gen);
+
+	/**if (random_x_VZ) {
 		random_step_x *= -1;
 	}
 	if (random_y_VZ) {
 		random_step_y *= -1;
-	}
+	}*/
 
 	//we have to check, whether this all happens in a radius of 6!
 	do {
 
-		std::srand(std::time(0)); //use current time as seed for random generator
+		/**std::srand(std::time(0)); //use current time as seed for random generator
 		//random position on the texture
 		random_x = std::rand() % image_width;
 		random_y = std::rand() % image_height;
@@ -165,7 +181,13 @@ bool SimulatedAnnealing::applyOneRandomPermutation(Image& permutation_data_step,
 		}
 		if (random_y_VZ) {
 			random_step_y *= -1;
-		}
+		}*/
+
+		//random position on the texture
+		random_x = (int32_t)unif_position_x(gen);
+		random_y = (int32_t)unif_position_y(gen);
+		random_step_x = (int32_t)unif_step(gen);
+		random_step_y = (int32_t)unif_step(gen);
 
 		if (isApplicablePermutation(permutation_data_step, permutation_positions, random_x, random_y, random_step_x, random_step_y)) {
 			no_permutation_found = false;
@@ -202,8 +224,8 @@ bool SimulatedAnnealing::applyOneRandomPermutation(Image& permutation_data_step,
 	permutation_positions[index_swap_position_x][index_swap_position_y][0] = position_x;
 	permutation_positions[index_swap_position_x][index_swap_position_y][1] = position_y;
 
-	//std::cout << "Dies sind die Permutationsschritte x = " << permutation_data_step[position_x][position_y][0] << " und y = " << permutation_data_step[position_x][position_y][1] << endl;
-	//std::cout << "Position x = " << position_x << "y = " << position_y << endl;
+	std::cout << "Dies sind die Permutationsschritte x = " << permutation_data_step[position_x][position_y][0] << " und y = " << permutation_data_step[position_x][position_y][1] << endl;
+	std::cout << "Position x = " << position_x << "y = " << position_y << endl;
 	return true;
 }
 
@@ -275,7 +297,6 @@ bool SimulatedAnnealing::acceptanceProbabilityFunction(const float energy_old_co
 	//right now it is a simple hill climbing algorithm!!!!
 	bool result = false;
 	float delta = energy_new_condition - energy_old_condition;
-	std::cout << "Energy delta is " << delta << "\n";
 
 	if (delta <= 0) {
 
@@ -283,16 +304,19 @@ bool SimulatedAnnealing::acceptanceProbabilityFunction(const float energy_old_co
 
 	} else {
 
-		std::mt19937_64 rng;
+		std::random_device rd;
+		std::mt19937_64 gen(rd());
 		// initialize the random number generator with time-dependent seed
-		uint64_t timeSeed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-		std::seed_seq ss{ uint32_t(timeSeed & 0xffffffff), uint32_t(timeSeed >> 32) };
-		rng.seed(ss);
+		//uint64_t timeSeed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+		//std::seed_seq ss{ uint32_t(timeSeed & 0xffffffff), uint32_t(timeSeed >> 32) };
+		//rng.seed(ss);
 		// initialize a uniform distribution between 0 and 1
-		std::uniform_real_distribution<float> unif(0, 1);
-		float currentRandomNumber = unif(rng);
+		std::uniform_real_distribution<> unif(0., 1.);
+		float currentRandomNumber = unif(gen);
+		cout << "Current random number is: "<< currentRandomNumber << "\n";
 		//prob from our syst
 		float prob = std::exp((-delta)/temperature);
+		std::cout << "Energy delta is " << delta << "\n";
 		std::cout << "Decision Probability is " << prob << "\n";
 		
 		//for plotting reasons
