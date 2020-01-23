@@ -159,6 +159,7 @@
     <ClInclude Include="imgui\imgui_impl_win32.h" />
     <ClInclude Include="imgui\imgui_internal.h" />
     <ClInclude Include="Inverse.h" />
+    <ClInclude Include="Kirkpatrick.h" />
     <ClInclude Include="Lineary.h" />
     <ClInclude Include="SimulatedAnnealing.h" />
     <ClInclude Include="SimulatedAnnealingTest.h" />
@@ -180,6 +181,7 @@
     <ClCompile Include="imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="Inverse.cpp" />
+    <ClCompile Include="Kirkpatrick.cpp" />
     <ClCompile Include="Lineary.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SimulatedAnnealing.cpp" />

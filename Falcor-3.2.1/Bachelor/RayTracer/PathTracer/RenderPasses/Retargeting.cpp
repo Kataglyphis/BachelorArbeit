@@ -57,7 +57,7 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
 
     //textures for retargeting
 
-    Texture::SharedPtr retarget = createTextureFromFile("retargeted_texture_10312_swaps.png", false, false, Resource::BindFlags::ShaderResource | /*Resource::BindFlags::UnorderedAccess|*/
+    Texture::SharedPtr retarget = createTextureFromFile("permutation_texture_101929_swapsLinearyCooldownSchedule.png", false, false, Resource::BindFlags::ShaderResource | /*Resource::BindFlags::UnorderedAccess|*/
                                                                                                                                                                                                                                                 Resource::BindFlags::RenderTarget);
     mpComputeProgVars->setTexture("retarget_texture", retarget);
 
@@ -71,7 +71,7 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
     pContext->copyResource(copyForUnsorted.get(), pRenderData->getTexture("input_seed").get());
 
     //retargeting pass is initialized in the beginning!
-    this->enable_retarget_pass_shader_var = 0;
+    this->enable_retarget_pass_shader_var = 1;
 
 }
 

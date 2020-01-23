@@ -1,10 +1,10 @@
 #include "SimulatedAnnealingTest.h";
 
 
-SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(100), sa() {
+SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(100000), sa() {
 	
 	//this->schedule = new ExponentialCoolDown();
-	this->schedule = new Lineary(60, 59.f / number_steps);
+	this->schedule = new Kirkpatrick();
 	Energy energy;
 	this->sa = SimulatedAnnealing(number_steps, schedule, energy, true);
 

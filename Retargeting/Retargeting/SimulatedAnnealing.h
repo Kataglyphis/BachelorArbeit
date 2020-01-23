@@ -14,6 +14,7 @@
 #include "ExponentialCoolDown.h"
 #include "Inverse.h"
 #include "Lineary.h"
+#include "Kirkpatrick.h"
 
 using namespace std;
 

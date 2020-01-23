@@ -76,7 +76,8 @@ Image SimulatedAnnealing::execute(const char* filename, int& good_swaps) {
 
 	for (unsigned int i = 0; i < this->number_steps; i++) {
 
-		this->temperature = schedule->getTemperature(i);
+		this->temperature = schedule->getTemperature(good_swaps);
+		std::cout << "Aktuelle Temperatur ist " << this->temperature << "\n";
 		//calc the energy of our permutation
 		float energy_old_condition = calculateEnergy(dither_data, next_dither_data, permutation_data_output);
 		if (i == 0) {

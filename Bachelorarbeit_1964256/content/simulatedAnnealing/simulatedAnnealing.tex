@@ -115,6 +115,11 @@ Im Folgenden wird auf die verschiedenen möglichen Abkühlfunktionen und ihre Ei
 sowie die Wahl interner Parameter(z.B. Starttemperatur) eingegangen. Denn diese Funktion
 trägt maßgeblich mit ihrem Konvergenzverhalten zur Effizienz des Abkühlvorgangs bei.
 Nach \cite{Kirkpatrick671} wählen wir die Anfangstemperatur $T_0$ derart, dass anfangs jede Neue generierte Lösung akzeptiert(bzw. nahe 1) wird.
+Außerdem haben wir einen Zustand des Quasiequilibrium zu definieren \cite{ScienceDirectCoolingSchedule}.
+Für jeden zu gehenden Temperaturschritt ist nach einer Abfolge von einer festen Anzahl erfolgreicher
+Zustandsübergänge das Quasiequilibrium erreicht. Bemerkung: Mit abnehmender Wahrscheinlichkeit
+steigt die Dauer der hierfür erforderlichen Iterationen. Dafür verwende eine feste Zahl.
+
 
 \subsubsection{Hajek}
 
@@ -138,10 +143,11 @@ das globale Minimum.
 Typische Werte für $\alpha$ liegen zwischen 0.8 and 0.99.\cite{Kirkpatrick671}.
 
 \subsubsection{Exponential}
-\cite{Kirkpatrick671}
+Ist nach \cite{Kirkpatrick671} eine für viele Fälle zutreffende und zu wählende Abkühlfunktion.
+Wobei $\alpha \in [0.8; 0.99]$
 
 \begin{equation}\label{eq:Exponential}
-    f(t) = T_0*pow(alpha,t)
+    f(t) = T_0*pow(\alpha,t)
 \end{equation}
 
 \subsubsection{Inverse}

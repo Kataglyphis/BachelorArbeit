@@ -84,6 +84,9 @@
     <ClInclude Include="Inverse.h">
       <Filter>Quelldateien\Schedules</Filter>
     </ClInclude>
+    <ClInclude Include="Kirkpatrick.h">
+      <Filter>Quelldateien\Schedules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -136,6 +139,9 @@
     </ClCompile>
     <ClCompile Include="Inverse.cpp">
       <Filter>Quelldateien\Schedules</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirkpatrick.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
