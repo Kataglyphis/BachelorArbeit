@@ -139,6 +139,8 @@ bool helpers::fromPermuteToBitmap(Image image_data, FIBITMAP* bitmap, const uint
 
 	RGBQUAD color;
 
+	bool bitmap_successful_initialized = true;
+
 	for (unsigned int i = 0; i < image_width; i++) {
 
 		for (unsigned int j = 0; j < image_height; j++) {
@@ -149,11 +151,15 @@ bool helpers::fromPermuteToBitmap(Image image_data, FIBITMAP* bitmap, const uint
 			color.rgbBlue = 0xFF;
 			color.rgbReserved = i;
 
-			FreeImage_SetPixelColor(bitmap, i, j, &color);
+			if (FreeImage_SetPixelColor(bitmap, i, j, &color) == 0) {
+
+				std::cout << "Wasnt able to set Pixel Color!!";
+				bitmap_successful_initialized = false;
+			}
 		}
 	}
 
-	return true;
+	return bitmap_successful_initialized;
 
 }
 
@@ -161,21 +167,29 @@ bool helpers::fromImageToBitmap(Image& image_data, FIBITMAP* bitmap, const uint3
 
 	RGBQUAD color;
 
+	bool bitmap_successful_initialized = true;
+
 	for (unsigned int i = 0; i < image_width; i++) {
 
 		for (unsigned int j = 0; j < image_height; j++) {
 
-			color.rgbRed = image_data[i][j][0];
-			color.rgbGreen = image_data[i][j][1];
+			color.rgbRed = image_data[i][image_height - 1 - j][0];
+			color.rgbGreen = image_data[i][image_height - 1 - j][1];
 			//to store permutation we will only need to save in rg - channel !!
-			color.rgbBlue = image_data[i][j][2];
-			color.rgbReserved = image_data[i][j][3];
+			color.rgbBlue = image_data[i][image_height - 1 - j][2];
+			color.rgbReserved = image_data[i][image_height - 1 - j][3];
 
-			FreeImage_SetPixelColor(bitmap, i, j, &color);
+			// u really need t oconsider the order free image is loading the pixels!!!
+			//free image is indexing an image from the bottom left as (0,0); 
+			//therefore "invert" image
+			if (FreeImage_SetPixelColor(bitmap, i, j, &color) == 0) {
+				std::cout << "Wasnt able to set Pixel Color!!";
+				bitmap_successful_initialized = false;
+			}
 		}
 	}
 
-	return true;
+	return bitmap_successful_initialized;
 
 }
 
@@ -204,26 +218,38 @@ bool helpers::saveImageToFile(const char* filenameToSave, FIBITMAP* retargetBitM
 bool helpers::loadPNGinArray(const char* fileName, Image& image_data) {
 
 	FIBITMAP* bitmap = FreeImage_Load(FIF_PNG, fileName, PNG_DEFAULT);
+
+	if (!bitmap) std::cout << "bitmap konnte nicht erstellt werden!!";
+
 	int image_height = FreeImage_GetHeight(bitmap);
 	int image_width = FreeImage_GetWidth(bitmap);
+
+	bool catched_all_pixel_colors = true;
+
 	//allocate store in appropriate size
 	RGBQUAD color;
 	for (int i = 0; i < image_width; i++) {
 
 		for (int j = 0; j < image_height; j++) {
 
-			if (!FreeImage_GetPixelColor(bitmap, i, j, &color)) exit(1);
+			// u really need t oconsider the order free image is loading the pixels!!!
+			//free image is indexing an image from the bottom left as (0,0); 
+			//therefore "invert" image
+			if (FreeImage_GetPixelColor(bitmap, i, j, &color) == 0) {
+				std::cout << "Was not able to get the pixel color!";
+				catched_all_pixel_colors = false;
+			}
 
-			image_data[i][j][0] = color.rgbRed;
-			image_data[i][j][1] = color.rgbGreen;
-			image_data[i][j][2] = color.rgbBlue;
-			image_data[i][j][3] = color.rgbReserved;
+			image_data[i][image_height - 1 - j][0] = color.rgbRed;
+			image_data[i][image_height - 1 - j][1] = color.rgbGreen;
+			image_data[i][image_height - 1 - j][2] = color.rgbBlue;
+			image_data[i][image_height - 1 - j][3] = color.rgbReserved;
 
 		}
 
 	}
 
-	return true;
+	return catched_all_pixel_colors;
 }
 
 std::vector<int> helpers::toroidallyShift(const unsigned int oldFrameDitherX, const unsigned int oldFrameDitherY, const uint32_t frame_width, const uint32_t frame_height) {
@@ -255,7 +281,7 @@ void helpers::fromPermuteToFile(const char* filename, Image image) {
 	FIBITMAP* bm = FreeImage_Allocate(dither_width, dither_height, 32); 
 	fromPermuteToBitmap(image, bm, dither_width, dither_height);
 	bool saved = saveImageToFile(filename, bm);
-
+	if (!saved) std::cout << "Uneable to save Permutation File!";
 }
 
 void helpers::fromImageToFile(const char* filename, Image image) {
@@ -263,7 +289,7 @@ void helpers::fromImageToFile(const char* filename, Image image) {
 	FIBITMAP* bm = FreeImage_Allocate(dither_width, dither_height, 32);
 	fromImageToBitmap(image, bm, dither_width, dither_height);
 	bool saved = saveImageToFile(filename, bm);
-
+	if (!saved) std::cout << "Uneable to save Image File!";
 }
 
 int helpers::getDitherWith() {

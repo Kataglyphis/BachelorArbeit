@@ -225,8 +225,8 @@ bool SimulatedAnnealing::applyOneRandomPermutation(Image& permutation_data_step,
 	permutation_positions[index_swap_position_x][index_swap_position_y][0] = position_x;
 	permutation_positions[index_swap_position_x][index_swap_position_y][1] = position_y;
 
-	//std::cout << "Dies sind die Permutationsschritte x = " << permutation_data_step[position_x][position_y][0] << " und y = " << permutation_data_step[position_x][position_y][1] << endl;
-	//std::cout << "Position x = " << position_x << "y = " << position_y << endl;
+	std::cout << "Dies sind die Permutationsschritte x = " << permutation_data_step[position_x][position_y][0] << " und y = " << permutation_data_step[position_x][position_y][1] << endl;
+	std::cout << "Position x = " << position_x << "y = " << position_y << endl;
 	return true;
 }
 

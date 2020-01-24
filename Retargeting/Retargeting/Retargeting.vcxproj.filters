@@ -89,9 +89,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
@@ -140,8 +137,11 @@
     <ClCompile Include="Inverse.cpp">
       <Filter>Quelldateien\Schedules</Filter>
     </ClCompile>
-    <ClCompile Include="Kirkpatrick.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirkpatrick.cpp">
+      <Filter>Quelldateien\Schedules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

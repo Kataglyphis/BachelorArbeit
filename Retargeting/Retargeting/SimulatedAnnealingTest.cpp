@@ -1,7 +1,7 @@
 #include "SimulatedAnnealingTest.h";
 
 
-SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(100000), sa() {
+SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(500000), sa() {
 	
 	//this->schedule = new ExponentialCoolDown();
 	this->schedule = new Kirkpatrick();
@@ -45,6 +45,7 @@ void SimulatedAnnealingTest::testPermutation(const char* filename) {
 	helper.loadPNGinArray(filename, original);
 	helper.getNextDither(original, next_dither, helper.getDitherWith(), helper.getDitherHeight());
 
+
 	Image appliedPerm = applyPermutationToOriginal(original, permutation);
 
 	/**
@@ -87,11 +88,22 @@ void SimulatedAnnealingTest::testPermutation(const char* filename) {
 		exit(1);
 	}
 	*/
-	std::stringstream next_dither_ss;
-	next_dither_ss << this->folder_permuted_images << "next_dither_" << filename;
-	std::stringstream perm_ss;
-	perm_ss << this->folder_permuted_images << "steps_" << goodswaps << "_permuted_"  << this->schedule->getName() << "_" << filename;
 
+	time_t Zeitstempel;
+	tm* nun;
+	Zeitstempel = time(0);
+	nun = localtime(&Zeitstempel);
+
+	std::stringstream next_dither_ss;
+	next_dither_ss << this->folder_permuted_images << "next_dither_"<< nun->tm_mday << '.' << nun->tm_mon + 1 << '.' << nun->tm_year + 1900 << " - " << nun->tm_hour << '_' << nun->tm_min << filename;
+
+	std::stringstream perm_ss;
+	perm_ss << this->folder_permuted_images << "steps_" << goodswaps << "_permuted_"  << this->schedule->getName() << "_" << nun->tm_mday << '.' << nun->tm_mon + 1 << '.' << nun->tm_year + 1900 << " - " << nun->tm_hour << '_' << nun->tm_min << filename;
+
+	std::stringstream org_ss;
+	org_ss << this->folder_permuted_images << "org_loaded_and_saved_" << nun->tm_mday << '.' << nun->tm_mon + 1 << '.' << nun->tm_year + 1900 << " - " << nun->tm_hour << '_' << nun->tm_min << filename;
+
+	//helper.fromImageToFile(org_ss.str().c_str(), original);
 	helper.fromImageToFile(next_dither_ss.str().c_str(), next_dither);
 	helper.fromImageToFile(perm_ss.str().c_str(), appliedPerm);
 
@@ -134,7 +146,6 @@ Image SimulatedAnnealingTest::applyPermutationToOriginal(Image original, Image p
 		for (int j = 0; j < helper.getDitherHeight(); j++) {
 
 			permutatedOriginal[i + permutation[i][j][0]][j + permutation[i][j][1]] = original[i][j];
-
 		}
 	}
 

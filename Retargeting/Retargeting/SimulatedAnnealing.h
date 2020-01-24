@@ -15,6 +15,11 @@
 #include "Inverse.h"
 #include "Lineary.h"
 #include "Kirkpatrick.h"
+#include <fstream>
+#include <sstream>
+
+#include <time.h>
+
 
 using namespace std;
 
