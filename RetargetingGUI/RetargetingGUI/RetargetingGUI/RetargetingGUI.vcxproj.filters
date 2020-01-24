@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Source Files\Testing">
+      <UniqueIdentifier>{c622c4c3-b672-4703-b9bc-7df8aea5abc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Schedules">
+      <UniqueIdentifier>{c9279074-c565-40a4-8d9e-4711e6d9153d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Helper">
+      <UniqueIdentifier>{b5ac41b6-f526-486b-b567-88e89ed63a53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SimulatedAnnealing">
+      <UniqueIdentifier>{bbc7b1af-bf19-43c0-80d0-c65169d47941}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="retargetinggui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExponentialCoolDown.cpp">
+      <Filter>Source Files\Schedules</Filter>
+    </ClCompile>
+    <ClCompile Include="CoolDownTester.cpp">
+      <Filter>Source Files\Testing</Filter>
+    </ClCompile>
+    <ClCompile Include="Hajek.cpp">
+      <Filter>Source Files\Schedules</Filter>
+    </ClCompile>
+    <ClCompile Include="helpers.cpp">
+      <Filter>Source Files\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Inverse.cpp">
+      <Filter>Source Files\Schedules</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirkpatrick.cpp">
+      <Filter>Source Files\Schedules</Filter>
+    </ClCompile>
+    <ClCompile Include="Lineary.cpp">
+      <Filter>Source Files\Schedules</Filter>
+    </ClCompile>
+    <ClCompile Include="SimulatedAnnealing.cpp">
+      <Filter>Source Files\SimulatedAnnealing</Filter>
+    </ClCompile>
+    <ClCompile Include="SimulatedAnnealingTest.cpp">
+      <Filter>Source Files\Testing</Filter>
+    </ClCompile>
+    <ClCompile Include="SimulatedAnnealingVisualizer.cpp">
+      <Filter>Source Files\SimulatedAnnealing</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnnealingSchedule.h">
+      <Filter>Source Files\Schedules</Filter>
+    </ClInclude>
+    <ClInclude Include="ExponentialCoolDown.h">
+      <Filter>Source Files\Schedules</Filter>
+    </ClInclude>
+    <ClInclude Include="CoolDownTester.h">
+      <Filter>Source Files\Testing</Filter>
+    </ClInclude>
+    <ClInclude Include="Hajek.h">
+      <Filter>Source Files\Schedules</Filter>
+    </ClInclude>
+    <ClInclude Include="helpers.h">
+      <Filter>Source Files\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Inverse.h">
+      <Filter>Source Files\Schedules</Filter>
+    </ClInclude>
+    <ClInclude Include="Kirkpatrick.h">
+      <Filter>Source Files\Schedules</Filter>
+    </ClInclude>
+    <ClInclude Include="Lineary.h">
+      <Filter>Source Files\Schedules</Filter>
+    </ClInclude>
+    <ClInclude Include="SimulatedAnnealing.h">
+      <Filter>Source Files\SimulatedAnnealing</Filter>
+    </ClInclude>
+    <ClInclude Include="SimulatedAnnealingTest.h">
+      <Filter>Source Files\Testing</Filter>
+    </ClInclude>
+    <ClInclude Include="SimulatedAnnealingVisualizer.h">
+      <Filter>Source Files\SimulatedAnnealing</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="retargetinggui.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="retargetinggui.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="retargetinggui.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="RetargetingGUI.rc" />
+  </ItemGroup>
+</Project>
