@@ -1,7 +1,7 @@
 #include "SimulatedAnnealingTest.h";
 
 
-SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(500000), sa() {
+SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(1000000), sa() {
 	
 	//this->schedule = new ExponentialCoolDown();
 	this->schedule = new Kirkpatrick();

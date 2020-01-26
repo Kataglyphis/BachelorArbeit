@@ -77,7 +77,7 @@ Image SimulatedAnnealing::execute(const char* filename, int& good_swaps) {
 	for (unsigned int i = 0; i < this->number_steps; i++) {
 
 		this->temperature = schedule->getTemperature(good_swaps);
-		std::cout << "Aktuelle Temperatur ist " << this->temperature << "\n";
+		//std::cout << "Aktuelle Temperatur ist " << this->temperature << "\n";
 		//calc the energy of our permutation
 		float energy_old_condition = calculateEnergy(dither_data, next_dither_data, permutation_data_output);
 		if (i == 0) {
@@ -275,7 +275,13 @@ bool SimulatedAnnealing::isApplicablePermutation(Image& permutation_data_step, I
 //https://www.arnoldrenderer.com/research/dither_abstract.pdf
 float SimulatedAnnealing::calculateEnergy(Image image_t, Image image_next, Image permutation) {
 
-	float energy = 0;
+	//calculate the position difference for decreasing acceptance probability
+	//with more far away located pixels
+	float sigma_i = 2.1f;
+
+	//float position_delta = () / std::pow(sigma_i, 2);
+
+	float energy = 0.f;
 
 	for (int i = 0; i < image_width; i++) {
 		for (int j = 0; j < image_height; j++) {
@@ -283,7 +289,7 @@ float SimulatedAnnealing::calculateEnergy(Image image_t, Image image_next, Image
 			int permutation_coordinates_y = j + permutation[i][j][1];
 
 			for (int m = 0; m < 1; m++) {
-				energy += std::abs(image_t[permutation_coordinates_x][permutation_coordinates_y][m] - image_next[i][j][m]);
+				energy += (std::abs(image_t[permutation_coordinates_x][permutation_coordinates_y][m] - image_next[i][j][m]));
 			}
 		}
 	}
@@ -298,6 +304,7 @@ bool SimulatedAnnealing::acceptanceProbabilityFunction(const float energy_old_co
 	//right now it is a simple hill climbing algorithm!!!!
 	bool result = false;
 	float delta = energy_new_condition - energy_old_condition;
+	std::cout << "Energy delta is " << delta << "\n";
 
 	if (delta <= 0) {
 
@@ -314,10 +321,10 @@ bool SimulatedAnnealing::acceptanceProbabilityFunction(const float energy_old_co
 		// initialize a uniform distribution between 0 and 1
 		std::uniform_real_distribution<> unif(0., 1.);
 		float currentRandomNumber = unif(gen);
-		cout << "Current random number is: "<< currentRandomNumber << "\n";
+		//cout << "Current random number is: "<< currentRandomNumber << "\n";
 		//prob from our syst
 		float prob = std::exp((-delta)/temperature);
-		std::cout << "Energy delta is " << delta << "\n";
+
 		std::cout << "Decision Probability is " << prob << "\n";
 		
 		//for plotting reasons

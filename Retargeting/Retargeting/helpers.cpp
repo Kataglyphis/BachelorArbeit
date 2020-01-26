@@ -145,8 +145,8 @@ bool helpers::fromPermuteToBitmap(Image image_data, FIBITMAP* bitmap, const uint
 
 		for (unsigned int j = 0; j < image_height; j++) {
 
-			color.rgbRed = image_data[i][j][0] + 6;
-			color.rgbGreen = image_data[i][j][1] + 6;
+			color.rgbRed = image_data[i][image_height - 1 - j][0] + 6;
+			color.rgbGreen = image_data[i][image_height - 1 - j][1] + 6;
 			//to store permutation we will only need to save in rg - channel !!
 			color.rgbBlue = 0xFF;
 			color.rgbReserved = i;
