@@ -104,7 +104,7 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     sortedImage[group_Index].index = getSeedFromTex(input_seed_texture[thread_ID] * 255.f);
 
     //blue noise value; we use only one value; R-Channel
-    sortedBlueNoise[group_Index].value = input_blue_noise_texture[bluenoise_index].x;
+    sortedBlueNoise[group_Index].value = input_blue_noise_texture[bluenoise_index].r;
     //save the group_index as inital value before sorting
     sortedBlueNoise[group_Index].index = group_Index;
 

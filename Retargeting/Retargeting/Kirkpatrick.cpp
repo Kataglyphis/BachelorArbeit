@@ -4,7 +4,8 @@ Kirkpatrick::Kirkpatrick() : T_0(511.f), mu(0.8), currentTemperature(T_0), quasi
 
 }
 
-Kirkpatrick::Kirkpatrick(double T_0, double mu): currentTemperature(511.f), quasiequilibrium(4096) {
+Kirkpatrick::Kirkpatrick(double T_0, double mu, double quasieq): currentTemperature(511.f) {
+	this->quasiequilibrium = quasieq;
 	this->T_0 = T_0;
 	this->mu = mu;
 }

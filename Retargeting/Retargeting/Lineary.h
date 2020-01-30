@@ -11,15 +11,19 @@ class Lineary :
 {
 public:
 	Lineary();
+	Lineary(double T_0, int number_of_steps, double quasiequilibrium);
 	Lineary(double T_0, double mu);
 	double getTemperature(int step);
 	std::string getName();
 	std::string getFunction();
 private:
 	double T_0;
+
 	/**
 	values of a fluctuate between 0.8 and 0.99.!!
 	*/
 	double mu;
+	double quasiequilibrium;
+	double current_temperature;
 };
 

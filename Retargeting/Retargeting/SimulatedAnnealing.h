@@ -70,9 +70,9 @@ typedef std::vector<int> Probabilities;
 class SimulatedAnnealing {
 	public:
 
-        SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule, Energy& energy, bool visualize_single_annealing);
+        SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule, Energy& energy, bool visualize_single_annealing, int image_width, int image_height, helpers helper, const char* filename);
         SimulatedAnnealing();
-		Image execute(const char* filename, int& good_swaps);
+		Image execute(int& good_swaps);
         Energy getEnergy();
         AnnealingSchedule* getSchedule();
         int getNumSwaps();
@@ -92,9 +92,11 @@ private:
         float temperature;
         bool visualize;
         std::string folder_permutation_textures = "pictures/Permutations/";
+        const char* filename;
 
         helpers helper;
 		float calculateEnergy(Image image_t, Image image_next, Image permutation);
+        float calculateNeighboringEnergy(Image image_t, Image image_next, int perm_index_x, int perm_index_y);
         bool acceptanceProbabilityFunction(const float energy_old_condition, const float energy_new_condition, const float ratio_steps);
         bool applyOneRandomPermutation(Image& permutation_data_output, Image& permutation_positions);
         bool isApplicablePermutation(Image& permutation_data_step, Image& permutation_positions, const int random_x, const int random_y, const int random_step_x, const int random_step_y);

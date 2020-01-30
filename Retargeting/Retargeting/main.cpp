@@ -99,7 +99,6 @@ int main(int, char**)
 
     //calc retargeted texture with temporal annealing!
     //SimulatedAnnealing* retarget = new SimulatedAnnealing();
-    const char* filename = "LDR_RGBA_0_64.png";
     //retarget->execute(1000000, filename);
 
     //retarget image
@@ -111,9 +110,13 @@ int main(int, char**)
         &my_retarget_texture, g_pd3dDevice, &my_retarget_width, &my_retarget_height);
     if (!erstellt) return 1;
 
+    const char* filename_small = "LDR_RGBA_0_16.png";
+    const char* filename = "LDR_RGBA_0_64.png";
+    int image_width = 64;
+    int image_height = 64;
     //testing the simulated annealing
-    SimulatedAnnealingTest testing;
-    testing.testPermutation(filename);
+    SimulatedAnnealingTest testing = SimulatedAnnealingTest(filename, image_width, image_height);
+    testing.testPermutation();
 
     //test different cool down functions
     /**CoolDownTester test(10000);

@@ -2,23 +2,29 @@
 
 namespace plt = matplotlibcpp;
 
-CoolDownTester::CoolDownTester() : number_steps(1000) {
+CoolDownTester::CoolDownTester() : number_steps(1000), image_width(16), image_height(16), dither_texture_path("LDR_RGBA_0_64.png") {
 
     Energy energy;
-    this->sas.push_back(SimulatedAnnealing(number_steps, new Hajek(), energy, false));
-    this->sas.push_back(SimulatedAnnealing(number_steps, new ExponentialCoolDown(), energy, false));
-    this->sas.push_back(SimulatedAnnealing(number_steps, new Lineary(), energy, false));
-    this->sas.push_back(SimulatedAnnealing(number_steps, new Inverse(), energy, false));
+    helpers helper = helpers(dither_texture_path, image_width, image_height);
+    this->sas.push_back(SimulatedAnnealing(number_steps, new Hajek(), energy, false, image_width, image_height, helper, dither_texture_path));
+    this->sas.push_back(SimulatedAnnealing(number_steps, new ExponentialCoolDown(), energy, false, image_width, image_height, helper, dither_texture_path));
+    this->sas.push_back(SimulatedAnnealing(number_steps, new Lineary(), energy, false, image_width, image_height, helper, dither_texture_path));
+    this->sas.push_back(SimulatedAnnealing(number_steps, new Inverse(), energy, false, image_width, image_height, helper, dither_texture_path));
+
 }
 
-CoolDownTester::CoolDownTester(int number_steps) {
+CoolDownTester::CoolDownTester(int number_steps, int image_width, int image_height, const char* filename) {
 
+    helpers helper = helpers(filename, image_width, image_height);
+    this->dither_texture_path = filename;
     Energy energy;
     this->number_steps = number_steps;
-    this->sas.push_back(SimulatedAnnealing(number_steps, new Hajek(), energy, false));
-    this->sas.push_back(SimulatedAnnealing(number_steps, new ExponentialCoolDown(), energy, false));
-    this->sas.push_back(SimulatedAnnealing(number_steps, new Lineary(), energy, false));
-    this->sas.push_back(SimulatedAnnealing(number_steps, new Inverse(), energy, false));
+    this->sas.push_back(SimulatedAnnealing(number_steps, new Hajek(), energy, false, image_width, image_height, helper, filename));
+    this->sas.push_back(SimulatedAnnealing(number_steps, new ExponentialCoolDown(), energy, false, image_width, image_height, helper, filename));
+    this->sas.push_back(SimulatedAnnealing(number_steps, new Lineary(), energy, false, image_width, image_height, helper, filename));
+    this->sas.push_back(SimulatedAnnealing(number_steps, new Inverse(), energy, false, image_width, image_height, helper, filename));
+
+
 }
 
 void CoolDownTester::compareDifferentCoolDownSchedules() {
@@ -28,7 +34,7 @@ void CoolDownTester::compareDifferentCoolDownSchedules() {
     for (auto iter = sas.begin(); iter != sas.end(); ++iter) {
         
         int good_swaps = 0;
-        iter->execute(dither_texture_path, good_swaps);
+        iter->execute(good_swaps);
 
     }
 

@@ -1,16 +1,19 @@
 ﻿#include "SimulatedAnnealing.h"
 
-SimulatedAnnealing::SimulatedAnnealing() : helper(), image_width(64), image_height(64), visualizer(), good_swaps(0), visualize(false) {
+SimulatedAnnealing::SimulatedAnnealing() /*: helper(), image_width(64), image_height(64), visualizer(), good_swaps(0), visualize(false)*/ {
 	
-	this->number_steps = number_steps;
+	/*this->number_steps = number_steps;
 	this->schedule = new Hajek();
 	this->temperature = schedule->getTemperature(0);
-	visualizer = SimulatedAnnealingVisualizer(this->schedule);
+	visualizer = SimulatedAnnealingVisualizer(this->schedule);*/
 
 }
 
-SimulatedAnnealing::SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule, Energy& energy, bool visualize_single_annealing) : helper(), image_width(64), image_height(64), visualizer(), good_swaps(0) {
+SimulatedAnnealing::SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule, Energy& energy, bool visualize_single_annealing, int image_width, int image_height, helpers helper,
+											const char* filename) : visualizer(), good_swaps(0) {
 	
+	this->filename = filename;
+	this->helper = helper;
 	this->visualize = visualize_single_annealing;
 	this->number_steps = number_steps;
 	this->temperature = schedule->getTemperature(0);
@@ -19,10 +22,12 @@ SimulatedAnnealing::SimulatedAnnealing(int number_steps, AnnealingSchedule* sche
 	this->energy = energy;
 	//this->temerature_step = this->max_energy_difference / (number_steps + 1);
 	visualizer = SimulatedAnnealingVisualizer(schedule);
+	this->image_width = image_width; 
+	this->image_height = image_height;
 
 }
 
-Image SimulatedAnnealing::execute(const char* filename, int& good_swaps) {
+Image SimulatedAnnealing::execute(int& good_swaps) {
 	
 	//generate a state with starting permutation: this means
 	//nothing will be switched; just apply where everything will stay
@@ -71,13 +76,13 @@ Image SimulatedAnnealing::execute(const char* filename, int& good_swaps) {
 		permutation_positions_output.push_back(column_pos);
 	}
 
-	helper.loadPNGinArray(filename, dither_data);
+	helper.loadPNGinArray(this->filename, dither_data);
 	helper.getNextDither(dither_data, next_dither_data, image_width, image_height);
 
 	for (unsigned int i = 0; i < this->number_steps; i++) {
 
 		this->temperature = schedule->getTemperature(good_swaps);
-		//std::cout << "Aktuelle Temperatur ist " << this->temperature << "\n";
+		std::cout << "Aktuelle Temperatur ist " << this->temperature << "\n";
 		//calc the energy of our permutation
 		float energy_old_condition = calculateEnergy(dither_data, next_dither_data, permutation_data_output);
 		if (i == 0) {
@@ -285,16 +290,37 @@ float SimulatedAnnealing::calculateEnergy(Image image_t, Image image_next, Image
 
 	for (int i = 0; i < image_width; i++) {
 		for (int j = 0; j < image_height; j++) {
+
 			int permutation_coordinates_x = i + permutation[i][j][0];
 			int permutation_coordinates_y = j + permutation[i][j][1];
 
+			//energy += calculateNeighboringEnergy(image_t, image_next, permutation_coordinates_x, permutation_coordinates_y);
+
 			for (int m = 0; m < 1; m++) {
-				energy += (std::abs(image_t[permutation_coordinates_x][permutation_coordinates_y][m] - image_next[i][j][m]));
+				//calc the direct difference;
+				energy += (std::abs(image_t[i][j][m] - image_next[permutation_coordinates_x][permutation_coordinates_y][m]));
+				//for really making it look like a dither we will have to consider the direct neighborhood
 			}
 		}
 	}
 
 	return energy;
+}
+
+float SimulatedAnnealing::calculateNeighboringEnergy(Image image_t, Image image_next, int perm_index_x, int perm_index_y) {
+
+	float energy = 0;
+
+	//depend on how much channel from dither texture u use
+	/**for () {
+
+		for (int m = 0; m < 1; m++) {
+			energy +=
+		}
+	}*/
+
+	return energy;
+
 }
 
 

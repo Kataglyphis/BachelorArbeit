@@ -20,7 +20,7 @@ class Kirkpatrick :
 {
 public:
 	Kirkpatrick();
-	Kirkpatrick(double T_0, double mu);
+	Kirkpatrick(double T_0, double mu, double quasieq);
 	double getTemperature(int step);
 	std::string getName();
 	std::string getFunction();

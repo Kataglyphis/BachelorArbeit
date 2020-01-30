@@ -61,15 +61,18 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
 
     // if enabled read retarget coords from textures
     if (data[0].enable == 1) {
-        
-        retarget = int2((retarget_texture[bluenoise_index].rg * 255.f) - float2(6.f));
-        
+
+        //retarget = int2(retarget_texture[int2(bluenoise_index.x, tile_height - 1 - bluenoise_index.y)].rg * 255.f - float2(6.f));
+        //retarget.y = -retarget.y;
+        int retarget_x = retarget_texture[int2(bluenoise_index)].r;
+        int retarget_y = retarget_texture[int2(bluenoise_index)].g;
+        retarget = int2(int2(retarget_x, retarget_y)*255.f - float2(6.f));
     }
 
     //retargeting of the seeds
     uint2 retargetCoordinates = thread_ID + retarget;
-    retargetCoordinates.x = retargetCoordinates.x % frame_width;
-    retargetCoordinates.y = retargetCoordinates.y % frame_height;
+    retargetCoordinates.x = retargetCoordinates.x % tile_width;
+    retargetCoordinates.y = retargetCoordinates.y % tile_height;
     //apply permutation to the seeds
     //output_seed_texture[thread_ID] = float4(1,0,0,1);
     output_seed_texture[retargetCoordinates] = src_seed_texture[thread_ID];

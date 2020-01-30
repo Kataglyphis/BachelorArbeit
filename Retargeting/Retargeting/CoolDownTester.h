@@ -16,14 +16,16 @@ class CoolDownTester
 public:
 
 	CoolDownTester();
-	CoolDownTester(int number_steps);
+	CoolDownTester(int number_steps, int image_width, int image_height, const char* filename);
 	void compareDifferentCoolDownSchedules();
 
 private:
 	std::vector<Energy> energies;
 	std::vector<SimulatedAnnealing> sas;
-	const char* dither_texture_path = "LDR_RGBA_0_64.png";
+	const char* dither_texture_path;
 	int number_steps;
 	std::string folder_energy = "pictures/Energy/";
+	int image_width;
+	int image_height;
 };
 

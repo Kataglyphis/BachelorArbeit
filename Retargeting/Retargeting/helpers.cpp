@@ -6,7 +6,14 @@
 
 using namespace std;
 
-helpers::helpers() : blueNoiseBitMap(), dither_width(64), dither_height(64) {
+helpers::helpers() : blueNoiseBitMap(), dither_width(16), dither_height(16) {
+
+}
+
+helpers::helpers(const char* filename, int dither_width, int dither_height) : blueNoiseBitMap() {
+
+	this->dither_width = dither_width;
+	this->dither_height = dither_height;
 
 }
 
