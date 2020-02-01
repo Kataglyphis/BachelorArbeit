@@ -80,11 +80,11 @@ RenderPassReflection GGXGlobalIllumination::reflect(void) const
     r.addInput("specRough", "");
     r.addInput("emissive", "");
     r.addInput("matlExtra", "");
-    r.addInput("seed_input","seeds we are putting in from our global path tracer").texture2D(1920, 720).format(ResourceFormat::BGRA8Unorm).bindFlags(/*Resource::BindFlags::ShaderResource |*/
+    r.addInput("input_seed","seeds we are putting in from our global path tracer").texture2D(seed_texture_width, seed_texture_height).format(ResourceFormat::BGRA8Unorm).bindFlags(/*Resource::BindFlags::ShaderResource |*/
                                                                                                                                                     Resource::BindFlags::UnorderedAccess |
                                                                                                                                                     Resource::BindFlags::RenderTarget).mipLevels(1);
 
-    r.addOutput("seed_output", "the outgoing seed texture").texture2D(1920, 720).format(ResourceFormat::BGRA8Unorm).bindFlags(/*Resource::BindFlags::ShaderResource |*/
+    r.addOutput("output_seed", "the outgoing seed texture").texture2D(seed_texture_width, seed_texture_height).format(ResourceFormat::BGRA8Unorm).bindFlags(/*Resource::BindFlags::ShaderResource |*/
                                                                                                                                                         Resource::BindFlags::UnorderedAccess |
                                                                                                                                                         Resource::BindFlags::RenderTarget).mipLevels(1);
 
@@ -126,8 +126,8 @@ void GGXGlobalIllumination::initialize(RenderContext* pContext, const RenderData
 
     mIsInitialized = true;
     trace_count = 0;
-    distribute_as_blue_noise_shader_var = 0;
-    enable_blue_noise = false;
+    distribute_as_blue_noise_shader_var = 1;
+    enable_blue_noise = true;
 }
 
 void GGXGlobalIllumination::execute(RenderContext* pContext, const RenderData* pData)
@@ -149,7 +149,7 @@ void GGXGlobalIllumination::execute(RenderContext* pContext, const RenderData* p
     auto globalVars = mpVars->getGlobalVars();
 
     //Here set our outgoing seed texture!!!
-    bool wahrheit = globalVars->setTexture("seed_input", pData->getTexture("seed_input"));
+    bool wahrheit = globalVars->setTexture("seed_input", pData->getTexture("input_seed"));
 
     ConstantBuffer::SharedPtr pCB = globalVars->getConstantBuffer("GlobalCB");
     pCB["gMinT"] = 1.0e-3f;
@@ -175,7 +175,7 @@ void GGXGlobalIllumination::execute(RenderContext* pContext, const RenderData* p
     // Launch our ray tracing
     mpSceneRenderer->renderScene(pContext, mpVars, mpState, mRayLaunchDims);
 
-    pContext->copyResource(pData->getTexture("seed_output").get(), globalVars->getTexture("seed_input").get());
+    pContext->copyResource(pData->getTexture("output_seed").get(), globalVars->getTexture("seed_input").get());
 
     /**if (this->trace_count <= 10) {
         std::stringstream ss;

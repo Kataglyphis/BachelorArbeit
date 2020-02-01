@@ -11,7 +11,7 @@ class Retargeting : public RenderPass, inherit_shared_from_this<RenderPass, Reta
 public:
     using SharedPtr = std::shared_ptr<Retargeting>;
 
-    uint32_t frame_count = 0;
+    uint32_t frame_count = 1;
     uint32_t tile_width = 64;
     uint32_t tile_height = 64;
     uint32_t frame_width = 1920;

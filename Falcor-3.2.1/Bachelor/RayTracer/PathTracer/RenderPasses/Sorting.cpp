@@ -36,21 +36,21 @@ RenderPassReflection Sorting::reflect(void) const {
 
     RenderPassReflection r;
     //input
-    r.addInput("frame_input", "rendered frame from path tracing").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource |
+    r.addInput("input_frame", "rendered frame from path tracing").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource |
                                                                                                                                                                                                                 Resource::BindFlags::UnorderedAccess |
                                                                                                                                                                                                                  Resource::BindFlags::RenderTarget);
-    r.addInput("seed_input", "the incoming seed texture").texture2D(seed_texture_width, seed_texture_height).bindFlags(/*Resource::BindFlags::ShaderResource |*/
+    r.addInput("input_seed", "the incoming seed texture").texture2D(seed_texture_width, seed_texture_height).bindFlags(/*Resource::BindFlags::ShaderResource |*/
                                                                                                                             Resource::BindFlags::UnorderedAccess |
-                                                                                                                            Resource::BindFlags::RenderTarget);
+                                                                                                                            Resource::BindFlags::RenderTarget).mipLevels(1);
 
     //output
-    r.addOutput("blue_noise", "our blue noise texture").texture2D(tile_width, tile_height).format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::ShaderResource |
-                                                                                                                                                                                            /*Resource::BindFlags::UnorderedAccess |*/
-                                                                                                                                                                                            Resource::BindFlags::RenderTarget);
+    /**r.addOutput("blue_noise", "our blue noise texture").texture2D(tile_width, tile_height).format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::ShaderResource |
+                                                                                                                                                                                            Resource::BindFlags::UnorderedAccess |
+                                                                                                                                                                                            Resource::BindFlags::RenderTarget);*/
 
-    r.addOutput("seed_output", "the outgoing seed texture").texture2D(seed_texture_width, seed_texture_height).format(ResourceFormat::BGRA8Unorm).bindFlags(/*Resource::BindFlags::ShaderResource |*/
+    r.addOutput("output_seed", "the outgoing seed texture").texture2D(seed_texture_width, seed_texture_height).format(ResourceFormat::BGRA8Unorm).bindFlags(/*Resource::BindFlags::ShaderResource |*/
                                                                                                                                                                                                         Resource::BindFlags::UnorderedAccess |
-                                                                                                                                                                                                        Resource::BindFlags::RenderTarget);
+                                                                                                                                                                                                        Resource::BindFlags::RenderTarget).mipLevels(1);
 
     return r;
 }
@@ -72,11 +72,7 @@ void Sorting::initialize(RenderContext * pContext, const RenderData * pRenderDat
     //createTextureFromFile!!!!
     bluenoise = createTextureFromFile("LDR_RGBA_0_64.png", false, false, Resource::BindFlags::ShaderResource | /*Resource::BindFlags::UnorderedAccess |*/ Resource::BindFlags::RenderTarget);
     mpComputeProgVars->setTexture("input_blue_noise_texture", bluenoise);
-    //mpComputeProgVars->setTexture("input_seed_texture", pRenderData->getTexture("seed_input"));
-    //for if we want to disable the sorting pass
-    /**copyForUnsorted = Texture::create2D(seed_texture_width, seed_texture_height, ResourceFormat::BGRA8Unorm,1,1);
-    pContext->copyResource(copyForUnsorted.get(), pRenderData->getTexture("seed_input").get());
-    */
+   
 
     if (mpComputeProg != nullptr) {
         mIsInitialized = true;
@@ -91,7 +87,9 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
         initialize(pContext, pData);
     }
 
-    //
+    //update frame count
+    //it is enough for this application to toroidally switch between 128 frame counts
+    this->frame_count = frame_count % 128;
 
     //info for the frame
     // Send data to compute shader; first fill structured buffer
@@ -99,14 +97,11 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
     mpComputeProgVars->getStructuredBuffer("data")[0]["tile_height"] = tile_height;
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_width"] = frame_width;
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_height"] = frame_height;
-    mpComputeProgVars->getStructuredBuffer("data")[0]["frame_count"] = ++frame_count;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["frame_count"] = frame_count;
 
-    mpComputeProgVars->setTexture("input_frame_texture", pData->getTexture("frame_input"));
-    mpComputeProgVars->setTexture("input_seed_texture", pData->getTexture("seed_input"));
-
-    //Texture::SharedPtr t2 = pData->getTexture("seed_input");
-    //pData->getTexture("blue_noise") = mpComputeProgVars->getTexture("input_blue_noise_texture");
-    //Texture::SharedPtr b2 = pData->getTexture("blue_noise");
+    mpComputeProgVars->setTexture("input_frame_texture", pData->getTexture("input_frame"));
+    mpComputeProgVars->setTexture("input_seed_texture", pData->getTexture("input_seed"));
+    mpComputeProgVars->setTexture("input_blue_noise_texture", bluenoise);
 
     pContext->setComputeState(mpComputeState);
     pContext->setComputeVars(mpComputeProgVars);
@@ -118,17 +113,13 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
     //set the outgoing seed texture for working in sorting step!
     if (sortingEnabled) {
 
-        pContext->copyResource(pData->getTexture("seed_output").get(), pData->getTexture("seed_input").get());
+        pContext->copyResource(pData->getTexture("output_seed").get(), pData->getTexture("input_seed").get());
 
     } else {
 
         //pContext->copyResource(pData->getTexture("seed_output").get(), copyForUnsorted.get());
 
     }
-    //Texture::SharedPtr t = pData->getTexture("seed_output");
-    //set the outgoing blue noise texture!
-    pContext->copyResource(pData->getTexture("blue_noise").get(), bluenoise.get());
-    //Texture::SharedPtr b = pData->getTexture("blue_noise");
     
 }
 

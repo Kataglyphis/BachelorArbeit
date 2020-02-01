@@ -92,4 +92,8 @@ private:
     uint32_t trace_count;
     bool enable_blue_noise;
     uint32_t distribute_as_blue_noise_shader_var;
+
+    //stats of a seed texture
+    uint32_t seed_texture_width = 1920;
+    uint32_t seed_texture_height = 720;
 };

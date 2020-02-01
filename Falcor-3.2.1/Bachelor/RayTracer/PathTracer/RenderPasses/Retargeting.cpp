@@ -36,11 +36,13 @@ RenderPassReflection Retargeting::reflect(void) const {
 
     RenderPassReflection r;
     //input
-    r.addInput("input_seed", "resorted seeds from the sorting phase").texture2D(seed_texture_width, seed_texture_height).format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::UnorderedAccess |
+    r.addInput("input_seed", "resorted seeds from the sorting phase").texture2D(seed_texture_width, seed_texture_height).format(ResourceFormat::BGRA8Unorm).bindFlags
+                                                                                                                                                                                                                        (Resource::BindFlags::UnorderedAccess |
                                                                                                                                                                                                                         Resource::BindFlags::RenderTarget |
                                                                                                                                                                                                                         Resource::BindFlags::ShaderResource).mipLevels(1);
     //output
-    r.addOutput("output_seed", "the retargeted seed texture outgoing to path tracer").texture2D(seed_texture_width, seed_texture_height).format(ResourceFormat::BGRA8Unorm).bindFlags(Resource::BindFlags::UnorderedAccess |
+    r.addOutput("output_seed", "the retargeted seed texture outgoing to path tracer").texture2D(seed_texture_width, seed_texture_height).format(ResourceFormat::BGRA8Unorm).bindFlags
+                                                                                                                                                                                                                                                        (Resource::BindFlags::UnorderedAccess |
                                                                                                                                                                                                                                                        Resource::BindFlags::RenderTarget |
                                                                                                                                                                                                                                                         Resource::BindFlags::ShaderResource).mipLevels(1);
     return r;
@@ -57,7 +59,8 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
 
     //textures for retargeting
 
-    Texture::SharedPtr retarget = createTextureFromFile("permutation_texture_236413_swapsKirkpatrickCooldownSchedule.png", false, false, Resource::BindFlags::ShaderResource | /*Resource::BindFlags::UnorderedAccess|*/
+    Texture::SharedPtr retarget = createTextureFromFile("permutation_texture_236413_swapsKirkpatrickCooldownSchedule.png", false, false, Resource::BindFlags::ShaderResource
+                                                                                                                                                                                                                                            | /*Resource::BindFlags::UnorderedAccess|*/
                                                                                                                                                                                                                                                Resource::BindFlags::RenderTarget);
     mpComputeProgVars->setTexture("retarget_texture", retarget);
 
@@ -67,8 +70,8 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
 
     if (mpComputeProg != nullptr) mIsInitialized = true;
 
-    copyForUnsorted = Texture::create2D(seed_texture_width, seed_texture_height, ResourceFormat::BGRA8Unorm,1,1);
-    pContext->copyResource(copyForUnsorted.get(), pRenderData->getTexture("input_seed").get());
+    //copyForUnsorted = Texture::create2D(seed_texture_width, seed_texture_height, ResourceFormat::BGRA8Unorm,1,1);
+    //pContext->copyResource(copyForUnsorted.get(), pRenderData->getTexture("input_seed").get());
 
     //retargeting pass is initialized in the beginning!
     this->enable_retarget_pass_shader_var = 1;
@@ -83,17 +86,21 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
 
     }
 
+    //update frame count
+    //it is enough for this application to toroidally switch between 128 frame counts
+    this->frame_count = frame_count % 128;
+
     //info for the frame
     mpComputeProgVars->getStructuredBuffer("data")[0]["tile_width"] = tile_width;
     mpComputeProgVars->getStructuredBuffer("data")[0]["tile_height"] = tile_height;
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_width"] = frame_width;
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_height"] = frame_height;
-    mpComputeProgVars->getStructuredBuffer("data")[0]["frame_count"] = ++frame_count;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["frame_count"] = frame_count;
     mpComputeProgVars->getStructuredBuffer("data")[0]["enable"] = this->enable_retarget_pass_shader_var;
 
     mpComputeProgVars->setTexture("src_seed_texture", pData->getTexture("input_seed"));
     //set the putput seed tex in HLSL namespace!!
-    mpComputeProgVars->setTexture("output_seed_texture", pData->getTexture("input_seed"));
+    mpComputeProgVars->setTexture("output_seed_texture", pData->getTexture("output_seed"));
 
     pContext->setComputeState(mpComputeState);
     pContext->setComputeVars(mpComputeProgVars);
@@ -111,7 +118,7 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
         pContext->copyResource(pData->getTexture("output_seed").get(), copyForUnsorted.get());
 
     }*/
-    pContext->copyResource(pData->getTexture("output_seed").get(), mpComputeProgVars->getTexture("output_seed_texture").get());
+    //pContext->copyResource(pData->getTexture("output_seed").get(), mpComputeProgVars->getTexture("output_seed_texture").get());
 }
 
 void Retargeting::renderUI(Gui* pGui, const char* uiGroup) {

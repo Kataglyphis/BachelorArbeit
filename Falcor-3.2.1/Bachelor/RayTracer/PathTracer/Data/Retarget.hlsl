@@ -10,7 +10,9 @@
 //__import ShaderCommon;
 //__import Helpers;
 // here we are defining our line size for the retargeting
-#define BLOCK_SIZE 4
+#define DIMENSION_SIZE 4
+
+#define BLOCK_SIZE 16
 
 //retarget texture simulates t + 1;
 //each <float i,float j> position stores its retargeted coordinates <float k,float l>;vertical and horizontal offset
@@ -37,7 +39,7 @@ StructuredBuffer<perFrameData> data;
 
 
 //fetching precomputed permutation and applying it to the seeds
-[numthreads(BLOCK_SIZE,BLOCK_SIZE,1)]
+[numthreads(DIMENSION_SIZE, DIMENSION_SIZE, 1)]
 void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 thread_ID : SV_DISPATCHTHREADID) {
 
     uint tile_width = data[0].tile_width;
@@ -58,22 +60,23 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     bluenoise_index.y = bluenoise_index.y % tile_height;
 
     int2 retarget = int2(0);
+    float xi = 6.f / 255.f;
 
     // if enabled read retarget coords from textures
     if (data[0].enable == 1) {
 
         //retarget = int2(retarget_texture[int2(bluenoise_index.x, tile_height - 1 - bluenoise_index.y)].rg * 255.f - float2(6.f));
         //retarget.y = -retarget.y;
-        int retarget_x = retarget_texture[int2(bluenoise_index)].r;
-        int retarget_y = retarget_texture[int2(bluenoise_index)].g;
-        retarget = int2(int2(retarget_x, retarget_y)*255.f - float2(6.f));
+        retarget += (int2((retarget_texture[int2(bluenoise_index)].rg * 0.f - float2(6.f))));
+
     }
 
-    //retargeting of the seeds
-    uint2 retargetCoordinates = thread_ID + retarget;
-    retargetCoordinates.x = retargetCoordinates.x % tile_width;
-    retargetCoordinates.y = retargetCoordinates.y % tile_height;
+    //retarget coordinates, index of the seed for the next frame
+    uint2 local_retarget_coordinates = thread_ID + retarget; //+ uint2(tile_width, tile_height);
+    //local_retarget_coordinates.x = local_retarget_coordinates.x % frame_width;
+    //local_retarget_coordinates.y = local_retarget_coordinates.y % frame_height;
     //apply permutation to the seeds
-    //output_seed_texture[thread_ID] = float4(1,0,0,1);
-    output_seed_texture[retargetCoordinates] = src_seed_texture[thread_ID];
-    }
+    //output_seed_texture[thread_ID] = float4(0.047, 0.047, 0, 1);
+    //output_seed_texture[thread_ID] = float4(retarget_texture[int2(bluenoise_index)].r, retarget_texture[int2(bluenoise_index)].g, 0, 1);
+    output_seed_texture[local_retarget_coordinates] = src_seed_texture[thread_ID];
+}
