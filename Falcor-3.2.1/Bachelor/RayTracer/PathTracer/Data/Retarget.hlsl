@@ -40,7 +40,7 @@ StructuredBuffer<perFrameData> data;
 
 //fetching precomputed permutation and applying it to the seeds
 [numthreads(DIMENSION_SIZE, DIMENSION_SIZE, 1)]
-void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 thread_ID : SV_DISPATCHTHREADID) {
+void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 thread_ID : SV_DISPATCHTHREADID, uint2 group_thread_id : SV_GroupThreadID) {
 
     uint tile_width = data[0].tile_width;
     uint tile_height = data[0].tile_height;
@@ -60,23 +60,28 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     bluenoise_index.y = bluenoise_index.y % tile_height;
 
     int2 retarget = int2(0);
-    float xi = 6.f / 255.f;
+    //retarget = int2(-6,-6);
 
     // if enabled read retarget coords from textures
     if (data[0].enable == 1) {
 
-        //retarget = int2(retarget_texture[int2(bluenoise_index.x, tile_height - 1 - bluenoise_index.y)].rg * 255.f - float2(6.f));
+        retarget += (int2((retarget_texture[int2(bluenoise_index)].rg * 12.f - float2(6.f))));
         //retarget.y = -retarget.y;
-        retarget += (int2((retarget_texture[int2(bluenoise_index)].rg * 0.f - float2(6.f))));
-
     }
 
     //retarget coordinates, index of the seed for the next frame
-    uint2 local_retarget_coordinates = thread_ID + retarget; //+ uint2(tile_width, tile_height);
-    //local_retarget_coordinates.x = local_retarget_coordinates.x % frame_width;
-    //local_retarget_coordinates.y = local_retarget_coordinates.y % frame_height;
+    uint2 local_retarget_coordinates = group_thread_id + retarget + int2(tile_width, tile_height);
+    local_retarget_coordinates.x = local_retarget_coordinates.x % tile_width;
+    local_retarget_coordinates.y = local_retarget_coordinates.y % tile_height;
+
+    uint2 global_retarget_coordinates = local_retarget_coordinates + (group_ID * DIMENSION_SIZE) + int2(frame_width, frame_height); /*thread_ID + retarget + uint2(frame_width, frame_height); */
+    global_retarget_coordinates.x = global_retarget_coordinates.x % frame_width;
+    global_retarget_coordinates.y = global_retarget_coordinates.y % frame_height;
     //apply permutation to the seeds
+    //output_seed_texture[3] = src_seed_texture[thread_ID];
     //output_seed_texture[thread_ID] = float4(0.047, 0.047, 0, 1);
-    //output_seed_texture[thread_ID] = float4(retarget_texture[int2(bluenoise_index)].r, retarget_texture[int2(bluenoise_index)].g, 0, 1);
-    output_seed_texture[local_retarget_coordinates] = src_seed_texture[thread_ID];
+    //output_seed_texture[thread_ID] = retarget_texture[int2(bluenoise_index)/12.f];
+    //output_seed_texture[thread_ID] = src_seed_texture[local_retarget_coordinates];
+    //output_seed_texture[thread_ID] = src_seed_texture[thread_ID];
+    output_seed_texture[global_retarget_coordinates] = src_seed_texture[thread_ID];
 }

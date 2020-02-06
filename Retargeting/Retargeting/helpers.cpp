@@ -151,12 +151,12 @@ bool helpers::fromPermuteToBitmap(Image image_data, FIBITMAP* bitmap, const uint
 	for (unsigned int i = 0; i < image_width; i++) {
 
 		for (unsigned int j = 0; j < image_height; j++) {
-
-			color.rgbRed = image_data[i][image_height - 1 - j][0] + 6;
-			color.rgbGreen = image_data[i][image_height - 1 - j][1] + 6;
+			float max_step_res_ratio = 255.f / 12.f;
+			color.rgbRed = (BYTE)(image_data[i][image_height - 1 - j][0] + 6) * max_step_res_ratio;
+			color.rgbGreen =(BYTE)(image_data[i][image_height - 1 - j][1] + 6) * max_step_res_ratio;
 			//to store permutation we will only need to save in rg - channel !!
-			color.rgbBlue = 0xFF;
-			color.rgbReserved = i;
+			color.rgbBlue = 0x00;
+			color.rgbReserved = 0xFF;
 
 			if (FreeImage_SetPixelColor(bitmap, i, j, &color) == 0) {
 

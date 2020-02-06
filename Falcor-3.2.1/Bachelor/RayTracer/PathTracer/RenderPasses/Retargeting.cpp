@@ -58,10 +58,11 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
     mpComputeProgVars = ComputeVars::create(mpComputeProg->getReflector());
 
     //textures for retargeting
-
-    Texture::SharedPtr retarget = createTextureFromFile("permutation_texture_236413_swapsKirkpatrickCooldownSchedule.png", false, false, Resource::BindFlags::ShaderResource
+    //30
+    Texture::SharedPtr retarget = createTextureFromFile("permutation_texture_238866_swapsKirkpatrickCooldownSchedule.png", false, false, Resource::BindFlags::ShaderResource
                                                                                                                                                                                                                                             | /*Resource::BindFlags::UnorderedAccess|*/
-                                                                                                                                                                                                                                               Resource::BindFlags::RenderTarget);
+                                                                                                                                                                                                                                                   Resource::BindFlags::RenderTarget);
+    
     mpComputeProgVars->setTexture("retarget_texture", retarget);
 
     //info for the frame
@@ -95,7 +96,7 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     mpComputeProgVars->getStructuredBuffer("data")[0]["tile_height"] = tile_height;
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_width"] = frame_width;
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_height"] = frame_height;
-    mpComputeProgVars->getStructuredBuffer("data")[0]["frame_count"] = frame_count;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["frame_count"] = frame_count++;
     mpComputeProgVars->getStructuredBuffer("data")[0]["enable"] = this->enable_retarget_pass_shader_var;
 
     mpComputeProgVars->setTexture("src_seed_texture", pData->getTexture("input_seed"));
@@ -118,7 +119,7 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
         pContext->copyResource(pData->getTexture("output_seed").get(), copyForUnsorted.get());
 
     }*/
-    //pContext->copyResource(pData->getTexture("output_seed").get(), mpComputeProgVars->getTexture("output_seed_texture").get());
+    pContext->copyResource(pData->getTexture("output_seed").get(), mpComputeProgVars->getTexture("output_seed_texture").get());
 }
 
 void Retargeting::renderUI(Gui* pGui, const char* uiGroup) {

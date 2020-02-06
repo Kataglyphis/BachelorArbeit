@@ -80,7 +80,7 @@ groupshared pixel sortedBlueNoise[BLOCK_SIZE];
 
 //we are performing a 1-dimensional-sorting of our seeds
 [numthreads(DIMENSION_SIZE, DIMENSION_SIZE, 1)]
-void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 thread_ID : SV_DISPATCHTHREADID)
+void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 thread_ID : SV_DISPATCHTHREADID, uint2 group_thread_id : SV_GroupThreadID)
 {
     uint tile_width = data[0].tile_width;
     uint tile_height = data[0].tile_height;

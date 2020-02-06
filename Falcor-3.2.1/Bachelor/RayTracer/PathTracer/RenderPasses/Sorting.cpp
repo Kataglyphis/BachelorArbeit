@@ -97,7 +97,7 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
     mpComputeProgVars->getStructuredBuffer("data")[0]["tile_height"] = tile_height;
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_width"] = frame_width;
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_height"] = frame_height;
-    mpComputeProgVars->getStructuredBuffer("data")[0]["frame_count"] = frame_count;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["frame_count"] = frame_count++;
 
     mpComputeProgVars->setTexture("input_frame_texture", pData->getTexture("input_frame"));
     mpComputeProgVars->setTexture("input_seed_texture", pData->getTexture("input_seed"));
