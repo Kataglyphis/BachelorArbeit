@@ -41,20 +41,21 @@ StructuredBuffer<perFrameData> data;
 //fetching precomputed permutation and applying it to the seeds
 [numthreads(DIMENSION_SIZE, DIMENSION_SIZE, 1)]
 void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 thread_ID : SV_DISPATCHTHREADID, uint2 group_thread_id : SV_GroupThreadID) {
-
+    if (thread_ID.x >= data[0].frame_width || thread_ID.y >= data[0].frame_height)
+        return;
     uint tile_width = data[0].tile_width;
     uint tile_height = data[0].tile_height;
     uint frame_count = data[0].frame_count;
     uint frame_width = data[0].frame_width;
     uint frame_height = data[0].frame_height;
-    
+
     //Not finished yet! Same problem as in the sorting pass, how to access texture correctly with OFFSET ???
     //Big TODO: target blue noise tile should change after each frame --> each pixel has a different error in each frame
     //This is important for temporel filtering algorithms to reduce errors by averaging them over multiple frames!!
     float g = 1.32471795724474602596f;
     float offset_x = (1.0f / g) * tile_width * frame_count;
     float offset_y = (1.0f / (g * g)) * tile_height * frame_count;
-    float2 offset = (offset_x,offset_y);
+    float2 offset = (offset_x, offset_y);
     uint2 bluenoise_index = (offset + thread_ID);
     bluenoise_index.x = bluenoise_index.x % tile_width;
     bluenoise_index.y = bluenoise_index.y % tile_height;
@@ -70,18 +71,21 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     }
 
     //retarget coordinates, index of the seed for the next frame
-    uint2 local_retarget_coordinates = group_thread_id + retarget + int2(tile_width, tile_height);
+    /*uint2 local_retarget_coordinates = group_thread_id + retarget + int2(tile_width, tile_height);
     local_retarget_coordinates.x = local_retarget_coordinates.x % tile_width;
-    local_retarget_coordinates.y = local_retarget_coordinates.y % tile_height;
+    local_retarget_coordinates.y = local_retarget_coordinates.y % tile_height;*/
 
-    uint2 global_retarget_coordinates = local_retarget_coordinates + (group_ID * DIMENSION_SIZE) + int2(frame_width, frame_height); /*thread_ID + retarget + uint2(frame_width, frame_height); */
+    uint2 global_retarget_coordinates = thread_ID + retarget + uint2(frame_width, frame_height);  /* local_retarget_coordinates + (group_ID * DIMENSION_SIZE) + int2(frame_width, frame_height);*/
     global_retarget_coordinates.x = global_retarget_coordinates.x % frame_width;
     global_retarget_coordinates.y = global_retarget_coordinates.y % frame_height;
     //apply permutation to the seeds
     //output_seed_texture[3] = src_seed_texture[thread_ID];
     //output_seed_texture[thread_ID] = float4(0.047, 0.047, 0, 1);
-    //output_seed_texture[thread_ID] = retarget_texture[int2(bluenoise_index)/12.f];
-    //output_seed_texture[thread_ID] = src_seed_texture[local_retarget_coordinates];
+    //output_seed_texture[thread_ID] = retarget_texture[int2(bluenoise_index)];
+    //output_seed_texture[thread_ID] = src_seed_texture[global_retarget_coordinates];
     //output_seed_texture[thread_ID] = src_seed_texture[thread_ID];
-    output_seed_texture[global_retarget_coordinates] = src_seed_texture[thread_ID];
+    //output_seed_texture[thread_ID] = src_seed_texture[uint2(thread_ID.x + retarget.x, thread_ID.y + retarget.y)];//float4(global_retarget_coordinates.x / frame_width, global_retarget_coordinates.y / frame_height,0,1);
+    //output_seed_texture[global_retarget_coordinates] = src_seed_texture[uint2((thread_ID.x + frame_width) % frame_width, (thread_ID.y + frame_height) % frame_height)];//float4(thread_ID.x/ (float)frame_width, thread_ID.y/(float)frame_height,0,1);//float4(global_retarget_coordinates.x / frame_width, global_retarget_coordinates.y / frame_height,0,1);
+    //output_seed_texture[global_retarget_coordinates] = src_seed_texture[thread_ID];
+    output_seed_texture[global_retarget_coordinates] = float4(1, 0, 0, 1);
 }

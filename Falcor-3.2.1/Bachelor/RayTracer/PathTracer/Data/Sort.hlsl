@@ -82,6 +82,8 @@ groupshared pixel sortedBlueNoise[BLOCK_SIZE];
 [numthreads(DIMENSION_SIZE, DIMENSION_SIZE, 1)]
 void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 thread_ID : SV_DISPATCHTHREADID, uint2 group_thread_id : SV_GroupThreadID)
 {
+    //if (thread_ID.x >= data[0].frame_width || thread_ID.y >= data[0].frame_height)
+     //   return;
     uint tile_width = data[0].tile_width;
     uint tile_height = data[0].tile_height;
     uint frame_count = data[0].frame_count;
@@ -153,7 +155,7 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     //new seed index in result of sorting blue noise texture
     //uint new_seed_index = global_seed_index.y * width + global_seed_index.x;
     //fed the input_seed_texture with the now sorted seeds!!!!
-    input_seed_texture[global_seed_index] = fromSeedToTexture(sortedImage[group_Index].index); //float4(x, y, 0, 1); float4(x,y,0,1);////float4(1.0,0,0,1); //we've copied the global position above; so just enter with group_Index
+    //input_seed_texture[global_seed_index] = fromSeedToTexture(sortedImage[group_Index].index); //float4(x, y, 0, 1); float4(x,y,0,1);////float4(1.0,0,0,1); //we've copied the global position above; so just enter with group_Index
      
 }
 
