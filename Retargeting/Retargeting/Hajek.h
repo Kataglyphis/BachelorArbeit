@@ -14,7 +14,8 @@ public:
 	Hajek(double T_0, double alpha);
 	double getTemperature(int step);
 	std::string getName();
-	std::string getFunction();
+	std::string getFunction(); 
+	float getQuasiEq();
 private:
 	double T_0;
 	/**

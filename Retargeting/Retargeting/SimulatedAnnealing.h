@@ -27,6 +27,16 @@ typedef vector<int> Energy;
 typedef std::vector<double> Deltas;
 typedef std::vector<int> Probabilities;
 
+typedef std::pair<int,int> position;
+typedef std::pair<int,int> step;
+typedef std::pair<position, step> permutation_pair;
+
+typedef std::pair<permutation_pair, permutation_pair> permutation;
+
+typedef std::pair<unsigned int,unsigned int> position_index;
+typedef std::pair<unsigned int, unsigned int> step_index;
+typedef std::pair<position_index, step_index> old_indices;
+
 //typedef Image::index index;
 /**
 	stores permutation in this pixel manner; numbers representing indices
@@ -81,6 +91,7 @@ private:
 
         SimulatedAnnealingVisualizer visualizer;
         AnnealingSchedule* schedule;
+        float current_energy;
         int good_swaps;
         int image_width;
         int image_height;
@@ -91,14 +102,36 @@ private:
         int number_steps;
         float temperature;
         bool visualize;
+        std::string folder_intermediate_steps = "pictures/AppliedPermutation/Intermediate_Steps/";
+        uint32_t intermediate_step_count;
+        uint32_t num_intermediate_shots = 10;
         std::string folder_permutation_textures = "pictures/Permutations/";
         const char* filename;
 
+        //generate a state with starting permutation: this means
+        //nothing will be switched; just apply where everything will stay
+        //we have a 2D-Array with each entry possessing 2 ints for permutation reasins
+        Image dither_data;
+
+        //we are computing retarget_0; this is retargeting dither 0 into dither 1
+        //the next are computed on the fly with offsets
+        Image next_dither_data;
+
+        //permutation data structures
+        Image permutation_data_output;
+        //Image permutation_data_step;
+
+        //data structure for the new positions
+        //Image permutation_positions_step;
+        Image permutation_positions_output;
+
         helpers helper;
-		float calculateEnergy(Image image_t, Image image_next, Image permutation);
-        float calculateNeighboringEnergy(Image image_t, Image image_next, int perm_index_x, int perm_index_y);
+		float calculatePermutationEnergy(Image image_t, Image image_next, permutation perm_pair);
         bool acceptanceProbabilityFunction(const float energy_old_condition, const float energy_new_condition, const float ratio_steps);
-        bool applyOneRandomPermutation(Image& permutation_data_output, Image& permutation_positions);
+        float applyOneRandomPermutation(Image& permutation_data_output, Image& permutation_positions, permutation& new_pair, permutation& old_pair, old_indices& indices, old_indices& swap_indices);
         bool isApplicablePermutation(Image& permutation_data_step, Image& permutation_positions, const int random_x, const int random_y, const int random_step_x, const int random_step_y);
+        void takeIntermediateSnapshot(Image Permutation, Image Original);
+        float calculateStartingEnergy(Image image_t, Image image_next, Image permutation);
+        void withdraw_permutation(Image& permutation_data_output, Image& permutation_positions_output, permutation old_pair, old_indices indices, old_indices swap);
 		
 };

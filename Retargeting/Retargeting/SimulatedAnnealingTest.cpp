@@ -7,12 +7,12 @@ SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(10000)
 }
 
 
-SimulatedAnnealingTest::SimulatedAnnealingTest(const char* filename, int image_width, int image_height) : number_steps(2000000) {
+SimulatedAnnealingTest::SimulatedAnnealingTest(const char* filename, int image_width, int image_height) : number_steps(1000000) {
 	
 	this->helper = helpers(filename, image_width, image_height);
 	//this->schedule = new ExponentialCoolDown();
 	double T_0 = 511;
-	double quasieq = 4096;
+	double quasieq = 4096.f;
 	double mu = 0.95;
 	this->schedule = new Kirkpatrick(T_0, mu, quasieq);
 	Energy energy;
@@ -118,11 +118,6 @@ void SimulatedAnnealingTest::testPermutation() {
 	helper.fromImageToFile(next_dither_ss.str().c_str(), next_dither);
 	helper.fromImageToFile(perm_ss.str().c_str(), appliedPerm);
 
-	//freeing memory
-	/**free(num_steps);
-	free(permuted_image);
-	free(next_dither_str);*/
-
 }
 
 Image SimulatedAnnealingTest::applyPermutationToOriginal(Image original, Image permutation) {
@@ -156,7 +151,10 @@ Image SimulatedAnnealingTest::applyPermutationToOriginal(Image original, Image p
 
 		for (int j = 0; j < helper.getDitherHeight(); j++) {
 
-			permutatedOriginal[i + permutation[i][j][0]][j + permutation[i][j][1]] = original[i][j];
+			int permutation_coordinates_x = (i + permutation[i][j][0] + helper.getDitherWith()) % helper.getDitherWith();
+			int permutation_coordinates_y = (j + permutation[i][j][1] + helper.getDitherHeight()) % helper.getDitherHeight();
+
+			permutatedOriginal[permutation_coordinates_x][permutation_coordinates_y] = original[i][j];
 		}
 	}
 

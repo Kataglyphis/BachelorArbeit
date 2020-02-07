@@ -40,7 +40,7 @@ StructuredBuffer<perFrameData> data;
 
 //fetching precomputed permutation and applying it to the seeds
 [numthreads(DIMENSION_SIZE, DIMENSION_SIZE, 1)]
-void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 thread_ID : SV_DISPATCHTHREADID, uint2 group_thread_id : SV_GroupThreadID) {
+void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 thread_ID : SV_DISPATCHTHREADID, uint2 group_thread_ID : SV_GroupThreadID) {
 
         if (thread_ID.x >= data[0].frame_width || thread_ID.y >= data[0].frame_height)
         return;
@@ -72,7 +72,11 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
 
     }
 
-    uint2 global_retarget_coordinates = thread_ID + retarget + uint2(frame_width, frame_height); /* local_retarget_coordinates + (group_ID * DIMENSION_SIZE) + int2(frame_width, frame_height);*/
+    uint2 local_retarget_coordinates = group_thread_ID + retarget + uint2(tile_width, tile_height);
+    local_retarget_coordinates.x = local_retarget_coordinates.x % tile_width;
+    local_retarget_coordinates.y = local_retarget_coordinates.y % tile_height;
+    
+    uint2 global_retarget_coordinates = local_retarget_coordinates + (group_ID * DIMENSION_SIZE) + uint2(frame_width, frame_height); /* local_retarget_coordinates + (group_ID * DIMENSION_SIZE) + int2(frame_width, frame_height);*/
     global_retarget_coordinates.x = global_retarget_coordinates.x % frame_width;
     global_retarget_coordinates.y = global_retarget_coordinates.y % frame_height;
     //apply permutation to the seeds

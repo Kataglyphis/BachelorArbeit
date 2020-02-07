@@ -31,3 +31,7 @@ std::string Kirkpatrick::getFunction() {
 
 	return function.str();
 }
+
+float Kirkpatrick::getQuasiEq() {
+	return this->quasiequilibrium;
+}

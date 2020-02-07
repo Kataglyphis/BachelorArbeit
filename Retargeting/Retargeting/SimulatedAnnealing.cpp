@@ -10,7 +10,7 @@ SimulatedAnnealing::SimulatedAnnealing() /*: helper(), image_width(64), image_he
 }
 
 SimulatedAnnealing::SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule, Energy& energy, bool visualize_single_annealing, int image_width, int image_height, helpers helper,
-											const char* filename) : visualizer(), good_swaps(0) {
+											const char* filename) : visualizer(), good_swaps(0), intermediate_step_count(0), energy(0.f) {
 	
 	this->filename = filename;
 	this->helper = helper;
@@ -28,23 +28,6 @@ SimulatedAnnealing::SimulatedAnnealing(int number_steps, AnnealingSchedule* sche
 }
 
 Image SimulatedAnnealing::execute(int& good_swaps) {
-	
-	//generate a state with starting permutation: this means
-	//nothing will be switched; just apply where everything will stay
-	//we have a 2D-Array with each entry possessing 2 ints for permutation reasins
-	Image dither_data;
-
-	//we are computing retarget_0; this is retargeting dither 0 into dither 1
-	//the next are computed on the fly with offsets
-	Image next_dither_data;
-
-	//permutation data structures
-	Image permutation_data_output;
-	Image permutation_data_step;
-
-	//data structure for the new positions
-	Image permutation_positions_step;
-	Image permutation_positions_output;
 
 	for (int i = 0; i < image_width; i++) {
 
@@ -69,48 +52,59 @@ Image SimulatedAnnealing::execute(int& good_swaps) {
 
 		}
 		permutation_data_output.push_back(column_perm);
-		permutation_data_step.push_back(column_perm);
+		//permutation_data_step.push_back(column_perm);
 		dither_data.push_back(column_dither);
 		next_dither_data.push_back(column_dither);
-		permutation_positions_step.push_back(column_pos);
+		//permutation_positions_step.push_back(column_pos);
 		permutation_positions_output.push_back(column_pos);
 	}
 
 	helper.loadPNGinArray(this->filename, dither_data);
 	helper.getNextDither(dither_data, next_dither_data, image_width, image_height);
+	this->current_energy = calculateStartingEnergy(dither_data, next_dither_data, permutation_data_output);
 
 	for (unsigned int i = 0; i < this->number_steps; i++) {
+
+		//if (std::fmod((float)i,this->schedule->getQuasiEq()) == 0.f) takeIntermediateSnapshot(permutation_data_output, dither_data);
 
 		this->temperature = schedule->getTemperature(good_swaps);
 		std::cout << "Aktuelle Temperatur ist " << this->temperature << "\n";
 		//calc the energy of our permutation
-		float energy_old_condition = calculateEnergy(dither_data, next_dither_data, permutation_data_output);
+		//float energy_old_condition = calculatePermutationEnergy(dither_data, next_dither_data, permutation_data_output);
 		if (i == 0) {
-			energy.push_back(energy_old_condition);
+			energy.push_back(current_energy);
 		}
-		std::cout << "Energy of the old condition: " << energy_old_condition << std::endl;
-		std::cout << "Step: " << i << std::endl;
+
 		//first we will go with the previous calculated permutation
-		helper.deepCopyImage(permutation_data_output, permutation_data_step, image_width, image_height);
-		helper.deepCopyImage(permutation_positions_output, permutation_positions_step, image_width, image_height);
 		//now permute and have a look whether it is better
 		//here we actually apply one permutation!
-		applyOneRandomPermutation(permutation_data_step, permutation_positions_step);
+		permutation new_pair;
+		permutation old_pair;
+		old_indices indices;
+		old_indices swap_indices;
+		//float energy_old_condition = applyOneRandomPermutation(permutation_data_step, permutation_positions_step, pair);
+		float energy_old_condition = applyOneRandomPermutation(permutation_data_output, permutation_positions_output, new_pair, old_pair, indices, swap_indices);
+		std::cout << "Current energy: " << current_energy << std::endl;
+		std::cout << "Step: " << i << std::endl;
 	
-		float energy_new_condition = calculateEnergy(dither_data, next_dither_data, permutation_data_step);
+		float energy_new_condition = calculatePermutationEnergy(dither_data, next_dither_data, new_pair);
 
 		//std::cout << "Energy of the new condition: " << energy_new_condition << std::endl;
 
 		if (acceptanceProbabilityFunction(energy_old_condition, energy_new_condition, this->temperature)) {
+			
 			//we will have a new condition
-			helper.deepCopyImage(permutation_data_step, permutation_data_output, image_width, image_height);
-			helper.deepCopyImage(permutation_positions_step, permutation_positions_output, image_width, image_height);
 			good_swaps++;
 			std::cout << "Swap has been successful. \n" << "#Gute Tausche: " << good_swaps << endl;
 			//push it in the energy array
-			energy.push_back((int)energy_new_condition);
-		}
+			current_energy -= (energy_old_condition - energy_new_condition);
+			energy.push_back(this->current_energy);
+		
+		} else {
+  
+			withdraw_permutation(permutation_data_output, permutation_positions_output, old_pair, indices, swap_indices);
 
+		}
 
 	}
 
@@ -133,29 +127,18 @@ Image SimulatedAnnealing::execute(int& good_swaps) {
 }
 
 
-bool SimulatedAnnealing::applyOneRandomPermutation(Image& permutation_data_step, Image& permutation_positions) {
+float SimulatedAnnealing::applyOneRandomPermutation(Image& permutation_data_step, Image& permutation_positions, permutation& new_pair, 
+																	permutation& old_pair, old_indices& indices, old_indices& swap_indices) {
 	
 	bool no_permutation_found = true;
 
 	std::random_device rd;
 	std::mt19937_64 gen(rd());
 	// initialize the random number generator with time-dependent seed
-	//uint64_t timeSeed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-	//std::seed_seq ss{ uint32_t(timeSeed & 0xffffffff), uint32_t(timeSeed >> 32) };
-	//rng.seed(ss);
 	// initialize a uniform distribution between 0 and 1
 	std::uniform_real_distribution<> unif_step(-7., 7.);
 	std::uniform_real_distribution<> unif_position_x(0, this->image_width);
 	std::uniform_real_distribution<> unif_position_y(0, this->image_height);
-	//float currentRandomNumber = unif(gen);
-	//std::srand(std::time(0)); //use current time as seed for random generator
-	//int uniform_random_variable = std::rand();
-	/**int32_t random_x = std::rand() % image_width;
-	int32_t random_y = std::rand() % image_height;
-	int32_t random_x_VZ = (std::rand() % 2);
-	int32_t random_y_VZ = (std::rand() % 2);
-	int32_t random_step_x = (std::rand() % 7);
-	int32_t random_step_y = (std::rand() % 7);*/
 
 	//random position on the texture
 	int32_t random_x = 0;// (int32_t)unif_position(gen);
@@ -163,31 +146,8 @@ bool SimulatedAnnealing::applyOneRandomPermutation(Image& permutation_data_step,
 	int32_t random_step_x = 0;// (int32_t)unif_step(gen);
 	int32_t random_step_y = 0;// (int32_t)unif_step(gen);
 
-	/**if (random_x_VZ) {
-		random_step_x *= -1;
-	}
-	if (random_y_VZ) {
-		random_step_y *= -1;
-	}*/
-
 	//we have to check, whether this all happens in a radius of 6!
 	do {
-
-		/**std::srand(std::time(0)); //use current time as seed for random generator
-		//random position on the texture
-		random_x = std::rand() % image_width;
-		random_y = std::rand() % image_height;
-		random_x_VZ = (std::rand() % 2);
-		random_y_VZ = (std::rand() % 2);
-		random_step_x = (std::rand() % 7);
-		random_step_y = (std::rand() % 7);
-
-		if (random_x_VZ) {
-			random_step_x *= -1;
-		}
-		if (random_y_VZ) {
-			random_step_y *= -1;
-		}*/
 
 		//random position on the texture
 		random_x = (int32_t)unif_position_x(gen);
@@ -211,8 +171,8 @@ bool SimulatedAnnealing::applyOneRandomPermutation(Image& permutation_data_step,
 	permutation_data_step[position_x][position_y][0] = permute_x + random_step_x;
 	permutation_data_step[position_x][position_y][1] = permute_y + random_step_y;
 
-	int index_swap_position_x = position_x + permute_x + random_step_x;
-	int index_swap_position_y = position_y + permute_y + random_step_y;
+	int index_swap_position_x = (position_x + permute_x + random_step_x + image_width) % image_width;
+	int index_swap_position_y = (position_y + permute_y + random_step_y + image_height) % image_height;
 
 	int swap_position_x = permutation_positions[index_swap_position_x][index_swap_position_y][0];
 	int swap_position_y = permutation_positions[index_swap_position_x][index_swap_position_y][1];
@@ -232,7 +192,42 @@ bool SimulatedAnnealing::applyOneRandomPermutation(Image& permutation_data_step,
 
 	std::cout << "Dies sind die Permutationsschritte x = " << permutation_data_step[position_x][position_y][0] << " und y = " << permutation_data_step[position_x][position_y][1] << endl;
 	std::cout << "Position x = " << position_x << "y = " << position_y << endl;
-	return true;
+
+	//save indices
+	indices.first.first = random_x;
+	indices.first.second = random_y;
+	indices.second.first = permute_x;
+	indices.second.second = permute_y;
+
+	swap_indices.first.first = index_swap_position_x;
+	swap_indices.first.second = index_swap_position_y;
+	swap_indices.second.first = swap_permute_x_value;
+	swap_indices.second.second = swap_permute_y_value;
+
+	std::pair<int,int> old_pos_pair_one(position_x, position_y);
+	std::pair<int, int> old_step_pair_one(permute_x , permute_y);
+	permutation_pair old_perm_pair_one(old_pos_pair_one, old_step_pair_one);
+
+	std::pair<int, int> old_pos_pair_two(swap_position_x, swap_position_y);
+	std::pair<int, int> old_step_pair_two(swap_permute_x_value, swap_permute_y_value);
+	permutation_pair old_perm_pair_two(old_pos_pair_two, old_step_pair_two);
+
+	old_pair = permutation(old_perm_pair_one, old_perm_pair_two);
+
+	float result = calculatePermutationEnergy(dither_data, next_dither_data, old_pair);
+
+	//for the new permutation
+	std::pair<int, int> new_pos_pair_one(position_x, position_y);
+	std::pair<int, int> new_step_pair_one(permute_x + random_step_x, permute_y + random_step_y);
+	permutation_pair new_perm_pair_one(new_pos_pair_one, new_step_pair_one);
+
+	std::pair<int, int> new_pos_pair_two(swap_position_x, swap_position_y);
+	std::pair<int, int> new_step_pair_two(swap_permute_x_value - random_step_x, swap_permute_y_value - random_step_y);
+	permutation_pair new_perm_pair_two(new_pos_pair_two, new_step_pair_two);
+
+	new_pair = permutation(new_perm_pair_one, new_perm_pair_two);
+
+	return result;
 }
 
 bool SimulatedAnnealing::isApplicablePermutation(Image& permutation_data_step, Image& permutation_positions, const int random_x, const int random_y, const int random_step_x, const int random_step_y) {
@@ -250,15 +245,16 @@ bool SimulatedAnnealing::isApplicablePermutation(Image& permutation_data_step, I
 		return false;
 	}
 
-	if (((position_x + permute_x + random_step_x) < 0) |
+	/**if (((position_x + permute_x + random_step_x) < 0) |
 	     ((position_y + permute_y + random_step_y) < 0) |
 		 ((position_x + permute_x +random_step_x) >= image_width) |
 		((position_y + permute_y + random_step_y) >= image_height)) {
 		return false;
-	}
+	}*/
 
-	int index_swap_position_x = position_x + permute_x + random_step_x;
-	int index_swap_position_y = position_y + permute_y + random_step_y;
+	//added toroidally shifting
+	int index_swap_position_x = (position_x + permute_x + random_step_x + image_width) % image_width;
+	int index_swap_position_y = (position_y + permute_y + random_step_y + image_height) % image_height;
 
 	int swap_position_x = permutation_positions[index_swap_position_x][index_swap_position_y][0];
 	int swap_position_y = permutation_positions[index_swap_position_x][index_swap_position_y][1];
@@ -278,7 +274,27 @@ bool SimulatedAnnealing::isApplicablePermutation(Image& permutation_data_step, I
 }
 
 //https://www.arnoldrenderer.com/research/dither_abstract.pdf
-float SimulatedAnnealing::calculateEnergy(Image image_t, Image image_next, Image permutation) {
+float SimulatedAnnealing::calculatePermutationEnergy(Image image_t, Image image_next, permutation pair) {
+	//float position_delta = () / std::pow(sigma_i, 2);
+
+	float energy = 0.f;
+
+	int first_permutation_coordinates_x = (pair.first.first.first + pair.first.second.first + image_width) % image_width;
+	int first_permutation_coordinates_y = (pair.first.first.second + pair.first.second.second + image_height) % image_height;
+
+	int second_permutation_coordinates_x = (pair.second.first.first + pair.second.second.first + image_width) % image_width;
+	int second_permutation_coordinates_y = (pair.second.first.second + pair.second.second.second + image_height) % image_height;
+
+	for (int m = 0; m < 1; m++) {
+		//calc the direct difference;
+		energy += (std::abs(image_t[pair.first.first.first][pair.first.first.second][m] - image_next[first_permutation_coordinates_x][first_permutation_coordinates_y][m]));
+		energy += (std::abs(image_t[pair.second.first.first][pair.second.first.second][m] - image_next[second_permutation_coordinates_x][second_permutation_coordinates_y][m]));
+	}
+
+	return energy;
+}
+
+float SimulatedAnnealing::calculateStartingEnergy(Image image_t, Image image_next, Image permutation) {
 
 	//calculate the position difference for decreasing acceptance probability
 	//with more far away located pixels
@@ -291,14 +307,9 @@ float SimulatedAnnealing::calculateEnergy(Image image_t, Image image_next, Image
 	for (int i = 0; i < image_width; i++) {
 		for (int j = 0; j < image_height; j++) {
 
-			int permutation_coordinates_x = i + permutation[i][j][0];
-			int permutation_coordinates_y = j + permutation[i][j][1];
-
-			//energy += calculateNeighboringEnergy(image_t, image_next, permutation_coordinates_x, permutation_coordinates_y);
-
 			for (int m = 0; m < 1; m++) {
 				//calc the direct difference;
-				energy += (std::abs(image_t[i][j][m] - image_next[permutation_coordinates_x][permutation_coordinates_y][m]));
+				energy += (std::abs(image_t[i][j][m] - image_next[i][j][m]));
 				//for really making it look like a dither we will have to consider the direct neighborhood
 			}
 		}
@@ -306,23 +317,6 @@ float SimulatedAnnealing::calculateEnergy(Image image_t, Image image_next, Image
 
 	return energy;
 }
-
-float SimulatedAnnealing::calculateNeighboringEnergy(Image image_t, Image image_next, int perm_index_x, int perm_index_y) {
-
-	float energy = 0;
-
-	//depend on how much channel from dither texture u use
-	/**for () {
-
-		for (int m = 0; m < 1; m++) {
-			energy +=
-		}
-	}*/
-
-	return energy;
-
-}
-
 
 bool SimulatedAnnealing::acceptanceProbabilityFunction(const float energy_old_condition, const float energy_new_condition, const float temperature) {
 	
@@ -341,9 +335,6 @@ bool SimulatedAnnealing::acceptanceProbabilityFunction(const float energy_old_co
 		std::random_device rd;
 		std::mt19937_64 gen(rd());
 		// initialize the random number generator with time-dependent seed
-		//uint64_t timeSeed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-		//std::seed_seq ss{ uint32_t(timeSeed & 0xffffffff), uint32_t(timeSeed >> 32) };
-		//rng.seed(ss);
 		// initialize a uniform distribution between 0 and 1
 		std::uniform_real_distribution<> unif(0., 1.);
 		float currentRandomNumber = unif(gen);
@@ -381,4 +372,66 @@ int SimulatedAnnealing::getNumSwaps() {
 
 	return this->good_swaps;
 
+}
+
+void SimulatedAnnealing::takeIntermediateSnapshot(Image permutation, Image original) {
+
+	FIBITMAP* retarget_bitmap = FreeImage_Allocate(image_width, image_height, 32);
+
+	Image permutatedOriginal;
+
+	for (int i = 0; i < helper.getDitherWith(); i++) {
+
+		Column column_org;
+
+		for (int j = 0; j < helper.getDitherHeight(); j++) {
+
+			//just assign the standard distribution
+			//how this looks like; look at th etop for it 
+
+			using namespace std;
+			Values start_values_dither = original[i][j];
+
+			column_org.push_back(start_values_dither);
+
+		}
+
+		permutatedOriginal.push_back(column_org);
+
+	}
+
+	//helper.deepCopyImage(original, permutatedOriginal, helper.dither_width, helper.dither_height);
+
+
+	for (int i = 0; i < helper.getDitherWith(); i++) {
+
+		for (int j = 0; j < helper.getDitherHeight(); j++) {
+
+			int permutation_coordinates_x = (i + permutation[i][j][0] + image_width) % image_width;
+			int permutation_coordinates_y = (j + permutation[i][j][1] + image_height) % image_height;
+
+			permutatedOriginal[permutation_coordinates_x][permutation_coordinates_y] = original[i][j];
+		}
+	}
+
+	stringstream ss;
+	ss << this->folder_intermediate_steps << "intermediate_applied_permutation_" << intermediate_step_count  << "_quasieqstep" << schedule->getName() << ".png";
+	helper.fromImageToFile(ss.str().c_str(), permutatedOriginal);
+	++intermediate_step_count;
+}
+
+void SimulatedAnnealing::withdraw_permutation(Image& permutation_data_output, Image& permutation_positions_output, permutation old_pair, 
+																															old_indices indices, old_indices swap) {
+
+	permutation_positions_output[indices.first.first][indices.first.second][0] = old_pair.first.first.first;
+	permutation_positions_output[indices.first.first][indices.first.second][1] = old_pair.first.first.second;
+
+	permutation_positions_output[swap.first.first][swap.first.second][0] = old_pair.second.first.first;
+	permutation_positions_output[swap.first.first][swap.first.second][1] = old_pair.second.first.second;
+
+	permutation_data_output[old_pair.first.first.first][old_pair.first.first.second][0] = indices.second.first;
+	permutation_data_output[old_pair.first.first.first][old_pair.first.first.second][1] = indices.second.second;
+
+	permutation_data_output[old_pair.second.first.first][old_pair.second.first.second][0] = swap.second.first;
+	permutation_data_output[old_pair.second.first.first][old_pair.second.first.second][1] = swap.second.second;
 }

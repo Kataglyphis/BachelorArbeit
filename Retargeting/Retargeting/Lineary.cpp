@@ -38,3 +38,7 @@ std::string Lineary::getFunction() {
 
 	return function.str();
 }
+
+float Lineary::getQuasiEq() {
+	return 0;
+}

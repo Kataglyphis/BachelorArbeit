@@ -28,3 +28,7 @@ std::string Inverse::getFunction() {
 	return function.str();
 
 }
+
+float Inverse::getQuasiEq() {
+	return 0;
+}

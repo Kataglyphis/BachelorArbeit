@@ -28,3 +28,7 @@ std::string ExponentialCoolDown::getFunction() {
 	return function.str();
 
 }
+
+float ExponentialCoolDown::getQuasiEq() {
+	return 0;
+}

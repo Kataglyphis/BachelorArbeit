@@ -28,3 +28,7 @@ std::string Hajek::getFunction() {
 	
 	return function.str();
 }
+
+float Hajek::getQuasiEq() {
+	return 0;
+}

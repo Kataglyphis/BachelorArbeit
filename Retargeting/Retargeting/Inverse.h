@@ -17,6 +17,7 @@ public:
 	double getTemperature(int step);
 	std::string getName();
 	std::string getFunction();
+	float getQuasiEq();
 
 private:
 
