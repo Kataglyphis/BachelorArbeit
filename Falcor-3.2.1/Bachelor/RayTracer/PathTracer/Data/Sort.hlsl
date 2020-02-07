@@ -91,9 +91,9 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     //target blue noise tile should change after each frame --> each pixel has a different error in each frame
     //This is important for temporel filtering algorithms to reduce errors by averaging them over multiple frames!!
     float g = 1.32471795724474602596f;
-    float offset_x = (1.0f / g) * tile_width *frame_count; //multiply with index for changes frame by frame!
-    float offset_y = (1.0f / (g * g)) * tile_height *frame_count; //multiply with index for changes frame by frame!
-    float2 offset = (offset_x, offset_y);
+    uint offset_x = (1.0f / g) * tile_width * frame_count; //multiply with index for changes frame by frame!
+    uint offset_y = (1.0f / (g * g)) * tile_height * frame_count; //multiply with index for changes frame by frame!
+    uint2 offset = (offset_x, offset_y);
     uint2 bluenoise_index = (offset + thread_ID);
     bluenoise_index.x = bluenoise_index.x % tile_width;
     bluenoise_index.y = bluenoise_index.y % tile_height;
@@ -155,7 +155,7 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     //new seed index in result of sorting blue noise texture
     //uint new_seed_index = global_seed_index.y * width + global_seed_index.x;
     //fed the input_seed_texture with the now sorted seeds!!!!
-    //input_seed_texture[global_seed_index] = fromSeedToTexture(sortedImage[group_Index].index); //float4(x, y, 0, 1); float4(x,y,0,1);////float4(1.0,0,0,1); //we've copied the global position above; so just enter with group_Index
+    input_seed_texture[global_seed_index] = fromSeedToTexture(sortedImage[group_Index].index); //float4(x, y, 0, 1); float4(x,y,0,1);////float4(1.0,0,0,1); //we've copied the global position above; so just enter with group_Index
      
 }
 

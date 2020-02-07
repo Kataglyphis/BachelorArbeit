@@ -157,24 +157,18 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
     pRenderContext->clearFbo(pTargetFbo.get(), clearColor, 1.0f, 0, FboAttachmentType::All);
 
     if (!hasrunonce) {
-        this->trace_count = 0;
+
         Texture::SharedPtr seed_texture = createTextureFromFile("seeds_RGBA.png", false, false,Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess |
                                                                                                                                             Resource::BindFlags::RenderTarget);
         mpGraph->setInput("GlobalIllumination.input_seed", seed_texture);
-        //mpGraph->setInput("GlobalIllumination.seed_input", seed_texture);
+
         //just do nothing; we will load starting seed texture in globalillumination pass 
         hasrunonce = true;
 
-    } else {
+        //from our initialized seeds
+        takeScreenshot(pCallbacks);
 
-        //enable this llop for saving the very first 10 screenshots!!!
-        /**if (this->trace_count <= 10) {
-            std::stringstream ss;
-            ss << "frame_t_bluenosie_with_retargeting" << this->trace_count;
-            std::string filename = ss.str();
-            pCallbacks->captureScreen(filename, "Screenshots");
-            trace_count++;
-        }*/
+    } else {
 
         //bring our retargeted seeds into the globalillumination stage
         //Resource::SharedPtr retarget_seeds = mpGraph->getOutput("Retargeting.output_seed");
@@ -183,14 +177,18 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
         Resource::SharedPtr retarget_seeds = mpGraph->getOutput("Retargeting.output_seed");
         mpGraph->setInput("GlobalIllumination.input_seed", retarget_seeds);
 
+        if(this->trace_count <= 9) takeScreenshot(pCallbacks);
     }
+
+    //enable this llop for saving the very first 10 screenshots!!!
+ 
 
     if (mpGraph->getScene() != nullptr)
     {
         mpGraph->getScene()->update(pCallbacks->getCurrentTime(), &mCamController);
         mpGraph->execute(pRenderContext);
-        //pRenderContext->blit(mpGraph->getOutput("GlobalIllumination.output")->getSRV(), pTargetFbo->getRenderTargetView(0));
-        pRenderContext->blit(mpGraph->getOutput("Retargeting.output_seed")->getSRV(), pTargetFbo->getRenderTargetView(0));
+        pRenderContext->blit(mpGraph->getOutput("GlobalIllumination.output")->getSRV(), pTargetFbo->getRenderTargetView(0));
+        //pRenderContext->blit(mpGraph->getOutput("Retargeting.output_seed")->getSRV(), pTargetFbo->getRenderTargetView(0));
     }
 }
 
@@ -230,6 +228,16 @@ void PathTracer::onResizeSwapChain(SampleCallbacks* pCallbacks, uint32_t width, 
         mpGraph->onResize(pCallbacks->getCurrentFbo().get());
         if(mpGraph->getScene() != nullptr) mpGraph->getScene()->setCamerasAspectRatio((float)width / (float)height);
     }
+}
+
+void PathTracer::takeScreenshot(SampleCallbacks* pCallbacks) {
+
+        std::stringstream ss;
+        ss << "seed_debug_" << this->trace_count;
+        std::string filename = ss.str();
+        pCallbacks->captureScreen(filename, "Screenshots");
+        trace_count++;
+
 }
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)

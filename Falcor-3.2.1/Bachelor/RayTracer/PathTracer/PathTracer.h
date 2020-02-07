@@ -49,6 +49,7 @@ public:
 
 private:
     void toggleCameraPathState();
+    void takeScreenshot(SampleCallbacks* pCallbacks);
 
     bool mDisableCameraPath = false;
     FirstPersonCameraController mCamController;
