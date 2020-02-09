@@ -101,9 +101,9 @@ int main(int, char**)
     //helper->freeImageFunction();
     //helper->generateSeedPNG();
 
-    uint32_t seed_texture_width = 1920;
-    uint32_t seed_texture_height = 1080;
-    uint32_t seed_texture_resolution = 32;
+    uint64_t seed_texture_width = 1920;
+    uint64_t seed_texture_height = 1080;
+    uint64_t seed_texture_resolution = 32;
     BOOL generated_seed_texture = helper->generate_seed_png(seed_texture_width, seed_texture_height, seed_texture_resolution, new MersenneTwister());
     if (!generated_seed_texture) cout << "Something went horribly wrong!";
     //calc retargeted texture with temporal annealing!

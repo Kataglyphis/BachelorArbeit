@@ -84,7 +84,7 @@ bool helpers::freeImageFunction() {
 	return true;
 }
 
-BOOL helpers::generate_seed_png(uint32_t seed_texture_width, uint32_t seed_texture_height, uint32_t resolution, RandomnessStrategy* strategy) {
+BOOL helpers::generate_seed_png(uint64_t seed_texture_width, uint64_t seed_texture_height, uint64_t resolution, RandomnessStrategy* strategy) {
 	
 	BOOL result = TRUE;
 	using namespace std;
@@ -96,9 +96,12 @@ BOOL helpers::generate_seed_png(uint32_t seed_texture_width, uint32_t seed_textu
 	if (!bitmap) exit(1);
 	RGBQUAD color;
 
-	for (int i = 0; i < seed_texture_height; i++) {
-		for (int j = 0; j < seed_texture_height; j++) {
-			uint32_t hash = strategy->generate(uint32_t(i + j * seed_texture_width));
+	for (uint64_t i = 0; i < seed_texture_width; i++) {
+
+		for (uint64_t j = 0; j < seed_texture_height; j++) {
+
+			uint64_t hash = strategy->generate(uint64_t(i + j * seed_texture_width));
+
 			//cout << hash;
 			color.rgbRed =(BYTE) ((hash & 0xFF000000) >> 24);
 			//cout << (UINT)color.rgbRed << "\n";

@@ -26,7 +26,7 @@ class helpers {
 
 		bool LoadTextureFromFile(const char* filename, ID3D11ShaderResourceView** srv, ID3D11Device* g_pd3dDevice, int* width, int* height);
 		bool freeImageFunction();
-		BOOL generate_seed_png(uint32_t seed_texture_width, uint32_t seed_texture_height, uint32_t resolution, RandomnessStrategy* strategy);
+		BOOL generate_seed_png(uint64_t seed_texture_width, uint64_t seed_texture_height, uint64_t resolution, RandomnessStrategy* strategy);
 		bool loadImageFromFile();
 		bool saveImageToFile(const char* filenameToSave, FIBITMAP* retargetBitMap);
 		bool loadPNGinArray(const char* fileName, Image& img_data);
