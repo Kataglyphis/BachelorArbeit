@@ -84,41 +84,54 @@ bool helpers::freeImageFunction() {
 	return true;
 }
 
-bool helpers::generateSeedPNG() {
+bool helpers::generate_seed_png(uint32_t seed_texture_width, uint32_t seed_texture_height, uint32_t resolution, RandomnessStrategy* strategy) {
+	
 	using namespace std;
 
+	bool result = true;
 	FreeImage_Initialise();
 
-	WangHash hashHelper;
-
-	int width = 1920;
-	int height = 720;
-	int resolution = 32;
-	FIBITMAP* bitmap = FreeImage_Allocate(width, height, resolution, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
+	FIBITMAP* bitmap = FreeImage_Allocate(seed_texture_width, seed_texture_height, resolution, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
 	if (!bitmap) exit(1);
 	RGBQUAD color;
 
-	for (int i = 0; i < width; i++) {
-		for (int j = 0; j < height; j++) {
-			uint32_t hash = hashHelper.generate(uint32_t(i + j * width));
+	for (int i = 0; i < seed_texture_height; i++) {
+		for (int j = 0; j < seed_texture_height; j++) {
+			uint32_t hash = strategy->generate(uint32_t(i + (seed_texture_height - 1 - j ) * seed_texture_width));
 			//cout << hash;
-			color.rgbRed =(UINT) ((hash & 0xFF000000) >> 24);
+			color.rgbRed =(BYTE) ((hash & 0xFF000000) >> 24);
 			//cout << (UINT)color.rgbRed << "\n";
-			color.rgbGreen = (UINT)((hash & 0x00FF0000) >> 16);
+			color.rgbGreen = (BYTE)((hash & 0x00FF0000) >> 16);
 			//cout << (UINT)color.rgbGreen << "\n";
-			color.rgbBlue = (UINT)(hash & 0x0000FF00) >> 8;
+			color.rgbBlue = (BYTE)(hash & 0x0000FF00) >> 8;
 			//cout << (UINT)color.rgbBlue << "\n";
-			color.rgbReserved = (UINT)(hash & 0x000000FF);
+			color.rgbReserved = (BYTE)(hash & 0x000000FF);
 			//cout << (UINT)color.rgbReserved << "\n";
-			FreeImage_SetPixelColor(bitmap, i, j, &color);
+			if (!FreeImage_SetPixelColor(bitmap, i, j, &color)) {
+				result = false;
+			}
 		}
 	}
 
-	FreeImage_Save(FIF_PNG, bitmap, "seeds_INT.png", PNG_Z_NO_COMPRESSION);
+	time_t Zeitstempel;
+	Zeitstempel = time(0);
+	tm* nun;
+	nun = localtime(&Zeitstempel);
+
+
+
+	stringstream ss;
+	ss << seed_texture_home_folder << "seeds_init_" << strategy->getName() << " " << nun->tm_mday << '.' << nun->tm_mon + 1 
+		<< '.' << nun->tm_year + 1900 << " - " << nun->tm_hour << '_' << nun->tm_min << ".png";
+
+
+	if (!FreeImage_Save(FIF_PNG, bitmap, ss.str().c_str(), PNG_Z_NO_COMPRESSION)) {
+		result = false;
+	}
 
 	FreeImage_DeInitialise();
 
-	return true;
+	return result;
 }
 
 bool helpers::loadImageFromFile() {

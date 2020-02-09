@@ -12,6 +12,19 @@ SimulatedAnnealing::SimulatedAnnealing() : helper(), image_width(64), image_heig
 }
 
 SimulatedAnnealing::SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule, Energy& energy, bool visualize_single_annealing) : helper(), image_width(64), image_height(64), visualizer(), good_swaps(0) {
+
+	this->visualize = visualize_single_annealing;
+	this->number_steps = number_steps;
+	this->temperature = schedule->getTemperature(0);
+	//decide here which cooldown function
+	this->schedule = schedule;
+	this->energy = energy;
+	//this->temerature_step = this->max_energy_difference / (number_steps + 1);
+	visualizer = SimulatedAnnealingVisualizer(schedule);
+
+}
+
+SimulatedAnnealing::SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule, Energy& energy, bool visualize_single_annealing, QObject* q_object) : helper(), image_width(64), image_height(64), visualizer(), good_swaps(0) {
 	
 	this->visualize = visualize_single_annealing;
 	this->number_steps = number_steps;
@@ -21,6 +34,8 @@ SimulatedAnnealing::SimulatedAnnealing(int number_steps, AnnealingSchedule* sche
 	this->energy = energy;
 	//this->temerature_step = this->max_energy_difference / (number_steps + 1);
 	visualizer = SimulatedAnnealingVisualizer(schedule);
+
+	this->progress_bar = progress_bar;
 
 }
 
@@ -78,6 +93,7 @@ Image SimulatedAnnealing::execute(const char* filename, int& good_swaps) {
 
 	for (unsigned int i = 0; i < this->number_steps; i++) {
 
+		this->progress_bar->setValue((int)(((float)i / this->number_steps) * 100));
 		this->temperature = schedule->getTemperature(good_swaps);
 		std::cout << "Aktuelle Temperatur ist " << this->temperature << "\n";
 		//calc the energy of our permutation

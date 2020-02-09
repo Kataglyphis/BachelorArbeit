@@ -2,13 +2,17 @@
 
 #include "SimulatedAnnealingTest.h";
 
+SimulatedAnnealingTest::SimulatedAnnealingTest() {
 
-SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(500000), sa() {
+}
+
+SimulatedAnnealingTest::SimulatedAnnealingTest(QObject* q_object) : helper(), number_steps(100), sa() {
 	
 	//this->schedule = new ExponentialCoolDown();
 	this->schedule = new Kirkpatrick();
 	Energy energy;
-	this->sa = SimulatedAnnealing(number_steps, schedule, energy, true);
+	this->sa = SimulatedAnnealing(number_steps, schedule, energy, true, q_object);
+	this->progress_bar = progress_bar;
 
 }
 

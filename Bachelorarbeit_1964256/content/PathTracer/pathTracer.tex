@@ -78,33 +78,36 @@ visuellen Qualität durch blue noise Fehlerverteilung im Bildraum.
 Die Varianz \nameref{eq:Monte-Carlo-Varianz} ist ein quadratischer Fehler.
 
 \subsubsection{DirectX Raytracing}
-Für besseres Verständniss möchte ich hier eine Einführung in das Path Tracing\cite{Benty18} mit Hilfe der
-neuen DirectX-Schnittstelle geben.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{content/PathTracer/Bilder/DirectXRaytracingPipeline.png}
-    \label{pic::DirectXRaytracing-Pipeline}
     \caption{DirectX Raytracing Pipeline aus \cite{Haines2019}}
+    \label{pic:DirectXRaytracingPipeline}
 \end{figure}
 
-In der obigen Übersicht lässt sich der Beginn (Startpunkt eines Strahles) der neuen Pipeline erkennen,
-der \textbf{Ray Generation shader}.
+In \ref{pic:DirectXRaytracingPipeline} lässt sich der Beginn (Generierung eines Strahles) der neuen Pipeline
+durch den programmierbaren \textbf{Ray Generation shader} erkennen.
 
 \begin{algorithm}[H]
-    \caption{Wie man Strahlen verschießt}
+    \caption{Beispielhafter minimalistischer Ray Generation Shader}
     \begin{algorithmic}[1]
         \State [shader(\dq raygeneration \dq)]
         \State launchIndex = DispatchRaysIndex().xy;
         \For{(int i = 0; i < numberOfRays;i++)}
-            \State color = computedirectLighting(launchIndex, i) + computeindirectLighting(launchIndex, i);
+            \State float shadowRayMult = TraceRay(gRtScene,
+            RAY\_FLAG\_ACCEPT\_FIRST\_HIT \_AND\_END\_SEARCH |
+            RAY\_FLAG\_SKIP\_CLOSEST\_HIT\_SHADER,
+            0xFF, 0, hitProgramCount, 0, ray, payload);
+            \State float indirectRayColor = TraceRay(gRtScene, 0, 0xFF, 1, hitProgramCount, 1, rayColor, payload);
+            \State color = shadowRayMult * shadingColor + computeindirectLighting(indirectRayColor);
         \EndFor
         \State output[id] = color;
     \end{algorithmic}
     \label{alg:Ray Gen}
 \end{algorithm}
 
-Mit Hilfe der Methode \textbf{TraceRay()} werden dann innerhalb der Methoden zur Beleuchtungsberechnung 
+Mit Hilfe der Methode \textbf{TraceRay()} werden dann zur Beleuchtungsberechnung 
 die Strahlen verschossen. Damit diese Methode richtig arbeiten kann übergeben wir neben unseren Strahl 
 unter Anderem  unsere Szene inklusive Beschleunigungsstruktur, rayflags 
 (beeinflussen Transparaenz, Culling, Abbruch)\cite{RayFlags} und einen payload.
@@ -152,10 +155,11 @@ Bei einem gefundenen nähsten Schnittpunkt einer durchsichtigen Oberfläche wird
     \label{alg:any hit}
 \end{algorithm}
 
-Der \textbf{Closest-hit shader} führt den konkreten, nähsten Schnitt für jeden Strahl
-durch. Mit der Kennzeichnung [shader(\dq closesthit \dq)] wird die Hauptmethode zur 
+Der \textbf{Closest-hit shader} berechnet den Schnittpunkt des Strahls mit der Geometrie
+der Szene, die dem Strahlursprung am nähesten ist.
+Mit der Kennzeichnung [shader(\dq closesthit \dq)] wird die Hauptmethode zur 
 dessen Ausführung markiert. An dieser Stelle bietet es sich an die Shading Farbe 
-mit der Schnittpunktinformation upzudaten und/oder um eine Rekursionstiefe weiter 
+mit der Schnittpunktinformation zu aktualisieren und/oder um eine Rekursionstiefe weiter 
 zu gehen einen weiteren Strahl zu verschießen. 
 Der \textbf{miss shader} wird immer dann ausgeführt, wenn ein Strahl die
 Szenengeometrie nicht schneidet. Kann also für das Nachschauen in einer 
@@ -164,11 +168,10 @@ nochmal vereinfacht in Pseudocode dargestellt, wobei die entsprechenden shader
 im jeweiligen Codeabschnitt markiert sind.
 
 \begin{algorithm}[H]
-    \caption{Was macht ein Path Tracer}
+    \caption{Path Tracing Algorithmus}
     \begin{algorithmic}[1]
         \Procedure{Trace Path}{$BVH$}\Comment{verfolge Pfad durch Szene}
         \For{(x,y) $\in$ frame}
-        \State nähesterSchnittpunkt;
         \State strahl = verschiesseStrahlInPixel(x,y); // \textbf{ray generation shader}
         \For{blatt = bekommeBVHBlatt()}
         \State schnittpunkt = schneideGeometrie(strahl, blatt); //\textbf{Intersection shader}

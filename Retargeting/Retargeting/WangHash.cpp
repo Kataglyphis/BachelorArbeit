@@ -8,3 +8,7 @@ uint32_t WangHash::generate(uint32_t seed) {
     seed = seed ^ (seed >> 15);
     return seed;
 }
+
+std::string WangHash::getName() {
+    return "WangHash";
+}

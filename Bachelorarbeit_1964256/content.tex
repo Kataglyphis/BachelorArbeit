@@ -1,3 +1,4 @@
+
 %% content.tex
 %%
 
@@ -9,10 +10,13 @@
 \section{Abstract}
 
 \vspace*{\fill}
-Die Strahlverfolgung und dazugehörige Techniken gewinnen gegenwärtig in der Echtzeitcomputergrafik an Bedeutung. Dabei haben bereits frühere Arbeiten
+
+Die Bildberechnung durch hardwareunterstützte Strahlverfolgung und dazugehörige Techniken gewinnen gegenwärtig in der Echtzeitcomputergrafik an Bedeutung. 
+Trotz dieser neuen Hardwareunterstützung entfällt nur wenig Rechenzeit auf die Berechnung eines
+einzelnen Bildes. Einhergehend zu dieser kurzen Rechenzeit sind wiederrum weniger Pfade mit dementsprechend kleinerer
+Länge. Bereits frühere Arbeiten haben, um den so entstehenden Bildrauschen entgegenzuwirken,
 die blue noise Fehlerverteilungen miteinbezogen und deren Bedeutung in der Steigerung der wahrnehmbaren Bildqualität hervorgehoben und verdeutlicht.
-Diese Arbeit wird diesen Stand aufnehmen und einen zeitlich stabilen Algorithmus erläutern. Ein Algorithmus, der mit Anzahl der Samples und Dimension
-des Tracers einhergeht. Im Gegensatz zu vorhergehenden Ansätzen wollen wir direkt im Bildraum eine Fehlerumverteilung anwenden, um so eine entsprechend 
+Diese Arbeit erläutert einen zeitlich stabilen Algorithmus aufgrund dieser Technik. Im Gegensatz zu vorhergehenden Ansätzen wollen wir direkt im Bildraum eine Fehlerumverteilung anwenden, um so eine entsprechend 
 korrelierte Pixelfolge zu erhalten. All dies erreicht der Algorithmus ohne signifikanten Mehraufwand.
 \vfill
 

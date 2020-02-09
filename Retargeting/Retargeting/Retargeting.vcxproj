@@ -161,6 +161,8 @@
     <ClInclude Include="Inverse.h" />
     <ClInclude Include="Kirkpatrick.h" />
     <ClInclude Include="Lineary.h" />
+    <ClInclude Include="MersenneTwister.h" />
+    <ClInclude Include="RandomnessStrategy.h" />
     <ClInclude Include="SimulatedAnnealing.h" />
     <ClInclude Include="SimulatedAnnealingTest.h" />
     <ClInclude Include="SimulatedAnnealingVisualizer.h" />
@@ -184,6 +186,7 @@
     <ClCompile Include="Kirkpatrick.cpp" />
     <ClCompile Include="Lineary.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MersenneTwister.cpp" />
     <ClCompile Include="SimulatedAnnealing.cpp" />
     <ClCompile Include="SimulatedAnnealingTest.cpp" />
     <ClCompile Include="SimulatedAnnealingVisualizer.cpp" />

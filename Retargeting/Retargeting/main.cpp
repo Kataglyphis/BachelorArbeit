@@ -10,13 +10,17 @@
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include <tchar.h>
+#include "CoolDownTester.h"
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb/stb_image_write.h"
+
 #include "helpers.h"
 #include "SimulatedAnnealingTest.h"
 #include "SimulatedAnnealing.h"
 #include "SimulatedAnnealingVisualizer.h"
-#include "CoolDownTester.h"
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "stb/stb_image_write.h"
+#include "RandomnessStrategy.h"
+#include "WangHash.h"
+#include "MersenneTwister.h"
 
 // Data
 static ID3D11Device* g_pd3dDevice = NULL;
@@ -97,18 +101,24 @@ int main(int, char**)
     //helper->freeImageFunction();
     //helper->generateSeedPNG();
 
+    uint32_t seed_texture_width = 1920;
+    uint32_t seed_texture_height = 1080;
+    uint32_t seed_texture_resolution = 32;
+    bool generated_seed_texture = helper->generate_seed_png(seed_texture_width, seed_texture_height, seed_texture_resolution, new MersenneTwister());
+    if (!generated_seed_texture) cout << "Something went horribly wrong!";
     //calc retargeted texture with temporal annealing!
     //SimulatedAnnealing* retarget = new SimulatedAnnealing();
     //retarget->execute(1000000, filename);
 
     //retarget image
-    int my_retarget_width = 0;
+    /*int my_retarget_width = 0;
     int my_retarget_height = 0;
     ID3D11ShaderResourceView* my_retarget_texture = NULL;
     bool erstellt = helper->LoadTextureFromFile(
         "retargeted_texture.png",
         &my_retarget_texture, g_pd3dDevice, &my_retarget_width, &my_retarget_height);
     if (!erstellt) return 1;
+    */
 
     const char* filename_small = "LDR_RGBA_0_16.png";
     const char* filename = "LDR_RGBA_0_64.png";
@@ -116,7 +126,7 @@ int main(int, char**)
     int image_height = 64;
     //testing the simulated annealing
     SimulatedAnnealingTest testing = SimulatedAnnealingTest(filename, image_width, image_height);
-    testing.testPermutation();
+    //testing.testPermutation();
 
     //test different cool down functions
     /**CoolDownTester test(10000);
@@ -159,7 +169,7 @@ int main(int, char**)
 
 			//show image
 			ImGui::Image((void*)my_texture, ImVec2((float)my_image_width, (float)my_image_height));
-            ImGui::Image((void*)my_retarget_texture, ImVec2((float)my_retarget_width, (float)my_retarget_height));
+            //ImGui::Image((void*)my_retarget_texture, ImVec2((float)my_retarget_width, (float)my_retarget_height));
 
             //if (ImGui::Button("Save Image")) stbi_write_png("Experimental.png",my_image_width, my_image_height,3, (void*)my_texture);
 

@@ -73,6 +73,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>FreeImage.lib;FreeImagePlus.lib;python38.lib;python38_d.lib;FreeImaged.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\BachelorArbeit\RetargetingGUI\RetargetingGUI\RetargetingGUI\libs\FreeImage;C:\Users\Jonas\AppData\Local\Programs\Python\Python38\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>/FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -114,6 +115,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Worker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnnealingSchedule.h" />
@@ -127,6 +129,7 @@
     <ClInclude Include="SimulatedAnnealing.h" />
     <ClInclude Include="SimulatedAnnealingTest.h" />
     <ClInclude Include="SimulatedAnnealingVisualizer.h" />
+    <QtMoc Include="Worker.h" />
     <QtMoc Include="retargetinggui.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>

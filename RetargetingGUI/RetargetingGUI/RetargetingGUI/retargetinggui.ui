@@ -24,7 +24,7 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="calcTexture">
       <property name="text">
        <string>Calculate retarget texture</string>
       </property>
@@ -44,22 +44,5 @@
  <resources>
   <include location="retargetinggui.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>pushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>progressBar</receiver>
-   <slot>reset()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>282</x>
-     <y>142</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>282</x>
-     <y>240</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

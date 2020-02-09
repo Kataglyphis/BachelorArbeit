@@ -7,6 +7,7 @@ namespace plt = matplotlibcpp;
 CoolDownTester::CoolDownTester() : number_steps(1000) {
 
     Energy energy;
+    int* progress;
     this->sas.push_back(SimulatedAnnealing(number_steps, new Hajek(), energy, false));
     this->sas.push_back(SimulatedAnnealing(number_steps, new ExponentialCoolDown(), energy, false));
     this->sas.push_back(SimulatedAnnealing(number_steps, new Lineary(), energy, false));
@@ -15,6 +16,7 @@ CoolDownTester::CoolDownTester() : number_steps(1000) {
 
 CoolDownTester::CoolDownTester(int number_steps) {
 
+    int* progress;
     Energy energy;
     this->number_steps = number_steps;
     this->sas.push_back(SimulatedAnnealing(number_steps, new Hajek(), energy, false));

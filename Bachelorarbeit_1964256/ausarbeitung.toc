@@ -6,29 +6,29 @@
 \contentsline {section}{\numberline {2.1}Path Tracer}{3}{section.2.1}%
 \contentsline {subsubsection}{\numberline {2.1.0.1}Funktionsweise}{3}{subsubsection.2.1.0.1}%
 \contentsline {subsubsection}{\numberline {2.1.0.2}Monte-Carlo-Integration}{4}{subsubsection.2.1.0.2}%
-\contentsline {subsubsection}{\numberline {2.1.0.3}DirectX Raytracing}{4}{subsubsection.2.1.0.3}%
-\contentsline {subsection}{\numberline {2.1.1}RenderGraph}{6}{subsection.2.1.1}%
-\contentsline {section}{\numberline {2.2}Blue Noise}{7}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Eigenschaften}{7}{subsection.2.2.1}%
-\contentsline {subsubsection}{\numberline {2.2.1.1}Uniformität}{7}{subsubsection.2.2.1.1}%
-\contentsline {subsubsection}{\numberline {2.2.1.2}Isotropie}{8}{subsubsection.2.2.1.2}%
-\contentsline {subsubsection}{\numberline {2.2.1.3}Niedrige Frequenzen}{8}{subsubsection.2.2.1.3}%
-\contentsline {subsubsection}{\numberline {2.2.1.4}Kachelung}{9}{subsubsection.2.2.1.4}%
-\contentsline {section}{\numberline {2.3}Quasi-Zufallsfolgen}{11}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Einleitung}{11}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}Low Discrepency Sequenzen}{11}{subsection.2.3.2}%
-\contentsline {subsection}{\numberline {2.3.3}Quasi Monte-Carlo Methode}{11}{subsection.2.3.3}%
-\contentsline {subsection}{\numberline {2.3.4}1-Dimension}{11}{subsection.2.3.4}%
-\contentsline {subsection}{\numberline {2.3.5}2-Dimensionen}{12}{subsection.2.3.5}%
-\contentsline {subsection}{\numberline {2.3.6}Dither Texturen und quasi-zufällige Folgen}{12}{subsection.2.3.6}%
-\contentsline {section}{\numberline {2.4}Simulated Annealing}{13}{section.2.4}%
-\contentsline {subsubsection}{\numberline {2.4.0.1}Allgemein}{13}{subsubsection.2.4.0.1}%
-\contentsline {subsection}{\numberline {2.4.1}Abkühlfunktion}{15}{subsection.2.4.1}%
-\contentsline {subsubsection}{\numberline {2.4.1.1}Hajek}{15}{subsubsection.2.4.1.1}%
-\contentsline {subsubsection}{\numberline {2.4.1.2}Linear}{15}{subsubsection.2.4.1.2}%
+\contentsline {subsubsection}{\numberline {2.1.0.3}DirectX Raytracing}{5}{subsubsection.2.1.0.3}%
+\contentsline {subsection}{\numberline {2.1.1}RenderGraph}{7}{subsection.2.1.1}%
+\contentsline {section}{\numberline {2.2}Blue Noise}{8}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Eigenschaften}{8}{subsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.1.1}Uniformität}{8}{subsubsection.2.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.2.1.2}Isotropie}{9}{subsubsection.2.2.1.2}%
+\contentsline {subsubsection}{\numberline {2.2.1.3}Niedrige Frequenzen}{9}{subsubsection.2.2.1.3}%
+\contentsline {subsubsection}{\numberline {2.2.1.4}Kachelung}{10}{subsubsection.2.2.1.4}%
+\contentsline {section}{\numberline {2.3}Quasi-Zufallsfolgen}{12}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Einleitung}{12}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Low Discrepency Sequenzen}{12}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Quasi Monte-Carlo Methode}{12}{subsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.3.4}1-Dimension}{12}{subsection.2.3.4}%
+\contentsline {subsection}{\numberline {2.3.5}2-Dimensionen}{13}{subsection.2.3.5}%
+\contentsline {subsection}{\numberline {2.3.6}Dither Texturen und quasi-zufällige Folgen}{13}{subsection.2.3.6}%
+\contentsline {section}{\numberline {2.4}Simulated Annealing}{14}{section.2.4}%
+\contentsline {subsubsection}{\numberline {2.4.0.1}Allgemein}{14}{subsubsection.2.4.0.1}%
+\contentsline {subsection}{\numberline {2.4.1}Abkühlfunktion}{16}{subsection.2.4.1}%
+\contentsline {subsubsection}{\numberline {2.4.1.1}Hajek}{16}{subsubsection.2.4.1.1}%
+\contentsline {subsubsection}{\numberline {2.4.1.2}Linear}{16}{subsubsection.2.4.1.2}%
 \contentsline {subsubsection}{\numberline {2.4.1.3}Exponential}{16}{subsubsection.2.4.1.3}%
-\contentsline {subsubsection}{\numberline {2.4.1.4}Inverse}{16}{subsubsection.2.4.1.4}%
-\contentsline {subsubsection}{\numberline {2.4.1.5}Energieverlauf}{17}{subsubsection.2.4.1.5}%
+\contentsline {subsubsection}{\numberline {2.4.1.4}Inverse}{17}{subsubsection.2.4.1.4}%
+\contentsline {subsubsection}{\numberline {2.4.1.5}Energieverlauf}{18}{subsubsection.2.4.1.5}%
 \contentsline {chapter}{\numberline {3}Temporaler Algorithmus}{19}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Blue Noise Dithering Sampling}{20}{section.3.1}%
 \contentsline {section}{\numberline {3.2}A Posteriori}{20}{section.3.2}%

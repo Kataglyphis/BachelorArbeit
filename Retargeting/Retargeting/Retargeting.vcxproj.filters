@@ -87,6 +87,12 @@
     <ClInclude Include="Kirkpatrick.h">
       <Filter>Quelldateien\Schedules</Filter>
     </ClInclude>
+    <ClInclude Include="MersenneTwister.h">
+      <Filter>Quelldateien\Randomness</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomnessStrategy.h">
+      <Filter>Quelldateien\Randomness</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui.cpp">
@@ -142,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="Kirkpatrick.cpp">
       <Filter>Quelldateien\Schedules</Filter>
+    </ClCompile>
+    <ClCompile Include="MersenneTwister.cpp">
+      <Filter>Quelldateien\Randomness</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

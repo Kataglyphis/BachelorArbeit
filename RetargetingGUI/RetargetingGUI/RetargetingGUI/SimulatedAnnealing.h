@@ -71,6 +71,7 @@ class SimulatedAnnealing {
 	public:
 
         SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule, Energy& energy, bool visualize_single_annealing);
+        SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule, Energy& energy, bool visualize_single_annealing, QObject* q_object);
         SimulatedAnnealing();
 		Image execute(const char* filename, int& good_swaps);
         Energy getEnergy();
@@ -92,6 +93,9 @@ private:
         float temperature;
         bool visualize;
         std::string folder_permutation_textures = "pictures/Permutations/";
+        
+        //for Qt
+        QProgressBar* progress_bar;
 
         helpers helper;
 		float calculateEnergy(Image image_t, Image image_next, Image permutation);
