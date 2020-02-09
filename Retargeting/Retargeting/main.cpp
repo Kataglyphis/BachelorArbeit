@@ -104,7 +104,7 @@ int main(int, char**)
     uint32_t seed_texture_width = 1920;
     uint32_t seed_texture_height = 1080;
     uint32_t seed_texture_resolution = 32;
-    bool generated_seed_texture = helper->generate_seed_png(seed_texture_width, seed_texture_height, seed_texture_resolution, new MersenneTwister());
+    BOOL generated_seed_texture = helper->generate_seed_png(seed_texture_width, seed_texture_height, seed_texture_resolution, new MersenneTwister());
     if (!generated_seed_texture) cout << "Something went horribly wrong!";
     //calc retargeted texture with temporal annealing!
     //SimulatedAnnealing* retarget = new SimulatedAnnealing();

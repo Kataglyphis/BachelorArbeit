@@ -84,11 +84,12 @@ bool helpers::freeImageFunction() {
 	return true;
 }
 
-bool helpers::generate_seed_png(uint32_t seed_texture_width, uint32_t seed_texture_height, uint32_t resolution, RandomnessStrategy* strategy) {
+BOOL helpers::generate_seed_png(uint32_t seed_texture_width, uint32_t seed_texture_height, uint32_t resolution, RandomnessStrategy* strategy) {
 	
+	BOOL result = TRUE;
 	using namespace std;
 
-	bool result = true;
+	//bool result = true;
 	FreeImage_Initialise();
 
 	FIBITMAP* bitmap = FreeImage_Allocate(seed_texture_width, seed_texture_height, resolution, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
@@ -97,7 +98,7 @@ bool helpers::generate_seed_png(uint32_t seed_texture_width, uint32_t seed_textu
 
 	for (int i = 0; i < seed_texture_height; i++) {
 		for (int j = 0; j < seed_texture_height; j++) {
-			uint32_t hash = strategy->generate(uint32_t(i + (seed_texture_height - 1 - j ) * seed_texture_width));
+			uint32_t hash = strategy->generate(uint32_t(i + j * seed_texture_width));
 			//cout << hash;
 			color.rgbRed =(BYTE) ((hash & 0xFF000000) >> 24);
 			//cout << (UINT)color.rgbRed << "\n";
@@ -107,8 +108,8 @@ bool helpers::generate_seed_png(uint32_t seed_texture_width, uint32_t seed_textu
 			//cout << (UINT)color.rgbBlue << "\n";
 			color.rgbReserved = (BYTE)(hash & 0x000000FF);
 			//cout << (UINT)color.rgbReserved << "\n";
-			if (!FreeImage_SetPixelColor(bitmap, i, j, &color)) {
-				result = false;
+			if (!FreeImage_SetPixelColor(bitmap, i, seed_texture_height - 1 - j, &color)) {
+				result = FALSE;
 			}
 		}
 	}
@@ -126,7 +127,7 @@ bool helpers::generate_seed_png(uint32_t seed_texture_width, uint32_t seed_textu
 
 
 	if (!FreeImage_Save(FIF_PNG, bitmap, ss.str().c_str(), PNG_Z_NO_COMPRESSION)) {
-		result = false;
+		result = FALSE;
 	}
 
 	FreeImage_DeInitialise();

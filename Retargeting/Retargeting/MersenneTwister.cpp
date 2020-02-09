@@ -3,12 +3,12 @@
 uint32_t MersenneTwister::generate(uint32_t seed) {
 
     //launchIndex.x + launchIndex.y * launchDim.x, gFrameCount
-    unsigned int backoff = 16;
-    unsigned int v0 = seed;
-    unsigned int v1 = 1;
-    unsigned int s0 = 0;
+    uint32_t backoff = 16;
+    uint32_t v0 = seed;
+    uint32_t v1 = 1;
+    uint32_t s0 = 0;
 
-    for (unsigned int n = 0; n < backoff; n++)
+    for (uint32_t n = 0; n < backoff; n++)
     {
         s0 += 0x9e3779b9;
         v0 += ((v1 << 4) + 0xa341316c) ^ (v1 + s0) ^ ((v1 >> 5) + 0xc8013ea4);
