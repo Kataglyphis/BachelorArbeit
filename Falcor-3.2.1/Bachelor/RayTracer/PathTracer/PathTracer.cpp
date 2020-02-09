@@ -158,8 +158,10 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
 
     if (!hasrunonce) {
 
-        Texture::SharedPtr seed_texture = createTextureFromFile("seeds_RGBA.png", false, false,Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess |
-                                                                                                                                            Resource::BindFlags::RenderTarget);
+        //Texture::SharedPtr seed_texture = createTextureFromFile("seeds_RGBA.png", false, false,Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess |
+        //                                                                                                                                    Resource::BindFlags::RenderTarget);
+        Texture::SharedPtr seed_texture = createTextureFromFile("seeds_init_MersenneTwister 9.2.2020 - 21_31.png", false, false, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess |
+                                                                                                                                         Resource::BindFlags::RenderTarget);
         mpGraph->setInput("GlobalIllumination.input_seed", seed_texture);
 
         //just do nothing; we will load starting seed texture in globalillumination pass 
@@ -246,7 +248,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
     SampleConfig config;
     config.windowDesc.title = "Blue Noise Distribution Path Tracer";
     config.windowDesc.width = 1920;
-    config.windowDesc.height = 720;
+    config.windowDesc.height = 1080;
     config.windowDesc.resizableWindow = true;
     config.freezeTimeOnStartup = true;
     Sample::run(config, pRenderer);

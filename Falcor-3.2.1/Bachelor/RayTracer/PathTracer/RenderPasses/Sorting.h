@@ -21,7 +21,7 @@ public:
     uint32_t tile_width = 64;
     uint32_t tile_height = 64;
     uint32_t frame_width = 1920;
-    uint32_t frame_height = 720;
+    uint32_t frame_height = 1080;
 
     //offsets for our struct variables
     size_t width_offset;
@@ -45,7 +45,7 @@ public:
 
     //seed texture stats
     uint seed_texture_width = 1920;
-    uint seed_texture_height = 720;
+    uint seed_texture_height = 1080;
 
     /** Instantiate our pass.  The input Python dictionary is where you can extract pass parameters
     */
