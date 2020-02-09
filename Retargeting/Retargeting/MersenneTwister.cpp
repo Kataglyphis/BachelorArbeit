@@ -1,14 +1,14 @@
 #include "MersenneTwister.h"
 
-uint32_t MersenneTwister::generate(uint32_t seed) {
+uint64_t MersenneTwister::generate(uint64_t seed) {
 
     //launchIndex.x + launchIndex.y * launchDim.x, gFrameCount
-    uint32_t backoff = 16;
-    uint32_t v0 = seed;
-    uint32_t v1 = 1;
-    uint32_t s0 = 0;
+    uint64_t backoff = 16;
+    uint64_t v0 = seed;
+    uint64_t v1 = 1;
+    uint64_t s0 = 0;
 
-    for (uint32_t n = 0; n < backoff; n++)
+    for (uint64_t n = 0; n < backoff; n++)
     {
         s0 += 0x9e3779b9;
         v0 += ((v1 << 4) + 0xa341316c) ^ (v1 + s0) ^ ((v1 >> 5) + 0xc8013ea4);

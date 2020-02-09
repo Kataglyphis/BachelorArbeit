@@ -4,7 +4,7 @@
 class RandomnessStrategy
 {
 public:
-	virtual uint32_t generate(uint32_t seed) = 0;
+	virtual uint64_t generate(uint64_t seed) = 0;
 	virtual std::string getName() = 0;
 };
 

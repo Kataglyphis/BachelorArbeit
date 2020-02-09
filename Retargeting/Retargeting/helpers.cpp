@@ -104,7 +104,7 @@ BOOL helpers::generate_seed_png(uint32_t seed_texture_width, uint32_t seed_textu
 			//cout << (UINT)color.rgbRed << "\n";
 			color.rgbGreen = (BYTE)((hash & 0x00FF0000) >> 16);
 			//cout << (UINT)color.rgbGreen << "\n";
-			color.rgbBlue = (BYTE)(hash & 0x0000FF00) >> 8;
+			color.rgbBlue = (BYTE)((hash & 0x0000FF00) >> 8);
 			//cout << (UINT)color.rgbBlue << "\n";
 			color.rgbReserved = (BYTE)(hash & 0x000000FF);
 			//cout << (UINT)color.rgbReserved << "\n";

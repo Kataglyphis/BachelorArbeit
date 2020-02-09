@@ -6,7 +6,7 @@
 class MersenneTwister : public RandomnessStrategy
 {
 public:
-	uint32_t generate(uint32_t seed);
+	uint64_t generate(uint64_t seed);
 	std::string getName();
 };
 
