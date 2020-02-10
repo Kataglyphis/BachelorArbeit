@@ -26,6 +26,17 @@
 \newblock Cooling schedule.
 \newblock very good overview and further explanation of kirkpatrick.
 
+\bibitem[Akenine-Moller et~al., 2008]{akenine2018real}
+Akenine-Moller, T., Haines, E., and Hoffman, N. (2008).
+\newblock {\em Real-time rendering}.
+\newblock AK Peters/CRC Press.
+
+\bibitem[Barr{\'e}-Brisebois et~al., 2019]{Barre-Brisebois2019}
+Barr{\'e}-Brisebois, C., Hal{\'e}n, H., Wihlidal, G., Lauritzen, A., Bekkers,
+  J., Stachowiak, T., and Andersson, J. (2019).
+\newblock {\em Hybrid Rendering for Real-Time Ray Tracing}, pages 437--473.
+\newblock Apress, Berkeley, CA.
+
 \bibitem[Benty et~al., 2018]{Benty18}
 Benty, N., Yao, K.-H., Foley, T., Oakes, M., Lavelle, C., and Wyman, C. (2018).
 \newblock The {Falcor} rendering framework.

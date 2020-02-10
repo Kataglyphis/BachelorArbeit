@@ -1,9 +1,9 @@
 \subsubsection{Funktionsweise}
 
 Bei der Bilderzeugung, ausgehend von Szenen, welche viel Geometrie beinhalten bzw. bei Szenen 
-die generelle BRDF's verwenden eignet sich der \nameref{ch:Content1:sec:PathTracer}.
-Der \nameref{ch:Content1:sec:PathTracer} ist in Hinsicht der Beleuchtung komplett. Deshalb lässt sich damit
-\textit{Global Illumination} erreichen. Der hier verwendete \nameref{ch:Content1:sec:PathTracer} in 
+die generelle BRDF's verwenden eignet sich der \nameref{ch:Content1:sec:Path Tracer}.
+Der \nameref{ch:Content1:sec:Path Tracer} ist in Hinsicht der Beleuchtung komplett. Deshalb lässt sich damit
+\textit{Global Illumination} erreichen. Der hier verwendete \nameref{ch:Content1:sec:Path Tracer} in 
 \cite{Benty18} verwendet eine klassische Umsetzung.\par
 Der Path Tracer beruht auf Erkenntnisse der Lösung der allgemeinen Rendergleichung.\nameref{eq:Allgemeine Rendergleichung}
 
@@ -25,9 +25,9 @@ Intensität von einem Licht zu einem Anderen ist die Summe des ausgestrahlten Li
 und das ausgestrahlte Licht zu x von allen anderen Oberflächen.
 
 Ausgehend von der Rendergleichung \nameref{eq:Allgemeine Rendergleichung} lässt sich
-die vollständige Transportgleichung\nameref{eq:vollständige Transportgleichung} des \nameref{ch:Content1:sec:PathTracer}
+die vollständige Transportgleichung\nameref{eq:vollständige Transportgleichung} des \nameref{ch:Content1:sec:Path Tracer}
 beschreiben.
-Wie in \cite{marschner2009fundamentals} beschrieben wird ausgehend von der vollständigen Transportgleichung
+Wie von \cite{marschner2009fundamentals} beschrieben wird ausgehend von der vollständigen Transportgleichung
 \nameref{eq:vollständige Transportgleichung}
 
 \begin{equation}\label{eq:vollständige Transportgleichung}
@@ -63,7 +63,7 @@ ein besseres Ergebnis zu bekommen.
 \cite{caflisch_1998}
 Konvergenzrate, unabhängig von der Dimension unseres Tracers.\textit{O}($N^{-\frac{1}{2}}$).
 Sie ist robust, das heißt Exaktheit hängt nur vom ungenauesten Parameter ab. Eine Variante des Verfahrens, 
-Monte Carlo Quadratur, wird mit quasi zufälligen Sequenzen \nameref{ch:Content1:sec:QuasiRandomSequences}, 
+Monte Carlo Quadratur, wird mit quasi zufälligen Sequenzen \nameref{ch:Content1:sec:Quasi-Zufallsfolgen}, 
 welche eine niedrige Abweichung aufweisen, durchgeführt. Laufzeit quasi-Monte Carlo \textit{O}(($\log N)^{k}N^{-1}$).
 Um die Konvergenzrate zu steigern liegen eine Reihe von Varianzreduktionsmethoden vor.
 

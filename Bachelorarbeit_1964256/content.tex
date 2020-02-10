@@ -26,9 +26,9 @@ korrelierte Pixelfolge zu erhalten. All dies erreicht der Algorithmus ohne signi
 \vspace*{\fill}
 Dithering ist in Echtzeitanwendungen bereits verbreitet. So zu sehen in dem Computerspiel \textit{Call of Duty: Advanced Warfare}, wobei 
 bereits im Post-Processing \cite{callofdutypostprocessing} mit white noise und bayer pattern gearbeitet wird.\par 
-Weitere Entwicklungen \cite{georgiev2016blue} haben sich mit blue noise dither masks \nameref{ch:Content1:sec:BlueNoise} beschäftigt
+Weitere Entwicklungen \cite{georgiev2016blue} haben sich mit blue noise dither masks \nameref{ch:Content1:sec:blue noise} beschäftigt
 und ihre Nützlichkeit in Steigung der visuellen Qualität gezeigt. Hierbei lassen sich im Bildraum die entstehenden 
-Monte-Carlo-Integrationsfehler \nameref{ch:Content1:sec:PathTracer} zwar nicht verringern, jedoch umverteilen.\par 
+Monte-Carlo-Integrationsfehler \nameref{ch:Content1:sec:Path Tracer} zwar nicht verringern, jedoch umverteilen.\par 
 Im Besonderen zeigte \cite{Sch19} die Bedeutung von blue noise Fehlerverteilung im Bildraum für Echtzeitanwendungen mit neuer
 Raytracingtechnologie. Hier werden bereits zum Sampling blue noise dither masks 
 benutzt, über den Bildschirm \dq gekachelt \dq und über frames durchgewechselt.
@@ -43,10 +43,15 @@ Die Entwickler von INSIDE \cite{10.111712.152707} fanden auch bereits eine Anwen
 \label{ch:Grundlagen}
 %% ==============
 
+%% ===========================
+\section{Rasterisierung}
+\label{ch:Content1:sec:Rasterisierung}
+\input{content/PathTracer/Rasterisierung.tex}
+%% ===========================
 
 %% ===========================
 \section{Path Tracer}
-\label{ch:Content1:sec:PathTracer}
+\label{ch:Content1:sec:Path Tracer}
 \input{content/PathTracer/pathTracer.tex}
 %% ===========================
 
@@ -54,7 +59,7 @@ Die Entwickler von INSIDE \cite{10.111712.152707} fanden auch bereits eine Anwen
 %% ===========================
 \newpage
 \section{Blue Noise}
-\label{ch:Content1:sec:BlueNoise}
+\label{ch:Content1:sec:blue noise}
 \input{content/BlueNoise/blueNoise.tex}
 %% ===========================
 
@@ -62,7 +67,7 @@ Die Entwickler von INSIDE \cite{10.111712.152707} fanden auch bereits eine Anwen
 %% ===========================
 \newpage
 \section{Quasi-Zufallsfolgen}
-\label{ch:Content1:sec:QuasiRandomSequences}
+\label{ch:Content1:sec:Quasi-Zufallsfolgen}
 \input{content/QuasiZufallsfolgen/quasiRandomSequences.tex}
 %% ===========================
 
@@ -70,7 +75,7 @@ Die Entwickler von INSIDE \cite{10.111712.152707} fanden auch bereits eine Anwen
 %% ===========================
 \newpage
 \section{Simulated Annealing}
-\label{ch:Content2:sec:SimulatedAnnealing}
+\label{ch:Content2:sec:Simulated Annealing}
 \input{content/simulatedAnnealing/simulatedAnnealing.tex}
 %% ===========================
 
@@ -81,19 +86,19 @@ Die Entwickler von INSIDE \cite{10.111712.152707} fanden auch bereits eine Anwen
 %% ==============
 \newpage
 \chapter{Temporaler Algorithmus}
-\label{ch:TemporalerAlgorithmus}
+\label{ch:Temporaler Algorithmus}
 \input{content/TemporalerAlg/general.tex}
 %% ==============
 
 %% ===========================
 \section{Blue Noise Dithering Sampling}
-\label{ch:Content1:sec:BlueNoiseSampling}
+\label{ch:Content1:sec:blue noise sampling}
 \input{content/BlueNoiseSampling/blueNoiseSampling.tex}
 %% ===========================
 
 %% ===========================
 \section{A Posteriori}
-\label{ch:Content2:sec:APosteriori}
+\label{ch:Content2:sec:a Posteriori}
 \input{content/TemporalerAlg/APosteriori.tex}
 %% ===========================
 
