@@ -17,7 +17,7 @@ public:
     bool sortingEnabled = true;
 
     //frame infos
-    uint32_t frame_count = 2;
+    uint32_t frame_count = 1;
     uint32_t tile_width = 64;
     uint32_t tile_height = 64;
     uint32_t frame_width = 1920;

@@ -58,7 +58,7 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
     mpComputeProgVars = ComputeVars::create(mpComputeProg->getReflector());
 
     //textures for retargeting
-    //30; ; 238866; 228324
+    //30; ; 238866; 228324, 47
     Texture::SharedPtr retarget = createTextureFromFile("permutation_texture_228324_swapsKirkpatrickCooldownSchedule.png", false, false, Resource::BindFlags::ShaderResource
                                                                                                                                                                                                                                             | /*Resource::BindFlags::UnorderedAccess|*/
                                                                                                                                                                                                                                                    Resource::BindFlags::RenderTarget);
