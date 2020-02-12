@@ -94,9 +94,13 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     //for retarget seeds before rendering frame!
     mpGraph->addPass(Retargeting::create(), "Retargeting");
 
+    mpGraph->addEdge("GBuffer", "Retargeting");
+    mpGraph->addEdge("Retargeting", "GlobalIllumination");
     mpGraph->addEdge("GBuffer", "GlobalIllumination");
     //improvements in sorting happens after rendering frame
     mpGraph->addEdge("GlobalIllumination", "Sorting");
+
+    mpGraph->addEdge("Retargeting.output_seed", "GlobalIllumination.input_seed");
 
     //bevor render now retarget seeds to accumulate improvements
     //mpGraph->addEdge("Sorting.output_seed", "GlobalIllumination.input_seed");
@@ -110,7 +114,7 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
 
     //add edges for marking dependencies!!
 
-    mpGraph->addEdge("Sorting","Retargeting");
+    //mpGraph->addEdge("Sorting","Retargeting");
 
     //Edges for our temporal algorithm
 
@@ -120,10 +124,10 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->addEdge("GlobalIllumination.output_seed","Sorting.input_seed");
 
     //edges for our retargeting pass
-    mpGraph->addEdge("Sorting.output_seed","Retargeting.input_seed");
+    //mpGraph->addEdge("Sorting.output_seed","Retargeting.input_seed");
 
     mpGraph->markOutput("GlobalIllumination.output");
-    mpGraph->markOutput("Retargeting.output_seed");
+    mpGraph->markOutput("Sorting.output_seed");
     //mpGraph->markOutput("Retargeting.output_seed");
 
     // Initialize the graph's record of what the swapchain size is, for texture creation
@@ -162,13 +166,13 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
         //                                                                                                                                    Resource::BindFlags::RenderTarget);
         Texture::SharedPtr seed_texture = createTextureFromFile("seeds_init_MersenneTwister 9.2.2020 - 21_31.png", false, false, Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess |
                                                                                                                                          Resource::BindFlags::RenderTarget);
-        mpGraph->setInput("GlobalIllumination.input_seed", seed_texture);
+        mpGraph->setInput("Retargeting.input_seed", seed_texture);
 
         //just do nothing; we will load starting seed texture in globalillumination pass 
         hasrunonce = true;
 
         //from our initialized seeds
-        takeScreenshot(pCallbacks);
+        //takeScreenshot(pCallbacks);
 
     } else {
 
@@ -176,10 +180,10 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
         //Resource::SharedPtr retarget_seeds = mpGraph->getOutput("Retargeting.output_seed");
         //mpGraph->setInput("GlobalIllumination.seed_input", retarget_seeds);
 
-        Resource::SharedPtr retarget_seeds = mpGraph->getOutput("Retargeting.output_seed");
-        mpGraph->setInput("GlobalIllumination.input_seed", retarget_seeds);
+        Resource::SharedPtr retarget_seeds = mpGraph->getOutput("Sorting.output_seed");
+        mpGraph->setInput("Retargeting.input_seed", retarget_seeds);
 
-        if(this->trace_count <= 9) takeScreenshot(pCallbacks);
+        //if(this->trace_count <= 9) takeScreenshot(pCallbacks);
     }
 
     //enable this llop for saving the very first 10 screenshots!!!
@@ -190,7 +194,7 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
         mpGraph->getScene()->update(pCallbacks->getCurrentTime(), &mCamController);
         mpGraph->execute(pRenderContext);
         pRenderContext->blit(mpGraph->getOutput("GlobalIllumination.output")->getSRV(), pTargetFbo->getRenderTargetView(0));
-        //pRenderContext->blit(mpGraph->getOutput("Retargeting.output_seed")->getSRV(), pTargetFbo->getRenderTargetView(0));
+        //pRenderContext->blit(mpGraph->getOutput("Sorting.output_seed")->getSRV(), pTargetFbo->getRenderTargetView(0));
     }
 }
 
