@@ -129,8 +129,8 @@ int main(int, char**)
     //testing.testPermutation();
 
     //test different cool down functions
-    CoolDownTester test(1000000, 64, 64, filename);
-    test.compareDifferentCoolDownSchedules();
+    //CoolDownTester test(100000, 64, 64, filename);
+    //test.compareDifferentCoolDownSchedules();
 
     // Main loop
     MSG msg;

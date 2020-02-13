@@ -136,6 +136,11 @@ Roberts, M. (2018).
 \newblock
   \url{http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/}.
 
+\bibitem[Schied, 2019]{Sch19}
+Schied, C. (2019).
+\newblock Real-time path tracing and denoising in quake 2.
+\newblock Game Developer Conference.
+
 \bibitem[Schied et~al., 2018]{Schied:2018:GER:3273023.3233301}
 Schied, C., Peters, C., and Dachsbacher, C. (2018).
 \newblock Gradient estimation for real-time adaptive temporal filtering.
