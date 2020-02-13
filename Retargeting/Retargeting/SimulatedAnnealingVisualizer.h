@@ -15,6 +15,8 @@ namespace plt = matplotlibcpp;
 typedef std::vector<int> Energy;
 typedef std::vector<double> Deltas;
 typedef std::vector<int> Probabilities;
+typedef std::vector<int> Temperatures;
+
 
 class SimulatedAnnealingVisualizer
 {
@@ -23,9 +25,11 @@ public:
 	SimulatedAnnealingVisualizer(AnnealingSchedule* schedule);
 	void visualizeEnergyOverSteps(Energy energy);
 	void visualizeAcceptanceProbabilities(Deltas deltas, Probabilities probs);
+	void visualizeTemperatureOverSteps(Temperatures temperatures);
 
 private:
 	AnnealingSchedule* schedule;
 	std::string folder_energy = "pictures/Energy/";
+	std::string folder_temperature = "pictures/Temperature/";
 };
 

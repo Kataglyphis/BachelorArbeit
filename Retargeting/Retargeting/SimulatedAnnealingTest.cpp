@@ -7,7 +7,7 @@ SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(10000)
 }
 
 
-SimulatedAnnealingTest::SimulatedAnnealingTest(const char* filename, int image_width, int image_height) : number_steps(1000000) {
+SimulatedAnnealingTest::SimulatedAnnealingTest(const char* filename, int image_width, int image_height) : number_steps(2000000) {
 	
 	this->helper = helpers(filename, image_width, image_height);
 	//this->schedule = new ExponentialCoolDown();

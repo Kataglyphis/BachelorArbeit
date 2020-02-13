@@ -24,6 +24,7 @@
 using namespace std;
 
 typedef vector<int> Energy;
+typedef vector<int> Temperatures;
 typedef std::vector<double> Deltas;
 typedef std::vector<int> Probabilities;
 
@@ -96,6 +97,7 @@ private:
         int image_width;
         int image_height;
         Energy energy;
+        Temperatures temperatures;
         Deltas deltas;
         Probabilities probs;
         float max_energy_difference = 40.f;

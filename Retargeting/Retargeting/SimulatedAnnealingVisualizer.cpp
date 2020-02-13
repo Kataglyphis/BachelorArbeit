@@ -70,3 +70,32 @@ void SimulatedAnnealingVisualizer::visualizeAcceptanceProbabilities(Deltas delta
     ss2 << this->folder_energy << "Acceptance_Probabilities_over_time_" << size << "_steps_" << schedule->getName() << ".png";
     plt::save(ss2.str());
 }
+
+void SimulatedAnnealingVisualizer::visualizeTemperatureOverSteps(Temperatures temperatures) {
+
+    // Prepare data.
+    int size = temperatures.size();
+    std::vector<int> x(size);
+    for (int i = 0; i < temperatures.size(); ++i) {
+        x.at(i) = i;
+    }
+
+    // Set the size of output image to 1200x780 pixels
+    plt::figure_size(1200, 780);
+    // Plot line from given x and y data. Color is selected automatically.
+    plt::named_plot("Temperature(x), x is Element of Steps", x, temperatures);
+
+    // Set x-axis to interval [0,numberOfSteps]
+    plt::xlim(0, size);
+    // Add graph title
+    std::stringstream ss;
+    ss << "Temperature over  " << size << " steps";
+    plt::title(ss.str());
+    // Enable legend.
+    plt::legend();
+    // Save the image (file format is determined by the extension)
+    std::stringstream ss2;
+    ss2 << this->folder_temperature << "Temperature_" << size << "_steps_" << schedule->getName() << ".png";
+    plt::save(ss2.str());
+
+}

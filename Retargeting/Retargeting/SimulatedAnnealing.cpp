@@ -65,9 +65,12 @@ Image SimulatedAnnealing::execute(int& good_swaps) {
 
 	for (unsigned int i = 0; i < this->number_steps; i++) {
 
-		//if (std::fmod((float)i,this->schedule->getQuasiEq()) == 0.f) takeIntermediateSnapshot(permutation_data_output, dither_data);
+		float number_of_intermediate_snapshots = 50;
+		float when_taking_snapshot = this->number_steps / number_of_intermediate_snapshots;
+		if (std::fmod((float)i,when_taking_snapshot) == 0.f) takeIntermediateSnapshot(permutation_data_output, dither_data);
 
 		this->temperature = schedule->getTemperature(good_swaps);
+		temperatures.push_back(this->temperature);
 
 		#ifdef _DEBUG 
 		std::cout << "Aktuelle Temperatur ist " << this->temperature << "\n";
@@ -129,6 +132,7 @@ Image SimulatedAnnealing::execute(int& good_swaps) {
 
 	if (visualize) {
 		visualizer.visualizeEnergyOverSteps(energy);
+		visualizer.visualizeTemperatureOverSteps(temperatures);
 		visualizer.visualizeAcceptanceProbabilities(this->deltas, this->probs);
 	}
 
@@ -440,7 +444,8 @@ void SimulatedAnnealing::takeIntermediateSnapshot(Image permutation, Image origi
 	}
 
 	stringstream ss;
-	ss << this->folder_intermediate_steps << "intermediate_applied_permutation_" << intermediate_step_count  << "_quasieqstep" << schedule->getName() << ".png";
+	ss << this->folder_intermediate_steps << "intermediate_applied_permutation_" << intermediate_step_count  << "_quasieqstep" << schedule->getName() <<
+		"_" << "energy_"<< this->current_energy <<".png";
 	helper.fromImageToFile(ss.str().c_str(), permutatedOriginal);
 	++intermediate_step_count;
 }
