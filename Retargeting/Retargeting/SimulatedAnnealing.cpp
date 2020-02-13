@@ -68,7 +68,11 @@ Image SimulatedAnnealing::execute(int& good_swaps) {
 		//if (std::fmod((float)i,this->schedule->getQuasiEq()) == 0.f) takeIntermediateSnapshot(permutation_data_output, dither_data);
 
 		this->temperature = schedule->getTemperature(good_swaps);
+
+		#ifdef _DEBUG 
 		std::cout << "Aktuelle Temperatur ist " << this->temperature << "\n";
+		#endif
+
 		//calc the energy of our permutation
 		//float energy_old_condition = calculatePermutationEnergy(dither_data, next_dither_data, permutation_data_output);
 		if (i == 0) {
@@ -84,8 +88,11 @@ Image SimulatedAnnealing::execute(int& good_swaps) {
 		old_indices swap_indices;
 		//float energy_old_condition = applyOneRandomPermutation(permutation_data_step, permutation_positions_step, pair);
 		float energy_old_condition = applyOneRandomPermutation(permutation_data_output, permutation_positions_output, new_pair, old_pair, indices, swap_indices);
+		
+		#ifdef _DEBUG
 		std::cout << "Current energy: " << current_energy << std::endl;
 		std::cout << "Step: " << i << std::endl;
+		#endif
 	
 		float energy_new_condition = calculatePermutationEnergy(dither_data, next_dither_data, new_pair);
 
@@ -95,7 +102,9 @@ Image SimulatedAnnealing::execute(int& good_swaps) {
 			
 			//we will have a new condition
 			good_swaps++;
+			#ifdef _DEBUG
 			std::cout << "Swap has been successful. \n" << "#Gute Tausche: " << good_swaps << endl;
+			#endif
 			//push it in the energy array
 			current_energy -= (energy_old_condition - energy_new_condition);
 			energy.push_back(this->current_energy);
@@ -190,8 +199,13 @@ float SimulatedAnnealing::applyOneRandomPermutation(Image& permutation_data_step
 	permutation_positions[index_swap_position_x][index_swap_position_y][0] = position_x;
 	permutation_positions[index_swap_position_x][index_swap_position_y][1] = position_y;
 
+#ifdef _DEBUG
+
 	std::cout << "Dies sind die Permutationsschritte x = " << permutation_data_step[position_x][position_y][0] << " und y = " << permutation_data_step[position_x][position_y][1] << endl;
 	std::cout << "Position x = " << position_x << "y = " << position_y << endl;
+
+#endif // _DEBUG
+
 
 	//save indices
 	indices.first.first = random_x;
@@ -324,7 +338,13 @@ bool SimulatedAnnealing::acceptanceProbabilityFunction(const float energy_old_co
 	//right now it is a simple hill climbing algorithm!!!!
 	bool result = false;
 	float delta = energy_new_condition - energy_old_condition;
+	
+	#ifdef _DEBUG
+
 	std::cout << "Energy delta is " << delta << "\n";
+
+	#endif // _DEBUG
+
 
 	if (delta <= 0) {
 
@@ -342,7 +362,12 @@ bool SimulatedAnnealing::acceptanceProbabilityFunction(const float energy_old_co
 		//prob from our syst
 		float prob = std::exp((-delta)/temperature);
 
+		#ifdef _DEBUG
+
 		std::cout << "Decision Probability is " << prob << "\n";
+
+		#endif // _DEBUG
+
 		
 		//for plotting reasons
 		//this->deltas.push_back(delta);

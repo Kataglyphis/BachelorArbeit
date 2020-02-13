@@ -86,11 +86,6 @@ Heitz, E., Belcour, L., Ostromoukhov, V., Coeurjolly, D., and Iehl, J.-C.
   Blue Noise in Screen Space}.
 \newblock In {\em {SIGGRAPH'19 Talks}}, Los Angeles, United States. {ACM}.
 
-\bibitem[Jimenez, 2014]{callofdutypostprocessing}
-Jimenez, J. (2014).
-\newblock A new generalization of the golden ratio.
-\newblock THE FIBONACCI ASSOCIATION.
-
 \bibitem[Kiencke and J{\"a}kel, 2009]{kiencke2009signale}
 Kiencke, U. and J{\"a}kel, H. (2009).
 \newblock {\em Signale und Systeme}.
@@ -141,11 +136,6 @@ Roberts, M. (2018).
 \newblock
   \url{http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/}.
 
-\bibitem[Schied, 2019]{Sch19}
-Schied, C. (2019).
-\newblock Real-time path tracing and denoising in quake 2.
-\newblock Game Developer Conference.
-
 \bibitem[Schied et~al., 2018]{Schied:2018:GER:3273023.3233301}
 Schied, C., Peters, C., and Dachsbacher, C. (2018).
 \newblock Gradient estimation for real-time adaptive temporal filtering.
@@ -156,18 +146,18 @@ Schied, C., Peters, C., and Dachsbacher, C. (2018).
 \newblock Dithering with blue noise.
 \newblock {\em Proceedings of the IEEE}, 76(1):56--79.
 
-\bibitem[Ulichney, 1993a]{10.111712.152707}
+\bibitem[Ulichney, 1993a]{ulichney1993void}
 Ulichney, R.~A. (1993a).
+\newblock Void-and-cluster method for dither array generation.
+\newblock In {\em Human Vision, Visual Processing, and Digital Display IV},
+  volume 1913, pages 332--343. International Society for Optics and Photonics.
+
+\bibitem[Ulichney, 1993b]{10.111712.152707}
+Ulichney, R.~A. (1993b).
 \newblock {Void-and-cluster method for dither array generation}.
 \newblock In Allebach, J.~P. and Rogowitz, B.~E., editors, {\em Human Vision,
   Visual Processing, and Digital Display IV}, volume 1913, pages 332 -- 343.
   International Society for Optics and Photonics, SPIE.
-
-\bibitem[Ulichney, 1993b]{ulichney1993void}
-Ulichney, R.~A. (1993b).
-\newblock Void-and-cluster method for dither array generation.
-\newblock In {\em Human Vision, Visual Processing, and Digital Display IV},
-  volume 1913, pages 332--343. International Society for Optics and Photonics.
 
 \bibitem[Van~Laarhoven and Aarts, 1987]{van1987simulated}
 Van~Laarhoven, P.~J. and Aarts, E.~H. (1987).

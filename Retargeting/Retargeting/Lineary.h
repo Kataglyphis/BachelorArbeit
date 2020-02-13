@@ -12,7 +12,7 @@ class Lineary :
 public:
 	Lineary();
 	Lineary(double T_0, int number_of_steps, double quasiequilibrium);
-	Lineary(double T_0, double mu);
+	Lineary(double T_0, int number_of_steps);
 	double getTemperature(int step);
 	std::string getName();
 	std::string getFunction();

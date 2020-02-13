@@ -24,17 +24,24 @@ korrelierte Pixelfolge zu erhalten. All dies erreicht der Algorithmus ohne signi
 
 \section{Einleitung}
 \vspace*{\fill}
-Dithering ist in Echtzeitanwendungen bereits verbreitet. So zu sehen in dem Computerspiel \textit{Call of Duty: Advanced Warfare}, wobei 
-bereits im Post-Processing \cite{callofdutypostprocessing} mit white noise und bayer pattern gearbeitet wird.\par 
-Weitere Entwicklungen \cite{georgiev2016blue} haben sich mit blue noise dither masks \nameref{ch:Content1:sec:blue noise} beschäftigt
+\begin{itemize}
+    \item[Sektion \ref{ch:Content1:sec:Rasterisierung}]fdas
+    \item[Sektion \ref{ch:Content1:sec:Path Tracer}]fdas
+    \item[Sektion \ref{ch:Content1:sec:blue noise}]fdsf
+    \item[Sektion \ref{ch:Content1:sec:Quasi-Zufallsfolgen}]fdesfs
+    \item[Sektion \ref{ch:Content2:sec:Simulated Annealing}]sdfsd      
+    \item[Kapitel \ref{ch:Temporaler Algorithmus}]dsfdsf
+    \item[Sektion \ref{ch:Content2:sec:Sorting}]sdfsdf
+    \item[Sektion \ref{ch:Content2:sec:Retargeting}]dsfdsf
+\end{itemize}
+ 
+
+Weitere Entwicklungen \cite{georgiev2016blue} haben sich mit blue noise dither masks (siehe ) beschäftigt
 und ihre Nützlichkeit in Steigung der visuellen Qualität gezeigt. Hierbei lassen sich im Bildraum die entstehenden 
 Monte-Carlo-Integrationsfehler \nameref{ch:Content1:sec:Path Tracer} zwar nicht verringern, jedoch umverteilen.\par 
-Im Besonderen zeigte \cite{Sch19} die Bedeutung von blue noise Fehlerverteilung im Bildraum für Echtzeitanwendungen mit neuer
-Raytracingtechnologie. Hier werden bereits zum Sampling blue noise dither masks 
-benutzt, über den Bildschirm \dq gekachelt \dq und über frames durchgewechselt.
-Das vor dem temporalen Algorithmus erschienene Paper \cite{heitz:hal02150657} zeigt eindrucksvoll die Mächtigkeit von 
-Fehlerumverteilungen im Bildraum. 
-Die Entwickler von INSIDE \cite{10.111712.152707} fanden auch bereits eine Anwendung für blue noise Fehlerverteilungen. 
+
+
+
 
 
 \vfill
@@ -116,6 +123,13 @@ Die Entwickler von INSIDE \cite{10.111712.152707} fanden auch bereits eine Anwen
 \section{Retargeting}
 \label{ch:Content2:sec:Retargeting}
 \input{content/TemporalerAlg/Retargeting.tex}
+%% ===========================
+
+
+%% ===========================
+\section{Rechenaufwand}
+\label{ch:Content2:sec:Rechenaufwand}
+\input{content/TemporalerAlg/Rechenaufwand.tex}
 %% ===========================
 
 

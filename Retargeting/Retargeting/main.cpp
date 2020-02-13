@@ -104,8 +104,8 @@ int main(int, char**)
     uint64_t seed_texture_width = 1920;
     uint64_t seed_texture_height = 1080;
     uint64_t seed_texture_resolution = 32;
-    BOOL generated_seed_texture = helper->generate_seed_png(seed_texture_width, seed_texture_height, seed_texture_resolution, new MersenneTwister());
-    if (!generated_seed_texture) cout << "Something went horribly wrong!";
+    //BOOL generated_seed_texture = helper->generate_seed_png(seed_texture_width, seed_texture_height, seed_texture_resolution, new MersenneTwister());
+    //if (!generated_seed_texture) cout << "Something went horribly wrong!";
     //calc retargeted texture with temporal annealing!
     //SimulatedAnnealing* retarget = new SimulatedAnnealing();
     //retarget->execute(1000000, filename);
@@ -125,12 +125,12 @@ int main(int, char**)
     int image_width = 64;
     int image_height = 64;
     //testing the simulated annealing
-    SimulatedAnnealingTest testing = SimulatedAnnealingTest(filename, image_width, image_height);
+    //SimulatedAnnealingTest testing = SimulatedAnnealingTest(filename, image_width, image_height);
     //testing.testPermutation();
 
     //test different cool down functions
-    /**CoolDownTester test(10000);
-    test.compareDifferentCoolDownSchedules();*/
+    CoolDownTester test(1000000, 64, 64, filename);
+    test.compareDifferentCoolDownSchedules();
 
     // Main loop
     MSG msg;

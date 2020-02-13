@@ -172,7 +172,7 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
         hasrunonce = true;
 
         //from our initialized seeds
-        //takeScreenshot(pCallbacks);
+        takeScreenshot(pCallbacks);
 
     } else {
 
@@ -183,7 +183,7 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
         Resource::SharedPtr retarget_seeds = mpGraph->getOutput("Sorting.output_seed");
         mpGraph->setInput("Retargeting.input_seed", retarget_seeds);
 
-        //if(this->trace_count <= 9) takeScreenshot(pCallbacks);
+        if(this->trace_count <= 9) takeScreenshot(pCallbacks);
     }
 
     //enable this llop for saving the very first 10 screenshots!!!

@@ -4,9 +4,9 @@ Lineary::Lineary() : T_0(511), mu(1), current_temperature(T_0), quasiequilibrium
 
 }
 
-Lineary::Lineary(double T_0, double mu) :  quasiequilibrium(1) {
-	this->T_0 = T_0;
-	this->mu = mu;
+Lineary::Lineary(double T_0, int number_of_steps) :  quasiequilibrium(1) {
+	this->T_0 = T_0 + 1;
+	this->mu = (T_0 / ((double)number_of_steps));
 	this->current_temperature = T_0;
 }
 

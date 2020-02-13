@@ -21,9 +21,9 @@ CoolDownTester::CoolDownTester(int number_steps, int image_width, int image_heig
     this->number_steps = number_steps;
     this->sas.push_back(SimulatedAnnealing(number_steps, new Hajek(), energy, false, image_width, image_height, helper, filename));
     this->sas.push_back(SimulatedAnnealing(number_steps, new ExponentialCoolDown(), energy, false, image_width, image_height, helper, filename));
-    this->sas.push_back(SimulatedAnnealing(number_steps, new Lineary(), energy, false, image_width, image_height, helper, filename));
+    this->sas.push_back(SimulatedAnnealing(number_steps, new Lineary(551.f, number_steps), energy, false, image_width, image_height, helper, filename));
     this->sas.push_back(SimulatedAnnealing(number_steps, new Inverse(), energy, false, image_width, image_height, helper, filename));
-
+    this->sas.push_back(SimulatedAnnealing(number_steps, new Kirkpatrick(), energy, false, image_width, image_height, helper, filename));
 
 }
 
