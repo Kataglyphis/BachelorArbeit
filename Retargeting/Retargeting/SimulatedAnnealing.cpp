@@ -65,7 +65,7 @@ Image SimulatedAnnealing::execute(int& good_swaps) {
 
 	for (unsigned int i = 0; i < this->number_steps; i++) {
 
-		float number_of_intermediate_snapshots = 50;
+		float number_of_intermediate_snapshots = 6;
 		float when_taking_snapshot = this->number_steps / number_of_intermediate_snapshots;
 		if (std::fmod((float)i,when_taking_snapshot) == 0.f) takeIntermediateSnapshot(permutation_data_output, dither_data);
 

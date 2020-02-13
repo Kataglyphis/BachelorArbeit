@@ -168,7 +168,7 @@ Wobei $\alpha \in [0.8; 0.99]$
 
 \begin{figure}[H]\label{pic:simulatedAnnealing energie verlauf}
     \centering
-    \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Energy_10313_steps.png}
+    \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Energy_286100_steps_KirkpatrickCooldownSchedule.png}
     \caption{Energieverlauf beim Simulated Annealing}
 \end{figure}
 
@@ -176,17 +176,17 @@ Wobei $\alpha \in [0.8; 0.99]$
 
 \begin{figure}[H]\label{pic:Temperaturverlauf}
     \centering
-    \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Acceptance_Probabilities over time 4195_steps_LinearyCooldownSchedule.png}
+    \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Temperature.png}
     \caption{Temperaturverlauf}
 \end{figure}
 
 \begin{figure}[H]\label{pic:Akzeptanzfunktionsverlauf}
     \centering
-    \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Acceptance_Probabilities over time 4195_steps_LinearyCooldownSchedule.png}
+    \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Acceptance_Probabilities_over_time_1765297_steps_KirkpatrickCooldownSchedule.png}
     \caption{Akzeptanzfunktionsverlauf bei negativen Energiedeltas}
 \end{figure}
 
-\begin{figure}[H]\label{pic:Retargeting}
+\begin{figure}[H]\label{pic:Retargeting textur}
     \centering
     \begin{minipage}[t]{0.45\linewidth}
         \centering
@@ -196,10 +196,67 @@ Wobei $\alpha \in [0.8; 0.99]$
     \hfill
     \begin{minipage}[t]{0.45\linewidth}
         \centering
-        \includegraphics[interpolate=false,width=\linewidth]{content/simulatedAnnealing/Bilder/permutation_texture_228324_swapsKirkpatrickCooldownSchedule.png}
+        \includegraphics[interpolate=false,width=\linewidth]{content/simulatedAnnealing/Bilder/permutation_texture_295744_swapsKirkpatrickCooldownSchedule.png}
         \caption{Permutation; gespeichert in R,G-Channel einer PNG}
     \end{minipage}
 \end{figure}
+
+%%%%%%%%%%
+%%%% Animate the annealing!!!!!!
+%%%%%%%%%%
+
+\begin{figure}[H]
+
+    \centering
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_0_quasieqstepKirkpatrickCooldownSchedule_energy_348180-RGBA_r_channel.png}
+       \caption{Ausgangssituation}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_1_quasieqstepKirkpatrickCooldownSchedule_energy_313012-RGBA_r_channel.png}
+      \caption{Energie=313012}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_2_quasieqstepKirkpatrickCooldownSchedule_energy_281170-RGBA_r_channel.png}
+      \caption{Energie=281170}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_3_quasieqstepKirkpatrickCooldownSchedule_energy_253330-RGBA_r_channel.png}
+         \caption{Energie=253330}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_4_quasieqstepKirkpatrickCooldownSchedule_energy_185486-RGBA_r_channel.png}
+        \caption{Energie=185486}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_5_quasieqstepKirkpatrickCooldownSchedule_energy_136464-RGBA_r_channel.png}
+        \caption{Energie=136464}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_11_quasieqstepKirkpatrickCooldownSchedule_energy_29068-RGBA_r_channel.png}
+         \caption{Energie=29068}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_20_quasieqstepKirkpatrickCooldownSchedule_energy_13070-RGBA_r_channel.png}
+        \caption{Energie=13070}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_49_quasieqstepKirkpatrickCooldownSchedule_energy_8688-RGBA_r_channel.png}
+        \caption{Energie=8688}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.2\linewidth}
+        \begin{picture}(120,120)
+            \put(35,50){\Huge $\approx$}
+        \end{picture}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/next_dither_LDR_RGBA_0_64_r_channel.png}
+        \caption{Energie=0}
+      \end{subfigure}
+    \caption{The process of annealing}
+    \label{fig:annelaing animated}
+    
+  \end{figure}
 
 
 
