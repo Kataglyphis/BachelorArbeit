@@ -26,6 +26,11 @@
 \newblock Cooling schedule.
 \newblock very good overview and further explanation of kirkpatrick.
 
+\bibitem[Dis, 2020]{DisneyPathTracing}
+ (2020).
+\newblock Disneys guide to path tracing.
+\newblock very good overview and further explanation of path tracing.
+
 \bibitem[Akenine-Moller et~al., 2008]{akenine2018real}
 Akenine-Moller, T., Haines, E., and Hoffman, N. (2008).
 \newblock {\em Real-time rendering}.

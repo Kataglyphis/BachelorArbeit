@@ -1,7 +1,18 @@
 \subsubsection{Funktionsweise}
-
+In offline Produktionen bereits fest etabliert \cite{DisneyPathTracing} so gewinnt diese Technik
+der Bilderzeugung durch neue Hardwareunterstützung für Echtzeitanwendungen an Aufmerksamkeit\cite{Sch19}.
+Anstatt vom Objekt wird die Bilderzeugung ausgehend vom Betrachter angesetzt 
+(siehe Abbildung\ref{pic::GrundkonzeptPathTracing}).
 Bei der Bilderzeugung, ausgehend von Szenen, welche viel Geometrie beinhalten bzw. bei Szenen 
 die generelle BRDF's verwenden eignet sich der \nameref{ch:Content1:sec:Path Tracer}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{content/PathTracer/Bilder/PathTracerGuide.png}
+    \caption{Grundkonzept Path Tracer}
+    \label{pic::GrundkonzeptPathTracing}
+\end{figure}
+
 Der \nameref{ch:Content1:sec:Path Tracer} ist in Hinsicht der Beleuchtung komplett. Deshalb lässt sich damit
 \textit{Global Illumination} erreichen. Der hier verwendete \nameref{ch:Content1:sec:Path Tracer} in 
 \cite{Benty18} verwendet eine klassische Umsetzung.\par
@@ -39,12 +50,6 @@ zu \nameref{eq:Allgemeine Rendergleichung} erkennen. Wir haben den Emissionsterm
 Punkte zueinander und die bidirektionale Verteilungsfunktion welche den Energietransport
 beeinflussen.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\linewidth]{content/PathTracer/Bilder/Grundkonzept_path_tracing.pdf}
-    \label{pic::Grundkonzept Path Tracing}
-    \caption{Grundkonzept path tracer}
-\end{figure}
 
 \subsubsection{Monte-Carlo-Integration}
 Mit der Monte Carlo Integration approximieren wir die Rendergleichung.\par 
@@ -191,7 +196,13 @@ im jeweiligen Codeabschnitt markiert sind.
 \end{algorithm}
 
 \subsection{RenderGraph}
-\todo{Give short introduction in the used rndergraph with its steps}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{content/PathTracer/Bilder/render_graph.png}
+    \caption{Unser Render Graph}
+    \label{pic::RenderGraph}
+\end{figure}
 
 
 

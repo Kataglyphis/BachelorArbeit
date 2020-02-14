@@ -12,6 +12,7 @@
             \label{pic:Rasterisierungsablauf}
         \end{figure}
 
+        
         Zuallererst befindet man sich im \nameref{pic:Rasterisierungsablauf} beim \textit{Triangle Setup}. Unbeeinflussbar vom Programmierer werden hier Daten berechnet, welche zur Pixeleinfärbung
         benötigt werden. So werden viele zuvor per Eckpunkt berechnete Werte interpoliert (Beleuchtung, Tiefe). Beim darauffolgenden \textit{Triangle Traversal} werden
         die wichtigen Fragmente erzeugt. Dieser Schritt bestimmt diejenigen Pixel, welche innerhalb des Dreiecks liegen und erzeugt darauf hin die Fragmente für dieses
@@ -31,9 +32,17 @@
         müssen wir zuerst die Szene wie beschrieben ohne diese Primitive zeichnen, alle semitransparenten Primitive nach ihrer Tiefe ordnen und in dieser Reihenfolge 
         zu dem zuvor gerenderten Bild hinzufügen. Damit haben wir auch unsere Projektion vollzogen, welche wir zuvor vorbereitet 
         haben(Weglassen der z-Komponente).\par 
-
+        
         \subsection{Beschränktheit}
         \label{sec:Rasterisierung:Beschränktheit}
+        
+        
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=\linewidth]{content/PathTracer/Bilder/RasterizerGuide.png}
+            \caption{Ablauf der Rasterisierung}
+            \label{pic:RasterizerGuide}
+        \end{figure}
 
         Ihre bisherige weite Verbreitung hatte die Rasterisierung der Objektorientierung zu verdanken: massives paralleles Arbeiten, Ignorieren von (großen) leeren Bereichen und
         Ausnutzen von Cachekohärenzen gehören zu den Eigenschaften, welche die enorme effiziente, schnelle Abarbeitung bzw. (relativ) geringe aufzuwendende Rechenleistung begründen.

@@ -12,7 +12,7 @@ SimulatedAnnealingTest::SimulatedAnnealingTest(const char* filename, int image_w
 	this->helper = helpers(filename, image_width, image_height);
 	//this->schedule = new ExponentialCoolDown();
 	double T_0 = 511;
-	double quasieq = 4096.f;
+	double quasieq = 20000.f;
 	double mu = 0.95;
 	this->schedule = new Kirkpatrick(T_0, mu, quasieq);
 	Energy energy;

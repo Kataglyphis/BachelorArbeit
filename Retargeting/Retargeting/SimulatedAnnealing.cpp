@@ -67,7 +67,7 @@ Image SimulatedAnnealing::execute(int& good_swaps) {
 
 		float number_of_intermediate_snapshots = 6;
 		float when_taking_snapshot = this->number_steps / number_of_intermediate_snapshots;
-		if (std::fmod((float)i,when_taking_snapshot) == 0.f) takeIntermediateSnapshot(permutation_data_output, dither_data);
+		//if (std::fmod((float)i,when_taking_snapshot) == 0.f) takeIntermediateSnapshot(permutation_data_output, dither_data);
 
 		this->temperature = schedule->getTemperature(good_swaps);
 		temperatures.push_back(this->temperature);
