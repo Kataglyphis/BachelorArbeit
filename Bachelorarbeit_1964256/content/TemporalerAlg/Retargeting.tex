@@ -1,19 +1,17 @@
-\cite{hal02158423}
-
-Zu Grunde liegender Sinn dieses Schrittes: Vertauschen der Anfangswerte, die 
-verteilt sind wie $BlueNoise_{t}$, sodass Sie verteilt sind wie die 
+Zu Grunde liegender Sinn dieses Schrittes: Vertauschen der Seeds, die 
+verteilt sind wie $BlueNoise_{t}$ , aufgrund des zuvor ausgeführten Sortierschrittes \ref{ch:Content2:sec:Sorting}
+, sodass Sie verteilt sind wie die Textur
 $BlueNoise_{t+1}$. Aufgrund dessen haben wir eine Aufsummierung der
-blue noise Fehlerverteilungen über viele Frames.
+blue noise Fehlerverteilungen über die ersten paar Frames(siehe \nameref{fig:Retargeting_And_Sorting_Szene_t1}).
 
 \begin{algorithm}[H]
-    \caption{\textbf{Retargeting Schritt} t Vor Rendern Frame t+1 nach Sortier Schritt}
+    \caption{\textbf{Retargeting Schritt}}
     \begin{algorithmic}[1]
         \State //permutation indices from precomputed texture
-        \State $retaget_{t}$ = retargettexure[calcCorrectOffset(incomingbluenoisetexture)];
-        \State List<PixelPermutation> L = $retaget_{t}$
-        \For{i = 1 .. numberOfPixelsPerBlock}
-        \State $retargetedSeeds(L.getNewIndices()) = incomingSeeds(L.getOldIndices());$
-        \EndFor
+        \State $retaget_{t}$ = retarget\_texure[calc\_correct\_offset()];
+        
+        \State $retargetedSeeds(old\_id + retaget_{t}) = incomingSeeds(old\_id);$
+        
     \end{algorithmic}
     \label{alg:retargetingAlg}
 \end{algorithm}
@@ -28,7 +26,7 @@ blue noise Fehlerverteilungen über viele Frames.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%% Beginning the Sequence of getting to blue noise from white noise
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\label{fig:Retargetbilderstrecke}
 \begin{figure}[H]
 
     \begin{subfigure}{\textwidth}
