@@ -14,6 +14,9 @@
     <ClCompile Include="RenderPasses\Retargeting.cpp">
       <Filter>RenderPasses\Retargeting</Filter>
     </ClCompile>
+    <ClCompile Include="RenderPasses\TemporalReprojection.cpp">
+      <Filter>RenderPasses\TemporalReprojection</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PathTracer.h" />
@@ -31,6 +34,9 @@
     </ClInclude>
     <ClInclude Include="RenderPasses\Retargeting.h">
       <Filter>RenderPasses\Retargeting</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPasses\TemporalReprojection.h">
+      <Filter>RenderPasses\TemporalReprojection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +70,12 @@
     <Filter Include="Data\Sorting">
       <UniqueIdentifier>{8546c391-8b89-4ba7-8cbb-367b8ffb492c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="RenderPasses\TemporalReprojection">
+      <UniqueIdentifier>{8e91af1c-84b1-4bdc-a766-bf647c6e55b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\TemporalReprojection">
+      <UniqueIdentifier>{38d60d91-3b57-477c-a6c2-9cb062497e87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\RasterPrimary.slang">
@@ -88,6 +100,9 @@
     </FxCompile>
     <FxCompile Include="Data\Retarget.hlsl">
       <Filter>Data\Retargeting</Filter>
+    </FxCompile>
+    <FxCompile Include="Reproject.hlsl">
+      <Filter>Data\TemporalReprojection</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

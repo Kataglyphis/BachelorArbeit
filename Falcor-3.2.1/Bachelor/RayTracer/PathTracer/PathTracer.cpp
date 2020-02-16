@@ -30,6 +30,7 @@
 #include "RenderPasses/GBufferRaster.h"
 #include "RenderPasses/Sorting.h"
 #include "RenderPasses/Retargeting.h"
+#include "RenderPasses/TemporalReprojection.h"
 
 void PathTracer::onGuiRender(SampleCallbacks* pCallbacks, Gui* pGui)
 {
@@ -93,6 +94,9 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->addPass(Sorting::create(), "Sorting");
     //for retarget seeds before rendering frame!
     mpGraph->addPass(Retargeting::create(), "Retargeting");
+    //adding temporal reprojection step for the seeds
+    //mpGraph->addPass(TemporalReprojection::create(), "TemporalReprojection");
+
 
     mpGraph->addEdge("GBuffer", "Retargeting");
     mpGraph->addEdge("Retargeting", "GlobalIllumination");
