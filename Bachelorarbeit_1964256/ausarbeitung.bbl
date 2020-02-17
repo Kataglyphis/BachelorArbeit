@@ -84,13 +84,6 @@ Hajek, B. (1988).
 \newblock Cooling schedules for optimal annealing.
 \newblock {\em Mathematics of operations research}, 13(2):311--329.
 
-\bibitem[Heitz et~al., 2019]{heitz:hal02150657}
-Heitz, E., Belcour, L., Ostromoukhov, V., Coeurjolly, D., and Iehl, J.-C.
-  (2019).
-\newblock {A Low-Discrepancy Sampler that Distributes Monte Carlo Errors as a
-  Blue Noise in Screen Space}.
-\newblock In {\em {SIGGRAPH'19 Talks}}, Los Angeles, United States. {ACM}.
-
 \bibitem[Kirkpatrick et~al., 1983]{Kirkpatrick671}
 Kirkpatrick, S., Gelatt, C.~D., and Vecchi, M.~P. (1983).
 \newblock Optimization by simulated annealing.
@@ -110,11 +103,6 @@ Krcadinac, V. (2006).
 Marschner, S. and Shirley, P. (2009).
 \newblock {\em Fundamentals of computer graphics}.
 \newblock CRC Press.
-
-\bibitem[Owen, 1998]{owen1998scrambling}
-Owen, A.~B. (1998).
-\newblock Scrambling sobol'and niederreiter--xing points.
-\newblock {\em Journal of complexity}, 14(4):466--489.
 
 \bibitem[Padovan, 2002]{vanderlaanplasticnumber}
 Padovan, R. (2002).

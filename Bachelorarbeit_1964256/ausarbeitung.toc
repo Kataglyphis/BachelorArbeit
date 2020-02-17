@@ -21,7 +21,7 @@
 \contentsline {subsection}{\numberline {2.4.2}Low Discrepency Sequenzen}{15}{subsection.2.4.2}%
 \contentsline {subsection}{\numberline {2.4.3}Quasi Monte-Carlo Methode}{15}{subsection.2.4.3}%
 \contentsline {subsection}{\numberline {2.4.4}1-Dimension}{15}{subsection.2.4.4}%
-\contentsline {subsection}{\numberline {2.4.5}2-Dimensionen}{16}{subsection.2.4.5}%
+\contentsline {subsection}{\numberline {2.4.5}2-Dimensionen}{15}{subsection.2.4.5}%
 \contentsline {subsection}{\numberline {2.4.6}Dither Texturen und quasi-zufällige Folgen}{16}{subsection.2.4.6}%
 \contentsline {section}{\numberline {2.5}Simulated Annealing}{17}{section.2.5}%
 \contentsline {subsubsection}{\numberline {2.5.0.1}Allgemein}{17}{subsubsection.2.5.0.1}%
