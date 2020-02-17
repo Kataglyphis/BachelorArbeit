@@ -9,12 +9,12 @@
 \contentsline {subsubsection}{\numberline {2.2.0.1}Funktionsweise}{6}{subsubsection.2.2.0.1}%
 \contentsline {subsubsection}{\numberline {2.2.0.2}Monte-Carlo-Integration}{7}{subsubsection.2.2.0.2}%
 \contentsline {subsubsection}{\numberline {2.2.0.3}DirectX Raytracing}{8}{subsubsection.2.2.0.3}%
-\contentsline {subsection}{\numberline {2.2.1}RenderGraph}{10}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.1}Render Graph}{10}{subsection.2.2.1}%
 \contentsline {section}{\numberline {2.3}Blue Noise}{11}{section.2.3}%
 \contentsline {subsection}{\numberline {2.3.1}Eigenschaften}{11}{subsection.2.3.1}%
 \contentsline {subsubsection}{\numberline {2.3.1.1}Uniformität}{11}{subsubsection.2.3.1.1}%
-\contentsline {subsubsection}{\numberline {2.3.1.2}Isotropie}{12}{subsubsection.2.3.1.2}%
-\contentsline {subsubsection}{\numberline {2.3.1.3}Niedrige Frequenzen}{12}{subsubsection.2.3.1.3}%
+\contentsline {subsubsection}{\numberline {2.3.1.2}Niedrige Frequenzen}{12}{subsubsection.2.3.1.2}%
+\contentsline {subsubsection}{\numberline {2.3.1.3}Isotropie}{12}{subsubsection.2.3.1.3}%
 \contentsline {subsubsection}{\numberline {2.3.1.4}Kachelung}{13}{subsubsection.2.3.1.4}%
 \contentsline {section}{\numberline {2.4}Quasi-Zufallsfolgen}{15}{section.2.4}%
 \contentsline {subsection}{\numberline {2.4.1}Einleitung}{15}{subsection.2.4.1}%

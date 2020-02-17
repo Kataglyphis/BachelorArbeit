@@ -1,104 +1,82 @@
+% \cite{3288} gibt eine Einführung zu \textit{Dithering mit blue noise}. Darunter ist ein abbilden
+% beliebiger Grauwerte zu einer Menge von blue noise verteilten Schwarz- und Weißwerten zu verstehen.
+Eine Ansammlung von Pixeln, deren Verteilung über den Raum einer \nameref{ch:Content1:sec:blue noise} entspricht, 
+weist eine Reihe von Eigenschaften
 
+\begin{itemize}
 
-\cite{3288} Ulichney gibt eine Einführung zu \textit{Dithering mit blue noise}. Darunter ist ein abbilden
-beliebiger Grauwerte zu einer Menge von blue noise verteilten Schwarz- und Weißwerten zu verstehen.
-Somit kann ein für das menschliche Auge gutes Resultat von Grauwerten entstehen, indem nur Schwarz-/
-Weißpixel verwendet werden. Denn das menschliche Auge tendiert dazu, benachbarte Pixel verschwimmen
-zu lassen und einen Farbwert aus diesen zu generieren. Hat man also einen Grauwert $\textit{p} \in [0,1]$
-und will Diesen mit Schwarz-/Weißpixeln approximieren vergleicht man diesen Wert $\textit{p}$ mit den 
-Werten aus der Textur und gibt Schwarz (falls \textit{Wert aus der Textur} $\leq$ \textit{p}) oder 
-Weiß (falls \textit{Wert aus der Textur} $>$ \textit{p}) aus.
+    \item \nameref{ch:Content1:sec:blue noise:Uniformität}
+    \item \nameref{ch:Content1:sec:blue noise:Isotropie}
+    \item \nameref{ch:Content1:sec:blue noise:Kachelung}
+    \item \nameref{ch:Content1:sec:blue noise:Niedrige Frequenzen}
+
+\end{itemize}
+
+zur Steigerung der visuellen Qualität des Bildes auf. \cite{3288}
+Im Folgenden wollen wir uns diese Eigenschaften genauer anschauen.
+Hierfür verwenden wir die in \cite{Pet17} vorgestellten Texturen, welche anhand der
+\textit{Void and Cluster}-Methode\cite{ulichney1993void} erstellt wurden.
+%Somit kann ein für das menschliche Auge gutes Resultat von Grauwerten entstehen, indem nur Schwarz-/
+%Weißpixel verwendet werden. Denn das menschliche Auge tendiert dazu, benachbarte Pixel verschwimmen
+%zu lassen und einen Farbwert aus diesen zu generieren. Hat man also einen Grauwert $\textit{p} \in [0,1]$
+%und will Diesen mit Schwarz-/Weißpixeln approximieren vergleicht man diesen Wert $\textit{p}$ mit den 
+%Werten aus der Textur und gibt Schwarz (falls \textit{Wert aus der Textur} $\leq$ \textit{p}) oder 
+%Weiß (falls \textit{Wert aus der Textur} $>$ \textit{p}) aus.
 
 
 \subsection{Eigenschaften}
 
-Die in \cite{Pet17} vorgestellten blue noise Texturen und ihre Eigenschaften geben 
-Aufschluss über ihre Wirksamkeit. Deshalb werden im Folgenden, die dort bereit 
-gestellten Texturen verwendet, welche anhand des in \cite{ulichney1993void} 
-vorgestellten Algorithmus erstellt wurden.
-Die korrespondierenden Spektren wurden mit Hilfe von \cite{JCrystalSoft2018} erstellt.
+Um die Eigenschaften der Texturen zu untersuchen wurden korrespondierende Spektren zu den Texturen mit Hilfe von 
+\cite{JCrystalSoft2018} erstellt und miteingebunden.
 
 \subsubsection{Uniformität}
-Wie bereits erwähnt, entsteht der neue Grauwert anhand einer Mittlung über 
-mehrere benachbarte Pixel. Aufgrund dessen muss für die Wahrscheinlichkeitsfunktion, dass
-ein schwarzer Pixel bei der Generierung ausgeben wird  ($\textit{p} \in [0,1]$) gelten: 
+\label{ch:Content1:sec:blue noise:Uniformität}
+
+Für die Wahrscheinlichkeitsfunktion, dass
+ein Pixel mit Grauwert p bei der Generierung ausgeben wird  ($\textit{p} \in [0,1]$) muss gelten: 
 
 \begin{equation}\label{eq:Uniformitätsgleichung}
     P(n \leq p) = p
 \end{equation}
 
 Die Uniformität(lat. \textit{uniformitas}-Einförmigkeit) garantiert uns dieses
-Verhalten $\forall p \in [0,1]$. Die zugehörige konstante Wahrscheinlichkeitsdichte
+Verhalten $\forall p \in [0,1]$. Man könnte auch sagen, dass jeder Grauwert gleichwahrscheinlich
+auftreten soll. Die zugehörige konstante Wahrscheinlichkeitsdichte
 lässt sich einfach zur Echtzeit umsetzen mit Hilfe von (pseudo-)zufälligen Zahlen.
-
 Mit der in \cite{WhiteNoiseGenerator} erstellten white noise Textur,
-\begin{figure}[H]\label{pic:white noise}
+\label{pic:white noise}
+\begin{figure}[H]
     \centering
     \begin{minipage}[t]{0.45\linewidth}
         \centering
         \includegraphics[width=\linewidth]{content/BlueNoise/Bilder/whitenoise.png}
-        \caption{$512^{2}$ white noise Textur}
+        \caption{white noise Textur}
     \end{minipage}
     \hfill
     \begin{minipage}[t]{0.45\linewidth}
         \centering
         \includegraphics[width=\linewidth]{content/BlueNoise/Bilder/FFT_whitenoise.png}
-        \caption{Amplitudenspektrum $512^{2}$ white noise Textur}
+        \caption{Amplitudenspektrum}
     \end{minipage}
 \end{figure}
 
 ergibt sich eine typische Amplitudendichte. Zufällig verteilt, über alle 
-Frequenzen hinweg. Die folgende Rotationssymmetrie lässt sich \cite{kiencke2009signale}
-erklären, da wir die Dimension der Phase des Signals nicht betrachten.
-Allerdings lassen sich noch deutlich
-ähnlichfarbende Pixelverbünde erkennen.i.e niedere Frequenzen in der
-Frequenzdomäne erkennen.
-
-\subsubsection{Isotropie}
-
-Die Isotropie(altgr. \textit{isos}-gleich und \textit{tropos}-Richtung)
-einer blue noise Textur wird ausgenutzt. Dabei haben wir in allen
-Dimensionen (in dieser Arbeit werden Texturen mit zwei benutzt) 
-die Unabhängigkeit einer Eigenschaft. Um uns dies an einem Gegenbeispiel 
-klar zu machen, schauen wir uns das Bayer-Pattern, sowie seine korrespondierende
-Amplitudendichte an.
-
-\begin{figure}[H]\label{pic:bayer pattern}
-    \centering
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{content/BlueNoise/Bilder/BayerMatrix.png}
-        \caption{$512^{2}$ bayer pattern Textur}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{content/BlueNoise/Bilder/FFT_BayerMatrix.png}
-        \caption{Amplitudendichte $512^{2}$ bayer pattern Textur}
-    \end{minipage}
-\end{figure}
-
-In der Frequenzdomäne ist zu erkennen, das die Amplitudendichte in einzelnen
-Punkten organisiert ist. Diese lassen sich durch die vorhandenen
-Richtungen der Textur erklären. Speziell in zwei Richtungen ist eine sich
-wiederholende Pixelsequenz zu erkennen.
-Allerdings wollen wir in alle Richtungen eine gleiche(Isotropie!) 
-Verteilung. Durch dieses Bayer Pattern entstehen unbefriedigende 
-Artefakte in Echtzeitanwendungen, so in (aktuellen) Spielen 
-\cite{bluenoisewronski} zu sehen.
+Frequenzen hinweg. Mit diesem weißen Rauschen arbeitet man klassischerweise in einem \nameref{ch:Content1:sec:Path Tracer}.
+Diese Uniformität garantiert dabei die Unkorreliertheit der Pixelfolgen. Wir merken also, dass 
+diese Eigenschaft alleine nicht ausreicht und uns zur \nameref{ch:Content1:sec:blue noise:Niedrige Frequenzen} führt.
 
 \subsubsection{Niedrige Frequenzen}
-
+\label{ch:Content1:sec:blue noise:Niedrige Frequenzen}
 Niedrige Frequenzen sind in einer blue noise sehr wenig bis gar nicht 
-vertreten. Dies ist an dem schwarzen Ring innerhalb der Amplitudendichte
-zu erkennen\nameref{pic:blue noise}. Oder in der Zeitdomäne, an dem 
-Abhandensein von gleichfarbigen Pixelbündeln. Genau dies wollten wir 
-erreichen.
-Außerdem haben wir aus den vorherigen Beispielen gesehen: Wir wollen 
-eine Uniformität \nameref{eq:Uniformitätsgleichung} und eine gleichmäßige Verteilung
-in allen Richtungen.
+vertreten. Dies macht sich sowohl in der Zeitdomäne erkenntlich: keine erkenntlichen gleichfarbigen Pixelverbünde 
+innerhalb der Textur als auch in der Frequenzdomäne: der schwarze Ring innerhalb der Amplitudendichte
+deutet auf das Fehlen von niederen Frequenzen und dem hohen Unterschied benachbarter Pixel hin\nameref{pic:blue noise}.
+Außerdem haben wir aus der vorherigen Eigenschaft der \nameref{ch:Content1:sec:blue noise:Uniformität} gesehen:
+Wir wollen das alle Grauwerte gleichwahrscheinlich auftreten. Dies können wir am besten im Frequenzspektrum \ref{pic:blue noise}
+beobachten. Hier sind alle hohen Frequenzen wie beim weißen Rauschen \ref{pic:white noise} gleich stark vertreten.
 
-\begin{figure}[H]\label{pic:blue noise}
+\label{pic:blue noise}
+\begin{figure}[H]
     \centering
     \begin{minipage}[t]{0.45\linewidth}
         \centering
@@ -113,35 +91,75 @@ in allen Richtungen.
     \end{minipage}
 \end{figure}
 
-Wie in der Abbildung zu sehen ist, haben wir hier die erwünschte
-Rotationssymmetrie(Isotropie). Außerdem ist die Uniformität wie 
-bei der white noise (bloß ausschließlich bei höheren Frequenzen)
-zu erkennen. 
+Auch zu erkennen ist die weitere Eigenschaft der \nameref{ch:Content1:sec:blue noise:Isotropie}.
+
+\subsubsection{Isotropie}
+\label{ch:Content1:sec:blue noise:Isotropie}
+
+Die Isotropie(altgr. \textit{isos}-gleich und \textit{tropos}-Richtung)
+einer blue noise Textur bietet eine weitere wichtige Eigenschaft. Dabei haben wir in allen Dimensionen
+die Unabhängigkeit einer Eigenschaft. Um uns dies an einem Gegenbeispiel 
+klar zu machen, schauen wir uns das Bayer-Pattern an. Dieses Pattern erfüllt sowohl 
+die Eigenschaft der Niedrigen Frequenz \ref{ch:Content1:sec:blue noise:Niedrige Frequenzen} als auch 
+die der \nameref{ch:Content1:sec:blue noise:Uniformität}, jedoch nicht Jene der Isotropie.
+Zu erkennen ist dies an den sich wiederholenden Strukturen in der Abbildung \ref{pic:bayer pattern}.
+
+\label{pic:bayer pattern}
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{content/BlueNoise/Bilder/BayerMatrix.png}
+        \caption{$512^{2}$ bayer pattern Textur}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{content/BlueNoise/Bilder/FFT_BayerMatrix.png}
+        \caption{Amplitudendichte $512^{2}$ bayer pattern Textur}
+        \label{pic:Frequnzdomäne Bayer}
+    \end{minipage}
+\end{figure}
+
+In der Frequenzdomäne \ref{pic:Frequnzdomäne Bayer} ist zu erkennen, das die Amplitudendichte in einzelnen
+Punkten organisiert ist. Diese lassen sich durch die vorhandenen
+Richtungen der Textur erklären. Speziell in zwei Richtungen ist eine sich
+wiederholende Pixelsequenz zu erkennen.
+Allerdings wollen wir in alle Richtungen eine gleiche (isotrope!) 
+Verteilung.
 
 \subsubsection{Kachelung}
-Bayer Pattern sowie auch white noise lassen sich einfach zur Echtzeit berechnen. Bei blue noise texturen 
-sieht das hingegen anders aus. Für diese Art von Textur müssen wir vor Start der Anwendung eine
-Vorberechnung machen. Daher stellt sich nun die Frage, wie groß (welche Auflösung) die Textur haben sollte. 
+\label{ch:Content1:sec:blue noise:Kachelung}
+
+Im Gegensatz zu dem bayer pattern oder der white noise, die sich einfach zur Echtzeit berechnen lassen,
+sind blue noise verteilte Texturen im Erstellungsaufwand, der mit Anzahl der Dimensionen 
+und Größe der Textur schnell anwächst, deutlich höher \cite{bluenoisechrisschied}. 
+Es empfiehlt sich daher für den \nameref{ch:Temporaler Algorithmus} eine kleinere Textur zu verwenden.
+Dies hat außerdem den Vorteil, eine bessere Ausnutzung des kleinen aber schnellen Cachespeichers zu gewährleisten.
 Aufgrund des Aufbaus von aktueller Grafikhardware \cite{turingarchitecture} wollen wir diese Textur
 soweit oben wie möglich in der Cachehierarchie halten.(L1 96KByte, L2 6MByte).
-\begin{figure}[H]\label{pic:tiled blue noise}
+
+\label{pic:tiled blue noise}
+\begin{figure}[H]
     \centering
     \begin{minipage}[t]{0.45\linewidth}
         \centering
         \includegraphics[width=\linewidth]{content/BlueNoise/Bilder/tiled4times.png}
-        \caption{$512^{2}$ gekachelte Textur von 64x64}
+        \caption{$512^{2}$ gekachelte Textur von $64^{2}$}
     \end{minipage}
     \hfill
     \begin{minipage}[t]{0.45\linewidth}
         \centering
         \includegraphics[width=\linewidth]{content/BlueNoise/Bilder/FFTtiled4times.png}
-        \caption{Fourier Spektrum $512^{2}$ 4-fach getiled 64x64 Textur}
+        \caption{Fourier Spektrum}
     \end{minipage}
 \end{figure}
 
-In \nameref{pic:tiled blue noise} lässt sich der blue noise Charakter wieder anhand des
-wenigen niederen Frequenzanteils erkennen. Wiederholungen sind in der Zeitdomäne schwerer zu erkennen,
-wohingegen man bereits bekannten Effekt von Bayer Pattern im Frequenzbereich \nameref{pic:bayer pattern}, also Wiederholungen,
-erkennen kann. Jedoch weniger deutlich, weshalb man diese Kacheln als eine gute Approximation für eine
-entsprechend größere Textur halten kann. Vorallem in Anbetracht der bereits angesprochenen 
-Performancevorteile.
+Betrachtet man die Abbildung \ref{pic:tiled blue noise} lässt sich der blue noise Charakter anhand des
+wenigen niederen Frequenzanteils erkennen. Wiederholungen sind in der Zeitdomäne schwerer zu erkennen. 
+Obwohl Sie in der Frequenzdomäne erkennbar sind und unsere \nameref{ch:Content1:sec:blue noise:Isotropie}
+(teilweise) aufheben. Um dieses Problem zu umgehen werden wir mit Hilfe von \nameref{ch:Content1:sec:Quasi-Zufallsfolgen}
+auf diese Textur zugreifen und die Isotropie wiederherstellen.
+Daher können wir hier folgendes Fazit ziehen: Regelmäßige Kachelung einer kleineren \nameref{ch:Content1:sec:blue noise} Textur 
+über das gesamte Bild liefert eine gute \nameref{ch:Content1:sec:blue noise} Verteilung bei vertretbaren Rechenaufwand und guter 
+Cacheausnutzung!

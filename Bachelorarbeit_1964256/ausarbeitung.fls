@@ -427,6 +427,8 @@ INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\render_
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\render_graph.pdf
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\blueNoise.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\blueNoise.tex
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\omslmr.fd
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\omslmr.fd
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmr8.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmri8.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmr6.tfm
@@ -441,16 +443,6 @@ INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_whit
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_whitenoise.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_whitenoise.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_whitenoise.png
-INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\BayerMatrix.png
-INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\BayerMatrix.png
-INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\BayerMatrix.png
-INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\BayerMatrix.png
-INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\BayerMatrix.png
-INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_BayerMatrix.png
-INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_BayerMatrix.png
-INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_BayerMatrix.png
-INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_BayerMatrix.png
-INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_BayerMatrix.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\HDR_L_0.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\HDR_L_0.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\HDR_L_0.png
@@ -461,6 +453,16 @@ INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_HDR_
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_HDR_L_0.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_HDR_L_0.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_HDR_L_0.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\BayerMatrix.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\BayerMatrix.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\BayerMatrix.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\BayerMatrix.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\BayerMatrix.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_BayerMatrix.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_BayerMatrix.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_BayerMatrix.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_BayerMatrix.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFT_BayerMatrix.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\tiled4times.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\tiled4times.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\tiled4times.png

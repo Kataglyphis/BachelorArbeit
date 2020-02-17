@@ -91,11 +91,6 @@ Heitz, E., Belcour, L., Ostromoukhov, V., Coeurjolly, D., and Iehl, J.-C.
   Blue Noise in Screen Space}.
 \newblock In {\em {SIGGRAPH'19 Talks}}, Los Angeles, United States. {ACM}.
 
-\bibitem[Kiencke and J{\"a}kel, 2009]{kiencke2009signale}
-Kiencke, U. and J{\"a}kel, H. (2009).
-\newblock {\em Signale und Systeme}.
-\newblock Oldenbourg Verlag.
-
 \bibitem[Kirkpatrick et~al., 1983]{Kirkpatrick671}
 Kirkpatrick, S., Gelatt, C.~D., and Vecchi, M.~P. (1983).
 \newblock Optimization by simulated annealing.
@@ -174,10 +169,5 @@ Van~Laarhoven, P.~J. and Aarts, E.~H. (1987).
 \newblock Simulated annealing.
 \newblock In {\em Simulated annealing: Theory and applications}, pages 7--15.
   Springer.
-
-\bibitem[Wronski, 2016]{bluenoisewronski}
-Wronski, B. (2016).
-\newblock Dithering part 1-5.
-\newblock blogpost.
 
 \end{thebibliography}
