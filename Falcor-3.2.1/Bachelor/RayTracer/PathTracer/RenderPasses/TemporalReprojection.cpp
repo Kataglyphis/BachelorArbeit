@@ -40,30 +40,27 @@ RenderPassReflection TemporalReprojection::reflect(void) const {
     (Resource::BindFlags::UnorderedAccess |
         Resource::BindFlags::RenderTarget |
         Resource::BindFlags::ShaderResource).mipLevels(1);
+
+    r.addInput("input_frame", "last rendered frame").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
+
     //output
     r.addOutput("output_seed", "the retargeted seed texture outgoing to path tracer").texture2D(seed_texture_width, seed_texture_height).format(ResourceFormat::BGRA8Unorm).bindFlags
     (Resource::BindFlags::UnorderedAccess |
         Resource::BindFlags::RenderTarget |
         Resource::BindFlags::ShaderResource).mipLevels(1);
+
     return r;
 }
 
 void TemporalReprojection::initialize(RenderContext * pContext, const RenderData * pRenderData) {
 
     //load prog from file
-    mpComputeProg = ComputeProgram::createFromFile("Retarget.hlsl", "main");
+    mpComputeProg = ComputeProgram::createFromFile("Reproject.hlsl", "main");
     //initialize state
     mpComputeState = ComputeState::create();
     mpComputeState->setProgram(mpComputeProg);
     mpComputeProgVars = ComputeVars::create(mpComputeProg->getReflector());
 
-    //textures for TemporalReprojection
-    //30; ; 238866; 228324, 47
-    Texture::SharedPtr retarget = createTextureFromFile("permutation_texture_1373806_swapsKirkpatrickCooldownSchedule.png", false, false, Resource::BindFlags::ShaderResource
-        | /*Resource::BindFlags::UnorderedAccess|*/
-        Resource::BindFlags::RenderTarget);
-
-    mpComputeProgVars->setTexture("retarget_texture", retarget);
 
     //info for the frame
     // Send data to compute shader; first fill structured buffer
@@ -75,11 +72,12 @@ void TemporalReprojection::initialize(RenderContext * pContext, const RenderData
     //pContext->copyResource(copyForUnsorted.get(), pRenderData->getTexture("input_seed").get());
 
     //TemporalReprojection pass is initialized in the beginning!
-    this->enable_retarget_pass_shader_var = 1;
+    this->enable_reprojection_pass_shader_var = 1;
 
 }
 
 void TemporalReprojection::execute(RenderContext* pContext, const RenderData* pData) {
+
     //on first run we want it to intialize
     if (!mIsInitialized) {
 
@@ -97,7 +95,8 @@ void TemporalReprojection::execute(RenderContext* pContext, const RenderData* pD
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_width"] = frame_width;
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_height"] = frame_height;
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_count"] = frame_count++;
-    mpComputeProgVars->getStructuredBuffer("data")[0]["enable"] = this->enable_retarget_pass_shader_var;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["camera_position"] = pContext->;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["enable"] = this->enable_reprojection_pass_shader_var;
 
     mpComputeProgVars->setTexture("src_seed_texture", pData->getTexture("input_seed"));
     //set the putput seed tex in HLSL namespace!!
@@ -106,19 +105,12 @@ void TemporalReprojection::execute(RenderContext* pContext, const RenderData* pD
     pContext->setComputeState(mpComputeState);
     pContext->setComputeVars(mpComputeProgVars);
 
-    //implementation info from here : https://hal.archives-ouvertes.fr/hal-02158423/file/blueNoiseTemporal2019_slides.pdf 
+    //implementation info from here : https://hal.archives-ouvertes.fr/hal-02158423/file/blueNoiseTemporal2019_slides.pdf
+    if (frame_count >= 1) {
+    //only reproject if we have a previous frame already :)
     pContext->dispatch(numberOfGroupsX, numberOfGroupsY, 1);
+    }
 
-    //set the outgoing blue noise texture!
-    /**if (enableTemporalReprojectionPass) {
-
-        pContext->copyResource(pData->getTexture("output_seed").get(),mpComputeProgVars->getTexture("output_seed_texture").get());
-
-    } else {
-
-        pContext->copyResource(pData->getTexture("output_seed").get(), copyForUnsorted.get());
-
-    }*/
     pContext->copyResource(pData->getTexture("output_seed").get(), mpComputeProgVars->getTexture("output_seed_texture").get());
 }
 
@@ -126,11 +118,11 @@ void TemporalReprojection::renderUI(Gui* pGui, const char* uiGroup) {
 
     pGui->addCheckBox("Dis-/Enable the TemporalReprojection pass", enableTemporalReprojectionPass);
 
-    enable_retarget_pass_shader_var = enableTemporalReprojectionPass ? 1 : 0;
+    enable_reprojection_pass_shader_var = enableTemporalReprojectionPass ? 1 : 0;
 }
 
 void TemporalReprojection::setScene(const std::shared_ptr<Scene>& pScene) {
-
+    pScene->getActiveCamera()->getPosition();
 }
 
 void TemporalReprojection::onResize(uint32_t width, uint32_t height) {

@@ -1,22 +1,38 @@
 \subsubsection{Funktionsweise}
-In offline Produktionen bereits fest etabliert \cite{DisneyPathTracing} so gewinnt diese Technik
+
+In offline Produktionen bereits fest etabliert \cite{DisneyPathTracing} gewinnt die Technik
 der Bilderzeugung durch neue Hardwareunterstützung für Echtzeitanwendungen an Aufmerksamkeit\cite{Sch19}.
-Anstatt vom Objekt wird die Bilderzeugung ausgehend vom Betrachter angesetzt 
-(siehe Abbildung\ref{pic::GrundkonzeptPathTracing}).
-Bei der Bilderzeugung, ausgehend von Szenen, welche viel Geometrie beinhalten bzw. bei Szenen 
-die generelle BRDF's verwenden eignet sich der \nameref{ch:Content1:sec:Path Tracer}.
+Ähnlich zur Strahlen- wird bei der Pfadverfolgung anstatt vom Objekt die Bilderzeugung ausgehend 
+vom Betrachter angesetzt (siehe Abbildung \ref{pic::GrundkonzeptPathTracing}). So wird wird die 
+Farbgebung eines Pixels vom Betrachter, über das betrachtete Objekt bis hin zur Lichtquelle zurückverfolgt.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{content/PathTracer/Bilder/PathTracerGuide.png}
-    \caption{Grundkonzept Path Tracer}
+    \caption{Grundkonzept Strahlverfolgung}
     \label{pic::GrundkonzeptPathTracing}
 \end{figure}
 
-Der \nameref{ch:Content1:sec:Path Tracer} ist in Hinsicht der Beleuchtung komplett. Deshalb lässt sich damit
-\textit{Global Illumination} erreichen. Der hier verwendete \nameref{ch:Content1:sec:Path Tracer} in 
-\cite{Benty18} verwendet eine klassische Umsetzung.\par
-Der Path Tracer beruht auf Erkenntnisse der Lösung der allgemeinen Rendergleichung.\nameref{eq:Allgemeine Rendergleichung}
+Klassischerweiße werden hierbei pro Pixel mehrere zufällige Strahlen verschossen, welche jeder 
+für sich einen \textit{Samplewert} ergibt und zur Farbgebung des Pixels beiträgt. Mehrere
+unkorrelierte zufällige Folgen ergeben somit die schlussendliche Pixelfarbe. Der Fehler, der 
+bei der zugrundeliegenden Monte-Carlo Integration \ref{eq:Monte-Carlo} entsteht, wird klassischerweiße 
+über Varianzreduktionsmethoden \ref{eq:Monte-Carlo-Varianz} wie \textit{Importance Sampling} angegangen.
+\todo{referenz für importance sampling}
+Das Ziel hierbei ist es die Fehlerverteilung im Bildraum zu beeinflussen, da diese für die wahrnehmbare 
+visuelle Qualität des Bildes verantwortlich ist. Diese Arbeit wird vom diesen Vorgehen abweichen und direkt im 
+Bildraum eine zeitlich stabile \nameref{ch:Content1:sec:blue noise}
+Fehlerverteilung durch korrelierte Folgen erreichen. Die positive Auswirkung von \nameref{ch:Content1:sec:blue noise} 
+Verteilungen auf die visuelle Qualität wurde bereits ausgiebig erforscht \cite{3288}.
+
+\par 
+
+%Bei der Bilderzeugung, ausgehend von Szenen, welche viel Geometrie beinhalten bzw. bei Szenen 
+%die generelle BRDF's verwenden eignet sich der \nameref{ch:Content1:sec:Path Tracer}.
+Der \nameref{ch:Content1:sec:Path Tracer} ist in Hinsicht der Beleuchtung komplett. 
+Deshalb verwenden wir den \nameref{ch:Content1:sec:Path Tracer} um innerhalb unseren 
+\ref{pic::Render Graph} die \textit{Global Illumination} zu erreichen. Der hier verwendete \nameref{ch:Content1:sec:Path Tracer} in 
+\cite{Benty18} beruht auf Erkenntnisse der Lösung der allgemeinen Rendergleichung.\nameref{eq:Allgemeine Rendergleichung}
 
 \begin{equation}\label{eq:Allgemeine Rendergleichung}
     I(x,{x}^{'}) = g(x,{x}^{'}) * \biggl[\epsilon(x,{x}^{'}) + 
@@ -32,11 +48,11 @@ Beeinflusst wird der Energiefluss auch durch
 die bidirektionale Verteilungsfunktion \textit{$\rho$}, welche Aufschluss über
 das einfallende Licht von einem Punkt ${x}^{''}$ über ${x}^{'}$ zu x gibt.\par
 Die Schlussfolgerung aus dieser Gleichung \nameref{eq:Allgemeine Rendergleichung} ist: Die transportierte
-Intensität von einem Licht zu einem Anderen ist die Summe des ausgestrahlten Lichts 
-und das ausgestrahlte Licht zu x von allen anderen Oberflächen.
+Intensität von einem Punkt zu einem Anderen ist die Summe des ausgestrahlten Lichts 
+und das reflektierte Licht zu x von allen anderen Oberflächen x.
 
 Ausgehend von der Rendergleichung \nameref{eq:Allgemeine Rendergleichung} lässt sich
-die vollständige Transportgleichung\nameref{eq:vollständige Transportgleichung} des \nameref{ch:Content1:sec:Path Tracer}
+die vollständige Transportgleichung\nameref{eq:vollständige Transportgleichung}
 beschreiben.
 Wie von \cite{marschner2009fundamentals} beschrieben wird ausgehend von der vollständigen Transportgleichung
 \nameref{eq:vollständige Transportgleichung}
@@ -52,7 +68,7 @@ beeinflussen.
 
 
 \subsubsection{Monte-Carlo-Integration}
-Mit der Monte Carlo Integration approximieren wir die Rendergleichung.\par 
+Mit der Monte Carlo Integration approximieren wir die Rendergleichung.\ref{eq:Allgemeine Rendergleichung} 
 Bei gegebener Dimensionalität n des Renderintegrals und der 
 Wahrscheinlichkeitsdichtefunktion $\rho(x_i)$
 \cite{KK02}
@@ -61,16 +77,16 @@ Wahrscheinlichkeitsdichtefunktion $\rho(x_i)$
     E\biggl[\frac{1}{k}\sum_{i=1}^{k}\frac{f(X_{i}}{\rho(X_{i})})\biggl] = \int_{[0,1]^{n}}f(x)dx
 \end{equation}
 
-Dabei wird das n-dimensionale Integral\nameref{eq:vollständige Transportgleichung} approximiert. Die Dichtefunktion $\rho(x_i)$ 
-beschreibt deutet an, dass hierbei die Stichproben auch nicht-uniform 
-genommen werden können. Varianzreduktionsmethoden machen sich diese Dichtefunktion zu Nutze um 
-ein besseres Ergebnis zu bekommen.
-\cite{caflisch_1998}
-Konvergenzrate, unabhängig von der Dimension unseres Tracers.\textit{O}($N^{-\frac{1}{2}}$).
-Sie ist robust, das heißt Exaktheit hängt nur vom ungenauesten Parameter ab. Eine Variante des Verfahrens, 
-Monte Carlo Quadratur, wird mit quasi zufälligen Sequenzen \nameref{ch:Content1:sec:Quasi-Zufallsfolgen}, 
-welche eine niedrige Abweichung aufweisen, durchgeführt. Laufzeit quasi-Monte Carlo \textit{O}(($\log N)^{k}N^{-1}$).
-Um die Konvergenzrate zu steigern liegen eine Reihe von Varianzreduktionsmethoden vor.
+Dabei wird das n-dimensionale Integral\ref{eq:vollständige Transportgleichung} approximiert. Die Dichtefunktion $\rho(x_i)$ 
+deutet an, dass hierbei die Stichproben auch nicht-uniform genommen werden können. 
+Varianzreduktionsmethoden machen sich diese Dichtefunktion zu Nutze um 
+ein besseres Ergebnis zu bekommen \cite{caflisch_1998}.
+Die Konvergenzrate ist unabhängig von der Dimension unseres \nameref{ch:Content1:sec:Path Tracer}
+\textit{O}($N^{-\frac{1}{2}}$) und ist robust, das heißt Exaktheit hängt nur vom ungenauesten Parameter ab.
+Eine Variante des Verfahrens, die Monte Carlo Quadratur, wird mit quasi zufälligen Sequenzen \nameref{ch:Content1:sec:Quasi-Zufallsfolgen}, 
+welche eine niedrige Abweichung aufweisen, durchgeführt.
+Um die Konvergenzrate zu steigern liegen eine Reihe von Varianzreduktionsmethoden vor. Jedoch werden wird hier 
+ein \nameref{ch:Temporaler Algorithmus} und damit eine direkte Umverteilung im Bildraum verwendet.
 
 Abseits dieser herkömmlichen Strategien zeigen wir hier die Steigerung der 
 visuellen Qualität durch blue noise Fehlerverteilung im Bildraum.
@@ -79,8 +95,6 @@ visuellen Qualität durch blue noise Fehlerverteilung im Bildraum.
     V[X] = E\biggl[(X-E[X])^{2}\biggl] = E[X^{2}]
     - E[X]^{2}
 \end{equation}
-
-Die Varianz \nameref{eq:Monte-Carlo-Varianz} ist ein quadratischer Fehler.
 
 \subsubsection{DirectX Raytracing}
 
@@ -91,8 +105,41 @@ Die Varianz \nameref{eq:Monte-Carlo-Varianz} ist ein quadratischer Fehler.
     \label{pic:DirectXRaytracingPipeline}
 \end{figure}
 
-In \ref{pic:DirectXRaytracingPipeline} lässt sich der Beginn (Generierung eines Strahles) der neuen Pipeline
-durch den programmierbaren \textbf{Ray Generation shader} erkennen.
+Das hardwareunterstützte Raytracing erhielt Einzug in moderne Programmierschnittstellen(DirectX, Vulkan) und wird 
+hier anhand von DirectX erläutert, welche auch für die \textit{Global Illumination} innerhalb des 
+Render Graphs \ref{pic:Render Graph} benutzt wurde. 
+
+Im Folgenden Algorithmus \ref{alg:Path Tracer Konzept} wird nochmal vereinfacht die Funktionsweise 
+eines Path Tracers erläutert, wobei die entsprechenden programmierbaren Shader von DirectX 
+im jeweiligen Codeabschnitt markiert sind.
+
+\begin{algorithm}[H]
+    \caption{Path Tracing Algorithmus}
+    \begin{algorithmic}[1]
+        \Procedure{Trace Path}{$BVH$}\Comment{verfolge Pfad durch Szene}
+        \For{(x,y) $\in$ frame}
+        \State strahl = verschiesseStrahlInPixel(x,y); // \textbf{ray generation shader}
+        \For{blatt = bekommeBVHBlatt()}
+        \State schnittpunkt = schneideGeometrie(strahl, blatt); //\textbf{Intersection shader}
+        \If{schnittpunkt $\leq$ nähesterSchnittpunkt}
+        \State aktualisiereNähestenSchnittpunkt();
+        \EndIf
+        \EndFor
+        \If{Schnittpunkt gefunden}
+        \State frame(x,y) = gebeFarbe(strahl,nähesterSchnittpunkt); //\textbf{closest-hit shader}
+        \Else
+        \State frame(x,y) = Umgebungskarte(x,y);//\textbf{miss shader}
+        \EndIf
+        \EndFor
+        \EndProcedure
+    \end{algorithmic}
+    \label{alg:Path Tracer Konzept}
+\end{algorithm}
+
+
+In Abbildung \ref{pic:DirectXRaytracingPipeline} und  Algorithmus \ref{alg:Path Tracer Konzept} lässt sich
+der Beginn (Generierung eines Strahles) der neuen Pipeline durch den programmierbaren
+\textbf{Ray Generation shader} erkennen.
 
 \begin{algorithm}[H]
     \caption{Beispielhafter minimalistischer Ray Generation Shader}
@@ -116,28 +163,24 @@ Mit Hilfe der Methode \textbf{TraceRay()} werden dann zur Beleuchtungsberechnung
 die Strahlen verschossen. Damit diese Methode richtig arbeiten kann übergeben wir neben unseren Strahl 
 unter Anderem  unsere Szene inklusive Beschleunigungsstruktur, rayflags 
 (beeinflussen Transparaenz, Culling, Abbruch)\cite{RayFlags} und einen payload.
-Mit dem \textit{$payload_t$} Typ können wir einen struct mit Informationen jedem einzelnen Strahl mitgeben.
+Mit dem \textit{$payload_t$} können wir einen struct mit Informationen jedem einzelnen Strahl mitgeben.
 
 \begin{algorithm}[H]
     \caption{beispielhafter payload}
     \begin{algorithmic}[1]
-        \State struct RayPayload = {
-            \State        float4 color, uint32 seed, uint32 depth
-            \State };
+        \State struct RayPayload = {float4 color, uint32 seed, uint32 depth};        
         \end{algorithmic}
         \label{alg:payload}
     \end{algorithm}
     
 Diese Methode \textbf{TraceRay()} kann auch innerhalb der anderen Shader zum weiteren verschießen
-von Strahlen verwendet werden. Beispiel beim Verschiessen vom Schattenstrahl: Flags 
+von Strahlen verwendet werden. So beispielweise beim Verschießen eines Schattenstrahls mit flags 
 RAY\_FLAG\_ACCEPT\_FIRST\_HIT\_AND\_END\_SEARCH, \newline
 RAY\_FLAG\_SKIP\_CLOSEST\_HIT\_SHADER setzen, um unnötige 
-Shadingberechnungen und weitere Schnittpunktberechnungen zu umgehen und mit einem Bit als payload 
-die Sichtbarkeit zur Lichtquelle mitgeben.
-
-
-Mit diesem beispielhaften payload können wir die Farbe akkumulieren, unseren verwendeten 
-seed verwenden um z.B eine weiteren Strahlenschuss in einem Any-Hit Shader zu verwirklichen,  
+Beleuchtungsberechnungen und weitere Schnittpunktberechnungen zu umgehen und mit einem Bit als payload 
+die Sichtbarkeit zur Lichtquelle mitzugeben.
+Mit diesem beispielhaften payload können wir die Farbe akkumulieren, unsere  
+seeds verwenden um z.B eine weiteren Strahlenschuss in einem Any-Hit Shader zu verwirklichen,  
 solange die mit übergebene Rekursionstiefe in unserem payload eingehalten wird.  
 
 \textbf{Intersection shader} führt die Schnittberechnungen durch.
@@ -168,49 +211,19 @@ mit der Schnittpunktinformation zu aktualisieren und/oder um eine Rekursionstief
 zu gehen einen weiteren Strahl zu verschießen. 
 Der \textbf{miss shader} wird immer dann ausgeführt, wenn ein Strahl die
 Szenengeometrie nicht schneidet. Kann also für das Nachschauen in einer 
-Environment Map verwendet werden. Im Folgenden \nameref{alg:Path Tracer Konzept}
-nochmal vereinfacht in Pseudocode dargestellt, wobei die entsprechenden shader
-im jeweiligen Codeabschnitt markiert sind.
+Environment Map verwendet werden. 
 
-\begin{algorithm}[H]
-    \caption{Path Tracing Algorithmus}
-    \begin{algorithmic}[1]
-        \Procedure{Trace Path}{$BVH$}\Comment{verfolge Pfad durch Szene}
-        \For{(x,y) $\in$ frame}
-        \State strahl = verschiesseStrahlInPixel(x,y); // \textbf{ray generation shader}
-        \For{blatt = bekommeBVHBlatt()}
-        \State schnittpunkt = schneideGeometrie(strahl, blatt); //\textbf{Intersection shader}
-        \If{schnittpunkt $\leq$ nähesterSchnittpunkt}
-        \State aktualisiereNähestenSchnittpunkt();
-        \EndIf
-        \EndFor
-        \If{Schnittpunkt gefunden}
-        \State frame(x,y) = gebeFarbe(strahl,nähesterSchnittpunkt); //\textbf{closest-hit shader}
-        \Else
-        \State frame(x,y) = Umgebungskarte(x,y);//\textbf{miss shader}
-        \EndIf
-        \EndFor
-        \EndProcedure
-    \end{algorithmic}
-    \label{alg:Path Tracer Konzept}
-\end{algorithm}
-
-\subsection{RenderGraph}
+\subsection{Render Graph}
 
 \begin{figure}[H]
     \centering
     \def\svgwidth{\columnwidth}
     \import{content/PathTracer/Bilder/}{render_graph.pdf_tex}
     \caption{Unser Render Graph}
-    \label{pic::RenderGraph}
+    \label{pic:Render Graph}
 \end{figure}
 
-%\begin{figure}[H]
-%    \centering
-%    \includegraphics[width=\linewidth]{content/PathTracer/Bilder/render_graph.png}
-%    \caption{Unser Render Graph}
-%    \label{pic::RenderGraph}
-%\end{figure}
+
 
 
 

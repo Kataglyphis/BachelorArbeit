@@ -101,7 +101,7 @@
     <FxCompile Include="Data\Retarget.hlsl">
       <Filter>Data\Retargeting</Filter>
     </FxCompile>
-    <FxCompile Include="Reproject.hlsl">
+    <FxCompile Include="Data\Reproject.hlsl">
       <Filter>Data\TemporalReprojection</Filter>
     </FxCompile>
   </ItemGroup>

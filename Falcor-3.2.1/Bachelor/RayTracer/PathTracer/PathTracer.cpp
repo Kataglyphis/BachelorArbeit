@@ -95,16 +95,18 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     //for retarget seeds before rendering frame!
     mpGraph->addPass(Retargeting::create(), "Retargeting");
     //adding temporal reprojection step for the seeds
-    //mpGraph->addPass(TemporalReprojection::create(), "TemporalReprojection");
+    mpGraph->addPass(TemporalReprojection::create(), "TemporalReprojection");
 
 
     mpGraph->addEdge("GBuffer", "Retargeting");
-    mpGraph->addEdge("Retargeting", "GlobalIllumination");
+    mpGraph->addEdge("Retargeting", "TemporalReprojection");
+    mpGraph->addEdge("TemporalReprojection", "GlobalIllumination");
     mpGraph->addEdge("GBuffer", "GlobalIllumination");
     //improvements in sorting happens after rendering frame
     mpGraph->addEdge("GlobalIllumination", "Sorting");
 
-    mpGraph->addEdge("Retargeting.output_seed", "GlobalIllumination.input_seed");
+    mpGraph->addEdge("Retargeting.output_seed", "TemporalReprojection.input_seed");
+    mpGraph->addEdge("TemporalReprojection.output_seed", "GlobalIllumination.input_seed");
 
     //bevor render now retarget seeds to accumulate improvements
     //mpGraph->addEdge("Sorting.output_seed", "GlobalIllumination.input_seed");
@@ -187,11 +189,13 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
         Resource::SharedPtr retarget_seeds = mpGraph->getOutput("Sorting.output_seed");
         mpGraph->setInput("Retargeting.input_seed", retarget_seeds);
 
+        //we need need previous rendered frame for making reprojection!
+        Resource::SharedPtr last_frame = mpGraph->getOutput("GlobalIllumination.output");
+        mpGraph->setInput("TemporalReprojection.input_frame", last_frame);
+
         //if(this->trace_count <= 9) takeScreenshot(pCallbacks);
     }
 
-    //enable this llop for saving the very first 10 screenshots!!!
- 
 
     if (mpGraph->getScene() != nullptr)
     {

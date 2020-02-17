@@ -54,18 +54,20 @@
     \lineheight{1}%
     \setlength\tabcolsep{0pt}%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{render_graph.pdf}}%
-    \put(0.29104166,0.21166668){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.12898437\unitlength}\raggedright Retargeting\end{minipage}}}%
+    \put(0.29157215,0.21242872){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.13474026\unitlength}\raggedright \nameref{ch:Content2:sec:Retargeting}\end{minipage}}}%
     \put(0.265,-0.21939957){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.4675\unitlength}\raggedright \end{minipage}}}%
     \put(0.09346367,0.19202834){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}GBuffer\end{tabular}}}}%
-    \put(0.53938397,0.24753358){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.1709278\unitlength}\raggedright Global Illumination mit\\ \nameref{ch:Content1:sec:Path Tracer}\\ \end{minipage}}}%
+    \put(0.5622024,0.23527643){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.07883688\unitlength}\raggedright \end{minipage}}}%
     \put(3,-0.22439957){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.3825\unitlength}\raggedright \end{minipage}}}%
     \put(0.7860026,0.19634465){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\nameref{ch:Content2:sec:Sorting}\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{render_graph.pdf}}%
-    \put(0.43006158,0.2769724){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.07387521\unitlength}\raggedright retargeted seeds of \\ frame t für frame t+1\end{minipage}}}%
-    \put(0.49212499,0.10649479){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.21298958\unitlength}\raggedright sortierte seeds für frame t+1\\ anhand blue noise textur t+1\end{minipage}}}%
+    \put(0.42934735,0.25511442){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.08299588\unitlength}\raggedright retargeted seeds für frame t+1\end{minipage}}}%
+    \put(0.41712057,0.1073129){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.29530572\unitlength}\raggedright sortierte seeds für frame t+1\\ anhand blue noise textur t+1\end{minipage}}}%
     \put(0.7586927,0.36975521){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.20703646\unitlength}\raggedright \nameref{ch:Content1:sec:blue noise} textur\end{minipage}}}%
     \put(0.52652083,0.365125){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.14221354\unitlength}\raggedright seed textur\end{minipage}}}%
-    \put(0.142875,0.333375){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.18322396\unitlength}\raggedright Textur vom \\ \nameref{ch:Content2:sec:Retargeting}\end{minipage}}}%
+    \put(0.10120312,0.333375){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.18322396\unitlength}\raggedright Vorberechnete \\ Permutation\end{minipage}}}%
     \put(0.683381,0.23906994){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.06935857\unitlength}\raggedright seeds of \\ frame t+1\end{minipage}}}%
+    \put(0.62838542,0.19976041){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.01719792\unitlength}\raggedright \end{minipage}}}%
+    \put(0.55364062,0.22555729){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.08598958\unitlength}\raggedright Global\\ Illumination\end{minipage}}}%
   \end{picture}%
 \endgroup%

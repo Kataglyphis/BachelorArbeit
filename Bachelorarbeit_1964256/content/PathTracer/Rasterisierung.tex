@@ -1,6 +1,7 @@
         Die Rasterisierung spielt in konventionellen Bilderzeugungsverfahren eine große Rolle. 
         Zu Beginn der Rasterisierung haben wir die Eckpunkte der bereits verarbeiteten, transformierten, projizierten Geometrie mit möglichen
-        Beleuchtungsinformationen aus den vorherigen Berechnungen vorliegen (weiterführende Literatur \cite{akenine2018real}). 
+        Beleuchtungsinformationen aus den vorherigen Berechnungen vorliegen (weiterführende Literatur zu der modernen
+        Renderingpipeline \cite{akenine2018real}). 
         Mit Hilfe der Rasterisierung wird nun die Farbe jedes einzelnen Pixels bestimmt. Es ist also die Aufgabe der Rasterisierung herauszufinden, 
         welche Geometrie welchen Pixel zu welchen Anteil bedeckt und wie die Shading Informationen zur Farbgebung des Pixels beitragen. 
         Aufgrund dieser Vorgehensweise spricht man auch von einem objektbasierten Bilderzeugungsverfahren.
@@ -46,20 +47,21 @@
 
         Ihre bisherige weite Verbreitung hatte die Rasterisierung der Objektorientierung zu verdanken: massives paralleles Arbeiten, Ignorieren von (großen) leeren Bereichen und
         Ausnutzen von Cachekohärenzen gehören zu den Eigenschaften, welche die enorme effiziente, schnelle Abarbeitung bzw. (relativ) geringe aufzuwendende Rechenleistung begründen.
-        Ihr großer Nachteil bzw. Beschränktheit liegt jedoch genau an dieser Objektorientierung. 
+        Jedoch liegt in ihr auch die Crux.
         Die Abbildung der Farbe eines Geometrie/Dreiecks auf einen Pixel simuliert
         den physikalischen Lichttransport nicht korrekt! Die physikalische Optik lehrt uns das Verfolgen von weiteren (sekundären) Strahlen abseits des Primärstrahls, der von 
-        Sichtebene zum Objekt verläuft und durch die Rasterisierung im Gegensatz zu den Sekundärstrahlen abgedeckt wird. So können Effekte, welche diese Sekundärstrahlen involvieren, 
-        entweder nicht oder nur (unzureichend befriedigend) dargestellt werden (z.B. Schatten, Spiegelungen). \par
+        Sichtebene zum Objekt verläuft und durch die Rasterisierung im Gegensatz zu den Sekundärstrahlen abgedeckt wird. Abbildung \ref{pic:RasterizerGuide} verdeutlicht das 
+        Problem der Objektorientierung und deren Problem mit Sekundärstrahlen. So können Effekte, welche diese Sekundärstrahlen involvieren, 
+        entweder nicht oder nur (unzureichend befriedigend) dargestellt werden (so in \ref{pic:RasterizerGuide} Spiegelungen, Schatten und Pfade mit größerer Pfadlänge). \par
 
         Die enormen Leistungsanforderungen von Technologien, welche diesen physikalisch korrekten Lichttransport möglich machen, haben Sie bisher für Echtzeitanwendungen ausgeschlossen.
         In heutigen modernen Grafikprogrammierschnittstellen (Vulkan, DirectX) jedoch befindet sich Raytracing-Funktionalität, welche auf Hardwareseite unterstützt wird.
-        Diese Unterstützung erlaubt neuerdings erste image-ordered Bilderstellungen.  
-        Aktuelle Bemühungen gehen nun daran Raytracing und Rasterisierung zu kombinieren. \cite{Barre-Brisebois2019} stellte
-        mit dem Spiel \textit{PICA PICA} eine solche Rendering-Pipeline vor, welche mithilfe von Path Tracing arbeitet. Dabei wird der G-Buffer
+        Diese Unterstützung erlaubt neuerdings effizientere image-ordered Bilderstellungen in Echtzeit.  
+        Aktuelle Bemühungen gehen nun daran Strahlenerzeugung und Rasterisierung zu kombinieren. \cite{Barre-Brisebois2019} stellte
+        mit dem Spiel \textit{PICA PICA} eine solche Rendering-Pipeline vor, welche mithilfe von Path Tracing\ref{ch:Content1:sec:Path Tracer} arbeitet. Dabei wird der G-Buffer
         (Texturen die Position, Normalen, Belichtung eines Bildes speichern) noch über Rasterisierung berechnet. Direkten Schatten kann man 
         rastern oder durch das Verschießen von Strahlen bekommen. Diese Option verspricht eine Anpassungsfähigkeit der Pipeline nach Leistungsfähigkeit der Hardware. Ähnlich können nun
-        Reflexionen, Global Illumination, Ambient Occlusion und Transmission durch Verschießen von Strahlen oder auf Compute Shader ausgeführt werden.(Wieder je nach 
+        Reflexionen, Global Illumination, Ambient Occlusion und Transmission durch Verschießen von Strahlen oder auf Compute Shader ausgeführt werden (wieder je nach 
         Hardwareleistung). Einzig direkte Beleuchtung sowie Post-Processing Effekte laufen nur über Compute-Shader. \par
 
         Wir wollen diesen Ansatz in dieser Arbeit aufnehmen. Berechnung des \textit{GBuffer}'s mit Hilfe von Rasterisierung und globale Beleuchtung durch 

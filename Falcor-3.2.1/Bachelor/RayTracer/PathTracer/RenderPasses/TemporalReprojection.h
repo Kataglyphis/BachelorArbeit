@@ -14,7 +14,7 @@ public:
     uint32_t tile_height = 64;
     uint32_t frame_width = 1920;
     uint32_t frame_height = 1080;
-    uint32_t enable_retarget_pass_shader_var;
+    uint32_t enable_reprojection_pass_shader_var;
 
     //for compute context
     uint32_t groupDimX = 4;
