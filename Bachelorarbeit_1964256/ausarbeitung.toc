@@ -30,11 +30,11 @@
 \contentsline {subsubsection}{\numberline {2.5.1.4}Inverse}{20}{subsubsection.2.5.1.4}%
 \contentsline {subsubsection}{\numberline {2.5.1.5}Kirkpatrick}{21}{subsubsection.2.5.1.5}%
 \contentsline {chapter}{\numberline {3}Temporaler Algorithmus}{25}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Blue Noise Dithering Sampling}{26}{section.3.1}%
-\contentsline {section}{\numberline {3.2}A Posteriori}{27}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Theoretische Grundlage}{27}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Praktische Durchführung}{28}{subsection.3.2.2}%
-\contentsline {section}{\numberline {3.3}Sorting}{29}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Retargeting}{34}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Rechenaufwand}{38}{section.3.5}%
-\contentsline {chapter}{Literaturverzeichnis}{39}{section*.39}%
+\contentsline {section}{\numberline {3.1}Blue Noise Dithering Sampling}{27}{section.3.1}%
+\contentsline {section}{\numberline {3.2}A Posteriori}{28}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Theoretische Grundlage}{28}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Praktische Durchführung}{29}{subsection.3.2.2}%
+\contentsline {section}{\numberline {3.3}Sorting}{30}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Retargeting}{35}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Rechenaufwand}{40}{section.3.5}%
+\contentsline {chapter}{Literaturverzeichnis}{41}{section*.39}%

@@ -1,39 +1,23 @@
 In diesem Abschnitt wird auf den in \cite{hal02158423} vorgestellten, temporalen Algorithmus eingegangen.
-Dieser besteht grundsätzlich aus dem \nameref{ch:Content2:sec:Sorting} sowie den 
-\nameref{ch:Content2:sec:Retargeting}. Es sollte unbedingt beachtet werden, dass folgende
-Annahmen getroffen wurden: Der Algorithmus arbeitet Blockweise auf den Pixeln und erwartet, dass benachbarte
+Dieser besteht grundsätzlich aus den beiden Schritten: \nameref{ch:Content2:sec:Sorting} und  
+\nameref{ch:Content2:sec:Retargeting}. Wir werden die gewonnenen Erkenntnisse (siehe Kapitel \ref{ch:Grundlagen})
+nutzen um eine zeitlich stabile \nameref{ch:Content1:sec:blue noise} Fehlerverteilung im Bildraum zu erreichen.
+Der benutzte \nameref{ch:Content1:sec:Path Tracer} benutzt zufällig generierte Anfangswerte 
+(siehe \cite{matsumoto1998mersenne}). Der darauffolgende Schritt sortiert diese Anfangswerte anhand 
+einer \nameref{ch:Content1:sec:blue noise} Textur, auf die mit Hilfe einer quasi-zufälligen Sequenz 
+\ref{ch:Content1:sec:Quasi-Zufallsfolgen} zugegriffen wird. Bevor diese sortierten Anfangswerte 
+zum Rendern des nächsten Bildes benutzt werden durchlaufen Sie noch eine Permutation 
+(siehe Abschnitt \ref{ch:Content2:sec:Retargeting}).
+Desweiteren sollte man beachten, dass für diesen Algorithmus Annahmen getroffen wurden, auf deren Ursache im darauffolgenden 
+Abschnitt \ref{ch:Content2:sec:a Posteriori} eingegangen wird:
+Der Algorithmus arbeitet Blockweise auf den Pixeln und erwartet, dass benachbarte
 Pixel innerhalb dieses Blockes den selben Wert haben. Da wir einen temporalen Algorithmus haben, soll diese Annahme 
 auch über mehrere gerenderte Bilder hinweg gelten. Es sollte also beachtet werden, dass der Algorithmus z.B. nicht 
 für Objektkanten oder ruckartige Bewegungen (der Kamera oder Objekte) ausgelegt ist.
-Des Weiteren gehen wir aus den \nameref{ch:Content2:sec:a Posteriori} \textit{Eigenschaften}
-gewonnen Einsicht, dass die Wahl 
-unserer Anfangswerte des \nameref{ch:Content1:sec:Path Tracer} unsere 
-Fehlerverteilung im Bildraum beeinflusst, aus. Somit werden wir ein Umsortieren
-unserer Anfangswerte anhand einer blue noise Textur vornehmen, um so auch 
-für die gerenderten Farbwerte der Pixel eine blue noise Fehlerverteilung zu 
-erhalten. 
-
-\par
-\cite{bluenoisechrisschied} empfiehlt die Benutzung von $64^{2}$ 8-bit 
-Texturen. Eine Benutzung in der Hinsicht, alle 64 bereitgestellten Varianten
-in ein Array zu laden, jedes Frame ein neues Zufälliges zu verwenden und
-mit einem zufälligen Offset drauf zuzugreifen. Die Database von Texturen 
-\cite{bluenoisechrisschied} enthält für die empfohlene Auflösung jeweils
-Varianten mit einer unterschiedlicher Anzahl von Kanälen. Wir wählen
-die Anzahl der Kanäle anhand der Anzahl der Dimensionen, die gleichzeitig
-blue noise verteilt werden sollen. Für unsere Variante reicht ein Channel 
-einer Textur. Die gewonnen Einsicht bei \nameref{ch:Content1:sec:Quasi-Zufallsfolgen}
-erlaubt uns eine Textur zu verwenden (und nicht eine Vielzahl von Texturen in ein
-Array zu laden) und auf diese mit einem entsprechenden Offset zuzugreifen um 
-entsprechenden Artfakten (Abrisskanten bei Bewegung, wiederholende Strukturen) 
-vorzubeugen.
-Abbildung \ref{fig:Path Tracer mit zufälligen Seeds} zeigt uns eine Szene mit zufällig 
-gewählten Seeds und den daraus folgenden weißen Rauschen. Der Szenenausschnitt wurde
-bewusst an einem homogenen Abschnitt gewählt. 
 
 \begin{figure}[H]
     \begin{subfigure}{\textwidth}
-        \centering \includegraphics[scale=.2]{content/TemporalerAlg/Bilder/WhiteNoise/white_noise.png}
+        \centering \includegraphics[width=0.7\linewidth]{content/TemporalerAlg/Bilder/WhiteNoise/white_noise_ausschnitt.png}
         \caption{Szene}
         \label{fig:Szene_Weißes Rauschen}
     \end{subfigure}
@@ -47,8 +31,11 @@ bewusst an einem homogenen Abschnitt gewählt.
         \caption{Fouriertransformierte des Ausschnitts}
         \label{fig:Fouriertransformierte_Weißes_Rauschen}
     \end{subfigure}
-        \caption{Weißes Rauschen}
+        \caption{Ausgangssituation; Erzeugtes Bild mit zufälligen Seeds ohne temp. Alg.}
         \label{fig:Path Tracer mit zufälligen Seeds}
 \end{figure}
 
-
+In Abbildung \ref{fig:Path Tracer mit zufälligen Seeds} sehen wir die Ausgabe des \nameref{ch:Content1:sec:Path Tracer}
+mit zufälligen Anfangswerten(Mersenne-Twister) weder mit dem Sortier \ref{ch:Content2:sec:Sorting} noch dem 
+\nameref{ch:Content2:sec:Retargeting} Schritt. Der Szenenausschnitt lässt deutliche Clusterbildungen erkennen und auch
+die Betrachtung des Spektrums lässt auf eine white noise \ref{pic:white noise} Verteilung schließen.
