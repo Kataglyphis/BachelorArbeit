@@ -154,18 +154,23 @@ Sie hat sich daher für diese Aufgabenstellung als nicht nützliche Abkühlfunkt
 \begin{equation}\label{eq:lineare Abkühlung}
     f(t) = T_0 - \mu*t
 \end{equation}
-
-Typische Werte für $\alpha$ liegen zwischen 0.8 and 0.99. Abbildung \ref{pic:Cool Down Comparisson}
+Typische Werte für $\alpha$ liegen zwischen 0.8 and 0.99. Wie man in Abbildung \ref{pic:Cool Down Comparisson}
+erkennen kann, ist das Problem der linearen Abkühlung die extreme Langsamkeit.
+Anstatt nur am Anfang schlechtere Energiezustände zuzulassen um lokale Minima zu verlassen 
+geht der Algorithmus durch diesen Abkühlvorgang in ein bloßes randomisiertes Tauschen von Pixel über.
 
 \subsubsection{Exponential}
 Ist nach \cite{Kirkpatrick671} eine für viele Fälle zutreffende und zu wählende Abkühlfunktion.
-Wobei $\alpha \in [0.8; 0.99]$
+Wobei $\alpha \in [0.8; 0.99]$.
 
 \begin{equation}\label{eq:Exponential}
     f(t) = T_0*pow(\alpha,t)
 \end{equation}
 
-Abbildung \ref{pic:Cool Down Comparisson}
+Wie in Abbildung \ref{pic:Cool Down Comparisson} zu erkennen haben wir hier hingegen zu den vorherigen Vorgängen
+eine deutlich schnellere Abkühlung. Jedoch lässt sich hier das andere Extrem, im Vergleich zum bloßen randomisierten
+Vertauschen von Pixelpaaren, erkennen: Wir verharren viel zu kurz in einem Temperaturzustand, geraten daher schnell 
+in einen \textit{greedy} Zustand und manche Bildbereiche bleiben in einem lokalen Minima hängen.
 
 \subsubsection{Inverse}
 
@@ -173,7 +178,8 @@ Abbildung \ref{pic:Cool Down Comparisson}
     f(t) = T_0 / (1 + alpha * step)
 \end{equation}
 
-Abbildung \ref{pic:Cool Down Comparisson}
+Wie in Abbildung \ref{pic:Cool Down Comparisson} zu erkennen haben wir hier hingegen zu ersten beiden Vorgängen
+eine deutlich schnellere Abkühlung. Hat jedoch das selbe Problem wie die exponentielle \ref{eq:Exponential} Variante.
 
 \begin{figure}[H]
     \centering
@@ -333,12 +339,21 @@ akzeptiert werden.
   Nachdem wir in Bild 
   \begin{itemize}
     \item[\ref{pic:dither0}] unsere \nameref{ch:Content1:sec:blue noise} Textur zum Zeitpunkt t=0 
-                              haben
-    \item[\ref{pic:abkühl_schritt_1}] 
-    \item[\ref{pic:abkühl_schritt_2}-\ref{pic:abkühl_schritt_4}] 
-    \item[\ref{pic:abkühl_schritt_5}] 
-    \item[\ref{pic:abkühl_schritt_6}-\ref{pic:abkühl_schritt_8}]
-    \item[\ref{pic:dither1}]  
+                              haben können wir in dem Bild
+    \item[\ref{pic:abkühl_schritt_1}] typische Clusterbildungen erkennen, die die Folge von 
+                                    uniformen randomisierten Vertauschungen sind. Diese hatte wir bereits 
+                                    im Abschnitt \ref{ch:Content1:sec:blue noise} und \ref{ch:Content1:sec:Quasi-Zufallsfolgen}
+                                    besprochen. Diese Vertauschungen sind die Folge der hohen Temperatur, welche wiederrum zur Folge haben, 
+                                    dass alle Vertauschungen von der Funktion \ref{eq:Akzeptanzwahrscheinlichkeitsfunktion} angenommen werden. 
+                                    Die Bilder  
+    \item[\ref{pic:abkühl_schritt_2}-\ref{pic:abkühl_schritt_4}] sind die Folge der abnehmenden Temperatur und der daraus folgenden geringeren 
+                                    Akzeptanz schlechterer, energiereicherer Zustände. Bessere Zustände werden allerdings immer angenommen und 
+                                    daher die immer bessere \nameref{ch:Content1:sec:blue noise} Verteilung. Die bessere Verteilung ist eben über 
+                                    die gesamte Textur zu erkennen. Mit abnehmender Energie in den Bildern   
+    \item[\ref{pic:abkühl_schritt_5}-\ref{pic:abkühl_schritt_8}] lassen wir sehr wenige/keine schlechteren Zustände mehr zu und gelangen durch 
+                                    lokale Permutationen zu einer immer exakteren Verteilung.  
+    \item[\ref{pic:dither1}] Zieltextur; so soll unsere Textur t nach angewandter 
+                              Permutation aussehen. 
   \end{itemize}
 
 
