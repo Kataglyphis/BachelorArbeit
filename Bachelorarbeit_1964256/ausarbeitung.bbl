@@ -2,7 +2,7 @@
 
 \bibitem[JCr, 2018]{JCrystalSoft2018}
  (2018).
-\newblock jcrystal.
+\newblock Jcrystal.
 \newblock performing fft on images.
 
 \bibitem[Ray, 2019]{RayFlags}
@@ -113,10 +113,6 @@ Padovan, R. (2002).
 Peters, C. (2016).
 \newblock Free blue noise textures.
 \newblock blogpost.
-
-\bibitem[Piezas and Weisstein, ]{wolframalphaPlastic}
-Piezas, Tito III; van~Lamoen, F. and Weisstein, E.~W.
-\newblock Plastic constant.
 
 \bibitem[Roberts, 2018]{quasirandomsequencesbyRoberts}
 Roberts, M. (2018).

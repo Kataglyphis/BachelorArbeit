@@ -1,5 +1,11 @@
 \subsection{Einleitung}
 
+Um ungewollten Artefakten entgegenzuwirken wird empfohlen (so auch in \cite{bluenoisechrisschied})
+mehrere verschiedene \nameref{ch:Content1:sec:blue noise} Texturen in ein Array zu laden 
+und diese abwechselnd, randomisiert zu verwenden. Wir führen hier Kenntnisse über  
+Quasi-Zufallsfolgen ein \cite{quasirandomsequencesbyRoberts} um aus den zuvor (nach Abbildung \ref{pic:tiled blue noise})
+genannten Gründen nur eine kleine \nameref{ch:Content1:sec:blue noise} Textur verwenden
+zu können. \par
 Quasi-zufällige Sequenzen mit niedriger Abweichung sind deterministisch 
 erzeugte Sequenzen, welche die Likelihood-Funktion der Clusterbildung
 
@@ -7,89 +13,114 @@ erzeugte Sequenzen, welche die Likelihood-Funktion der Clusterbildung
     L_{x}(\delta) = f_{\delta}(x)
 \end{equation}
 
-minimieren. Dabei behalten wir die Eigenschaft einer zufälligen Folge, 
-den gesamten Platz gleichmäßig auszufüllen. Diese Eigenschaften erinnern
-uns an die besprochenen Eigenschaften bei \nameref{ch:Content1:sec:blue noise}.
-Im Folgenden wird für uns der zweidimensionale Fall wichtig sein, weswegen
-wir vom ein- über zum zweidimensionalen schauen werden.
+minimieren (siehe Abschnitt \ref{ch:Content1:sec:blue noise:Niedrige Frequenzen}) und dabei die 
+(siehe Abschnitt \nameref{ch:Content1:sec:blue noise:Uniformität}) erhalten. Beide Eigenschaften 
+haben wir bereits bei dem \nameref{ch:Content1:sec:blue noise} Abschnitt behandelt.
+Auf Quasi-zufällige Zahlenfolgen angewandt heißt das: Wir benutzen den gesamten Raum an Zufallszahlen
+\textit{uniform} und hohe Frequenzen vermeiden Regionen, aus den viele Punkte kommen, die wieder 
+punktarme Regionen zur Folge hätten.   
+Im Folgenden wird für uns das Ziel sein, den quasi-zufälligen Zugriff auf eine Textur 
+mit \nameref{subsec:2-Dimensionen} zu verstehen und nähern uns dabei über den Fall der 
+\nameref{subsec:1-Dimension}.
+Ein Weg quasi-Zufallsfolgen zu beschreiben sind die zugrundeliegenden Parameter. 
+Wir werden uns hier Folgen anschauen, die als Basisparameter den 
+goldenen Schnitt \ref{eq:GoldenerSchnitt} verwenden.
 
-\subsection{Low Discrepency Sequenzen}
-Aus dem Vorhandensein einer low discrepency Sequenz folgt dass auch alle 
-Subsequenzen derartiger Gestalt sind: Gemessen am Anteil der Punkte innerhalb
-einer (Sub-)sequenz.
+\subsection{Goldener Schnitt}
 
-\begin{equation}\label{eq:Low Discrepency}
-    \sup{\left| \frac{\left| s_{1}...s_{n} \cap [c,d]\right|}{N} - \frac{d-c}{b-a} \right|}
+Der goldene Schnitt und die Generalisierung zur plastischen Zahl \ref{eq:plastische Zahl}
+ist mitsamt ihren Eigenschaften bereits früh beschrieben worden \cite{vanderlaanplasticnumber}.
+Als wichtiges Seitenverhältnis in der Architektur konnte Sie durch verschiedene Arbeiten ihren 
+Eingang in die Mathematik finden \cite{krcadinac2006new}.
+
+\begin{equation}\label{eq:GoldenerSchnitt}
+    \Phi_{1} = \frac{1 + \sqrt{5}}{2} \approx 1.6180339887
 \end{equation}
 
-Jedes x $\in s_{n}$ fällt mit der annähernd gleichen Wahrscheinlichkeit
-in das Subintervall [c,d]. Wäre es die selbe Wahrscheinlichkeit hätten 
-wir die Uniformität.
-
-\label{sec:quasi monte carlo}
-\subsection{Quasi Monte-Carlo Methode}
-Diese Methode macht sich die \nameref{eq:Low Discrepency} Folgen zu Nutze
-im Gegensatz zu der ursprünglichen Monte-Carlo Methode \ref{ch:Content1:sec:Path Tracer},
-welche auf pseudozufälligen Zahlen basiert. Im Gegensatz zu ihr haben wir 
-hier eine schnellere Konvergenz \textit{O}($\frac{1}{N}$).
-Wichtig für das weitere Verständnis ist die Randomisierung einer von Grunde
-her deterministische Low Discrepency Sequenz. Ein Verfahren, das 
-zufällige Shiften, bildet eine neue Sequenz $y_{i}$ aus $x_{i}$ durch 
-eine komponenteweise Addition mit einem zufälligen Wert w.
-
-\label{subsec:onedimensional}
+\label{subsec:1-Dimension}
 \subsection{1-Dimension}
-Diese Arbeit betrachtet Rekurrenz Sequenzen, basierend auf irrationalem 
+Wir benutzen Rekurrenz Sequenzen, basierend auf irrationalem 
 Bruchrechnen der Form
+
 \begin{equation}\label{eq:Rekurrenz Sequenz}
     R_{1}(\alpha) : t_n = s_0 + n\alpha(mod 1); n = 1,2,3,...
 \end{equation}
+
 wobei $\alpha \in \mathbb{I}$ und das (mod 1) einen \textit{"toroidally shift"}
 bezeichnet. Will man mit dieser Formel eine Sequenz mit möglichst geringer
-Abweichung schaffen, und genau das wollen wir, so wählen wir 
-$\alpha = \Phi$ wobei $\Phi \approx 1.618033$ den goldenen Schnitt bezeichnet.
-Wie \cite{quasirandomsequencesbyRoberts} gezeigt wird, ist diese Form von 
-Sequenz die beste für das \nameref{eq:Rekurrenz Sequenz}.  
+Abweichung schaffen so wählen wir den goldenen Schnitt \ref{eq:GoldenerSchnitt}
+$\alpha = \Phi_{1}$ (siehe \cite{quasirandomsequencesbyRoberts}).
 
+%\begin{algorithm}\label{alg:GoldenRatioSeq}
+    %\State \alpha = (\frac{1}{\Phi_{2}},\frac{1}{\Phi_{2}^2})
+    %\State t_{n} = {n*\alpha}, n = 1,2,3,...
+%\end{algorithm}
+
+\label{subsec:2-Dimensionen}
 \subsection{2-Dimensionen}
 
-Für mehrere Dimensionen, hier zwei, kombiniert man in gängigen Methoden 
-einfach zwei \nameref{subsec:onedimensional} eindimensionale Sequenzen.
-Für unsere Zwecke untersuchen wir hier die Generalisierung des bereits 
-zuvor beschriebenen goldenen Schnitts \nameref{subsec:onedimensional}, wie
-hier \cite{krcadinac2006new} beschrieben. 
-Die sogenannte Plastische Zahl in ist die Lösung der
-Gleichung \nameref{eq:plastische Nummer}
+Da uns die Generalisierung des goldenen Schnittes auf die Lösung der Gleichung
+\ref{eq:GeneralisierungGoldenerSchnitt} führt
+
+\begin{equation}\label{eq:GeneralisierungGoldenerSchnitt}
+    x^{d+1} = x+1
+\end{equation}
+
+ist das Lösen der kubischen Gleichung \ref{eq:kubisch}
+
 \begin{equation}\label{eq:kubisch}
-   x^{3} - x - 1 = 0
-\end{equation}
-Die Lösung dieser Gleichung lässt sich über die Padovan und Perrin Sequenz
-definieren. Damit erhalten wir Plastische Zahl $\Phi$:
-
-\begin{equation} \label{eq:plastische Nummer}
-   \Phi = \frac{(9 - \sqrt{69})^{1/3} + (9 + \sqrt{69})^{1/3}}
-               {2^{1/3}3^{2/3}} \approx 1.32471795
+    x^{3} - x - 1 = 0
 \end{equation}
 
-\cite{vanderlaanplasticnumber}
-\cite{wolframalphaPlastic}
-Folgende Gleichung ist auch einfach erweiterbar für höhere Dimensionen.
+für den zweidimensionalen Fall nötig. Die Generalisierung und Erweiterung des goldenen 
+Schnittes wurde bereits ausgiebig erforscht \cite{krcadinac2006new}.
+
+Die sogenannte Plastische Zahl in ist die Lösung der
+Gleichung \ref{eq:kubisch}
+
+\begin{equation}\label{eq:plastische Zahl}
+    \Phi_{2} \approx 1.32471795724
+\end{equation}
+
+Die eindimensionale Rekurrenzsequenz \ref{eq:Rekurrenz Sequenz} ist einfach erweiterbar 
+für höhere Dimensionen.
 \begin{equation}\label{eq:1 zu N - Dimensional}
     t_{n} = n\alpha(mod 1), n = 1,2,3,..
     \alpha = (\frac{1}{\Phi_{d}}, \frac{1}{\Phi_{d}^{2}}),
 \end{equation}
-Dabei ist $\Phi_{d}$ der goldene Schnitt. $\Phi_{d}^{2}$ ist Lösung der
-\nameref{eq:kubisch} obigen Gleichung.
 
+Für den Texturzugriff in unserem Shader bei dem temporalen Algorithmus \ref{ch:Temporaler Algorithmus}
+werden wir also wie folgt vorgehen:
 
-\cite{quasirandomsequencesbyRoberts}
 \begin{lstlisting}[style=CStyle]
    float g = 1.32471795724474602596; //Plastische Zahl
-   float a1 = 1.0/g;
-   float a2 = 1.0/(g*g);
+   float a1 = (1.0/g) * frame_count;
+   float a2 = (1.0/(g*g)) * frame_count;
    x[n] = (0.5 + a1*n) % 1; //toroidally shifted
    y[n] = (0.5 + a2*n) % 1; //toroidally shifted
 \end{lstlisting}
 
 
-\subsection{Dither Texturen und quasi-zufällige Folgen}
+%\subsection{Low Discrepency Sequenzen}
+%Aus dem Vorhandensein einer low discrepency Sequenz folgt dass auch alle 
+%Subsequenzen derartiger Gestalt sind: Gemessen am Anteil der Punkte innerhalb
+%einer (Sub-)sequenz.
+
+%\begin{equation}\label{eq:Low Discrepency}
+%    \sup{\left| \frac{\left| s_{1}...s_{n} \cap [c,d]\right|}{N} - \frac{d-c}{b-a} \right|}
+%\end{equation}
+
+%Jedes x $\in s_{n}$ fällt mit der annähernd gleichen Wahrscheinlichkeit
+%in das Subintervall [c,d]. Wäre es die selbe Wahrscheinlichkeit hätten 
+%wir die Uniformität.
+
+%\label{sec:quasi monte carlo}
+%\subsection{Quasi Monte-Carlo Methode}
+%Diese Methode macht sich die \nameref{eq:Low Discrepency} Folgen zu Nutze
+%im Gegensatz zu der ursprünglichen Monte-Carlo Methode \ref{ch:Content1:sec:Path Tracer},
+%welche auf pseudozufälligen Zahlen basiert. Im Gegensatz zu ihr haben wir 
+%hier eine schnellere Konvergenz \textit{O}($\frac{1}{N}$).
+%Wichtig für das weitere Verständnis ist die Randomisierung einer von Grunde
+%her deterministische Low Discrepency Sequenz. Ein Verfahren, das 
+%zufällige Shiften, bildet eine neue Sequenz $y_{i}$ aus $x_{i}$ durch 
+%eine komponenteweise Addition mit einem zufälligen Wert w.
