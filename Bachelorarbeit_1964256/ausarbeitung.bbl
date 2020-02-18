@@ -10,11 +10,6 @@
 \newblock Rayflag enumeration.
 \newblock control behaviour of a traced ray.
 
-\bibitem[coo, 2019]{coolDownOverview}
- (2019).
-\newblock Simulated annealing cool down schedules.
-\newblock different cool down schedules.
-
 \bibitem[Whi, 2019]{WhiteNoiseGenerator}
  (2019).
 \newblock Whitenoisegenerato.
