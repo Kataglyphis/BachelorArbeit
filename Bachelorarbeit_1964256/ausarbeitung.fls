@@ -381,12 +381,12 @@ INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\a
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfonts\symbols\msbm7.tfm
 OUTPUT c:\BachelorArbeit\Bachelorarbeit_1964256\ausarbeitung.toc
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmro10.tfm
 OUTPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content.aux
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content.tex
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmbx12.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmri10.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmro10.tfm
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Rasterisierung.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Rasterisierung.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\PathTracer\Bilder\Rasterisierung.pdf
@@ -473,6 +473,8 @@ INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFTtiled
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFTtiled4times.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFTtiled4times.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\Bilder\FFTtiled4times.png
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\blueNoiseSampling.tex
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoise\blueNoiseSampling.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\QuasiZufallsfolgen\quasiRandomSequences.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\QuasiZufallsfolgen\quasiRandomSequences.tex
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstlang1.sty
@@ -604,8 +606,6 @@ INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\Bilder\Whit
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\Bilder\WhiteNoise\white_noise_64x64_fourier.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\Bilder\WhiteNoise\white_noise_64x64_fourier.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\Bilder\WhiteNoise\white_noise_64x64_fourier.png
-INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoiseSampling\blueNoiseSampling.tex
-INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\BlueNoiseSampling\blueNoiseSampling.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\APosteriori.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\APosteriori.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\Bilder\APosteriori\frame_t_whitenosie2.0.png
@@ -855,6 +855,8 @@ INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\Bilder\Reta
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\Bilder\Retargeting\Screenshots\Spektren\seed_debug_9.0_ausschnitt.png
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\Rechenaufwand.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\Rechenaufwand.tex
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\Temporal.tex
+INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\content\TemporalerAlg\Temporal.tex
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\ausarbeitung.bbl
 INPUT c:\BachelorArbeit\Bachelorarbeit_1964256\ausarbeitung.bbl
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\lm\ec-lmtt10.tfm

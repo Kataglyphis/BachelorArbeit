@@ -37,6 +37,8 @@
   <ItemGroup>
     <None Include="..\..\..\Samples\Raytracing\PathTracer\Data\Accumulate.slang">
       <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </None>
     <None Include="Data\GGXGIRayGen.slang">
       <FileType>Document</FileType>

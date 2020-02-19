@@ -1,9 +1,8 @@
-Der nun behandelte temporale Algorithmus von \cite{hal02158423} beruht 
-im Gegensatz zu \cite{georgiev2016blue} auf \textit{nachträglichen} 
-Annahmen. Welches zur Folge hat, dass die Dimension unseres Path Tracers
-\nameref{ch:Content1:sec:Path Tracer}, sowie die Stichprobenanzahl einhergehen 
-mit der Verteilung der Integrationsfehler als blue noise im Bildraum.
-Die zu Grunde liegenden Annahmen sollen nun im Folgenden untersucht werden.
+Um das in Abschnitt \ref{subsec:dither sampling} vorgestellte \textit{Dither Sampling} zu realisieren
+benutzen wir für den temporalen Algorithmus \ref{ch:Temporaler Algorithmus} diese im Folgenden vorgestellten
+\glqq nachträglichen\grqq Annahmen \cite{hal02158423}. 
+A Posteriori sind Sie in dem Sinne, als das wir die Annahmen szenenabhängig machen und Sie anhand 
+von bereits erstellten Pixelwerten formulieren. 
 
 \subsection{Theoretische Grundlage}
 
@@ -12,7 +11,7 @@ wir den Wert eines Pixels (i,j) klassischerweise mit einem zufälligen
 Startwert durch eine Monte-Carlo Integration erhalten. Wir betrachten im
 Folgenden eine (theoretische) Menge von allen möglichen Werten eines 
 Pixels, welche durch alle möglichen Startwerte generiert wurde.
-In \nameref{eq:Pixel Schätzung Wahrscheinlichkeitsdichtefunktion} ist die Wahrscheinlichkeitsdichtefunktion
+In Abbildung \ref{eq:Pixel Schätzung Wahrscheinlichkeitsdichtefunktion} ist die Wahrscheinlichkeitsdichtefunktion
 $h_{ij}$ aufgetragen, als eine Funktion über alle möglichen Werte 
 $I_{ij}$ eines Pixels (i,j).
 
@@ -20,8 +19,8 @@ $I_{ij}$ eines Pixels (i,j).
     H_{ij}([I_{Anfang},I_{Ende}]) = \int_{I_{Anfang}}^{I_{Ende}} h_{ij} dI
 \end{equation}
 
-Verfolgt man beispielhaft die Werte eines Pixels über 9 frames bei unseren Path Tracer 
-basierend auf \cite{Benty18}, so ergibt es sich zur Anschauung wie folgt:
+Verfolgt man beispielhaft die Werte eines Pixels über neun Bilder bei unseren \nameref{ch:Content1:sec:Path Tracer}, 
+so ergibt es sich zur Anschauung wie folgt:
 
 \begin{figure}[H]
 
@@ -33,24 +32,26 @@ basierend auf \cite{Benty18}, so ergibt es sich zur Anschauung wie folgt:
 
     \begin{subfigure}{0.5\textwidth}
         \centering \includegraphics[width=0.6\linewidth]{content/TemporalerAlg/Bilder/APosteriori/pixel_512x512_strip.png} 
-        \caption{Werte des Pixels an Position 512x512 im zeitlichen Verlauf (Rote Markierung)}
+        \caption{Werte des Pixels an Position 512x512 im zeitlichen Verlauf (grüner Pfeil)}
         \label{fig:ausschnitt_pixelstrip}
     \end{subfigure}
     \begin{subfigure}{0.5\textwidth}
             \centering
             \def\svgwidth{\columnwidth}
             \import{content/TemporalerAlg/Bilder/APosteriori/}{histogram_of_estimates.pdf_tex}
-            \label{histogramOfEstimates}
             \caption{Histogram der Pixelschätzungen}
+            \label{pic:histogramOfEstimates}
     \end{subfigure}
         \caption{Pixelwerte an Position 512x512(grüne Markierung) in aufeinanderfolgenden Zeitschritten}
         \label{fig:Pixelwerte}
 
 \end{figure}
 
-Allerding betrachten wir die theoretische Menge aller Werte. Demnach können wir das Rendern 
-eines jeden konkreten Pixels als die Wahl eines Wertes anhand der Wahrscheinlichkeitsdichtefunktion
-sehen.
+Betrachten wir die theoretische, praktisch nicht umsetzbare Menge aller möglichen Werte. 
+Mit dieser Menge haben wir ein vollständiges Histogramm. Dies bedeutet wiederrum, dass das Erzeugen eines 
+Pixelwertes nichts anderes bedeutet, als eine zufällige Wahl anhand der impliziten
+Wahrscheinlichkeitsdichtefunktion. Wir können als einem zufälligen Anfangswert einen konkreten 
+Pixelwert zuteilen und eine umkehrbare Funktion definieren \ref{eq:inverse Funktion}. 
 
 Daraus lässt sich die Gleichbedeutung zweier Aussagen begründen:
 Das Rendern des Pixels (i,j) und das Wählen eines Pixelswertes $I_{ij}$
@@ -60,27 +61,36 @@ von unser zuvor formulierten Wahrscheinlichkeitsdichtefunktion $h_{ij}$.
     I_{ij} = H_{ij}^{-1}(x), x \in [0,1]
 \end{equation}
 
-Nun betrachte man die Werte für x in \nameref{eq:inverse Funktion} als im Bildraum
-blue noise verteilte Zahlen. Daraus folgt, dass die resultierenden
-Integrationsfehler auch als blue noise im Bildraum verteilt sind.
+\par
 
+\textbf{Fazit}: Falls $x \in d_{ij}$, wobei d eine korrelierte Zahlenfolge, die einer 
+\nameref{ch:Content1:sec:blue noise} Verteilung entspricht, folgt aus der bijektiven
+Natur der Gleichung \ref{eq:inverse Funktion} eine \nameref{ch:Content1:sec:blue noise} 
+Fehlerverteilungen im Bildraum. 
+
+Anmerkung: Das Dies nur theoretisch möglich und gerade für Echtzeitanwendungen nicht umsetzbar ist, 
+folgt eine praktikable Formulierung!
 
 \subsection{Praktische Durchführung}
+
 Die Berechnung des vollständigen Histogramms ist für eine Echtzeitanwendung
 zu kostenintensiv. Stattdessen könnte man auch die dadurch beanspruchte 
-Rechenleistung auf z.B mehrere Samples pro Pixel verteilen.
-Stattdessen werden wir in dem temporalen Algorithmus von \cite{hal02158423}
-das Histogramm mit dem vorherigen Frame approximieren. 
-Bereits vorherige Arbeiten \cite{Schied:2018:GER:3273023.3233301} haben die 
-Wirksamkeit eines solchen temporalen Ansatzes(Zugriff auf das vorherige Frame)
-gezeigt. Die Approximation des Histogramms erfolgt dadurch mit dem $Frame_{t}$ 
-für $Frame_{t+1}$,indem umliegende Pixel in das Histogramm aufgenommen werden.
+Rechenleistung auf z.B mehrere Samples pro Pixel verteilen und dadurch eine 
+Steigerung der Bildqualität erreichen!
+Stattdessen werden wir in dem temporalen Algorithmus (siehe \cite{hal02158423})
+das Histogramm mit dem vorherigen Bild approximieren. 
+Die Approximation des Histogramms erfolgt dadurch mit dem $Frame_{t}$ 
+für $Frame_{t+1}$. Daher ist eine getroffene Annahme, um die gute Funktionalität des 
+Algorithmus zu garantieren, eine nicht zu schnelle Bewegung der Kamera.
+Außerdem werden für das Histogramm eines Pixels seine umliegenden benachbarten Pixel gewählt.
+Daher ist eine weitere getroffene Annahme, um die gute Funktionalität des 
+Algorithmus zu garantieren, eine möglichst homogene Fläche. 
 Offensichtliche Konsequenzen dieser blockweisen Verarbeitung sind schlechte blue noise 
 Fehlerverteilungen im Bildraum bei sich stark ändernden Bildausschnitten
 (so z.B. bei Objektkanten), da dort die Annahme, dass eine ähnliche Oberfläche
 zur Farbgebung beiträgt verletzt wird.
 
-
+\todo{Diesen Alg verschieben!}
 \begin{algorithm}[H]
     \caption{Benutzung unser zwei vorberechneten Texturen: Blue Noise und Retarget}
     \begin{algorithmic}[1]
@@ -94,16 +104,18 @@ zur Farbgebung beiträgt verletzt wird.
     \centering
     \begin{subfigure}[b]{0.4\textwidth}
         \centering \includegraphics[interpolate=false, width=\linewidth]{content/TemporalerAlg/Bilder/APosteriori/homogener_ausschnitt_blocksize.png}
-        \label{fig:homogener Pixelblock}
         \caption{homogener Pixelblock}
+        \label{fig:homogener Pixelblock}
     \end{subfigure}
-    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
-      %(or a blank line to force the subfigure onto a new line)
     \begin{subfigure}[b]{0.4\textwidth}
         \centering \includegraphics[interpolate=false,width=\linewidth]{content/TemporalerAlg/Bilder/APosteriori/inhomogener_ausschnitt_blocksize.png}
-        \label{fig:Inhomogener Pixelblock}
         \caption{inhomogener Pixelblock}
+        \label{fig:Inhomogener Pixelblock}
     \end{subfigure}
 
     \caption{Pixelblöcke bei (in-)homogenen Flächen}\label{fig:Pixelblöcke}
 \end{figure}
+
+In Abbildung \ref{fig:Inhomogener Pixelblock} sind die benachbarten Pixel eine gute 
+Approximation des jeweiligen Pixels, wohingegen in Abbildung \ref{fig:homogener Pixelblock}
+die benachbarten Pixel dies nicht sind.

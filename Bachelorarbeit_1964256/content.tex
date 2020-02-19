@@ -1,4 +1,5 @@
-
+\newcommand{\uproman}[1]{\uppercase\expandafter{\romannumeral#1}}
+\newcommand{\lowroman}[1]{\romannumeral#1\relax}
 %% content.tex
 %%
 
@@ -108,13 +109,6 @@ mit neuen Technologien des \textit{Real-Time Raytracing} austauscht.
 
 %% ===========================
 \newpage
-\section{Blue Noise Dithering Sampling}
-\label{ch:Content1:sec:blue noise sampling}
-\input{content/BlueNoiseSampling/blueNoiseSampling.tex}
-%% ===========================
-
-%% ===========================
-\newpage
 \newpage
 \section{A Posteriori}
 \label{ch:Content2:sec:a Posteriori}
@@ -147,6 +141,13 @@ mit neuen Technologien des \textit{Real-Time Raytracing} austauscht.
 \section{Rechenaufwand}
 \label{ch:Content2:sec:Rechenaufwand}
 \input{content/TemporalerAlg/Rechenaufwand.tex}
+%% ===========================
+
+%% ===========================
+\newpage
+\section{Temporaler Ansatz}
+\label{ch:Content2:sec:Temporaler Ansatz}
+\input{content/TemporalerAlg/Temporal.tex}
 %% ===========================
 
 

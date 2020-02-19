@@ -70,6 +70,7 @@ void TemporalAccumulation::initialize(const Dictionary& dict)
     mpPass = FullScreenPass::create(kAccumShader);
     mpVars = GraphicsVars::create(mpPass->getProgram()->getReflector());
 
+    mDoAccumulation = false;
     mIsInitialized = true;
 }
 

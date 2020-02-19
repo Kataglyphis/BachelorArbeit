@@ -1,0 +1,20 @@
+Ideen eines temporalen Ansatzes zur Steigerung der Bildqualität im Kontext der Strahlenverfolgung werden bereits von 
+aktuellen Untersuchungen verfolgt \cite{meyer2006statistical}. Ein Ansatz der Akkumulation wird in 
+\cite{schied2017spatiotemporal} benutzt.
+
+\begin{algorithm}[H]
+    \caption{Beispielhafte Akkumulation}
+    \begin{algorithmic}[1]
+        \State Texture2D current\_frame;
+        \State RWTexture2D accumulation\_buffer;
+        \State float4 current\_color = current\_frame[pixel\_pos];
+        \State float4 prev\_color = accumulation\_buffer[pixel\_pos];
+        \State accumulation\_buffer[pixel\_pos] = (frame\_count * prev\_color + current\_color) / (frame\_count + 1);
+    \end{algorithmic}
+    \label{alg:TemporalAccumulation}
+\end{algorithm}
+
+Diese klassische Formulierung, verletzt unsere Annahme für Gleichung \ref{eq:inverse Funktion}
+in den \nameref{ch:Content2:sec:a Posteriori}-Bedingungen des zugrundeliegenden Algorithmus 
+\ref{ch:Temporaler Algorithmus}. Durch diese Akkumulierung bestimmt nicht mehr allein der 
+Anfangswert die Pixelfarbe!

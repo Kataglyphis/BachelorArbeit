@@ -1,8 +1,9 @@
-Zu Grunde liegender Sinn dieses Schrittes: Vertauschen der Seeds, die 
+Bevor die Anfangswerte zur globalen Beleuchtung benutzt werden(siehe auch \nameref{pic:Render Graph}), durchlaufen Sie nach dem Sortieren \ref{ch:Content2:sec:Sorting}
+das Retargeting. Der Sinn liegt hierbei beim Vertauschen der Seeds, die 
 verteilt sind wie $BlueNoise_{t}$ , aufgrund des zuvor ausgeführten Sortierschrittes \ref{ch:Content2:sec:Sorting}
 , sodass Sie verteilt sind wie die Textur
 $BlueNoise_{t+1}$. Aufgrund dessen haben wir eine Aufsummierung der
-blue noise Fehlerverteilungen über die ersten paar Frames(siehe \nameref{fig:Retargeting_And_Sorting_Szene_t1}).
+blue noise Fehlerverteilungen über die ersten paar Bilder(siehe \nameref{fig:Retargeting_And_Sorting_Szene_t1}).
 
 \begin{algorithm}[H]
     \caption{\textbf{Retargeting Schritt}}

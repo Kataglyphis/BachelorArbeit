@@ -106,6 +106,11 @@ Matsumoto, M. and Nishimura, T. (1998).
 \newblock {\em ACM Transactions on Modeling and Computer Simulation (TOMACS)},
   8(1):3--30.
 
+\bibitem[Meyer and Anderson, 2006]{meyer2006statistical}
+Meyer, M. and Anderson, J. (2006).
+\newblock Statistical acceleration for animated global illumination.
+\newblock {\em ACM Transactions on Graphics (TOG)}, 25(3):1075--1080.
+
 \bibitem[Padovan, 2002]{vanderlaanplasticnumber}
 Padovan, R. (2002).
 \newblock Dom hans van der laan and the plastic number.
@@ -127,28 +132,23 @@ Schied, C. (2019).
 \newblock Real-time path tracing and denoising in quake 2.
 \newblock Game Developer Conference.
 
-\bibitem[Schied et~al., 2018]{Schied:2018:GER:3273023.3233301}
-Schied, C., Peters, C., and Dachsbacher, C. (2018).
-\newblock Gradient estimation for real-time adaptive temporal filtering.
-\newblock {\em Proc. ACM Comput. Graph. Interact. Tech.}, 1(2):24:1--24:16.
+\bibitem[Schied et~al., 2017]{schied2017spatiotemporal}
+Schied, C., Kaplanyan, A., Wyman, C., Patney, A., Chaitanya, C. R.~A., Burgess,
+  J., Liu, S., Dachsbacher, C., Lefohn, A., and Salvi, M. (2017).
+\newblock Spatiotemporal variance-guided filtering: real-time reconstruction
+  for path-traced global illumination.
+\newblock In {\em Proceedings of High Performance Graphics}, pages 1--12.
 
 \bibitem[{Ulichney}, 1988]{3288}
 {Ulichney}, R.~A. (1988).
 \newblock Dithering with blue noise.
 \newblock {\em Proceedings of the IEEE}, 76(1):56--79.
 
-\bibitem[Ulichney, 1993a]{ulichney1993void}
-Ulichney, R.~A. (1993a).
+\bibitem[Ulichney, 1993]{ulichney1993void}
+Ulichney, R.~A. (1993).
 \newblock Void-and-cluster method for dither array generation.
 \newblock In {\em Human Vision, Visual Processing, and Digital Display IV},
   volume 1913, pages 332--343. International Society for Optics and Photonics.
-
-\bibitem[Ulichney, 1993b]{10.111712.152707}
-Ulichney, R.~A. (1993b).
-\newblock {Void-and-cluster method for dither array generation}.
-\newblock In Allebach, J.~P. and Rogowitz, B.~E., editors, {\em Human Vision,
-  Visual Processing, and Digital Display IV}, volume 1913, pages 332 -- 343.
-  International Society for Optics and Photonics, SPIE.
 
 \bibitem[Van~Laarhoven and Aarts, 1987]{van1987simulated}
 Van~Laarhoven, P.~J. and Aarts, E.~H. (1987).
