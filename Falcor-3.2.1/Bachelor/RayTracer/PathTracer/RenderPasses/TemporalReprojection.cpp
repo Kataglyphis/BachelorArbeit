@@ -95,7 +95,7 @@ void TemporalReprojection::execute(RenderContext* pContext, const RenderData* pD
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_width"] = frame_width;
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_height"] = frame_height;
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_count"] = frame_count++;
-    mpComputeProgVars->getStructuredBuffer("data")[0]["camera_position"] = pContext->;
+    //mpComputeProgVars->getStructuredBuffer("data")[0]["camera_position"] = pContext->;
     mpComputeProgVars->getStructuredBuffer("data")[0]["enable"] = this->enable_reprojection_pass_shader_var;
 
     mpComputeProgVars->setTexture("src_seed_texture", pData->getTexture("input_seed"));
@@ -122,7 +122,7 @@ void TemporalReprojection::renderUI(Gui* pGui, const char* uiGroup) {
 }
 
 void TemporalReprojection::setScene(const std::shared_ptr<Scene>& pScene) {
-    pScene->getActiveCamera()->getPosition();
+    //pScene->getActiveCamera()->getPosition();
 }
 
 void TemporalReprojection::onResize(uint32_t width, uint32_t height) {

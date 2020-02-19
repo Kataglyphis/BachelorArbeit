@@ -17,6 +17,9 @@
     <ClCompile Include="RenderPasses\TemporalReprojection.cpp">
       <Filter>RenderPasses\TemporalReprojection</Filter>
     </ClCompile>
+    <ClCompile Include="RenderPasses\TemporalAccumulation.cpp">
+      <Filter>RenderPasses\TemporalAccumulation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PathTracer.h" />
@@ -37,6 +40,9 @@
     </ClInclude>
     <ClInclude Include="RenderPasses\TemporalReprojection.h">
       <Filter>RenderPasses\TemporalReprojection</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPasses\TemporalAccumulation.h">
+      <Filter>RenderPasses\TemporalAccumulation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +82,12 @@
     <Filter Include="Data\TemporalReprojection">
       <UniqueIdentifier>{38d60d91-3b57-477c-a6c2-9cb062497e87}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Data\TemporalAccumulation">
+      <UniqueIdentifier>{4512e7c9-6503-455b-8591-918595f51fe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderPasses\TemporalAccumulation">
+      <UniqueIdentifier>{e4b635c0-6724-406c-99eb-9cbbceb32a18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\RasterPrimary.slang">
@@ -92,6 +104,9 @@
     </None>
     <None Include="Data\GGXGIShadowRay.slang">
       <Filter>Data\GGXGlobalIllumination</Filter>
+    </None>
+    <None Include="..\..\..\Samples\Raytracing\PathTracer\Data\Accumulate.slang">
+      <Filter>Data\TemporalAccumulation</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -16,6 +16,7 @@
     <ClCompile Include="RenderPasses\GGXGlobalIllumination.cpp" />
     <ClCompile Include="RenderPasses\Retargeting.cpp" />
     <ClCompile Include="RenderPasses\Sorting.cpp" />
+    <ClCompile Include="RenderPasses\TemporalAccumulation.cpp" />
     <ClCompile Include="RenderPasses\TemporalReprojection.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -25,6 +26,7 @@
     <ClInclude Include="RenderPasses\GGXGlobalIllumination.h" />
     <ClInclude Include="RenderPasses\Retargeting.h" />
     <ClInclude Include="RenderPasses\Sorting.h" />
+    <ClInclude Include="RenderPasses\TemporalAccumulation.h" />
     <ClInclude Include="RenderPasses\TemporalReprojection.h" />
   </ItemGroup>
   <ItemGroup>
@@ -33,6 +35,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\Samples\Raytracing\PathTracer\Data\Accumulate.slang">
+      <FileType>Document</FileType>
+    </None>
     <None Include="Data\GGXGIRayGen.slang">
       <FileType>Document</FileType>
     </None>

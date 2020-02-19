@@ -88,7 +88,7 @@ RenderPassReflection GGXGlobalIllumination::reflect(void) const
                                                                                                                                                         Resource::BindFlags::UnorderedAccess |
                                                                                                                                                         Resource::BindFlags::RenderTarget).mipLevels(1);
 
-    r.addOutput("output", "rendered frame with global illumination").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
+    r.addOutput("output_frame", "rendered frame with global illumination").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
     return r;
 }
 
@@ -140,7 +140,7 @@ void GGXGlobalIllumination::execute(RenderContext* pContext, const RenderData* p
     //Texture::SharedPtr test =  pData->getTexture("Retargeting.output_seed");
 
     // Get our output buffer and clear it
-    Texture::SharedPtr pDstTex = pData->getTexture("output");
+    Texture::SharedPtr pDstTex = pData->getTexture("output_frame");
     pContext->clearUAV(pDstTex->getUAV().get(), vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
     if (pDstTex == nullptr || mpScene == nullptr) return;

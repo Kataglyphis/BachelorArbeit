@@ -31,6 +31,7 @@
 #include "RenderPasses/Sorting.h"
 #include "RenderPasses/Retargeting.h"
 #include "RenderPasses/TemporalReprojection.h"
+#include "RenderPasses/TemporalAccumulation.h"
 
 void PathTracer::onGuiRender(SampleCallbacks* pCallbacks, Gui* pGui)
 {
@@ -89,7 +90,8 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->addPass(GBufferRaster::create(), "GBuffer");
     auto pGIPass = GGXGlobalIllumination::create();
     mpGraph->addPass(pGIPass, "GlobalIllumination");
-
+    //add temporal accumulation
+    mpGraph->addPass(TemporalAccumulation::create(), "TemporalAccumulation");
     //make improvements by sorting frames after rendering
     mpGraph->addPass(Sorting::create(), "Sorting");
     //for retarget seeds before rendering frame!
@@ -102,8 +104,16 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->addEdge("Retargeting", "TemporalReprojection");
     mpGraph->addEdge("TemporalReprojection", "GlobalIllumination");
     mpGraph->addEdge("GBuffer", "GlobalIllumination");
+    //accumulate results from illumination
+    mpGraph->addEdge("GlobalIllumination","TemporalAccumulation");
+    //sort after accumulation!!
+    mpGraph->addEdge("TemporalAccumulation", "Sorting");
     //improvements in sorting happens after rendering frame
     mpGraph->addEdge("GlobalIllumination", "Sorting");
+
+    //new edges for temporal accumulation
+    mpGraph->addEdge("GlobalIllumination.output_frame", "TemporalAccumulation.input_frame");
+    mpGraph->addEdge("TemporalAccumulation.output_frame", "Sorting.input_frame");
 
     mpGraph->addEdge("Retargeting.output_seed", "TemporalReprojection.input_seed");
     mpGraph->addEdge("TemporalReprojection.output_seed", "GlobalIllumination.input_seed");
@@ -126,13 +136,14 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
 
     //the retargeted seeds will come into our path tracer
     //the rendered frame from our path tracer where we get our values to sort
-    mpGraph->addEdge("GlobalIllumination.output", "Sorting.input_frame");
+    //mpGraph->addEdge("GlobalIllumination.output", "Sorting.input_frame");
     mpGraph->addEdge("GlobalIllumination.output_seed","Sorting.input_seed");
 
     //edges for our retargeting pass
     //mpGraph->addEdge("Sorting.output_seed","Retargeting.input_seed");
 
-    mpGraph->markOutput("GlobalIllumination.output");
+    mpGraph->markOutput("GlobalIllumination.output_frame");
+    mpGraph->markOutput("TemporalAccumulation.output_frame");
     mpGraph->markOutput("Sorting.output_seed");
     //mpGraph->markOutput("Retargeting.output_seed");
 
@@ -190,7 +201,8 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
         mpGraph->setInput("Retargeting.input_seed", retarget_seeds);
 
         //we need need previous rendered frame for making reprojection!
-        Resource::SharedPtr last_frame = mpGraph->getOutput("GlobalIllumination.output");
+        //Resource::SharedPtr last_frame = mpGraph->getOutput("GlobalIllumination.output");
+        Resource::SharedPtr last_frame = mpGraph->getOutput("TemporalAccumulation.output_frame");
         mpGraph->setInput("TemporalReprojection.input_frame", last_frame);
 
         //if(this->trace_count <= 9) takeScreenshot(pCallbacks);
@@ -201,7 +213,8 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
     {
         mpGraph->getScene()->update(pCallbacks->getCurrentTime(), &mCamController);
         mpGraph->execute(pRenderContext);
-        pRenderContext->blit(mpGraph->getOutput("GlobalIllumination.output")->getSRV(), pTargetFbo->getRenderTargetView(0));
+        //pRenderContext->blit(mpGraph->getOutput("GlobalIllumination.output_frame")->getSRV(), pTargetFbo->getRenderTargetView(0));
+        pRenderContext->blit(mpGraph->getOutput("TemporalAccumulation.output_frame")->getSRV(), pTargetFbo->getRenderTargetView(0));
         //pRenderContext->blit(mpGraph->getOutput("Sorting.output_seed")->getSRV(), pTargetFbo->getRenderTargetView(0));
     }
 }
