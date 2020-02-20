@@ -103,10 +103,11 @@ Wir greifen auf unsere beiden vorberechneten Texturen quasi zufällig (siehe \re
 zu. Dabei wird der Permutationswert auf die jeweilige Position des Anfangswertes addiert.
 Dabei kann ein jeder Pixel in einem Umfeld (Radius r = 6) permutiert werden (siehe \ref{pic:Permutation}).
 
-\begin{figure}[H]\label{pic:Permutation}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{content/simulatedAnnealing/Bilder/Permutation.png}
     \caption{Permutation}
+    \label{pic:Permutation}
 \end{figure}
 
 \begin{algorithm}[H]
@@ -283,9 +284,9 @@ keine so starke Abschwächung der Verteilung zwischen den Bildern sondern eine A
         \label{fig:VergleichRetargeting}
     \end{subfigure}
         \caption{Vergleich des siebten Bildes vom reinen Sorting und zusätzlichem Retargeting}
-        \label{fig:Retargeting_And_Sorting_Verlauf_t7}
+        \label{fig:VergleichBild7}
 \end{figure}
 
-Das siebte Bild nach Beginn steht beispielhaft für die Akkumulation des Retargeting Schrittes bzw. 
+Das siebte Bild \ref{fig:VergleichBild7} nach Beginn steht beispielhaft für die Akkumulation des Retargeting Schrittes bzw. 
 dem Verwischen der \ref{ch:Content1:sec:blue noise} Verteilung bei bloßem Sorting aufgrund ständig 
 wechselnder blue noise Textur.
