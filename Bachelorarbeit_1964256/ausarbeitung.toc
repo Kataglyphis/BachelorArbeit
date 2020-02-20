@@ -26,7 +26,7 @@
 \contentsline {subsubsection}{\numberline {2.6.0.1}Allgemein}{17}{subsubsection.2.6.0.1}%
 \contentsline {subsection}{\numberline {2.6.1}Abkühlfunktion}{19}{subsection.2.6.1}%
 \contentsline {subsubsection}{\numberline {2.6.1.1}Hajek}{19}{subsubsection.2.6.1.1}%
-\contentsline {subsubsection}{\numberline {2.6.1.2}Linear}{19}{subsubsection.2.6.1.2}%
+\contentsline {subsubsection}{\numberline {2.6.1.2}Linear}{20}{subsubsection.2.6.1.2}%
 \contentsline {subsubsection}{\numberline {2.6.1.3}Exponential}{20}{subsubsection.2.6.1.3}%
 \contentsline {subsubsection}{\numberline {2.6.1.4}Inverse}{20}{subsubsection.2.6.1.4}%
 \contentsline {subsubsection}{\numberline {2.6.1.5}Kirkpatrick}{21}{subsubsection.2.6.1.5}%
@@ -34,8 +34,9 @@
 \contentsline {section}{\numberline {3.1}A Posteriori}{27}{section.3.1}%
 \contentsline {subsection}{\numberline {3.1.1}Theoretische Grundlage}{27}{subsection.3.1.1}%
 \contentsline {subsection}{\numberline {3.1.2}Praktische Durchführung}{28}{subsection.3.1.2}%
-\contentsline {section}{\numberline {3.2}Sorting}{29}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Retargeting}{35}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Rechenaufwand}{40}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Temporaler Ansatz}{41}{section.3.5}%
-\contentsline {chapter}{Literaturverzeichnis}{42}{section*.40}%
+\contentsline {section}{\numberline {3.2}Sorting}{30}{section.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.0.1}Blockgöße}{31}{subsubsection.3.2.0.1}%
+\contentsline {section}{\numberline {3.3}Retargeting}{36}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Rechenaufwand}{41}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Temporaler Ansatz}{42}{section.3.5}%
+\contentsline {chapter}{Literaturverzeichnis}{43}{section*.40}%

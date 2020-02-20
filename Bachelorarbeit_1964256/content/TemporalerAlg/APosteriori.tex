@@ -1,12 +1,13 @@
 Um das in Abschnitt \ref{subsec:dither sampling} vorgestellte \textit{Dither Sampling} zu realisieren
 benutzen wir für den temporalen Algorithmus \ref{ch:Temporaler Algorithmus} diese im Folgenden vorgestellten
-\glqq nachträglichen\grqq Annahmen \cite{hal02158423}. 
+\glqq nachträglichen\grqq Annahmen (siehe dazu \cite{hal02158423}). 
 A Posteriori sind Sie in dem Sinne, als das wir die Annahmen szenenabhängig machen und Sie anhand 
-von bereits erstellten Pixelwerten formulieren. 
+von bereits erstellten Pixelwerten formulieren. Damit werden Sie unabhängig vom Integranden der Formel 
+\ref{eq:concreteMonteCarlo}.
 
 \subsection{Theoretische Grundlage}
 
-Im Kapitel \nameref{ch:Content1:sec:Path Tracer} haben wir gesehen, dass 
+Im Kapitel über den \nameref{ch:Content1:sec:Path Tracer} haben wir gesehen, dass 
 wir den Wert eines Pixels (i,j) klassischerweise mit einem zufälligen
 Startwert durch eine Monte-Carlo Integration erhalten. Wir betrachten im
 Folgenden eine (theoretische) Menge von allen möglichen Werten eines 
@@ -65,7 +66,7 @@ von unser zuvor formulierten Wahrscheinlichkeitsdichtefunktion $h_{ij}$.
 
 \textbf{Fazit}: Falls $x \in d_{ij}$, wobei d eine korrelierte Zahlenfolge, die einer 
 \nameref{ch:Content1:sec:blue noise} Verteilung entspricht, folgt aus der bijektiven
-Natur der Gleichung \ref{eq:inverse Funktion} eine \nameref{ch:Content1:sec:blue noise} 
+Natur der Gleichung \ref{eq:inverse Funktion} eine blue noise
 Fehlerverteilungen im Bildraum. 
 
 Anmerkung: Das Dies nur theoretisch möglich und gerade für Echtzeitanwendungen nicht umsetzbar ist, 

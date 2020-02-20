@@ -1,28 +1,33 @@
 %Betrachten wir Verfahren wie das \nameref{sec:quasi monte carlo} Verfahren, 
 \label{subsec:dither sampling}
-Nachdem wir die Eigenschaften der \nameref{ch:Content1:sec:blue noise} kennengelernt haben
+Nachdem wir die Eigenschaften der \nameref{ch:Content1:sec:blue noise} kennengelernt haben,
 können wir zusammen mit dem Verständnis über den \nameref{ch:Content1:sec:Path Tracer} und der 
-zugrundeliegenden Monte-Carlo Integration \ref{eq:Monte-Carlo} das dithered sampling verstehen.
-\textit{Dithering} ist das bewusste Einbringen eines Rauschens um entstehende Quantisierungsfehler
-zu randomisieren \cite{georgiev2016blue}.
+zugrundeliegenden Monte-Carlo Integration (siehe Gleichung \ref{eq:Monte-Carlo}) das dithered sampling verstehen.
+\textit{Dithering} ist das bewusste Einbringen eines Rauschens, um entstehende Quantisierungsfehler
+zu randomisieren (siehe \cite{georgiev2016blue}).
 Klassischerweise wird eine zweidimensionale 
-\nameref{ch:Content1:sec:blue noise} Textur verwendet um mit einer darauf aufbauenden Schwellenwertbildung
+\nameref{ch:Content1:sec:blue noise} Textur verwendet, um mit einer darauf aufbauenden Schwellenwertbildung,
 dieses Rauschen in ein Bild zu bringen. 
 Hier wollen wir durch Dithering die Verteilung des 
-entstehenden Monte-Carlo Integrationsfehlers verändern.\par
-Grundlage des d-dimensionalen \nameref{ch:Content1:sec:Path Tracer} werden sowohl eine 
+entstehenden Monte-Carlo Integrationsfehlers(Rauschen) verändern.\par
+Grundlage des d-dimensionalen Path Tracers werden sowohl eine 
 \nameref{ch:Content1:sec:blue noise}-Verteilung als auch Anfangswerte $s_{n}$ gleicher Dimension.
-Damit konkretisiert sich die Monte-Carlo Integration \ref{eq:Monte-Carlo} mit Integrand f zu folgender 
-Gleichung:
+Damit konkretisiert sich die Monte-Carlo Integration (siehe Gleichung \ref{eq:Monte-Carlo}) 
+mit Integrand f zu folgender Gleichung:
+
 \begin{equation}\label{eq:concreteMonteCarlo}
     \frac{1}{N}\sum_{n=0}^{N-1}f(s_{n})
 \end{equation}
 
-\cite{georgiev2016blue} hat sich mit einer direkten Korrelation der Anfangswerte anhand einer 
-\nameref{ch:Content1:sec:blue noise} Textur beschäftigt, in der Hoffnung das der Integrand f diese
-Verteilung behält. \cite{hal02158423} zeigt jedoch die Limitierung dieser Methode auf und 
-formuliert eine \nameref{ch:Content2:sec:a Posteriori}-Methode, welche wir uns für den 
-Temporalen Algorithmus \ref{ch:Temporaler Algorithmus} zu Nutze machen werden.
+Die Arbeit \cite{georgiev2016blue} hat sich in der Hoffnung, dass der Integrand f diese
+Verteilung behält, mit einer direkten Korrelation der Anfangswerte anhand einer 
+\nameref{ch:Content1:sec:blue noise} Textur beschäftigt. Da die Gleichung \ref{eq:concreteMonteCarlo}
+gleichbedeutet mit der Farbgebung eines Pixels ist, bedeutet die Korrelation dieser Werte eine Korrelation 
+der Pixel im Bildraum. Unter der Vorraussetzung, dass der Integrand die Verteilung behält!
+Die Arbeit \cite{hal02158423} hingegen zeigt die Limitierung dieser Methode auf und formuliert 
+eine \nameref{ch:Content2:sec:a Posteriori}-Methode, 
+die diese Korrelation unabhängig des Integranden und damit von der verwendeten Szene macht.
+Die Formulierung nutzen wir für den Temporalen Algorithmus in Kapitel \ref{ch:Temporaler Algorithmus}.
 
 
 
