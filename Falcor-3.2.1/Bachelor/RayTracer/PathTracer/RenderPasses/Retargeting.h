@@ -33,7 +33,7 @@ public:
 
     //survey variables
     bool mIsInitialized = false;
-    bool enableRetargetingPass = false;
+    bool enableRetargetingPass = true;
 
     //the seed texture for stopping the retargeting and sorting
     Texture::SharedPtr copyForUnsorted;

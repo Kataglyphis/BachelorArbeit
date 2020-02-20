@@ -79,6 +79,123 @@ Dieser Schritt alleine reicht also nicht für den erwünschten Effekt zu erreich
 \label{subsec:Blockgröße}
 \subsubsection{Blockgöße}
 
+Für den Sortierschritt gibt es ein Abwägung zu treffen: Hohe Blockgröße B bedeutet eine bessere Approximation 
+des Histogramms (siehe Bild \ref{pic:histogramOfEstimates}), wohingegen allerdings die Raum-Zeit 
+Kohärenz verloren geht.
+
+\begin{figure}[H]
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% first row 
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \centering
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/2/seed_debug_5.0_small.png}
+       \caption{FT B = 2}
+       \label{pic:fftB_2}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/3/seed_debug_5.0_small.png}
+      \caption{FT B = 3}
+      \label{pic:fftB_3}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/4/seed_debug_5.0_small.png}
+      \caption{FT B = 4}
+      \label{pic:fftB_4}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/5/seed_debug_5.0_small.png}
+        \caption{FT B = 5}
+        \label{pic:fftB_5}
+    \end{subfigure}
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% second row
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/2/seed_debug_5.0_small_screen.png}
+         \caption{Ausschnitt B=2}
+         \label{pic:screen_B2}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/3/seed_debug_5.0_small_screen.png}
+         \caption{Ausschnitt B=3}
+         \label{pic:screen_B3}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/4/seed_debug_5.0_small_screen.png}
+         \caption{Ausschnitt B=4}
+         \label{pic:screen_B4}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/5/seed_debug_5.0_small_screen.png}
+         \caption{Ausschnitt B=5}
+         \label{pic:screen_B5}
+    \end{subfigure}
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% third row 
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \centering
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/6/seed_debug_5.0_small.png}
+       \caption{FT B = 6}
+       \label{pic:fftB_6}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/7/seed_debug_5.0_small.png}
+      \caption{FT B = 7}
+      \label{pic:fftB_7}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/8/seed_debug_5.0_small.png}
+      \caption{FT B = 8}
+      \label{pic:fftB_8}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/10/seed_debug_5.0_small.png}
+        \caption{FT B = 10}
+        \label{pic:fftB_10}
+    \end{subfigure}
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 4th row
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/6/seed_debug_5.0_small_screen.png}
+         \caption{Ausschnitt B=6}
+         \label{pic:screen_B6}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/7/seed_debug_5.0_small_screen.png}
+         \caption{Ausschnitt B=7}
+         \label{pic:screen_B7}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/8/seed_debug_5.0_small_screen.png}
+         \caption{Ausschnitt B=8}
+         \label{pic:screen_B8}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/10/seed_debug_5.0_small_screen.png}
+         \caption{Ausschnitt B=10}
+         \label{pic:screen_B10}
+    \end{subfigure}
+
+    \caption{Verschiedene Blockgrößen B bei selben homogenen Szenenausschnitt; jeweils drittes Bild}
+    \label{fig:VerschiedeneBlockgrößenSorting}
+      
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% screenshotreihe
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \newpage
 
 \begin{figure}[H]

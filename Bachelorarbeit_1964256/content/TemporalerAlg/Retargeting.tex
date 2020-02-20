@@ -62,7 +62,28 @@ sodass Sie verteilt sind wie die Textur $BlueNoise_{t+1}$. Aufgrund dessen haben
 \end{figure}
 
 Die Abbildung \ref{fig:VergleichRetargetSorting} verdeutlicht die Bedeutung des Retargeting 
-Schrittes.
+Schrittes. Sie zeigen dieselben Ausschnitte eines homogenen Szenenausschnitts bzw. die korrespondierende 
+Spektra über die ersten drei Bilder. Die erste Reihe mit den Bildern
+\begin{itemize}
+    \item[a.) - d.)] zeigt auch nach dem dritten Bild keine \nameref{ch:Content1:sec:blue noise} Eigenschaften.
+                     Dies liegt an der geringen Blockgröße des Sortierschrittes 
+                     (in Abschnitt \ref{subsec:Blockgröße} bereits besprochen). Das Histogramm, Wahrscheinlichkeitsfunktion
+                     aller möglichen Pixelwerte, wird mit nur vier Werten approximiert. Diese sehr wage Approximation 
+                     hat zur Folge, das die Sortierung einer randomisierten Folge entspricht. Deshalb sind im Bildraum
+                     (siehe Bild \ref{pic:sortier_screen_t2}) viele Cluster und die white noise Eigenschaften 
+                     (siehe Bild \ref{pic:white noise} im Spektrum zu erkennen.
+                     \par 
+                    Benutzt man hingegen wie in den Bildern  
+    \item[e.) - h.)] zu dem wagen Sortierschritt mit Blockgröße B=2 noch den Retargetingschritt, so akkumulieren sich die 
+                    Umverteilungen aus dem Sortierschritt. Trotz der geringen Blockgröße, die nicht reicht, damit nach einem 
+                    Bild \nameref{ch:Content1:sec:blue noise} Eigenschaften auftreten und aufgrund der Nutzung einer neuen 
+                    Textur (siehe auch Abschnitt \ref{ch:Content1:sec:Quasi-Zufallsfolgen}) innerhalb eines jeden 
+                    Bilderstellungsvorgangs wieder verschwimmen würden, können wir bereits im dritten Bild 
+                    \ref{ch:Content1:sec:blue noise} Eigenschaften erkennen. Im Bildraum (Bild \ref{pic:retarget_screen_t2})
+                    sind die Pixelverbünde verschwunden(=hohe Frequenzen). Dies macht sich im Frequenzraum 
+                    (siehe Bild \ref{pic:retarget_t2}) erkenntlich, indem niedere Frequenzen weniger vertreten sind 
+                    als bei dem bloßen Sortierschritt (Bild \ref{pic:sortier_t2})
+\end{itemize}
 
 \begin{algorithm}[H]
     \caption{\textbf{Retargeting Schritt}}
