@@ -75,7 +75,7 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
     //pContext->copyResource(copyForUnsorted.get(), pRenderData->getTexture("input_seed").get());
 
     //retargeting pass is initialized in the beginning!
-    this->enable_retarget_pass_shader_var = 1;
+    this->enable_retarget_pass_shader_var = 0;
 
 }
 
@@ -89,7 +89,7 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
 
     //update frame count
     //it is enough for this application to toroidally switch between 128 frame counts
-    this->frame_count = frame_count % 128;
+    if(frame_count > 127) this->frame_count = frame_count % 128;
 
     //info for the frame
     mpComputeProgVars->getStructuredBuffer("data")[0]["tile_width"] = tile_width;
@@ -106,8 +106,14 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     pContext->setComputeState(mpComputeState);
     pContext->setComputeVars(mpComputeProgVars);
 
-    //implementation info from here : https://hal.archives-ouvertes.fr/hal-02158423/file/blueNoiseTemporal2019_slides.pdf 
-    pContext->dispatch(numberOfGroupsX, numberOfGroupsY, 1);
+    //implementation info from here : https://hal.archives-ouvertes.fr/hal-02158423/file/blueNoiseTemporal2019_slides.pdf
+    if (frame_count >= 0) {
+        pContext->dispatch(numberOfGroupsX, numberOfGroupsY, 1);
+        pContext->copyResource(pData->getTexture("output_seed").get(), mpComputeProgVars->getTexture("output_seed_texture").get());
+    }
+    else {
+        pContext->copyResource(pData->getTexture("output_seed").get(), pData->getTexture("input_seed").get());
+    }
 
     //set the outgoing blue noise texture!
     /**if (enableRetargetingPass) {

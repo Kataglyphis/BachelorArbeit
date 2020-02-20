@@ -85,6 +85,11 @@ void TemporalReprojection::execute(RenderContext* pContext, const RenderData* pD
 
     }
 
+    if (hasCameraMoved())
+    {
+        mpLastCameraMatrix = mpScene->getActiveCamera()->getViewMatrix();
+    }
+
     //update frame count
     //it is enough for this application to toroidally switch between 128 frame counts
     this->frame_count = frame_count % 128;
@@ -121,12 +126,22 @@ void TemporalReprojection::renderUI(Gui* pGui, const char* uiGroup) {
     enable_reprojection_pass_shader_var = enableTemporalReprojectionPass ? 1 : 0;
 }
 
-void TemporalReprojection::setScene(const std::shared_ptr<Scene>& pScene) {
-    //pScene->getActiveCamera()->getPosition();
+void TemporalReprojection::setScene(const std::shared_ptr<Scene>& mpScene) {
+    // Grab a copy of the current scene's camera matrix (if it exists)
+    if (mpScene && mpScene->getActiveCamera())
+        mpLastCameraMatrix = mpScene->getActiveCamera()->getViewMatrix();
 }
 
 void TemporalReprojection::onResize(uint32_t width, uint32_t height) {
     //Upadate frame data 
     frame_width = width;
     frame_height = height;
+}
+
+bool TemporalReprojection::hasCameraMoved()
+{
+    // Has our camera moved?
+    return mpScene &&                   // No scene?  Then the answer is no
+        mpScene->getActiveCamera() &&   // No camera in our scene?  Then the answer is no
+        (mpLastCameraMatrix != mpScene->getActiveCamera()->getViewMatrix());   // Compare the current matrix with the last one
 }

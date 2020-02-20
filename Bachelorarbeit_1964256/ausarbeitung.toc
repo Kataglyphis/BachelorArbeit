@@ -34,8 +34,8 @@
 \contentsline {section}{\numberline {3.1}A Posteriori}{27}{section.3.1}%
 \contentsline {subsection}{\numberline {3.1.1}Theoretische Grundlage}{27}{subsection.3.1.1}%
 \contentsline {subsection}{\numberline {3.1.2}Praktische Durchführung}{28}{subsection.3.1.2}%
-\contentsline {section}{\numberline {3.2}Sorting}{30}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Retargeting}{36}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Rechenaufwand}{41}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Temporaler Ansatz}{42}{section.3.5}%
-\contentsline {chapter}{Literaturverzeichnis}{43}{section*.39}%
+\contentsline {section}{\numberline {3.2}Sorting}{29}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Retargeting}{35}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Rechenaufwand}{40}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Temporaler Ansatz}{41}{section.3.5}%
+\contentsline {chapter}{Literaturverzeichnis}{42}{section*.40}%

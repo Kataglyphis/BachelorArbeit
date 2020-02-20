@@ -11,7 +11,7 @@ class Retargeting : public RenderPass, inherit_shared_from_this<RenderPass, Reta
 public:
     using SharedPtr = std::shared_ptr<Retargeting>;
 
-    uint32_t frame_count = 0;
+    int32_t frame_count = -1;
     uint32_t tile_width = 64;
     uint32_t tile_height = 64;
     uint32_t frame_width = 1920;
@@ -19,8 +19,8 @@ public:
     uint32_t enable_retarget_pass_shader_var;
 
     //for compute context
-    uint32_t groupDimX = 4;
-    uint32_t groupDimY = 4;
+    uint32_t groupDimX = 8;
+    uint32_t groupDimY = 8;
 
     //for compute state
     uint32_t numberOfGroupsX = (frame_width / groupDimX) +1;
@@ -33,7 +33,7 @@ public:
 
     //survey variables
     bool mIsInitialized = false;
-    bool enableRetargetingPass = true;
+    bool enableRetargetingPass = false;
 
     //the seed texture for stopping the retargeting and sorting
     Texture::SharedPtr copyForUnsorted;

@@ -17,7 +17,7 @@ public:
     bool sortingEnabled = true;
 
     //frame infos
-    uint32_t frame_count = 1;
+    int32_t frame_count = 0;
     uint32_t tile_width = 64;
     uint32_t tile_height = 64;
     uint32_t frame_width = 1920;
@@ -29,8 +29,8 @@ public:
     size_t frame_count_offset;
 
     //compute context
-    uint32_t groupDimX = 4;
-    uint32_t groupDimY = 4;
+    uint32_t groupDimX = 2;
+    uint32_t groupDimY = 2;
     uint32_t numberOfGroupsX = (frame_width / groupDimX) + 1;
     uint32_t numberOfGroupsY = (frame_height / groupDimY) +1;
 

@@ -40,6 +40,10 @@ public:
     uint seed_texture_width = 1920;
     uint seed_texture_height = 1080;
 
+    //temporal part
+    mat4                mpLastCameraMatrix;
+    Scene::SharedPtr    mpScene;
+
     /** Instantiate our pass.  The input Python dictionary is where you can extract pass parameters
     */
     static SharedPtr create(const Dictionary& params = {});
@@ -78,6 +82,11 @@ private:
     /** Runs on first execute() to initialize rendering resources
     */
     void initialize(RenderContext* pContext, const RenderData* pRenderData);
+
+    /**
+    signals whether the camera has moved or not
+    */
+    bool hasCameraMoved();
 
     //Internal pass state
     ComputeProgram::SharedPtr mpComputeProg;

@@ -189,7 +189,7 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
         hasrunonce = true;
 
         //from our initialized seeds
-        //takeScreenshot(pCallbacks);
+        takeScreenshot(pCallbacks);
 
     } else {
 
@@ -205,7 +205,7 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
         Resource::SharedPtr last_frame = mpGraph->getOutput("TemporalAccumulation.output_frame");
         mpGraph->setInput("TemporalReprojection.input_frame", last_frame);
 
-        //if(this->trace_count <= 9) takeScreenshot(pCallbacks);
+        if(this->trace_count <= 9) takeScreenshot(pCallbacks);
     }
 
 

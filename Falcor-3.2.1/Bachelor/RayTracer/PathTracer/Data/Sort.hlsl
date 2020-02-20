@@ -19,9 +19,10 @@ Algorithm 1 The sorting pass permutes pixel seeds by blocks.
 //__import Helpers;
 // number of pixels we group togehter and we are sorting for itself
 
-#define BLOCK_SIZE 16//pow(DIMENSION_SIZE,2)
 //sorting 4 pixel blocks each for itself
-#define DIMENSION_SIZE 4
+#define DIMENSION_SIZE 2
+
+#define BLOCK_SIZE 4
 
 //some helper functions; make coding easier
 #define Swap(A,B) {pixel temp = A; A = B; B = temp;}
@@ -36,7 +37,7 @@ float getIntensity(float3 pixel) {
 }
 
 uint getSeedFromTex(float4 pixelValue) {
-    return (((uint) pixelValue.x << 24) | ((uint) pixelValue.y << 16) | ((uint) pixelValue.z << 8) | pixelValue.w);
+    return ((((uint) pixelValue.x) << 24) | (((uint) pixelValue.y) << 16) | (((uint) pixelValue.z << 8)) | pixelValue.w);
 }
 
 float4 fromSeedToTexture(float seed)
@@ -66,8 +67,7 @@ struct perFrameData
     uint tile_height; // height of the frame
     uint frame_width; // width of the current frame
     uint frame_height; // height of the current frame
-    uint frame_count; // the actual index of the frame
-    
+    int frame_count; // the actual index of the frame
 };
 
 StructuredBuffer<perFrameData> data;
@@ -79,6 +79,7 @@ groupshared pixel sortedImage[BLOCK_SIZE];
 groupshared pixel sortedBlueNoise[BLOCK_SIZE];
 
 //we are performing a 1-dimensional-sorting of our seeds
+//[numthreads(DIMENSION_SIZE, DIMENSION_SIZE, 1)]
 [numthreads(DIMENSION_SIZE, DIMENSION_SIZE, 1)]
 void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 thread_ID : SV_DISPATCHTHREADID, uint2 group_thread_id : SV_GroupThreadID)
 {
@@ -114,9 +115,11 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     //we have to sort the pixels in the block by their color intensities
     //and the blue noise pixels by their greyscal intesities
 
-    for (int i = 0; i < (BLOCK_SIZE / 2); i++) {
+    for (int i = 0; i < (BLOCK_SIZE / 2); i++)
+    {
         //first round
-        if (group_Index < (BLOCK_SIZE - 1) && (group_Index % 2 != 0)) {
+        if (group_Index < (BLOCK_SIZE - 1) && (group_Index % 2 != 0))
+        {
             //sorting pixels of the frame
             if (sortedImage[group_Index].value > sortedImage[group_Index + 1].value) {
                 
@@ -130,7 +133,8 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
          }
          GroupMemoryBarrierWithGroupSync();
         //wait for all,then second round!!
-         if ((group_Index < BLOCK_SIZE - 1) && (group_Index % 2 == 0)) {
+        if ((group_Index < BLOCK_SIZE - 1) && (group_Index % 2 == 0))
+        {
             //first round
             if (sortedImage[group_Index].value > sortedImage[group_Index + 1].value)  {
                 Swap(sortedImage[group_Index], sortedImage[group_Index + 1]);

@@ -90,16 +90,6 @@ Fehlerverteilungen im Bildraum bei sich stark ändernden Bildausschnitten
 (so z.B. bei Objektkanten), da dort die Annahme, dass eine ähnliche Oberfläche
 zur Farbgebung beiträgt verletzt wird.
 
-\todo{Diesen Alg verschieben!}
-\begin{algorithm}[H]
-    \caption{Benutzung unser zwei vorberechneten Texturen: Blue Noise und Retarget}
-    \begin{algorithmic}[1]
-        \State $bluenoise_{t}$(i,j) = $bluenoise_{0}$(i + $\alpha$t, j + $\beta$t); 
-        \State $retarget_{t}$(i,j) = $retarget_{0}$(i + $\alpha$t, j + $\beta$t) + ($\alpha$t, $\beta$t)
-    \end{algorithmic}
-    \label{alg:Benutzung vorberechneter Texturen}
-\end{algorithm}
-
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.4\textwidth}

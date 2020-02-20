@@ -10,9 +10,9 @@
 //__import ShaderCommon;
 //__import Helpers;
 // here we are defining our line size for the retargeting
-#define DIMENSION_SIZE 4
+#define DIMENSION_SIZE 8
 
-#define BLOCK_SIZE 16
+#define BLOCK_SIZE 64
 
 //retarget texture simulates t + 1;
 //each <float i,float j> position stores its retargeted coordinates <float k,float l>;vertical and horizontal offset
@@ -29,7 +29,7 @@ struct perFrameData {
     uint tile_height; // height of the frame
     uint frame_width; // width of the current frame
     uint frame_height; // height of the current frame
-    uint frame_count; // the actual index of the frame
+    int frame_count; // the actual index of the frame
     uint enable; //0: is disabled; 1: retarget seeds
     
 };
@@ -66,20 +66,26 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     // if enabled read retarget coords from textures
     if (enable_retargeting_pass == 1)
     {
-
         retarget += int2(round(retarget_texture[bluenoise_index].rg * 12.f - float2(6.f)));
-
+        //retarget.y = -retarget.y;
     }
 
-    uint2 global_retarget_coordinates = thread_ID + retarget + uint2(frame_width, frame_height);
+    uint2 local_retarget_coordinates = group_thread_ID + retarget + uint2(tile_width, tile_height);
+    local_retarget_coordinates.x = local_retarget_coordinates.x % tile_width;
+    local_retarget_coordinates.y = local_retarget_coordinates.y % tile_height;
+
+    uint2 global_retarget_coordinates = local_retarget_coordinates + DIMENSION_SIZE * (group_ID) + uint2(frame_width, frame_height);
     global_retarget_coordinates.x = global_retarget_coordinates.x % frame_width;
     global_retarget_coordinates.y = global_retarget_coordinates.y % frame_height;
+    //uint2 global_retarget_coordinates = thread_ID + retarget + uint2(frame_width, frame_height);
+    //global_retarget_coordinates.x = global_retarget_coordinates.x % frame_width;
+    //global_retarget_coordinates.y = global_retarget_coordinates.y % frame_height;
     
     
     if (thread_ID.x >= data[0].frame_width || thread_ID.y >= data[0].frame_height ||
         thread_ID.x < 0 || thread_ID.y < 0)
     {
-    
+        
         uint2 new_thread_coordinates = thread_ID + uint2(frame_width, frame_height);
         new_thread_coordinates.x = new_thread_coordinates.x % frame_width;
         new_thread_coordinates.y = new_thread_coordinates.y % frame_height;

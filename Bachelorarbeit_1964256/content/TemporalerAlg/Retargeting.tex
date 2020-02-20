@@ -1,9 +1,68 @@
-Bevor die Anfangswerte zur globalen Beleuchtung benutzt werden(siehe auch \nameref{pic:Render Graph}), durchlaufen Sie nach dem Sortieren \ref{ch:Content2:sec:Sorting}
-das Retargeting. Der Sinn liegt hierbei beim Vertauschen der Seeds, die 
-verteilt sind wie $BlueNoise_{t}$ , aufgrund des zuvor ausgeführten Sortierschrittes \ref{ch:Content2:sec:Sorting}
-, sodass Sie verteilt sind wie die Textur
-$BlueNoise_{t+1}$. Aufgrund dessen haben wir eine Aufsummierung der
-blue noise Fehlerverteilungen über die ersten paar Bilder(siehe \nameref{fig:Retargeting_And_Sorting_Szene_t1}).
+Bevor die Anfangswerte zur globalen Beleuchtung benutzt werden(siehe auch \nameref{pic:Render Graph}), durchlaufen Sie nach dem Sortieren 
+\ref{ch:Content2:sec:Sorting} das Retargeting. Der Sinn liegt hierbei beim Vertauschen der Anfangswerte, sodass Sie 
+verteilt sind wie $BlueNoise_{t}$ , aufgrund des zuvor ausgeführten Sortierschrittes \ref{ch:Content2:sec:Sorting},
+sodass Sie verteilt sind wie die Textur $BlueNoise_{t+1}$. Aufgrund dessen haben wir eine Aufsummierung der
+\nameref{ch:Content1:sec:blue noise} Fehlerverteilungen über die ersten paar Bilder(siehe \nameref{fig:Retargeting_And_Sorting_Szene_t1}).
+
+\begin{figure}[H]
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% second row --> sorting block size 2 without retargeting
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \centering
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Bedeutung Retargeting/SortSerie/seed_debug_3.0_small.png}
+       \caption{FT t = 0}
+       \label{pic:sortier_t0}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Bedeutung Retargeting/SortSerie/seed_debug_4.0_small.png}
+      \caption{FT t = 1}
+      \label{pic:sortier_t1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Bedeutung Retargeting/SortSerie/seed_debug_5.0_small_screen.png}
+      \caption{Ausschnitt t=2}
+      \label{pic:sortier_screen_t2}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Bedeutung Retargeting/SortSerie/seed_debug_5.0_small.png}
+        \caption{FT t = 2}
+        \label{pic:sortier_t2}
+      \end{subfigure}
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% second row --> sorting block size 2 with retargeting
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Bedeutung Retargeting/RetargetSerie/seed_debug_3.0_small.png}
+         \caption{FT t = 0}
+         \label{pic:retarget_t0}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Bedeutung Retargeting/RetargetSerie/seed_debug_4.0_small.png}
+         \caption{FT t = 1}
+         \label{pic:retarget_t1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Bedeutung Retargeting/RetargetSerie/seed_debug_5.0_small_screen.png}
+         \caption{Ausschnitt t=2}
+         \label{pic:retarget_screen_t2}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Bedeutung Retargeting/RetargetSerie/seed_debug_5.0_small.png}
+         \caption{FT t = 2}
+         \label{pic:retarget_t2}
+    \end{subfigure}
+    \caption{Vergleich erste Bilder Sorting(B=2) mit bzw. ohne Retargeting}
+    \label{fig:VergleichRetargetSorting}
+      
+\end{figure}
+
+Die Abbildung \ref{fig:VergleichRetargetSorting} verdeutlicht die Bedeutung des Retargeting 
+Schrittes.
 
 \begin{algorithm}[H]
     \caption{\textbf{Retargeting Schritt}}
@@ -22,6 +81,15 @@ blue noise Fehlerverteilungen über die ersten paar Bilder(siehe \nameref{fig:Re
     \includegraphics[width=0.5\linewidth]{content/simulatedAnnealing/Bilder/Permutation.png}
     \caption{Permutation}
 \end{figure}
+
+\begin{algorithm}[H]
+    \caption{Benutzung unser zwei vorberechneten Texturen: Blue Noise und Retarget}
+    \begin{algorithmic}[1]
+        \State $bluenoise_{t}$(i,j) = $bluenoise_{0}$(i + $\alpha$t, j + $\beta$t); 
+        \State $retarget_{t}$(i,j) = $retarget_{0}$(i + $\alpha$t, j + $\beta$t) + ($\alpha$t, $\beta$t)
+    \end{algorithmic}
+    \label{alg:Benutzung vorberechneter Texturen}
+\end{algorithm}
 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
