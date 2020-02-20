@@ -192,8 +192,16 @@ Kohärenz verloren geht.
       
 \end{figure}
 
+Generell lässt sich aus den Untersuchungen in Abbildung \ref{fig:VerschiedeneBlockgrößenSorting} schließen,
+dass eine geringe Blockgröße des Sortierschrittes ein Fehlen bzw. starke Abschwächung der 
+\nameref{ch:Content1:sec:blue noise} Fehlerverteilung im Bildraum zur Folge hat. Erklärung: Das Histogramm
+(siehe \ref{pic:histogramOfEstimates}), Wahrscheinlichkeitsfunktion
+aller möglichen Pixelwerte, wird mit zu wenigen Werten approximiert. Diese sehr wage Approximation 
+hat zur Folge, dass die Sortierung einer randomisierten Folge entspricht. Deshalb sind im Bildraum
+viele Cluster und die white noise Eigenschaften in den Spektra zu erkennen.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% screenshotreihe
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Screenshotreihe
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newpage
@@ -315,7 +323,7 @@ Kohärenz verloren geht.
         \caption{Fouriertransformierte des Ausschnitts}
         \label{fig:Nur_Sorting_Fouriertransformierte_t6}
     \end{subfigure}
-        \caption{Zeitpunkt t=5}
+        \caption{Zeitpunkt t=6}
         \label{fig:Nur_Sorting_Verlauf_t6}
 \end{figure}
 
@@ -335,6 +343,12 @@ Kohärenz verloren geht.
         \caption{Fouriertransformierte des Ausschnitts}
         \label{fig:Nur_Sorting_Fouriertransformierte_t7}
     \end{subfigure}
-        \caption{Zeitpunkt t=5}
+        \caption{Zeitpunkt t=7}
         \label{fig:Nur_Sorting_Verlauf_t7}
 \end{figure}
+
+Die Bildreihe zeigt die ersten sieben erstellten Bilder mit ausschließlichem 
+Sortieren ohne \nameref{ch:Content2:sec:Retargeting}. Bereits im dritten Bild 
+\ref{fig:Nur_Sorting_Verlauf_t3} ist eine \nameref{ch:Content1:sec:blue noise}
+Fehlerverteilung im Bildraum zu erkennen. Die darauffolgenden Ausschnitte 
+\ref{fig:Nur_Sorting_Verlauf_t4} - \ref{fig:Nur_Sorting_Verlauf_t7}

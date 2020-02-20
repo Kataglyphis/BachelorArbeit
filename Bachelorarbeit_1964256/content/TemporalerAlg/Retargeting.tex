@@ -1,8 +1,8 @@
-Bevor die Anfangswerte zur globalen Beleuchtung benutzt werden(siehe auch \nameref{pic:Render Graph}), durchlaufen Sie nach dem Sortieren 
-\ref{ch:Content2:sec:Sorting} das Retargeting. Der Sinn liegt hierbei beim Vertauschen der Anfangswerte, sodass Sie 
-verteilt sind wie $BlueNoise_{t}$ , aufgrund des zuvor ausgeführten Sortierschrittes \ref{ch:Content2:sec:Sorting},
+Bevor die Anfangswerte zur globalen Beleuchtung benutzt werden (siehe auch \nameref{pic:Render Graph}), durchlaufen Sie nach dem Sortieren 
+(siehe \ref{ch:Content2:sec:Sorting}) das Retargeting. Der Sinn liegt hierbei beim Vertauschen der Anfangswerte, sodass Sie 
+verteilt sind wie $BlueNoise_{t}$ , aufgrund des zuvor ausgeführten Sortierschrittes,
 sodass Sie verteilt sind wie die Textur $BlueNoise_{t+1}$. Aufgrund dessen haben wir eine Aufsummierung der
-\nameref{ch:Content1:sec:blue noise} Fehlerverteilungen über die ersten paar Bilder(siehe \nameref{fig:Retargeting_And_Sorting_Szene_t1}).
+\nameref{ch:Content1:sec:blue noise} Fehlerverteilungen über die ersten paar Bilder(siehe Bilderreihe \ref{fig:Retargeting_And_Sorting_Szene_t1}).
 
 \begin{figure}[H]
 
@@ -85,6 +85,8 @@ Spektra über die ersten drei Bilder. Die erste Reihe mit den Bildern
                     als bei dem bloßen Sortierschritt (Bild \ref{pic:sortier_t2})
 \end{itemize}
 
+An sich ist der Schritt eine bloße Anwendung einer Permutation.\ref{alg:retargetingAlg}
+
 \begin{algorithm}[H]
     \caption{\textbf{Retargeting Schritt}}
     \begin{algorithmic}[1]
@@ -96,6 +98,10 @@ Spektra über die ersten drei Bilder. Die erste Reihe mit den Bildern
     \end{algorithmic}
     \label{alg:retargetingAlg}
 \end{algorithm}
+
+Wir greifen auf unsere beiden vorberechneten Texturen quasi zufällig (siehe \ref{ch:Content1:sec:Quasi-Zufallsfolgen})
+zu. Dabei wird der Permutationswert auf die jeweilige Position des Anfangswertes addiert.
+Dabei kann ein jeder Pixel in einem Umfeld (Radius r = 6) permutiert werden (siehe \ref{pic:Permutation}).
 
 \begin{figure}[H]\label{pic:Permutation}
     \centering
@@ -116,6 +122,7 @@ Spektra über die ersten drei Bilder. Die erste Reihe mit den Bildern
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%% Beginning the Sequence of getting to blue noise from white noise
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \label{fig:Retargetbilderstrecke}
 \begin{figure}[H]
 
@@ -258,3 +265,27 @@ Spektra über die ersten drei Bilder. Die erste Reihe mit den Bildern
         \label{fig:Retargeting_And_Sorting_Verlauf_t7}
 \end{figure}
 
+Im dritten Bild der Reihe \ref{fig:Retargeting_And_Sorting_Verlauf_t3} können wir eine erste 
+\ref{ch:Content1:sec:blue noise} Fehlerverteilung im Bildraum erkennen. Im Gegensatz zum 
+reinen \nameref{ch:Content2:sec:Sorting} ohne dem Retargetingschritt haben wir hier in den 
+Bildern danach \ref{fig:Retargeting_And_Sorting_Verlauf_t4} - \ref{fig:Retargeting_And_Sorting_Verlauf_t7}
+keine so starke Abschwächung der Verteilung zwischen den Bildern sondern eine Akkumulation.
+
+\begin{figure}[H]
+    \begin{subfigure}{0.5\textwidth}
+        \centering\includegraphics[width=0.5\linewidth]{content/TemporalerAlg/Bilder/Sorting/Screenshots/Spektren/seed_debug_9.0_ausschnitt.png} 
+        \caption{FFT reines Sorting}
+        \label{fig:VergleichSorting}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering\includegraphics[width=0.5\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Screenshots/Spektren/seed_debug_9.0_ausschnitt.png}
+        \caption{FFT Sorting + Retargeting}
+        \label{fig:VergleichRetargeting}
+    \end{subfigure}
+        \caption{Vergleich des siebten Bildes vom reinen Sorting und zusätzlichem Retargeting}
+        \label{fig:Retargeting_And_Sorting_Verlauf_t7}
+\end{figure}
+
+Das siebte Bild nach Beginn steht beispielhaft für die Akkumulation des Retargeting Schrittes bzw. 
+dem Verwischen der \ref{ch:Content1:sec:blue noise} Verteilung bei bloßem Sorting aufgrund ständig 
+wechselnder blue noise Textur.
