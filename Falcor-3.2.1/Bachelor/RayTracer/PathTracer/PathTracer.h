@@ -48,8 +48,16 @@ public:
     void onGuiRender(SampleCallbacks* pSample, Gui* pGui) override;
 
 private:
+    //temporal part; 
+    mat4                mpLastCameraMatrix;
+    mat4                mpLastViewProjMatrix;
+    //creating buffer for last frame
+    mat4 mpViewProjMatrixPreviousPos;
+    bool takeScreenshotOfNextFrame = false;
+
     void toggleCameraPathState();
-    void takeScreenshot(SampleCallbacks* pCallbacks);
+    void takeScreenshot(SampleCallbacks* pCallbacks, std::string extension);
+    bool hasCameraMoved();
 
     bool mDisableCameraPath = false;
     FirstPersonCameraController mCamController;

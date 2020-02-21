@@ -63,16 +63,13 @@ void TemporalReprojection::initialize(RenderContext * pContext, const RenderData
 
 
     //info for the frame
-    // Send data to compute shader; first fill structured buffer
+    //Send data to compute shader; first fill structured buffer
     mpComputeProgVars->setStructuredBuffer("data", StructuredBuffer::create(mpComputeProg, "data", 1));
 
     if (mpComputeProg != nullptr) mIsInitialized = true;
 
-    //copyForUnsorted = Texture::create2D(seed_texture_width, seed_texture_height, ResourceFormat::BGRA8Unorm,1,1);
-    //pContext->copyResource(copyForUnsorted.get(), pRenderData->getTexture("input_seed").get());
-
     //TemporalReprojection pass is initialized in the beginning!
-    this->enable_reprojection_pass_shader_var = 1;
+    this->enable_reprojection_pass_shader_var =1;
 
 }
 
@@ -85,9 +82,14 @@ void TemporalReprojection::execute(RenderContext* pContext, const RenderData* pD
 
     }
 
-    if (hasCameraMoved())
+    uint camera_moved = hasCameraMoved();
+
+    if (camera_moved)
     {
         mpLastCameraMatrix = mpScene->getActiveCamera()->getViewMatrix();
+        //save VP-Matrix of last frame!
+        mpViewProjMatrixPreviousPos = mpLastViewProjMatrix;
+        mpLastViewProjMatrix = mpScene->getActiveCamera()->getViewProjMatrix();
     }
 
     //update frame count
@@ -100,8 +102,9 @@ void TemporalReprojection::execute(RenderContext* pContext, const RenderData* pD
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_width"] = frame_width;
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_height"] = frame_height;
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_count"] = frame_count++;
-    //mpComputeProgVars->getStructuredBuffer("data")[0]["camera_position"] = pContext->;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["camera_moved"] = camera_moved;
     mpComputeProgVars->getStructuredBuffer("data")[0]["enable"] = this->enable_reprojection_pass_shader_var;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["VP_prev_frame"] = mpViewProjMatrixPreviousPos;
 
     mpComputeProgVars->setTexture("src_seed_texture", pData->getTexture("input_seed"));
     //set the putput seed tex in HLSL namespace!!
@@ -144,4 +147,14 @@ bool TemporalReprojection::hasCameraMoved()
     return mpScene &&                   // No scene?  Then the answer is no
         mpScene->getActiveCamera() &&   // No camera in our scene?  Then the answer is no
         (mpLastCameraMatrix != mpScene->getActiveCamera()->getViewMatrix());   // Compare the current matrix with the last one
+}
+
+void TemporalReprojection::takeScreenshot(SampleCallbacks* pCallbacks) {
+
+    std::stringstream ss;
+    ss << "seed_debug_" << this->trace_count;
+    std::string filename = ss.str();
+    pCallbacks->captureScreen(filename, "Screenshots");
+    trace_count++;
+
 }

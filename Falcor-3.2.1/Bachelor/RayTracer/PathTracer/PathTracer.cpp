@@ -189,7 +189,7 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
         hasrunonce = true;
 
         //from our initialized seeds
-        takeScreenshot(pCallbacks);
+        //takeScreenshot(pCallbacks);
 
     } else {
 
@@ -205,7 +205,23 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
         Resource::SharedPtr last_frame = mpGraph->getOutput("TemporalAccumulation.output_frame");
         mpGraph->setInput("TemporalReprojection.input_frame", last_frame);
 
-        if(this->trace_count <= 9) takeScreenshot(pCallbacks);
+        //if(this->trace_count <= 9) takeScreenshot(pCallbacks);
+    }
+
+    if (takeScreenshotOfNextFrame) {
+        takeScreenshot(pCallbacks, "next_frame");
+        takeScreenshotOfNextFrame = false;
+    }
+
+    //this is for evaluating our projecting pass
+    if (hasCameraMoved())
+    {
+        takeScreenshot(pCallbacks, "previous_frame");
+        takeScreenshotOfNextFrame = true;
+        mpLastCameraMatrix = mpGraph->getScene()->getActiveCamera()->getViewMatrix();
+        //save VP-Matrix of last frame!
+        mpViewProjMatrixPreviousPos = mpLastViewProjMatrix;
+        mpLastViewProjMatrix = mpGraph->getScene()->getActiveCamera()->getViewProjMatrix();
     }
 
 
@@ -257,14 +273,28 @@ void PathTracer::onResizeSwapChain(SampleCallbacks* pCallbacks, uint32_t width, 
     }
 }
 
-void PathTracer::takeScreenshot(SampleCallbacks* pCallbacks) {
+void PathTracer::takeScreenshot(SampleCallbacks* pCallbacks, std::string extension) {
+
+        time_t Zeitstempel;
+        Zeitstempel = time(0);
+        tm* nun;
+        nun = localtime(&Zeitstempel);
 
         std::stringstream ss;
-        ss << "seed_debug_" << this->trace_count;
+        ss << "seed_debug_" << this->trace_count << nun->tm_mday << '.' << nun->tm_mon + 1
+            << '.' << nun->tm_year + 1900 << " - " << nun->tm_hour << '_' << nun->tm_min << extension;
         std::string filename = ss.str();
         pCallbacks->captureScreen(filename, "Screenshots");
         trace_count++;
 
+}
+
+bool PathTracer::hasCameraMoved() {
+
+    auto mpScene = mpGraph->getScene();
+    return mpScene &&                   // No scene?  Then the answer is no
+        mpScene->getActiveCamera() &&   // No camera in our scene?  Then the answer is no
+        (mpLastCameraMatrix != mpScene->getActiveCamera()->getViewMatrix());   // Compare the current matrix with the last one
 }
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)

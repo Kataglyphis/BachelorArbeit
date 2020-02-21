@@ -2,6 +2,10 @@
 #include "Falcor.h"
 #include "FalcorExperimental.h"
 
+#include <string>       // std::string
+#include <iostream>     // std::cout
+#include <sstream>      // std::stringstream
+
 using namespace Falcor;
 
 class TemporalReprojection :
@@ -17,8 +21,8 @@ public:
     uint32_t enable_reprojection_pass_shader_var;
 
     //for compute context
-    uint32_t groupDimX = 4;
-    uint32_t groupDimY = 4;
+    uint32_t groupDimX = 8;
+    uint32_t groupDimY = 8;
 
     //for compute state
     uint32_t numberOfGroupsX = (frame_width / groupDimX) + 1;
@@ -40,9 +44,14 @@ public:
     uint seed_texture_width = 1920;
     uint seed_texture_height = 1080;
 
-    //temporal part
+    //temporal part; 
     mat4                mpLastCameraMatrix;
+    mat4                mpLastViewProjMatrix;
     Scene::SharedPtr    mpScene;
+
+    //creating buffer for last frame
+    mat4 mpViewProjMatrixPreviousPos;
+
 
     /** Instantiate our pass.  The input Python dictionary is where you can extract pass parameters
     */
@@ -84,6 +93,11 @@ private:
     void initialize(RenderContext* pContext, const RenderData* pRenderData);
 
     /**
+        we want to take screenshots as soon as the camera has moved
+    */
+    void takeScreenshot(SampleCallbacks* pCallbacks);
+
+    /**
     signals whether the camera has moved or not
     */
     bool hasCameraMoved();
@@ -92,6 +106,10 @@ private:
     ComputeProgram::SharedPtr mpComputeProg;
     ComputeState::SharedPtr mpComputeState;
     ComputeVars::SharedPtr mpComputeProgVars;
+
+    //holding trace of the capturing
+    uint32_t trace_count = 0;
+    bool take_shot_of_next_frame = 0;
 
 };
 
