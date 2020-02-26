@@ -40,6 +40,8 @@ RenderPassReflection TemporalReprojection::reflect(void) const {
     (Resource::BindFlags::UnorderedAccess |
         Resource::BindFlags::RenderTarget |
         Resource::BindFlags::ShaderResource).mipLevels(1);
+    
+    r.addInput("input_depthStencil", "depth and stencil from g-buffer").format(ResourceFormat::D32Float).bindFlags(Resource::BindFlags::DepthStencil);
 
     r.addInput("input_frame", "last rendered frame").format(ResourceFormat::RGBA32Float).bindFlags(Resource::BindFlags::ShaderResource | Resource::BindFlags::UnorderedAccess | Resource::BindFlags::RenderTarget);
 
@@ -69,7 +71,7 @@ void TemporalReprojection::initialize(RenderContext * pContext, const RenderData
     if (mpComputeProg != nullptr) mIsInitialized = true;
 
     //TemporalReprojection pass is initialized in the beginning!
-    this->enable_reprojection_pass_shader_var =1;
+    this->enable_reprojection_pass_shader_var = this->enableTemporalReprojectionPass ?  1 : 0;
 
 }
 
@@ -104,8 +106,12 @@ void TemporalReprojection::execute(RenderContext* pContext, const RenderData* pD
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_count"] = frame_count++;
     mpComputeProgVars->getStructuredBuffer("data")[0]["camera_moved"] = camera_moved;
     mpComputeProgVars->getStructuredBuffer("data")[0]["enable"] = this->enable_reprojection_pass_shader_var;
-    mpComputeProgVars->getStructuredBuffer("data")[0]["VP_prev_frame"] = mpViewProjMatrixPreviousPos;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["Inverse_VP_prev_frame"] = glm::inverse(mpViewProjMatrixPreviousPos);
+    mpComputeProgVars->getStructuredBuffer("data")[0]["VP_curr_frame"] = mpLastViewProjMatrix;
 
+    //setting the depth buffer
+    mpComputeProgVars->setTexture("depth", pData->getTexture("input_depthStencil"));
+    //setting the input seed texture in our shader 
     mpComputeProgVars->setTexture("src_seed_texture", pData->getTexture("input_seed"));
     //set the putput seed tex in HLSL namespace!!
     mpComputeProgVars->setTexture("output_seed_texture", pData->getTexture("output_seed"));
@@ -113,7 +119,6 @@ void TemporalReprojection::execute(RenderContext* pContext, const RenderData* pD
     pContext->setComputeState(mpComputeState);
     pContext->setComputeVars(mpComputeProgVars);
 
-    //implementation info from here : https://hal.archives-ouvertes.fr/hal-02158423/file/blueNoiseTemporal2019_slides.pdf
     if (frame_count >= 1) {
     //only reproject if we have a previous frame already :)
     pContext->dispatch(numberOfGroupsX, numberOfGroupsY, 1);

@@ -75,7 +75,7 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
     //pContext->copyResource(copyForUnsorted.get(), pRenderData->getTexture("input_seed").get());
 
     //retargeting pass is initialized in the beginning!
-    this->enable_retarget_pass_shader_var = 1;
+    this->enable_retarget_pass_shader_var = this->enableRetargetingPass ? 1 : 0;
 
 }
 

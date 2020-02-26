@@ -35,7 +35,7 @@ public:
 
     //survey variables
     bool mIsInitialized = false;
-    bool enableTemporalReprojectionPass = true;
+    bool enableTemporalReprojectionPass = false;
 
     //the seed texture for stopping the TemporalReprojection and sorting
     Texture::SharedPtr copyForUnsorted;

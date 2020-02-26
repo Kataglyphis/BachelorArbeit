@@ -20,9 +20,9 @@ Algorithm 1 The sorting pass permutes pixel seeds by blocks.
 // number of pixels we group togehter and we are sorting for itself
 
 //sorting 4 pixel blocks each for itself
-#define DIMENSION_SIZE 8
+#define DIMENSION_SIZE 4
 
-#define BLOCK_SIZE 64
+#define BLOCK_SIZE 16
 
 //some helper functions; make coding easier
 #define Swap(A,B) {pixel temp = A; A = B; B = temp;}
@@ -58,7 +58,9 @@ Texture2D<float4> input_frame_texture;
 //needed as comparisson for sorting
 Texture2D<float4> input_blue_noise_texture;
 //texture we are becoming and will again put out filled with sorted seeds;
-RWTexture2D<float4> input_seed_texture;
+Texture2D<float4> input_seed_texture;
+//our sorted outgoing sedds
+RWTexture2D<float4> output_seed_texture;
 
 //given variables for our frame
 struct perFrameData
@@ -159,7 +161,7 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     //new seed index in result of sorting blue noise texture
     //uint new_seed_index = global_seed_index.y * width + global_seed_index.x;
     //fed the input_seed_texture with the now sorted seeds!!!!
-    input_seed_texture[global_seed_index] = fromSeedToTexture(sortedImage[group_Index].index); //float4(x, y, 0, 1); float4(x,y,0,1);////float4(1.0,0,0,1); //we've copied the global position above; so just enter with group_Index
+    output_seed_texture[global_seed_index] = fromSeedToTexture(sortedImage[group_Index].index); //float4(x, y, 0, 1); float4(x,y,0,1);////float4(1.0,0,0,1); //we've copied the global position above; so just enter with group_Index
      
 }
 

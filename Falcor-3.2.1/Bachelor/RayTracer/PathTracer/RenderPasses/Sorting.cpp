@@ -87,6 +87,8 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
         initialize(pContext, pData);
     }
 
+
+
     //update frame count
     //it is enough for this application to toroidally switch between 128 frame counts
     this->frame_count = frame_count % 128;
@@ -101,6 +103,7 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
 
     mpComputeProgVars->setTexture("input_frame_texture", pData->getTexture("input_frame"));
     mpComputeProgVars->setTexture("input_seed_texture", pData->getTexture("input_seed"));
+    mpComputeProgVars->setTexture("output_seed_texture", pData->getTexture("output_seed"));
     mpComputeProgVars->setTexture("input_blue_noise_texture", bluenoise);
 
     pContext->setComputeState(mpComputeState);
@@ -113,11 +116,11 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
     //set the outgoing seed texture for working in sorting step!
     if (sortingEnabled) {
 
-        pContext->copyResource(pData->getTexture("output_seed").get(), pData->getTexture("input_seed").get());
+        pContext->copyResource(pData->getTexture("output_seed").get(), mpComputeProgVars->getTexture("output_seed_texture").get());
 
     } else {
 
-        //pContext->copyResource(pData->getTexture("seed_output").get(), copyForUnsorted.get());
+        pContext->copyResource(pData->getTexture("output_seed").get(), pData->getTexture("input_seed").get());
 
     }
     
@@ -125,7 +128,7 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
 
 void Sorting::renderUI(Gui* pGui, const char* uiGroup) {
 
-    //pGui->addCheckBox("Dis-/Enable Sorting Pass", sortingEnabled);
+    pGui->addCheckBox("Enable Sorting Pass", sortingEnabled);
 
 }
 

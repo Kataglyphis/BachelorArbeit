@@ -41,6 +41,9 @@ StructuredBuffer<perFrameData> data;
 //fetching precomputed permutation and applying it to the seeds
 [numthreads(DIMENSION_SIZE, DIMENSION_SIZE, 1)]
 void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 thread_ID : SV_DISPATCHTHREADID, uint2 group_thread_ID : SV_GroupThreadID) {
+
+    if (thread_ID.x >= data[0].frame_width || thread_ID.y >= data[0].frame_height || thread_ID.x < 0 || thread_ID.y < 0)
+        return;
     
     uint tile_width = data[0].tile_width;
     uint tile_height = data[0].tile_height;
@@ -70,37 +73,39 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
         //retarget.y = -retarget.y;
     }
 
-    uint2 local_retarget_coordinates = group_thread_ID + retarget + uint2(tile_width, tile_height);
-    local_retarget_coordinates.x = local_retarget_coordinates.x % tile_width;
-    local_retarget_coordinates.y = local_retarget_coordinates.y % tile_height;
+    //uint2 local_retarget_coordinates = group_thread_ID + retarget + uint2(tile_width, tile_height);
+    //local_retarget_coordinates.x = local_retarget_coordinates.x % tile_width;
+    //local_retarget_coordinates.y = local_retarget_coordinates.y % tile_height;
 
-    uint2 global_retarget_coordinates = local_retarget_coordinates + DIMENSION_SIZE * (group_ID) + uint2(frame_width, frame_height);
-    global_retarget_coordinates.x = global_retarget_coordinates.x % frame_width;
-    global_retarget_coordinates.y = global_retarget_coordinates.y % frame_height;
-    //uint2 global_retarget_coordinates = thread_ID + retarget + uint2(frame_width, frame_height);
+    //uint2 global_retarget_coordinates = local_retarget_coordinates + DIMENSION_SIZE * (group_ID) + uint2(frame_width, frame_height);
     //global_retarget_coordinates.x = global_retarget_coordinates.x % frame_width;
     //global_retarget_coordinates.y = global_retarget_coordinates.y % frame_height;
+
+    uint2 global_retarget_coordinates = thread_ID + retarget + uint2(frame_width, frame_height);
+    global_retarget_coordinates.x = global_retarget_coordinates.x % frame_width;
+    global_retarget_coordinates.y = global_retarget_coordinates.y % frame_height;
     
     
-    if (thread_ID.x >= data[0].frame_width || thread_ID.y >= data[0].frame_height ||
-        thread_ID.x < 0 || thread_ID.y < 0)
-    {
+    //if (thread_ID.x >= data[0].frame_width || thread_ID.y >= data[0].frame_height ||
+   //     thread_ID.x < 0 || thread_ID.y < 0)
+    //{
         
-        uint2 new_thread_coordinates = thread_ID + uint2(frame_width, frame_height);
-        new_thread_coordinates.x = new_thread_coordinates.x % frame_width;
-        new_thread_coordinates.y = new_thread_coordinates.y % frame_height;
-        if (enable_retargeting_pass == 1)
-        {
-            output_seed_texture[global_retarget_coordinates] = src_seed_texture[new_thread_coordinates];
-        }
-        else
-        {
-            output_seed_texture[new_thread_coordinates] = src_seed_texture[new_thread_coordinates];
+    //    uint2 new_thread_coordinates = thread_ID + uint2(frame_width, frame_height);
+     //   new_thread_coordinates.x = new_thread_coordinates.x % frame_width;
+     //   new_thread_coordinates.y = new_thread_coordinates.y % frame_height;
+        
+     //   if (enable_retargeting_pass == 1)
+      //  {
+    //        output_seed_texture[global_retarget_coordinates] = src_seed_texture[new_thread_coordinates];
+      //  }
+      //  else
+      //  {
+      //      output_seed_texture[new_thread_coordinates] = src_seed_texture[new_thread_coordinates];
             
-        }
-        return;
+      //  }
+        //return;
         
-    }
+    //}
     
     //apply permutation to the seeds
     //output_seed_texture[3] = src_seed_texture[thread_ID];
@@ -111,6 +116,7 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     //output_seed_texture[thread_ID] = src_seed_texture[uint2(thread_ID.x + retarget.x, thread_ID.y + retarget.y)];//float4(global_retarget_coordinates.x / frame_width, global_retarget_coordinates.y / frame_height,0,1);
     //output_seed_texture[global_retarget_coordinates] = src_seed_texture[uint2((thread_ID.x + frame_width) % frame_width, (thread_ID.y + frame_height) % frame_height)];//float4(thread_ID.x/ (float)frame_width, thread_ID.y/(float)frame_height,0,1);//float4(global_retarget_coordinates.x / frame_width, global_retarget_coordinates.y / frame_height,0,1);
     //output_seed_texture[global_retarget_coordinates] = src_seed_texture[thread_ID];
+    
     if (enable_retargeting_pass)
     {
         output_seed_texture[global_retarget_coordinates] = src_seed_texture[thread_ID];

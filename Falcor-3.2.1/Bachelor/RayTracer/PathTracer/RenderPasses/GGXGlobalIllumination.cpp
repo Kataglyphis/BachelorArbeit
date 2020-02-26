@@ -126,8 +126,8 @@ void GGXGlobalIllumination::initialize(RenderContext* pContext, const RenderData
 
     mIsInitialized = true;
     trace_count = 0;
-    distribute_as_blue_noise_shader_var = 1;
-    enable_blue_noise = true;
+    distribute_as_white_noise_shader_var = enable_white_noise ? 1 : 0;
+    
 }
 
 void GGXGlobalIllumination::execute(RenderContext* pContext, const RenderData* pData)
@@ -158,7 +158,7 @@ void GGXGlobalIllumination::execute(RenderContext* pContext, const RenderData* p
     pCB["gDoDirectGI"] = mDoDirectGI;
     pCB["gMaxDepth"] = uint32_t(mUserSpecifiedRayDepth);
     pCB["gEmitMult"] = float(mUseEmissiveGeom ? mEmissiveGeomMult : 0.0f);
-    pCB["distributeAsBlueNoise"] = distribute_as_blue_noise_shader_var;
+    pCB["distributeAsWhiteNoise"] = distribute_as_white_noise_shader_var;
 
     globalVars->setTexture("gPos", pData->getTexture("posW"));
     globalVars->setTexture("gNorm", pData->getTexture("normW"));
@@ -195,10 +195,10 @@ void GGXGlobalIllumination::renderUI(Gui* pGui, const char* uiGroup)
     changed |= pGui->addCheckBox("Compute global illumination", mDoIndirectGI);
 
     //setting and disable blue/white noise
-    bool changed_noise = pGui->addCheckBox("Distribute as Blue Noise", this->enable_blue_noise);
+    bool changed_noise = pGui->addCheckBox("Distribute as White Noise", this->enable_white_noise);
     
      //to set this as shader variable
-     this->distribute_as_blue_noise_shader_var = this->enable_blue_noise ? 1 : 0;
+     this->distribute_as_white_noise_shader_var = this->enable_white_noise ? 1 : 0;
 
     pGui->addSeparator();
 

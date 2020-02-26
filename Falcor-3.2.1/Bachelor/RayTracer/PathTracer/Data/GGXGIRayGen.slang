@@ -39,7 +39,7 @@ void GGXGlobalIllumRayGen()
     // Initialize our random number generator
     uint randSeed = 0;
 
-    if(distributeAsBlueNoise == 1) {
+    if(distributeAsWhiteNoise == 0) {
 
     randSeed =  int(seed_input[launchIndex].x * 255.f) << 24|
                      int(seed_input[launchIndex].y * 255.f) << 16|

@@ -14,7 +14,7 @@ public:
     // survey variables
     bool mIsInitialized = false;
     //for sorting pass be dis-or enabled
-    bool sortingEnabled = true;
+    bool sortingEnabled = false;
 
     //frame infos
     int32_t frame_count = 0;
@@ -29,8 +29,8 @@ public:
     size_t frame_count_offset;
 
     //compute context
-    uint32_t groupDimX = 8;
-    uint32_t groupDimY = 8;
+    uint32_t groupDimX = 4;
+    uint32_t groupDimY = 4;
     uint32_t numberOfGroupsX = (frame_width / groupDimX) + 1;
     uint32_t numberOfGroupsY = (frame_height / groupDimY) +1;
 

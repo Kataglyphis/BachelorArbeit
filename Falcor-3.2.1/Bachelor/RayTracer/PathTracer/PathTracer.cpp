@@ -128,6 +128,8 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->addEdge("GBuffer.emissive", "GlobalIllumination.emissive");
     mpGraph->addEdge("GBuffer.matlExtra", "GlobalIllumination.matlExtra");
 
+
+    mpGraph->addEdge("GBuffer.depthStencil", "TemporalReprojection.input_depthStencil");
     //add edges for marking dependencies!!
 
     //mpGraph->addEdge("Sorting","Retargeting");
@@ -208,29 +210,29 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
         //if(this->trace_count <= 9) takeScreenshot(pCallbacks);
     }
 
-    if (takeScreenshotOfNextFrame) {
-        takeScreenshot(pCallbacks, "next_frame");
-        takeScreenshotOfNextFrame = false;
-    }
+    //if (takeScreenshotOfNextFrame) {
+      //  takeScreenshot(pCallbacks, "next_frame");
+       // takeScreenshotOfNextFrame = false;
+    //}
 
     //this is for evaluating our projecting pass
-    if (hasCameraMoved())
-    {
-        takeScreenshot(pCallbacks, "previous_frame");
-        takeScreenshotOfNextFrame = true;
-        mpLastCameraMatrix = mpGraph->getScene()->getActiveCamera()->getViewMatrix();
+    //if (hasCameraMoved())
+    //{
+     //   takeScreenshot(pCallbacks, "previous_frame");
+     //   takeScreenshotOfNextFrame = true;
+     //   mpLastCameraMatrix = mpGraph->getScene()->getActiveCamera()->getViewMatrix();
         //save VP-Matrix of last frame!
-        mpViewProjMatrixPreviousPos = mpLastViewProjMatrix;
-        mpLastViewProjMatrix = mpGraph->getScene()->getActiveCamera()->getViewProjMatrix();
-    }
+      //  mpViewProjMatrixPreviousPos = mpLastViewProjMatrix;
+      //  mpLastViewProjMatrix = mpGraph->getScene()->getActiveCamera()->getViewProjMatrix();
+   // }
 
 
     if (mpGraph->getScene() != nullptr)
     {
         mpGraph->getScene()->update(pCallbacks->getCurrentTime(), &mCamController);
         mpGraph->execute(pRenderContext);
-        //pRenderContext->blit(mpGraph->getOutput("GlobalIllumination.output_frame")->getSRV(), pTargetFbo->getRenderTargetView(0));
-        pRenderContext->blit(mpGraph->getOutput("TemporalAccumulation.output_frame")->getSRV(), pTargetFbo->getRenderTargetView(0));
+        pRenderContext->blit(mpGraph->getOutput("GlobalIllumination.output_frame")->getSRV(), pTargetFbo->getRenderTargetView(0));
+        //pRenderContext->blit(mpGraph->getOutput("TemporalAccumulation.output_frame")->getSRV(), pTargetFbo->getRenderTargetView(0));
         //pRenderContext->blit(mpGraph->getOutput("Sorting.output_seed")->getSRV(), pTargetFbo->getRenderTargetView(0));
     }
 }
