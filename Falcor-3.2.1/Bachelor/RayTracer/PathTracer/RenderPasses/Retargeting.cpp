@@ -107,25 +107,19 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     pContext->setComputeVars(mpComputeProgVars);
 
     //implementation info from here : https://hal.archives-ouvertes.fr/hal-02158423/file/blueNoiseTemporal2019_slides.pdf
-    if (frame_count >= 0) {
-        pContext->dispatch(numberOfGroupsX, numberOfGroupsY, 1);
+    if (frame_count >= 0) pContext->dispatch(numberOfGroupsX, numberOfGroupsY, 1);
+    
+    if (this->enableRetargetingPass) {
+
         pContext->copyResource(pData->getTexture("output_seed").get(), mpComputeProgVars->getTexture("output_seed_texture").get());
-    }
-    else {
-        pContext->copyResource(pData->getTexture("output_seed").get(), pData->getTexture("input_seed").get());
-    }
-
-    //set the outgoing blue noise texture!
-    /**if (enableRetargetingPass) {
-
-        pContext->copyResource(pData->getTexture("output_seed").get(),mpComputeProgVars->getTexture("output_seed_texture").get());
 
     } else {
 
-        pContext->copyResource(pData->getTexture("output_seed").get(), copyForUnsorted.get());
+        pContext->copyResource(pData->getTexture("output_seed").get(), pData->getTexture("input_seed").get());
 
-    }*/
-    pContext->copyResource(pData->getTexture("output_seed").get(), mpComputeProgVars->getTexture("output_seed_texture").get());
+    }
+
+    //pContext->copyResource(pData->getTexture("output_seed").get(), mpComputeProgVars->getTexture("output_seed_texture").get());
 }
 
 void Retargeting::renderUI(Gui* pGui, const char* uiGroup) {

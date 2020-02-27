@@ -29,8 +29,8 @@ public:
     size_t frame_count_offset;
 
     //compute context
-    uint32_t groupDimX = 4;
-    uint32_t groupDimY = 4;
+    uint32_t groupDimX = 8;
+    uint32_t groupDimY = 8;
     uint32_t numberOfGroupsX = (frame_width / groupDimX) + 1;
     uint32_t numberOfGroupsY = (frame_height / groupDimY) +1;
 

@@ -20,9 +20,9 @@ Algorithm 1 The sorting pass permutes pixel seeds by blocks.
 // number of pixels we group togehter and we are sorting for itself
 
 //sorting 4 pixel blocks each for itself
-#define DIMENSION_SIZE 4
+#define DIMENSION_SIZE 8
 
-#define BLOCK_SIZE 16
+#define BLOCK_SIZE 64
 
 //some helper functions; make coding easier
 #define Swap(A,B) {pixel temp = A; A = B; B = temp;}

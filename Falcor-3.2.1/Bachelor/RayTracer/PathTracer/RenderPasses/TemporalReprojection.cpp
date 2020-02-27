@@ -36,7 +36,7 @@ RenderPassReflection TemporalReprojection::reflect(void) const {
 
     RenderPassReflection r;
     //input
-    r.addInput("input_seed", "resorted seeds from the sorting phase").texture2D(seed_texture_width, seed_texture_height).format(ResourceFormat::BGRA8Unorm).bindFlags
+    r.addInput("input_seed", "resorted seeds from the retargeting phase").texture2D(seed_texture_width, seed_texture_height).format(ResourceFormat::BGRA8Unorm).bindFlags
     (Resource::BindFlags::UnorderedAccess |
         Resource::BindFlags::RenderTarget |
         Resource::BindFlags::ShaderResource).mipLevels(1);
@@ -73,6 +73,9 @@ void TemporalReprojection::initialize(RenderContext * pContext, const RenderData
     //TemporalReprojection pass is initialized in the beginning!
     this->enable_reprojection_pass_shader_var = this->enableTemporalReprojectionPass ?  1 : 0;
 
+    this->mpLastViewProjMatrix = mat4x4(0.f);
+    this->mpViewProjMatrixPreviousPos = mat4x4(0.f);
+
 }
 
 void TemporalReprojection::execute(RenderContext* pContext, const RenderData* pData) {
@@ -84,11 +87,9 @@ void TemporalReprojection::execute(RenderContext* pContext, const RenderData* pD
 
     }
 
-    uint camera_moved = hasCameraMoved();
+    bool camera_moved = hasCameraMoved();
 
-    if (camera_moved)
-    {
-        mpLastCameraMatrix = mpScene->getActiveCamera()->getViewMatrix();
+    if (camera_moved) {
         //save VP-Matrix of last frame!
         mpViewProjMatrixPreviousPos = mpLastViewProjMatrix;
         mpLastViewProjMatrix = mpScene->getActiveCamera()->getViewProjMatrix();
@@ -119,12 +120,18 @@ void TemporalReprojection::execute(RenderContext* pContext, const RenderData* pD
     pContext->setComputeState(mpComputeState);
     pContext->setComputeVars(mpComputeProgVars);
 
-    if (frame_count >= 1) {
     //only reproject if we have a previous frame already :)
-    pContext->dispatch(numberOfGroupsX, numberOfGroupsY, 1);
-    }
+    if (frame_count >= 0) pContext->dispatch(numberOfGroupsX, numberOfGroupsY, 1);
 
-    pContext->copyResource(pData->getTexture("output_seed").get(), mpComputeProgVars->getTexture("output_seed_texture").get());
+    if (enableTemporalReprojectionPass) {
+
+        pContext->copyResource(pData->getTexture("output_seed").get(), mpComputeProgVars->getTexture("output_seed_texture").get());
+        
+    } else {
+
+        pContext->copyResource(pData->getTexture("output_seed").get(), mpComputeProgVars->getTexture("src_seed_texture").get());
+
+    }
 }
 
 void TemporalReprojection::renderUI(Gui* pGui, const char* uiGroup) {
@@ -135,9 +142,15 @@ void TemporalReprojection::renderUI(Gui* pGui, const char* uiGroup) {
 }
 
 void TemporalReprojection::setScene(const std::shared_ptr<Scene>& mpScene) {
+
+    this->mpScene = mpScene;
     // Grab a copy of the current scene's camera matrix (if it exists)
-    if (mpScene && mpScene->getActiveCamera())
-        mpLastCameraMatrix = mpScene->getActiveCamera()->getViewMatrix();
+    if (mpScene && mpScene->getActiveCamera()) {
+
+        mpViewProjMatrixPreviousPos = mpLastViewProjMatrix;
+        mpLastViewProjMatrix = mpScene->getActiveCamera()->getViewProjMatrix();
+
+    }
 }
 
 void TemporalReprojection::onResize(uint32_t width, uint32_t height) {
@@ -151,7 +164,7 @@ bool TemporalReprojection::hasCameraMoved()
     // Has our camera moved?
     return mpScene &&                   // No scene?  Then the answer is no
         mpScene->getActiveCamera() &&   // No camera in our scene?  Then the answer is no
-        (mpLastCameraMatrix != mpScene->getActiveCamera()->getViewMatrix());   // Compare the current matrix with the last one
+        (mpLastViewProjMatrix != mpScene->getActiveCamera()->getViewProjMatrix());   // Compare the current matrix with the last one
 }
 
 void TemporalReprojection::takeScreenshot(SampleCallbacks* pCallbacks) {

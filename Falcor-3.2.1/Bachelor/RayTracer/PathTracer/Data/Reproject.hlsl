@@ -22,7 +22,7 @@ struct perFrameData
     uint frame_height; // height of the current frame
     uint frame_count; // the actual index of the frame
     uint enable; //0: is disabled; 1: retarget seeds
-    uint camera_moved; //temporal reprojection when camera has moved otherwise not, 0: is disabled, 1: reproject seeds
+    bool camera_moved; //temporal reprojection when camera has moved otherwise not, 0: is disabled, 1: reproject seeds
     float4x4 Inverse_VP_prev_frame; //the view projection matrix for our previous frame
     float4x4 VP_curr_frame; //the view projection matrix for our current frame
     
@@ -43,7 +43,7 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     uint frame_width = data[0].frame_width;
     uint frame_height = data[0].frame_height;
     uint enable_reprojection_pass = data[0].enable; //0=FALSE, 1=TRUE
-    uint camera_moved = data[0].camera_moved;
+    bool camera_moved = data[0].camera_moved;
     float4x4 Inverse_VP_prev_frame = data[0].Inverse_VP_prev_frame;
     float4x4 VP_curr_frame = data[0].VP_curr_frame;
 
@@ -57,14 +57,14 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
 
     // when the camera has not moved or the pass is in generel turned off
     // just pass the seeds normally 
-    if ((enable_reprojection_pass == 0) || (camera_moved == 0)) {
+    if ((enable_reprojection_pass == 0) || (camera_moved == false))
+    {
         
         output_seed_texture[thread_ID] = src_seed_texture[thread_ID];
         
-    }
-    // otherwise we will temporally reproject!
-    else {
+    } else {
         
+        // otherwise we will temporally reproject!!
         float2 screen_space = float2(thread_ID.x / (float) frame_width, thread_ID.y / (float) frame_height);
         float2 clip_coord;
         clip_coord.x = (screen_space.x * 2.f) - 1.f;
@@ -72,12 +72,12 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
 
         float frag_depth = depth[thread_ID];
         //now reproject here!!
-        float z = (frag_depth * 2.f) - 1;
+        float z = (frag_depth * 2.f) - 1.f;
         float4 clip_space_pos = float4(clip_coord, z, 1.f);
 
         //apply projection!!!
         float4 world_position_normalized = mul(clip_space_pos, Inverse_VP_prev_frame);
-        world_position_normalized.w = 1.0 / world_position_normalized.w;
+        world_position_normalized.w = 1.f / world_position_normalized.w;
 
         int3 world_position;
         world_position.x = world_position_normalized.x * world_position_normalized.w;
@@ -98,7 +98,7 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
         //output_seed_texture[screen_coord] = src_seed_texture[thread_ID];
         int2 diff = screen_coord - thread_ID;
         //output_seed_texture[thread_ID] = float4(diff.x, diff.y, 0.f, 1.f);
-        output_seed_texture[thread_ID] = float4(1.f, diff.y, 0.f, 1.f);
-        
+        output_seed_texture[thread_ID] = float4(1.f, frame_count / 128.f, 0.f, 1.f);
+        //output_seed_texture[thread_ID] = src_seed_texture[thread_ID];
     }
 }

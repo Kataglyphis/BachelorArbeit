@@ -118,9 +118,6 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->addEdge("Retargeting.output_seed", "TemporalReprojection.input_seed");
     mpGraph->addEdge("TemporalReprojection.output_seed", "GlobalIllumination.input_seed");
 
-    //bevor render now retarget seeds to accumulate improvements
-    //mpGraph->addEdge("Sorting.output_seed", "GlobalIllumination.input_seed");
-
     mpGraph->addEdge("GBuffer.posW", "GlobalIllumination.posW");
     mpGraph->addEdge("GBuffer.normW", "GlobalIllumination.normW");
     mpGraph->addEdge("GBuffer.diffuseOpacity", "GlobalIllumination.diffuseOpacity");
@@ -147,7 +144,6 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->markOutput("GlobalIllumination.output_frame");
     mpGraph->markOutput("TemporalAccumulation.output_frame");
     mpGraph->markOutput("Sorting.output_seed");
-    //mpGraph->markOutput("Retargeting.output_seed");
 
     // Initialize the graph's record of what the swapchain size is, for texture creation
     mpGraph->onResize(pCallbacks->getCurrentFbo().get());
@@ -161,7 +157,6 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
         //RtScene::SharedPtr pScene = RtScene::loadFromFile("Bistro_v4/Bistro_Interior.fscene");
         //RtModel::SharedPtr pModel = RtModel::createFromFile("CornellBox/CornellBox-Original.obj");
         //RtScene::SharedPtr pScene = RtScene::createFromModel(pModel);
-        //pScene->addModelInstance();
         //RtScene::SharedPtr pScene = RtScene::loadFromFile("EmeraldSquare/EmeraldSquare_Day.fscene");
         if (pScene != nullptr)
         {
@@ -203,8 +198,8 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
         mpGraph->setInput("Retargeting.input_seed", retarget_seeds);
 
         //we need need previous rendered frame for making reprojection!
-        //Resource::SharedPtr last_frame = mpGraph->getOutput("GlobalIllumination.output");
-        Resource::SharedPtr last_frame = mpGraph->getOutput("TemporalAccumulation.output_frame");
+        Resource::SharedPtr last_frame = mpGraph->getOutput("GlobalIllumination.output_frame");
+        //Resource::SharedPtr last_frame = mpGraph->getOutput("TemporalAccumulation.output_frame");
         mpGraph->setInput("TemporalReprojection.input_frame", last_frame);
 
         //if(this->trace_count <= 9) takeScreenshot(pCallbacks);
@@ -231,9 +226,9 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
     {
         mpGraph->getScene()->update(pCallbacks->getCurrentTime(), &mCamController);
         mpGraph->execute(pRenderContext);
-        pRenderContext->blit(mpGraph->getOutput("GlobalIllumination.output_frame")->getSRV(), pTargetFbo->getRenderTargetView(0));
+        //pRenderContext->blit(mpGraph->getOutput("GlobalIllumination.output_frame")->getSRV(), pTargetFbo->getRenderTargetView(0));
         //pRenderContext->blit(mpGraph->getOutput("TemporalAccumulation.output_frame")->getSRV(), pTargetFbo->getRenderTargetView(0));
-        //pRenderContext->blit(mpGraph->getOutput("Sorting.output_seed")->getSRV(), pTargetFbo->getRenderTargetView(0));
+        pRenderContext->blit(mpGraph->getOutput("Sorting.output_seed")->getSRV(), pTargetFbo->getRenderTargetView(0));
     }
 }
 

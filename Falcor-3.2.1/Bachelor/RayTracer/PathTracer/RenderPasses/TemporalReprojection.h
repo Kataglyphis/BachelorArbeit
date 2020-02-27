@@ -35,7 +35,7 @@ public:
 
     //survey variables
     bool mIsInitialized = false;
-    bool enableTemporalReprojectionPass = false;
+    bool enableTemporalReprojectionPass = true;
 
     //the seed texture for stopping the TemporalReprojection and sorting
     Texture::SharedPtr copyForUnsorted;
@@ -45,12 +45,9 @@ public:
     uint seed_texture_height = 1080;
 
     //temporal part; 
-    mat4                mpLastCameraMatrix;
     mat4                mpLastViewProjMatrix;
-    Scene::SharedPtr    mpScene;
-
-    //creating buffer for last frame
-    mat4 mpViewProjMatrixPreviousPos;
+    mat4                mpViewProjMatrixPreviousPos;
+    std::shared_ptr<Scene>    mpScene;
 
 
     /** Instantiate our pass.  The input Python dictionary is where you can extract pass parameters
