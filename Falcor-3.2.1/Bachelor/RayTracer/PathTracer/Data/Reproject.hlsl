@@ -36,6 +36,8 @@ StructuredBuffer<perFrameData> data;
 [numthreads(DIMENSION_SIZE, DIMENSION_SIZE, 1)]
 void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 thread_ID : SV_DISPATCHTHREADID, uint2 group_thread_ID : SV_GroupThreadID)
 {
+    if (thread_ID.x >= data[0].frame_width || thread_ID.y >= data[0].frame_height || thread_ID.x < 0 || thread_ID.y < 0)
+        return;
     
     uint tile_width = data[0].tile_width;
     uint tile_height = data[0].tile_height;
@@ -57,15 +59,14 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
 
     // when the camera has not moved or the pass is in generel turned off
     // just pass the seeds normally 
-    if ((enable_reprojection_pass == 0) || (camera_moved == false))
-    {
+    if ((enable_reprojection_pass == 0) || (camera_moved == false)) {
         
         output_seed_texture[thread_ID] = src_seed_texture[thread_ID];
         
     } else {
         
         // otherwise we will temporally reproject!!
-        float2 screen_space = float2(thread_ID.x / (float) frame_width, thread_ID.y / (float) frame_height);
+        float2 screen_space = float2(thread_ID.x / (float) (frame_width), thread_ID.y / (float) (frame_height));
         float2 clip_coord;
         clip_coord.x = (screen_space.x * 2.f) - 1.f;
         clip_coord.y = 1.f - (screen_space.y * 2.f); //cause here is left handed coord system!!!
@@ -77,28 +78,34 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
 
         //apply projection!!!
         float4 world_position_normalized = mul(clip_space_pos, Inverse_VP_prev_frame);
-        world_position_normalized.w = 1.f / world_position_normalized.w;
+        //world_position_normalized.w = 1.f / world_position_normalized.w;
 
-        int3 world_position;
+        /**int3 world_position;
         world_position.x = world_position_normalized.x * world_position_normalized.w;
         world_position.y = world_position_normalized.y * world_position_normalized.w;
         world_position.z = world_position_normalized.z * world_position_normalized.w;
+        */
 
         float4 reprojected_position_clip = mul(world_position_normalized, VP_curr_frame);
-
+        reprojected_position_clip.w = 1.f / reprojected_position_clip.w;
+        
         float4 coord_clip_space_tplus1;
-        coord_clip_space_tplus1.x = reprojected_position_clip.x / reprojected_position_clip.w;
-        coord_clip_space_tplus1.y = reprojected_position_clip.y / reprojected_position_clip.w;
-        coord_clip_space_tplus1.z = reprojected_position_clip.z / reprojected_position_clip.w;
+        coord_clip_space_tplus1.x = reprojected_position_clip.x * reprojected_position_clip.w;
+        coord_clip_space_tplus1.y = reprojected_position_clip.y * reprojected_position_clip.w;
+        coord_clip_space_tplus1.z = reprojected_position_clip.z * reprojected_position_clip.w;
 
         uint2 screen_coord;
-        screen_coord.x = ((coord_clip_space_tplus1.x + 1.f) / 2.f) * frame_width;
-        screen_coord.y = ((coord_clip_space_tplus1.y - 1.f) / 2.f) * frame_height;
+        screen_coord.x = ((coord_clip_space_tplus1.x + 1.f) / 2.f) * (frame_width);
+        screen_coord.y = ((coord_clip_space_tplus1.y - 1.f) / -2.f) * (frame_height);
         
         //output_seed_texture[screen_coord] = src_seed_texture[thread_ID];
         int2 diff = screen_coord - thread_ID;
-        //output_seed_texture[thread_ID] = float4(diff.x, diff.y, 0.f, 1.f);
-        output_seed_texture[thread_ID] = float4(1.f, frame_count / 128.f, 0.f, 1.f);
-        //output_seed_texture[thread_ID] = src_seed_texture[thread_ID];
+        diff.x = abs(diff.x);
+        diff.y = abs(diff.y);
+        //output_seed_texture[thread_ID] = float4(0.f, z, 0.f, 1.f);
+        //output_seed_texture[thread_ID] = float4(screen_coord.x / (float) frame_width, screen_coord.y / (float) frame_height, 0.f, 1.f);
+        //output_seed_texture[thread_ID] = float4(1.f, frame_count / 128.f, 0.f, 1.f);
+        output_seed_texture[thread_ID] = float4(diff.x / (float) frame_width, diff.y / (float) frame_height, 0.f, 1.f);
+
     }
 }

@@ -73,8 +73,8 @@ void TemporalReprojection::initialize(RenderContext * pContext, const RenderData
     //TemporalReprojection pass is initialized in the beginning!
     this->enable_reprojection_pass_shader_var = this->enableTemporalReprojectionPass ?  1 : 0;
 
-    this->mpLastViewProjMatrix = mat4x4(0.f);
-    this->mpViewProjMatrixPreviousPos = mat4x4(0.f);
+    this->mpCurrViewProjMatrix = mat4x4(0.f);
+    this->mpPrevViewProjMatrix = mat4x4(0.f);
 
 }
 
@@ -91,8 +91,10 @@ void TemporalReprojection::execute(RenderContext* pContext, const RenderData* pD
 
     if (camera_moved) {
         //save VP-Matrix of last frame!
-        mpViewProjMatrixPreviousPos = mpLastViewProjMatrix;
-        mpLastViewProjMatrix = mpScene->getActiveCamera()->getViewProjMatrix();
+        mpPrevViewProjMatrix = mpCurrViewProjMatrix;
+        mpPrevViewProjMatrixInv = mpCurrViewProjMatrixInv;
+        mpCurrViewProjMatrix = mpScene->getActiveCamera()->getViewProjMatrix();
+        mpCurrViewProjMatrixInv = mpScene->getActiveCamera()->getInvViewProjMatrix();
     }
 
     //update frame count
@@ -107,8 +109,8 @@ void TemporalReprojection::execute(RenderContext* pContext, const RenderData* pD
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_count"] = frame_count++;
     mpComputeProgVars->getStructuredBuffer("data")[0]["camera_moved"] = camera_moved;
     mpComputeProgVars->getStructuredBuffer("data")[0]["enable"] = this->enable_reprojection_pass_shader_var;
-    mpComputeProgVars->getStructuredBuffer("data")[0]["Inverse_VP_prev_frame"] = glm::inverse(mpViewProjMatrixPreviousPos);
-    mpComputeProgVars->getStructuredBuffer("data")[0]["VP_curr_frame"] = mpLastViewProjMatrix;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["Inverse_VP_prev_frame"] = mpPrevViewProjMatrixInv;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["VP_curr_frame"] = mpCurrViewProjMatrix;
 
     //setting the depth buffer
     mpComputeProgVars->setTexture("depth", pData->getTexture("input_depthStencil"));
@@ -147,9 +149,10 @@ void TemporalReprojection::setScene(const std::shared_ptr<Scene>& mpScene) {
     // Grab a copy of the current scene's camera matrix (if it exists)
     if (mpScene && mpScene->getActiveCamera()) {
 
-        mpViewProjMatrixPreviousPos = mpLastViewProjMatrix;
-        mpLastViewProjMatrix = mpScene->getActiveCamera()->getViewProjMatrix();
-
+        mpPrevViewProjMatrix = mpCurrViewProjMatrix;
+        mpPrevViewProjMatrixInv = mpCurrViewProjMatrixInv;
+        mpCurrViewProjMatrix = mpScene->getActiveCamera()->getViewProjMatrix();
+        mpCurrViewProjMatrixInv = mpScene->getActiveCamera()->getInvViewProjMatrix();
     }
 }
 
@@ -164,7 +167,7 @@ bool TemporalReprojection::hasCameraMoved()
     // Has our camera moved?
     return mpScene &&                   // No scene?  Then the answer is no
         mpScene->getActiveCamera() &&   // No camera in our scene?  Then the answer is no
-        (mpLastViewProjMatrix != mpScene->getActiveCamera()->getViewProjMatrix());   // Compare the current matrix with the last one
+        (mpCurrViewProjMatrix != mpScene->getActiveCamera()->getViewProjMatrix());   // Compare the current matrix with the last one
 }
 
 void TemporalReprojection::takeScreenshot(SampleCallbacks* pCallbacks) {

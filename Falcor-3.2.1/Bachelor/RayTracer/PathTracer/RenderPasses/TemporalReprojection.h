@@ -45,8 +45,10 @@ public:
     uint seed_texture_height = 1080;
 
     //temporal part; 
-    mat4                mpLastViewProjMatrix;
-    mat4                mpViewProjMatrixPreviousPos;
+    mat4                mpPrevViewProjMatrix;
+    mat4                mpPrevViewProjMatrixInv;
+    mat4                mpCurrViewProjMatrix;
+    mat4                mpCurrViewProjMatrixInv;
     std::shared_ptr<Scene>    mpScene;
 
 
