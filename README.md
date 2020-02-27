@@ -1,4 +1,4 @@
-# BachelorArbeit
+# Bachelorthesis
 --------
 About me
 --------
