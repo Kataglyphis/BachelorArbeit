@@ -21,6 +21,7 @@
 #include "RandomnessStrategy.h"
 #include "WangHash.h"
 #include "MersenneTwister.h"
+#include "TemporalReprojection.h"
 
 // Data
 static ID3D11Device* g_pd3dDevice = NULL;
@@ -125,8 +126,11 @@ int main(int, char**)
     int image_width = 64;
     int image_height = 64;
     //testing the simulated annealing
-    SimulatedAnnealingTest testing = SimulatedAnnealingTest(filename, image_width, image_height);
-    testing.testPermutation();
+    //SimulatedAnnealingTest testing = SimulatedAnnealingTest(filename, image_width, image_height);
+    //testing.testPermutation();
+
+    TemporalReprojection tr;
+    tr.generateRetargetTextureSet(3,3);
 
     //test different cool down functions
     //CoolDownTester test(100000, 64, 64, filename);

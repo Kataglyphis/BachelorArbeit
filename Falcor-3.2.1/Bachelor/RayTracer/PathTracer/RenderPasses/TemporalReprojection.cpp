@@ -1,8 +1,6 @@
 /***************************************************************************
 # Copyright(c) 2019, Jonas Heinle.All rights reserved.
 # RenderPass for generating a blue noise redistribution
-# refering to the research from Eric Heitz and Laurent Belcour
-# https://eheitzresearch.wordpress.com/772-2/
 ***************************************************************************/
 
 #include "TemporalReprojection.h"

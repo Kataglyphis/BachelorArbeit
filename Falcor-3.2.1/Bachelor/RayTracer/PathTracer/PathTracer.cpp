@@ -127,19 +127,13 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
 
 
     mpGraph->addEdge("GBuffer.depthStencil", "TemporalReprojection.input_depthStencil");
+    mpGraph->addEdge("GBuffer.depthStencil", "Retargeting.input_depthStencil");
     //add edges for marking dependencies!!
-
-    //mpGraph->addEdge("Sorting","Retargeting");
-
-    //Edges for our temporal algorithm
 
     //the retargeted seeds will come into our path tracer
     //the rendered frame from our path tracer where we get our values to sort
     //mpGraph->addEdge("GlobalIllumination.output", "Sorting.input_frame");
     mpGraph->addEdge("GlobalIllumination.output_seed","Sorting.input_seed");
-
-    //edges for our retargeting pass
-    //mpGraph->addEdge("Sorting.output_seed","Retargeting.input_seed");
 
     mpGraph->markOutput("GlobalIllumination.output_frame");
     mpGraph->markOutput("TemporalAccumulation.output_frame");
@@ -155,8 +149,6 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
         //RtScene::SharedPtr pScene = RtScene::loadFromFile("pink_room/pink_room.fscene");
         //RtScene::SharedPtr pScene = RtScene::loadFromFile("Bistro_v4/Bistro_Exterior.fscene");
         //RtScene::SharedPtr pScene = RtScene::loadFromFile("Bistro_v4/Bistro_Interior.fscene");
-        //RtModel::SharedPtr pModel = RtModel::createFromFile("CornellBox/CornellBox-Original.obj");
-        //RtScene::SharedPtr pScene = RtScene::createFromModel(pModel);
         //RtScene::SharedPtr pScene = RtScene::loadFromFile("EmeraldSquare/EmeraldSquare_Day.fscene");
         if (pScene != nullptr)
         {
@@ -170,7 +162,6 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
 
 void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRenderContext, const Fbo::SharedPtr& pTargetFbo)
 {
-    // const glm::vec4 clearColor(0.38f, 0.52f, 0.10f, 1);
     const glm::vec4 clearColor(0.f, 0.f, 0.0f, 1);
     pRenderContext->clearFbo(pTargetFbo.get(), clearColor, 1.0f, 0, FboAttachmentType::All);
 
@@ -226,9 +217,9 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
     {
         mpGraph->getScene()->update(pCallbacks->getCurrentTime(), &mCamController);
         mpGraph->execute(pRenderContext);
-        //pRenderContext->blit(mpGraph->getOutput("GlobalIllumination.output_frame")->getSRV(), pTargetFbo->getRenderTargetView(0));
+        pRenderContext->blit(mpGraph->getOutput("GlobalIllumination.output_frame")->getSRV(), pTargetFbo->getRenderTargetView(0));
         //pRenderContext->blit(mpGraph->getOutput("TemporalAccumulation.output_frame")->getSRV(), pTargetFbo->getRenderTargetView(0));
-        pRenderContext->blit(mpGraph->getOutput("Sorting.output_seed")->getSRV(), pTargetFbo->getRenderTargetView(0));
+        //pRenderContext->blit(mpGraph->getOutput("Sorting.output_seed")->getSRV(), pTargetFbo->getRenderTargetView(0));
     }
 }
 

@@ -11,42 +11,6 @@ class Sorting : public RenderPass, inherit_shared_from_this<RenderPass, Sorting>
 public:
     using SharedPtr = std::shared_ptr<Sorting>;
 
-    // survey variables
-    bool mIsInitialized = false;
-    //for sorting pass be dis-or enabled
-    bool sortingEnabled = false;
-
-    //frame infos
-    int32_t frame_count = 0;
-    uint32_t tile_width = 64;
-    uint32_t tile_height = 64;
-    uint32_t frame_width = 1920;
-    uint32_t frame_height = 1080;
-
-    //offsets for our struct variables
-    size_t width_offset;
-    size_t height_offset;
-    size_t frame_count_offset;
-
-    //compute context
-    uint32_t groupDimX = 8;
-    uint32_t groupDimY = 8;
-    uint32_t numberOfGroupsX = (frame_width / groupDimX) + 1;
-    uint32_t numberOfGroupsY = (frame_height / groupDimY) +1;
-
-    //Internal pass state
-    ComputeProgram::SharedPtr mpComputeProg;
-    ComputeState::SharedPtr mpComputeState;
-    ComputeVars::SharedPtr mpComputeProgVars;
-
-    //textures
-    Texture::SharedPtr bluenoise;
-    Texture::SharedPtr copyForUnsorted;
-
-    //seed texture stats
-    uint seed_texture_width = 1920;
-    uint seed_texture_height = 1080;
-
     /** Instantiate our pass.  The input Python dictionary is where you can extract pass parameters
     */
     static SharedPtr create(const Dictionary& params = {});
@@ -85,5 +49,35 @@ private:
     /** Runs on first execute() to initialize rendering resources
     */
     void initialize(RenderContext* pContext, const RenderData* pRenderData);
+
+    // survey variables
+    bool mIsInitialized = false;
+    //for sorting pass be dis-or enabled
+    bool sortingEnabled = false;
+
+    //frame infos
+    int32_t frame_count = 0;
+    uint32_t tile_width = 64;
+    uint32_t tile_height = 64;
+    uint32_t frame_width = 1920;
+    uint32_t frame_height = 1080;
+
+    //compute context
+    uint32_t groupDimX = 8;
+    uint32_t groupDimY = 8;
+    uint32_t numberOfGroupsX = (frame_width / groupDimX) + 1;
+    uint32_t numberOfGroupsY = (frame_height / groupDimY) + 1;
+
+    //Internal pass state
+    ComputeProgram::SharedPtr mpComputeProg;
+    ComputeState::SharedPtr mpComputeState;
+    ComputeVars::SharedPtr mpComputeProgVars;
+
+    //textures
+    Texture::SharedPtr bluenoise;
+
+    //seed texture stats
+    uint seed_texture_width = 1920;
+    uint seed_texture_height = 1080;
 
 };

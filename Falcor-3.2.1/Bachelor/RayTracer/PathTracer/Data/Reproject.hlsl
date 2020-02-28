@@ -65,26 +65,18 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
         
     } else {
         
-        // otherwise we will temporally reproject!!
+        // otherwise we will additionally temporally reproject!!
         float2 screen_space = float2(thread_ID.x / (float) (frame_width), thread_ID.y / (float) (frame_height));
         float2 clip_coord;
         clip_coord.x = (screen_space.x * 2.f) - 1.f;
         clip_coord.y = 1.f - (screen_space.y * 2.f); //cause here is left handed coord system!!!
 
         float frag_depth = depth[thread_ID];
-        //now reproject here!!
         float z = (frag_depth * 2.f) - 1.f;
+        
         float4 clip_space_pos = float4(clip_coord, z, 1.f);
 
-        //apply projection!!!
         float4 world_position_normalized = mul(clip_space_pos, Inverse_VP_prev_frame);
-        //world_position_normalized.w = 1.f / world_position_normalized.w;
-
-        /**int3 world_position;
-        world_position.x = world_position_normalized.x * world_position_normalized.w;
-        world_position.y = world_position_normalized.y * world_position_normalized.w;
-        world_position.z = world_position_normalized.z * world_position_normalized.w;
-        */
 
         float4 reprojected_position_clip = mul(world_position_normalized, VP_curr_frame);
         reprojected_position_clip.w = 1.f / reprojected_position_clip.w;

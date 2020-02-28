@@ -11,37 +11,6 @@ class Retargeting : public RenderPass, inherit_shared_from_this<RenderPass, Reta
 public:
     using SharedPtr = std::shared_ptr<Retargeting>;
 
-    int32_t frame_count = -1;
-    uint32_t tile_width = 64;
-    uint32_t tile_height = 64;
-    uint32_t frame_width = 1920;
-    uint32_t frame_height = 1080;
-    uint32_t enable_retarget_pass_shader_var;
-
-    //for compute context
-    uint32_t groupDimX = 8;
-    uint32_t groupDimY = 8;
-
-    //for compute state
-    uint32_t numberOfGroupsX = (frame_width / groupDimX) +1;
-    uint32_t numberOfGroupsY = (frame_height / groupDimY) +1;
-
-    //offsets for our struct variables
-    size_t width_offset;
-    size_t height_offset;
-    size_t frame_count_offset;
-
-    //survey variables
-    bool mIsInitialized = false;
-    bool enableRetargetingPass = false;
-
-    //the seed texture for stopping the retargeting and sorting
-    Texture::SharedPtr copyForUnsorted;
-
-    //seed texture stats
-    uint seed_texture_width = 1920;
-    uint seed_texture_height = 1080;
-
     /** Instantiate our pass.  The input Python dictionary is where you can extract pass parameters
     */
     static SharedPtr create(const Dictionary& params = {});
@@ -81,9 +50,58 @@ private:
     */
     void initialize(RenderContext* pContext, const RenderData* pRenderData);
 
+    bool hasCameraMoved();
+
     //Internal pass state
     ComputeProgram::SharedPtr mpComputeProg;
     ComputeState::SharedPtr mpComputeState;
     ComputeVars::SharedPtr mpComputeProgVars;
+
+    //folders
+    std::string temporal_reprojection_base_folder = "TemporalReprojection/";
+
+    //all textures for temporal retargeting
+     Texture::SharedPtr retarget_texture0x1;
+     Texture::SharedPtr retarget_texture0x2;
+     Texture::SharedPtr retarget_texture0x3;
+     Texture::SharedPtr retarget_texture1x0;
+     Texture::SharedPtr retarget_texture1x1;
+     Texture::SharedPtr retarget_texture1x2;
+     Texture::SharedPtr retarget_texture1x3;
+     Texture::SharedPtr retarget_texture2x0;
+     Texture::SharedPtr retarget_texture2x1;
+     Texture::SharedPtr retarget_texture2x2;
+     Texture::SharedPtr retarget_texture2x3;
+
+     //-1 for skipping very first frame; skippng for waiting for first sorting pass to be executed
+     int32_t frame_count = -1;
+     uint32_t tile_width = 64;
+     uint32_t tile_height = 64;
+     uint32_t frame_width = 1920;
+     uint32_t frame_height = 1080;
+     uint32_t enable_retarget_pass_shader_var;
+     uint32_t enable_temporal_reprojection_pass_shader_var;
+
+     //for compute context
+     uint32_t groupDimX = 8;
+     uint32_t groupDimY = 8;
+     uint32_t numberOfGroupsX = (frame_width / groupDimX) + 1;
+     uint32_t numberOfGroupsY = (frame_height / groupDimY) + 1;
+
+     //survey variables
+     bool mIsInitialized = false;
+     bool enableRetargetingPass = false;
+     bool enableTemporalReprojectionPass = false;
+
+     //seed texture stats
+     uint seed_texture_width = 1920;
+     uint seed_texture_height = 1080;
+
+     //temporal reprojection part; 
+     mat4                mpPrevViewProjMatrix;
+     mat4                mpPrevViewProjMatrixInv;
+     mat4                mpCurrViewProjMatrix;
+     mat4                mpCurrViewProjMatrixInv;
+     std::shared_ptr<Scene>    mpScene;
 
 };

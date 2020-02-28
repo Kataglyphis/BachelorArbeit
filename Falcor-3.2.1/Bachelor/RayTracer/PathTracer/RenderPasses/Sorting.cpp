@@ -1,8 +1,6 @@
 /***************************************************************************
 # Copyright (c) 2019, Jonas Heinle. All rights reserved.
 # RenderPass for generating a blue noise redistribution
-# refering to the research from Eric Heitz and Laurent Belcour
-# https://eheitzresearch.wordpress.com/772-2/
 ***************************************************************************/
 
 #include "Sorting.h"
@@ -72,7 +70,8 @@ void Sorting::initialize(RenderContext * pContext, const RenderData * pRenderDat
     //createTextureFromFile!!!!
     bluenoise = createTextureFromFile("LDR_RGBA_0_64.png", false, false, Resource::BindFlags::ShaderResource | /*Resource::BindFlags::UnorderedAccess |*/ Resource::BindFlags::RenderTarget);
     mpComputeProgVars->setTexture("input_blue_noise_texture", bluenoise);
-   
+    mpComputeProgVars->getStructuredBuffer("data")[0]["tile_width"] = tile_width;
+    mpComputeProgVars->getStructuredBuffer("data")[0]["tile_height"] = tile_height;
 
     if (mpComputeProg != nullptr) {
         mIsInitialized = true;
@@ -87,16 +86,12 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
         initialize(pContext, pData);
     }
 
-
-
     //update frame count
-    //it is enough for this application to toroidally switch between 128 frame counts
+    //it is enough for this application to toroidally switch between 128 frame counts for prevent structural artifacts!
     this->frame_count = frame_count % 128;
 
     //info for the frame
     // Send data to compute shader; first fill structured buffer
-    mpComputeProgVars->getStructuredBuffer("data")[0]["tile_width"] = tile_width;
-    mpComputeProgVars->getStructuredBuffer("data")[0]["tile_height"] = tile_height;
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_width"] = frame_width;
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_height"] = frame_height;
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_count"] = frame_count++;
@@ -104,26 +99,16 @@ void Sorting::execute(RenderContext* pContext, const RenderData* pData) {
     mpComputeProgVars->setTexture("input_frame_texture", pData->getTexture("input_frame"));
     mpComputeProgVars->setTexture("input_seed_texture", pData->getTexture("input_seed"));
     mpComputeProgVars->setTexture("output_seed_texture", pData->getTexture("output_seed"));
-    mpComputeProgVars->setTexture("input_blue_noise_texture", bluenoise);
 
     pContext->setComputeState(mpComputeState);
     pContext->setComputeVars(mpComputeProgVars);
 
-    //implementation info from here : https://hal.archives-ouvertes.fr/hal-02158423/file/blueNoiseTemporal2019_slides.pdf
     //Dispatch groupSizeX,GroupSizeY,GroupSizeZ;
-    pContext->dispatch(numberOfGroupsX, numberOfGroupsY, 1);
+    if(sortingEnabled) pContext->dispatch(numberOfGroupsX, numberOfGroupsY, 1);
 
     //set the outgoing seed texture for working in sorting step!
-    if (sortingEnabled) {
+    if (!sortingEnabled) pContext->copyResource(pData->getTexture("output_seed").get(), pData->getTexture("input_seed").get());
 
-        pContext->copyResource(pData->getTexture("output_seed").get(), mpComputeProgVars->getTexture("output_seed_texture").get());
-
-    } else {
-
-        pContext->copyResource(pData->getTexture("output_seed").get(), pData->getTexture("input_seed").get());
-
-    }
-    
 }
 
 void Sorting::renderUI(Gui* pGui, const char* uiGroup) {

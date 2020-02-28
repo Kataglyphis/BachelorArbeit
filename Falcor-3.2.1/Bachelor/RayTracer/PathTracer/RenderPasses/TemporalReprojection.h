@@ -13,44 +13,6 @@ class TemporalReprojection :
 public:
     using SharedPtr = std::shared_ptr<TemporalReprojection>;
 
-    uint32_t frame_count = 0;
-    uint32_t tile_width = 64;
-    uint32_t tile_height = 64;
-    uint32_t frame_width = 1920;
-    uint32_t frame_height = 1080;
-    uint32_t enable_reprojection_pass_shader_var;
-
-    //for compute context
-    uint32_t groupDimX = 8;
-    uint32_t groupDimY = 8;
-
-    //for compute state
-    uint32_t numberOfGroupsX = (frame_width / groupDimX) + 1;
-    uint32_t numberOfGroupsY = (frame_height / groupDimY) + 1;
-
-    //offsets for our struct variables
-    size_t width_offset;
-    size_t height_offset;
-    size_t frame_count_offset;
-
-    //survey variables
-    bool mIsInitialized = false;
-    bool enableTemporalReprojectionPass = true;
-
-    //the seed texture for stopping the TemporalReprojection and sorting
-    Texture::SharedPtr copyForUnsorted;
-
-    //seed texture stats
-    uint seed_texture_width = 1920;
-    uint seed_texture_height = 1080;
-
-    //temporal part; 
-    mat4                mpPrevViewProjMatrix;
-    mat4                mpPrevViewProjMatrixInv;
-    mat4                mpCurrViewProjMatrix;
-    mat4                mpCurrViewProjMatrixInv;
-    std::shared_ptr<Scene>    mpScene;
-
 
     /** Instantiate our pass.  The input Python dictionary is where you can extract pass parameters
     */
@@ -109,6 +71,36 @@ private:
     //holding trace of the capturing
     uint32_t trace_count = 0;
     bool take_shot_of_next_frame = 0;
+
+    uint32_t frame_count = 0;
+    uint32_t tile_width = 64;
+    uint32_t tile_height = 64;
+    uint32_t frame_width = 1920;
+    uint32_t frame_height = 1080;
+    uint32_t enable_reprojection_pass_shader_var;
+
+    //for compute context
+    uint32_t groupDimX = 8;
+    uint32_t groupDimY = 8;
+
+    //for compute state
+    uint32_t numberOfGroupsX = (frame_width / groupDimX) + 1;
+    uint32_t numberOfGroupsY = (frame_height / groupDimY) + 1;
+
+    //survey variables
+    bool mIsInitialized = false;
+    bool enableTemporalReprojectionPass = false;
+
+    //seed texture stats
+    uint seed_texture_width = 1920;
+    uint seed_texture_height = 1080;
+
+    //temporal part; 
+    mat4                mpPrevViewProjMatrix;
+    mat4                mpPrevViewProjMatrixInv;
+    mat4                mpCurrViewProjMatrix;
+    mat4                mpCurrViewProjMatrixInv;
+    std::shared_ptr<Scene>    mpScene;
 
 };
 
