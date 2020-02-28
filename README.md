@@ -1,19 +1,7 @@
 # Bachelorthesis
 
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
-### Prerequisites
-
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
-
 --------
-About me
+## About me
 --------
  - undergraduate IT student interested in :
     - modern graphics hardware
@@ -21,11 +9,21 @@ About me
     - 
  - 
 
+## Prerequisites
+
+What things you need to install the software and how to install them
+- Falcor 
+- VS 2017/19
+
+```
+Give examples
+```
 
 
------------------------
-Purpose of this project
------------------------
+
+--------------------------
+## Purpose of this project
+--------------------------
 Image computation using hardware-assisted radiation tracking and associated techniques are currently gaining in importance in real-time computer graphics.
 Despite this new hardware support, only a little computing time is required to calculate one
 single image. Along with this short computing time, there are fewer paths, and accordingly fewer
@@ -33,29 +31,13 @@ Length. Previous work has to be done to counteract the resulting image noise,
 included the blue noise error distributions and emphasized and clarified their importance in increasing the perceptible image quality.
 This work explains a temporally stable algorithm based on this technique. In contrast to the previous approaches, we want to apply an error redistribution directly in the image space, and so one accordingly
 to get correlated pixel sequence. The algorithm achieves all of this without significant additional effort.
-	
-
----------------------
-What is used in here?
----------------------
-- Falcor 
-- VS 2017/19
  
-
 --------------------
-Algorithmic Analysis
+## Algorithmic Analysis
 --------------------
 - Simulated Annealing
 - Path Tracing
 
----------------
-Troubleshooting
----------------
-- wrong thread id's in Falcor need special treatment
-
-------------------
-How to get started
-------------------
 
 ### Installing
 
@@ -107,23 +89,13 @@ Add additional notes about how to deploy this on a live system
 * [Maven](https://maven.apache.org/) - Dependency Management
 * [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+* **Jonas Heinle** - [Kataglyphis](https://github.com/Kataglyphis)
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the BSD License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
 
