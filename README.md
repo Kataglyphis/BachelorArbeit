@@ -77,7 +77,7 @@ End with an example of getting some data out of the system or using it for a lit
 
 ## Running the program
 
-![Get your shit together ... link your pictures right Jonas](https://github.com/Kataglyphis/BachelorArbeit/tree/master/Bilder/Anleitung.png)
+![Get your shit together ... link your pictures right Jonas](Bilder/Anleitung.png?raw=true "UI")
 
 Explain how to run the automated tests for this system
 
