@@ -75,7 +75,9 @@ until finished
 
 End with an example of getting some data out of the system or using it for a little demo
 
-## Running the tests
+## Running the program
+
+![alt text](https://https://github.com/Kataglyphis/BachelorArbeit/master/Bilder/Anleitung.png)
 
 Explain how to run the automated tests for this system
 
