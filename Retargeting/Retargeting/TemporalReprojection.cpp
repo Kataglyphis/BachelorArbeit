@@ -20,34 +20,13 @@ void TemporalReprojection::generateRetargetTextureSet(int vector_offset_x, int v
 	Image original;
 	Image original_with_offset;
 
-	for (int i = 0; i < helper.getDitherWith(); i++) {
-
-		Column column_org;
-		Column column_dither;
-
-		for (int j = 0; j < helper.getDitherHeight(); j++) {
-
-			//just assign the standard distribution
-			//how this looks like; look at th etop for it 
-
-			using namespace std;
-			Values start_values_dither(4, 0);
-
-			column_dither.push_back(start_values_dither);
-			column_org.push_back(start_values_dither);
-
-		}
-
-		next_dither.push_back(column_dither);
-		original.push_back(column_org);
-		original_with_offset.push_back(column_org);
-
-	}
+	helper.initializeImage(next_dither);
+	helper.initializeImage(original);
+	helper.initializeImage(original_with_offset);
 
 	helper.loadPNGinArray(filename, original);
 
-
-	helper.getNextDither(original, next_dither, helper.getDitherWith(), helper.getDitherHeight());
+	helper.getNextDither(original, next_dither, helper.getDitherWidth(), helper.getDitherHeight());
 
 	for (int i = 0; i < vector_offset_x; i++) {
 		
@@ -59,7 +38,6 @@ void TemporalReprojection::generateRetargetTextureSet(int vector_offset_x, int v
 
 		}
 	}
-
 }
 
 void TemporalReprojection::calcOriginalWithOffset(Image original, Image& original_with_offset, int offset_x, int offset_y) {

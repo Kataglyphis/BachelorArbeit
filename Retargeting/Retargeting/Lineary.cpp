@@ -19,7 +19,6 @@ Lineary::Lineary(double T_0, int number_of_steps, double quasiequilibrium) {
 
 }
 
-
 double Lineary::getTemperature(int step) {
 
 	//if (std::fmod(step + 1, quasiequilibrium) == 0) (this->current_temperature = this->T_0 - this->mu * step);

@@ -10,10 +10,13 @@
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include <tchar.h>
-#include "CoolDownTester.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb/stb_image_write.h"
 
+/**
+our own created files.
+*/
+#include "CoolDownTester.h"
 #include "helpers.h"
 #include "SimulatedAnnealingTest.h"
 #include "SimulatedAnnealing.h"
@@ -40,7 +43,7 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 int main(int, char**)
 {
     // Create application window
-    WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("ImGui Example"), NULL };
+    WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("Retarget Seeds!"), NULL };
     ::RegisterClassEx(&wc);
     HWND hwnd = ::CreateWindow(wc.lpszClassName, _T("Retargeting pixel seeds"), WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, wc.hInstance, NULL);
 
@@ -126,11 +129,11 @@ int main(int, char**)
     int image_width = 64;
     int image_height = 64;
     //testing the simulated annealing
-    //SimulatedAnnealingTest testing = SimulatedAnnealingTest(filename, image_width, image_height);
-    //testing.testPermutation();
+    SimulatedAnnealingTest testing = SimulatedAnnealingTest(filename, image_width, image_height);
+    testing.testPermutation();
 
-    TemporalReprojection tr;
-    tr.generateRetargetTextureSet(3,3);
+    //TemporalReprojection tr;
+    //tr.generateRetargetTextureSet(3,3);
 
     //test different cool down functions
     //CoolDownTester test(100000, 64, 64, filename);

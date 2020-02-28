@@ -1,5 +1,6 @@
 ﻿#include "SimulatedAnnealing.h"
 
+//do not use
 SimulatedAnnealing::SimulatedAnnealing() /*: helper(), image_width(64), image_height(64), visualizer(), good_swaps(0), visualize(false)*/ {
 	
 	/*this->number_steps = number_steps;
@@ -25,39 +26,14 @@ SimulatedAnnealing::SimulatedAnnealing(int number_steps, AnnealingSchedule* sche
 	this->image_width = image_width; 
 	this->image_height = image_height;
 
+	helper.initializeImage(dither_data);
+	helper.initializeImage(next_dither_data);
+	helper.initializePermutation(permutation_data_output);
+	helper.initializePositions(permutation_positions_output);
+
 }
 
 Image SimulatedAnnealing::execute(Image org, const char* temp_rep_filename, int offset_x, int offset_y, int& good_swaps) {
-
-	for (int i = 0; i < image_width; i++) {
-
-		Column column_perm;
-		Column column_dither;
-		Column column_pos;
-
-		for (int j = 0; j < image_height; j++) {
-
-			//just assign the standard distribution
-			//how this looks like; look at th etop for it 
-
-			using namespace std;
-			Values start_values_perm(2, 0);
-			Values start_values_dither(4, 0);
-			Values start_values_pos(2, 0);
-			start_values_pos[0] = i;
-			start_values_pos[1] = j;
-			column_perm.push_back(start_values_perm);
-			column_dither.push_back(start_values_dither);
-			column_pos.push_back(start_values_pos);
-
-		}
-		permutation_data_output.push_back(column_perm);
-		//permutation_data_step.push_back(column_perm);
-		dither_data.push_back(column_dither);
-		next_dither_data.push_back(column_dither);
-		//permutation_positions_step.push_back(column_pos);
-		permutation_positions_output.push_back(column_pos);
-	}
 
 	helper.getNextDither(org, next_dither_data, image_width, image_height);
 	this->current_energy = calculateStartingEnergy(dither_data, next_dither_data, permutation_data_output);
@@ -140,36 +116,6 @@ Image SimulatedAnnealing::execute(Image org, const char* temp_rep_filename, int 
 }
 
 Image SimulatedAnnealing::execute(int& good_swaps) {
-
-	for (int i = 0; i < image_width; i++) {
-
-		Column column_perm;
-		Column column_dither;
-		Column column_pos;
-
-		for (int j = 0; j < image_height; j++) {
-
-			//just assign the standard distribution
-			//how this looks like; look at th etop for it 
-
-			using namespace std;
-			Values start_values_perm(2,0);
-			Values start_values_dither(4,0);
-			Values start_values_pos(2,0);
-			start_values_pos[0] = i;
-			start_values_pos[1] = j;
-			column_perm.push_back(start_values_perm);
-			column_dither.push_back(start_values_dither);
-			column_pos.push_back(start_values_pos);
-
-		}
-		permutation_data_output.push_back(column_perm);
-		//permutation_data_step.push_back(column_perm);
-		dither_data.push_back(column_dither);
-		next_dither_data.push_back(column_dither);
-		//permutation_positions_step.push_back(column_pos);
-		permutation_positions_output.push_back(column_pos);
-	}
 
 	helper.loadPNGinArray(this->filename, dither_data);
 	helper.getNextDither(dither_data, next_dither_data, image_width, image_height);
@@ -322,7 +268,6 @@ float SimulatedAnnealing::applyOneRandomPermutation(Image& permutation_data_step
 
 #endif // _DEBUG
 
-
 	//save indices
 	indices.first.first = random_x;
 	indices.first.second = random_y;
@@ -374,7 +319,7 @@ bool SimulatedAnnealing::isApplicablePermutation(Image& permutation_data_step, I
 	   ((permute_y + random_step_y) < -6)) {
 		return false;
 	}
-
+	//removed for toroidally shift support !!!
 	/**if (((position_x + permute_x + random_step_x) < 0) |
 	     ((position_y + permute_y + random_step_y) < 0) |
 		 ((position_x + permute_x +random_step_x) >= image_width) |
@@ -426,12 +371,6 @@ float SimulatedAnnealing::calculatePermutationEnergy(Image image_t, Image image_
 
 float SimulatedAnnealing::calculateStartingEnergy(Image image_t, Image image_next, Image permutation) {
 
-	//calculate the position difference for decreasing acceptance probability
-	//with more far away located pixels
-	float sigma_i = 2.1f;
-
-	//float position_delta = () / std::pow(sigma_i, 2);
-
 	float energy = 0.f;
 
 	for (int i = 0; i < image_width; i++) {
@@ -450,7 +389,6 @@ float SimulatedAnnealing::calculateStartingEnergy(Image image_t, Image image_nex
 
 bool SimulatedAnnealing::acceptanceProbabilityFunction(const float energy_old_condition, const float energy_new_condition, const float temperature) {
 	
-	//TODO: important!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! to make this a simulated annealing we have to bring in the temperature in the decision function
 	//right now it is a simple hill climbing algorithm!!!!
 	bool result = false;
 	float delta = energy_new_condition - energy_old_condition;
@@ -517,43 +455,7 @@ int SimulatedAnnealing::getNumSwaps() {
 
 void SimulatedAnnealing::takeIntermediateSnapshot(Image permutation, Image original) {
 
-	FIBITMAP* retarget_bitmap = FreeImage_Allocate(image_width, image_height, 32);
-
-	Image permutatedOriginal;
-
-	for (int i = 0; i < helper.getDitherWith(); i++) {
-
-		Column column_org;
-
-		for (int j = 0; j < helper.getDitherHeight(); j++) {
-
-			//just assign the standard distribution
-			//how this looks like; look at th etop for it 
-
-			using namespace std;
-			Values start_values_dither = original[i][j];
-
-			column_org.push_back(start_values_dither);
-
-		}
-
-		permutatedOriginal.push_back(column_org);
-
-	}
-
-	//helper.deepCopyImage(original, permutatedOriginal, helper.dither_width, helper.dither_height);
-
-
-	for (int i = 0; i < helper.getDitherWith(); i++) {
-
-		for (int j = 0; j < helper.getDitherHeight(); j++) {
-
-			int permutation_coordinates_x = (i + permutation[i][j][0] + image_width) % image_width;
-			int permutation_coordinates_y = (j + permutation[i][j][1] + image_height) % image_height;
-
-			permutatedOriginal[permutation_coordinates_x][permutation_coordinates_y] = original[i][j];
-		}
-	}
+	Image permutatedOriginal = helper.applyPermutationToOriginal(original, permutation);
 
 	stringstream ss;
 	ss << this->folder_intermediate_steps << "intermediate_applied_permutation_" << intermediate_step_count  << "_quasieqstep" << schedule->getName() <<

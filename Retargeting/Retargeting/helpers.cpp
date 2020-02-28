@@ -1,11 +1,12 @@
-#include "helpers.h"
-#include "WangHash.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 #include <stdint.h>
 
+#include "helpers.h"
+#include "WangHash.h"
 using namespace std;
 
+//do not use
 helpers::helpers() : blueNoiseBitMap(), dither_width(16), dither_height(16) {
 
 }
@@ -17,6 +18,7 @@ helpers::helpers(const char* filename, int dither_width, int dither_height) : bl
 
 }
 
+//for testing purposes here added!
 bool helpers::LoadTextureFromFile(const char* filename,ID3D11ShaderResourceView** srv , ID3D11Device* g_pd3dDevice, int* width, int* height) {
 	
 	int image_width = 0;
@@ -61,6 +63,7 @@ bool helpers::LoadTextureFromFile(const char* filename,ID3D11ShaderResourceView*
 	return true;
 }
 
+//also only for testing purposes still here
 bool helpers::freeImageFunction() {
 	using namespace std;
 
@@ -84,6 +87,9 @@ bool helpers::freeImageFunction() {
 	return true;
 }
 
+/**
+For genereating seed png for our path tracer with given strategy! 
+*/
 BOOL helpers::generate_seed_png(uint64_t seed_texture_width, uint64_t seed_texture_height, uint64_t resolution, RandomnessStrategy* strategy) {
 	
 	BOOL result = TRUE;
@@ -122,8 +128,6 @@ BOOL helpers::generate_seed_png(uint64_t seed_texture_width, uint64_t seed_textu
 	tm* nun;
 	nun = localtime(&Zeitstempel);
 
-
-
 	stringstream ss;
 	ss << seed_texture_home_folder << "seeds_init_" << strategy->getName() << " " << nun->tm_mday << '.' << nun->tm_mon + 1 
 		<< '.' << nun->tm_year + 1900 << " - " << nun->tm_hour << '_' << nun->tm_min << ".png";
@@ -144,7 +148,7 @@ bool helpers::loadImageFromFile() {
 	return true;
 }
 
-bool helpers::deepCopyImage(Image& source, Image& dest, const int image_width, const int image_height) {
+bool helpers::deepCopyImage(Image source, Image& dest, const int image_width, const int image_height) {
 
 	for (int i = 0; i < image_width; i++) {
 		for (int j = 0; j < image_height; j++) {
@@ -316,7 +320,7 @@ void helpers::fromImageToFile(const char* filename, Image image) {
 	if (!saved) std::cout << "Uneable to save Image File!";
 }
 
-int helpers::getDitherWith() {
+int helpers::getDitherWidth() {
 
 	return this->dither_width;
 
@@ -325,5 +329,94 @@ int helpers::getDitherWith() {
 int helpers::getDitherHeight() {
 
 	return this->dither_height;
+
+}
+
+void helpers::initializeImage(Image& img) {
+	
+	using namespace std;
+	for (int i = 0; i < dither_width; i++) {
+
+		Column column_org;
+
+		for (int j = 0; j < dither_height; j++) {
+
+			//just assign the standard distribution
+			//how this looks like; look at th etop for it 
+			Values start_values_dither(4, 0);
+
+			column_org.push_back(start_values_dither);
+
+		}
+
+		img.push_back(column_org);
+
+	}
+}
+
+void helpers::initializePermutation(Image& perm) {
+
+	using namespace std;
+	for (int i = 0; i < dither_width; i++) {
+
+		Column column_perm;
+
+		for (int j = 0; j < dither_height; j++) {
+
+			//just assign the standard distribution
+			//how this looks like; look at th etop for it 
+			Values start_values_perm(2, 0);
+			column_perm.push_back(start_values_perm);
+
+		}
+
+		perm.push_back(column_perm);
+
+	}
+
+}
+
+void helpers::initializePositions(Image& pos) {
+
+	using namespace std;
+	for (int i = 0; i < dither_width; i++) {
+
+		Column column_pos;
+
+		for (int j = 0; j < dither_height; j++) {
+
+			//just assign the standard distribution
+			//how this looks like; look at th etop for it 
+			Values start_values_pos(2, 0);
+			start_values_pos[0] = i;
+			start_values_pos[1] = j;
+			column_pos.push_back(start_values_pos);
+
+		}
+
+		pos.push_back(column_pos);
+	}
+
+}
+
+Image helpers::applyPermutationToOriginal(Image original, Image permutation) {
+
+	Image permutatedOriginal;
+
+	initializeImage(permutatedOriginal);
+	deepCopyImage(original, permutatedOriginal, dither_width, dither_height);
+
+	for (int i = 0; i < dither_width; i++) {
+
+		for (int j = 0; j < dither_height; j++) {
+
+			int permutation_coordinates_x = (i + permutation[i][j][0] + dither_width) % dither_width;
+			int permutation_coordinates_y = (j + permutation[i][j][1] + dither_height) % dither_height;
+
+			permutatedOriginal[permutation_coordinates_x][permutation_coordinates_y] = original[i][j];
+		}
+	}
+
+	return permutatedOriginal;
 
 }

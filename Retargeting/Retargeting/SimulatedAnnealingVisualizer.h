@@ -2,6 +2,7 @@
 #include "matplotlib/matplotlibcpp.h"
 #include <sstream>
 #include <string>
+
 #include "AnnealingSchedule.h"
 #include "Hajek.h"
 #include "ExponentialCoolDown.h"

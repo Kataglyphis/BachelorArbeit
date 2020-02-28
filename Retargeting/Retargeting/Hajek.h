@@ -1,10 +1,11 @@
 #pragma once
-#include "AnnealingSchedule.h"
 #include <stdlib.h>
 #include <cmath>
 #include <iostream>
 #include <stdio.h>
 #include <sstream>
+
+#include "AnnealingSchedule.h"
 
 class Hajek :
 	public AnnealingSchedule

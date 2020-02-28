@@ -1,6 +1,5 @@
 #include "Hajek.h"
 
-
 Hajek::Hajek():T_0(511), alpha(1) {
 
 }

@@ -1,6 +1,4 @@
 ﻿#pragma once
-#include "helpers.h"
-#include "SimulatedAnnealingVisualizer.h"
 #include <stdlib.h>
 #include <cassert>
 #include <iostream>
@@ -9,16 +7,18 @@
 #include <chrono>
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
+#include <sstream>
+#include <time.h>
+
+#include "helpers.h"
+#include "SimulatedAnnealingVisualizer.h"
 #include "AnnealingSchedule.h"
 #include "Hajek.h"
 #include "ExponentialCoolDown.h"
 #include "Inverse.h"
 #include "Lineary.h"
 #include "Kirkpatrick.h"
-#include <fstream>
-#include <sstream>
-
-#include <time.h>
 
 
 using namespace std;
