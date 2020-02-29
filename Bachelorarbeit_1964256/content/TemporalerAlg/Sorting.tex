@@ -1,20 +1,17 @@
 In diesem Abschnitt machen wir uns die getroffenen \nameref{ch:Content2:sec:a Posteriori} Annahmen 
 zu Nutze. Nach dem Rendern von $Bild_{t}$ (und vor dem Rendern von $Bild_{t+1}$) nehmen wir die Sortierung
 anhand der Pixelwerte von $Bild_{t}$ vor. 
+
 \par
-Bevor wir uns den Algorithmus anschauen muss jedoch geklärt werden, wieso wir hier an dieser Stelle 
-überhaupt sortieren. Bisher haben wir uns alle möglichen Werte eines Pixels 
-(in Gleichung \ref{eq:Pixel Schätzung Wahrscheinlichkeitsdichtefunktion}) angeschaut und daraus auf
-eine Wahrscheinlichkeitsfunktion $H_{ij}(I)$ für die Werte eines Pixels geschlossen. 
-Benutzen wir die inverse Funktion \ref{eq:inverse Funktion}, machen wir nichts Anderes, als 
-zufällige Zahlen auf ein bestimmtes Wahrscheinlichkeitsquantil, das einer gewissen Sortierung entspricht,
-abzubilden. Deshalb können wir die Pixelintensitäten innerhalb eines Blocks anhand ihrer 
-Indizes (entspricht den Wahrscheinlichkeitsquantilen bei der Wahrscheinlichkeitsfunktion) 
-sortieren! 
+
+Die Pixel innerhalb eines Blocks (z.B. Blockgröße = 64, Auswirkung von verschiedenen Blockgrößen in Abschnitt \ref{subsec:Blockgröße}) werden anhand ihrer 
+Intensität in einer aufsteigenden Liste sortiert und damit zu einem Histogramm. Dieses generierte Histogramm wird für jeden Pixel innerhalb des Blocks verwendet.
+Die sortierte Liste als Histogramm zu benutzen ist zulässig. Denn beim Benutzen der inversen Funktion \ref{eq:inverse Funktion} machen wir nichts Anderes, als 
+zufällige Zahlen auf ein bestimmtes Wahrscheinlichkeitsquantil, das einer gewissen Sortierung entspricht, abzubilden. Deshalb können wir die Pixelintensitäten 
+innerhalb eines Blocks anhand ihrer Indizes (entspricht den Wahrscheinlichkeitsquantilen bei der Wahrscheinlichkeitsfunktion) sortieren! 
 
 \begin{algorithm}[H]
-    \caption{\textbf{Sortier Schritt t} nach dem Rendern von Frame t
-    und vor dem Rendern von Frame t+1}
+    \caption{\textbf{Sortier Schritt t}}
     \begin{algorithmic}[1]
         \State pixel \textbf{consists of} value,index;
         \State List framePixelsIntensities, noiseIntensities;
@@ -22,58 +19,35 @@ sortieren!
         \State $assert(sizeof(noiseIntensities)==BLOCKSIZE)$;
         \State List L $\leftarrow$ pixels of frame t in block;
         \State \hfill
-        \State //init lists
-        \State initList(framePixelsIntensities, pixelIntensity(L);
-        \State $blueNoise_{t}$ = calcCorrectOffset(incomingbluenoisetexture);
-        \State initList(noiseIntensities, pixelIntensity($blueNoise_{t}$));
-        \State \hfill
         \State //sort the two lists by means of intensities
-        \State sort(framePixelsIntensities);
-        \State Sort(noiseIntensities);
+        \State sort\_by\_means\_of\_value(framePixelsIntensities);
+        \State sort\_by\_means\_of\_value(noiseIntensities);
         \State \hfill
-        \State //now we reorder our seeds hence the sorted lists
+        \State //correspondig indices are also sorted by means of values
         \For{$i = 1 .. BLOCKSIZE$}
-        \State $sortedSeeds(noiseIntensities.getIndex(i)) = incomingSeeds(framePixelIntensities.getIndex(i))$;
+        \State $sortedSeeds(noiseIntensities.getIndex(i)) = $
+        \State $incomingSeeds(framePixelIntensities.getIndex(i))$;
         \EndFor
+        \State //now the seeds are sorted following a blue noise distribution
     \end{algorithmic}
     \label{alg:Sortier}
 \end{algorithm}
 
-Die Annahme der Lokalität, also der Homogenität einer Fläche innerhalb eines Blocks, 
-erlaubt die Approximation des Histogramms \ref{fig:Pixelwerte} eines Pixels 
-anhand der Intensitäten aller anderen Pixel innerhalb des Blocks.
+Das Verwenden der anhand Pixel- und blue noise Werten sortierten Indizes in Zeile 13,14 des Algorithmus \ref{alg:Sortier} ist die praktische Anwendung der zuvor eingeführten 
+Quantilfunktion \ref{eq:inverse Funktion}. Denn die Anfangswerte $x \in [0,1]$ der Gleichung \ref{eq:inverse Funktion} werden hier einem eindeutigen sortierten Intensitätswert 
+zugeteilt. Das Abbilden der Pixelwerte auf Werte einer \nameref{ch:Content1:sec:blue noise} Textur garantiert nun die entsprechende Korrelation 
+der Anfangswerte zueinander (siehe auch Abschnitt \ref{ch:Content1:sec:blue noise sampling}).
+Die Annahme der Lokalität, also der Homogenität (in der Abbildung \ref{fig:Pixelblöcke} demonstriert) einer Fläche innerhalb eines Blocks, 
+erlaubt die Approximation des Histogramms \ref{fig:Pixelwerte} eines Pixels anhand der Intensitäten aller anderen Pixel innerhalb des Blocks.
 Wird der Block zu groß gewählt, so wir die Approximation zu rechenintensiv die parallele Ausführbarkeit 
-und die  Homogenitätseigenschaft gehen verloren, wohingegen 
-zu kleine Blockgrößen nur eine sehr wage und ungenaue Approximation des 
-Histogramms \ref{pic:histogramOfEstimates} liefern. Wir nehmen als Anzahl Pixel/BLOCK = 16
-(nach \cite{hal02158423}),was eine gute Abwägung zwischen beiden Extrema liefert.
-Dabei werden bei dem Algorithmus \ref{alg:Sortier} die Pixel anhand ihrer Intensitäten mitsamt 
-ihrer Anfangswerte als Indices sortiert. Dies kann man, wie anfangs erwähnt, als Zuordnung 
-von zufälligen Zahlen (Anfangswerte) zu ihren Quantilen (Intensitätenintervalle) des Histogramms deuten.
-Eine \nameref{ch:Content1:sec:blue noise} Zahlenfolge wird ebenfalls mitsamt ihren Indices sortiert.
-An der Stelle der niedrigsten \nameref{ch:Content1:sec:blue noise}-Intensität wird der Anfangswert abgespeichert,
-der für die niedrigste Intensität des Bildes zuständig war etc. 
-\newpage
-Nehmen wir hier nun die im vorherigen Abschnitt \ref{ch:Content2:sec:a Posteriori} postulierte Behauptung 
-auf, 
-
-\begin{itemize}
-    \item[\uproman{1}.)] dass der Farbwert eines Pixels und Wahl des Anfangswertes(siehe Gleichung 
-                        \ref{eq:inverse Funktion}) gleichbedeutend sind und 
-    \item[\uproman{2}.)] die Ähnlichkeit von $Bild_{t}$ und $Bild_{t+1}$(bzw. Statik der Szene)
-\end{itemize}
-
-in betracht ziehen, sind die Pixel von $Bild_{t+1}$ folglich \nameref{ch:Content1:sec:blue noise} 
-verteilt. 
+und die  Homogenitätseigenschaft (Bildkohärenz) gehen verloren, wohingegen zu kleine Blockgrößen nur eine sehr wage und ungenaue Approximation des 
+Histogramms \ref{pic:histogramOfEstimates} liefern.
 
 \par
 
-Hierbei muss noch eine wichtige Anmerkung gemacht werden. Die Fehlerverteilung
-der Pixelwerte im Bildraum konvergiert auf diese Weise nicht zu einer 
-blue noise Verteilung, denn wir wechseln in jedem Bild die 
-verwendeten blue noise Texturen(theoretisch, praktischerweise werden wir hier eine
-Textur verwenden und mit Erkenntnissen aus \nameref{ch:Content1:sec:Quasi-Zufallsfolgen}) 
-quasi-zufällig zugreifen um so einen solchen Effekt zu erreichen). 
+Hierbei muss noch eine wichtige Anmerkung gemacht werden. Die Fehlerverteilung der Pixelwerte im Bildraum konvergiert auf diese Weise nicht zu einer 
+blue noise Verteilung, denn wir wechseln in jedem Bild die verwendeten blue noise Texturen(theoretisch, praktischerweise werden wir hier eine
+Textur verwenden und mit Erkenntnissen aus \nameref{ch:Content1:sec:Quasi-Zufallsfolgen}) quasi-zufällig zugreifen um so einen solchen Effekt zu erreichen). 
 Dieser Schritt alleine reicht also nicht für den erwünschten Effekt zu erreichen.
 
 \label{subsec:Blockgröße}
