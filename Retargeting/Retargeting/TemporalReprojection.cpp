@@ -9,7 +9,7 @@ TemporalReprojection::TemporalReprojection() {
 	double mu = 0.95;
 	this->schedule = new Kirkpatrick(T_0, mu, quasieq);
 	Energy energy;
-	number_steps = 100000;
+	number_steps = 1000000;
 	this->sa = SimulatedAnnealing(number_steps, schedule, energy, false, image_width, image_height, helper, filename);
 	this->filename = filename;
 }
