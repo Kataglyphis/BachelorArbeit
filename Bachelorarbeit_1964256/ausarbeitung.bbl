@@ -1,9 +1,19 @@
 \begin{thebibliography}{}
 
+\bibitem[UE4, 2014]{UE4TAA}
+ (2014).
+\newblock High-quality temporal supersampling.
+\newblock Brian Karis. 2014.
+
 \bibitem[JCr, 2018]{JCrystalSoft2018}
  (2018).
 \newblock Jcrystal.
 \newblock performing fft on images.
+
+\bibitem[INS, 2018]{INSIDETAA}
+ (2018).
+\newblock Temporal reprojection anti-aliasing in inside.
+\newblock INSIDE at GDC.
 
 \bibitem[Ray, 2019]{RayFlags}
  (2019).
@@ -98,11 +108,6 @@ Krcadinac, V. (2006).
 Marschner, S. and Shirley, P. (2009).
 \newblock {\em Fundamentals of computer graphics}.
 \newblock CRC Press.
-
-\bibitem[Meyer and Anderson, 2006]{meyer2006statistical}
-Meyer, M. and Anderson, J. (2006).
-\newblock Statistical acceleration for animated global illumination.
-\newblock {\em ACM Transactions on Graphics (TOG)}, 25(3):1075--1080.
 
 \bibitem[Padovan, 2002]{vanderlaanplasticnumber}
 Padovan, R. (2002).

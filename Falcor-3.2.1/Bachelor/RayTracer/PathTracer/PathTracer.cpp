@@ -97,12 +97,12 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     //for retarget seeds before rendering frame!
     mpGraph->addPass(Retargeting::create(), "Retargeting");
     //adding temporal reprojection step for the seeds
-    mpGraph->addPass(TemporalReprojection::create(), "TemporalReprojection");
+    //mpGraph->addPass(TemporalReprojection::create(), "TemporalReprojection");
 
 
     mpGraph->addEdge("GBuffer", "Retargeting");
-    mpGraph->addEdge("Retargeting", "TemporalReprojection");
-    mpGraph->addEdge("TemporalReprojection", "GlobalIllumination");
+    //mpGraph->addEdge("Retargeting", "TemporalReprojection");
+    //mpGraph->addEdge("TemporalReprojection", "GlobalIllumination");
     mpGraph->addEdge("GBuffer", "GlobalIllumination");
     //accumulate results from illumination
     mpGraph->addEdge("GlobalIllumination","TemporalAccumulation");
@@ -115,8 +115,9 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->addEdge("GlobalIllumination.output_frame", "TemporalAccumulation.input_frame");
     mpGraph->addEdge("TemporalAccumulation.output_frame", "Sorting.input_frame");
 
-    mpGraph->addEdge("Retargeting.output_seed", "TemporalReprojection.input_seed");
-    mpGraph->addEdge("TemporalReprojection.output_seed", "GlobalIllumination.input_seed");
+    //mpGraph->addEdge("Retargeting.output_seed", "TemporalReprojection.input_seed");
+    //mpGraph->addEdge("TemporalReprojection.output_seed", "GlobalIllumination.input_seed");
+    mpGraph->addEdge("Retargeting.output_seed", "GlobalIllumination.input_seed");
 
     mpGraph->addEdge("GBuffer.posW", "GlobalIllumination.posW");
     mpGraph->addEdge("GBuffer.normW", "GlobalIllumination.normW");
@@ -125,8 +126,6 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->addEdge("GBuffer.emissive", "GlobalIllumination.emissive");
     mpGraph->addEdge("GBuffer.matlExtra", "GlobalIllumination.matlExtra");
 
-
-    mpGraph->addEdge("GBuffer.depthStencil", "TemporalReprojection.input_depthStencil");
     mpGraph->addEdge("GBuffer.depthStencil", "Retargeting.input_depthStencil");
     //add edges for marking dependencies!!
 
@@ -191,7 +190,7 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
         //we need need previous rendered frame for making reprojection!
         Resource::SharedPtr last_frame = mpGraph->getOutput("GlobalIllumination.output_frame");
         //Resource::SharedPtr last_frame = mpGraph->getOutput("TemporalAccumulation.output_frame");
-        mpGraph->setInput("TemporalReprojection.input_frame", last_frame);
+        //mpGraph->setInput("TemporalReprojection.input_frame", last_frame);
 
         //if(this->trace_count <= 5) takeScreenshot(pCallbacks, "SortingAndRetargeting");
     }
@@ -217,8 +216,8 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
     {
         mpGraph->getScene()->update(pCallbacks->getCurrentTime(), &mCamController);
         mpGraph->execute(pRenderContext);
-        pRenderContext->blit(mpGraph->getOutput("GlobalIllumination.output_frame")->getSRV(), pTargetFbo->getRenderTargetView(0));
-        //pRenderContext->blit(mpGraph->getOutput("TemporalAccumulation.output_frame")->getSRV(), pTargetFbo->getRenderTargetView(0));
+        //pRenderContext->blit(mpGraph->getOutput("GlobalIllumination.output_frame")->getSRV(), pTargetFbo->getRenderTargetView(0));
+        pRenderContext->blit(mpGraph->getOutput("TemporalAccumulation.output_frame")->getSRV(), pTargetFbo->getRenderTargetView(0));
         //pRenderContext->blit(mpGraph->getOutput("Sorting.output_seed")->getSRV(), pTargetFbo->getRenderTargetView(0));
     }
 }
