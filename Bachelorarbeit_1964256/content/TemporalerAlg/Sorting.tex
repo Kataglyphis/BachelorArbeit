@@ -1,5 +1,5 @@
 In diesem Abschnitt machen wir uns die getroffenen \nameref{ch:Content2:sec:a Posteriori} Annahmen 
-zu Nutze. Nach dem Rendern von $Bild_{t}$ (und vor dem Rendern von $Bild_{t+1}$) nehmen wir die Sortierung
+zu Nutze. Nach dem Erzeugen von $Bild_{t}$ (und vor dem Erzeugen von $Bild_{t+1}$) nehmen wir die Sortierung
 anhand der Pixelwerte von $Bild_{t}$ vor. 
 
 \par
@@ -34,7 +34,7 @@ innerhalb eines Blocks anhand ihrer Indizes (entspricht den Wahrscheinlichkeitsq
 \end{algorithm}
 
 Das Verwenden der anhand Pixel- und blue noise Werten sortierten Indizes in Zeile 13,14 des Algorithmus \ref{alg:Sortier} ist die praktische Anwendung der zuvor eingeführten 
-Quantilfunktion \ref{eq:inverse Funktion}. Denn die Anfangswerte $x \in [0,1]$ der Gleichung \ref{eq:inverse Funktion} werden hier einem eindeutigen sortierten Intensitätswert 
+Quantilfunktion \ref{eq:inverse Funktion}. Denn die Anfangswerte $x \in [0,1]$ der Quantilfunktion \ref{eq:inverse Funktion} werden hier einem eindeutigen sortierten Intensitätswert 
 zugeteilt. Das Abbilden der Pixelwerte auf Werte einer \nameref{ch:Content1:sec:blue noise} Textur garantiert nun die entsprechende Korrelation 
 der Anfangswerte zueinander (siehe auch Abschnitt \ref{ch:Content1:sec:blue noise sampling}).
 Die Annahme der Lokalität, also der Homogenität (in der Abbildung \ref{fig:Pixelblöcke} demonstriert) einer Fläche innerhalb eines Blocks, 
@@ -45,17 +45,17 @@ Histogramms \ref{pic:histogramOfEstimates} liefern.
 
 \par
 
-Hierbei muss noch eine wichtige Anmerkung gemacht werden. Die Fehlerverteilung der Pixelwerte im Bildraum konvergiert auf diese Weise nicht zu einer 
+Hierbei muss noch eine wichtige Anmerkung gemacht werden. Die Fehlerverteilung der Pixelwerte im Bildraum konvergiert auf diese Weise nicht perfekt zu einer 
 blue noise Verteilung, denn wir wechseln in jedem Bild die verwendeten blue noise Texturen(theoretisch, praktischerweise werden wir hier eine
 Textur verwenden und mit Erkenntnissen aus \nameref{ch:Content1:sec:Quasi-Zufallsfolgen}) quasi-zufällig zugreifen um so einen solchen Effekt zu erreichen). 
-Dieser Schritt alleine reicht also nicht für den erwünschten Effekt zu erreichen.
 
 \label{subsec:Blockgröße}
 \subsubsection{Blockgöße}
 
 Für den Sortierschritt gibt es ein Abwägung zu treffen: Hohe Blockgröße B bedeutet eine bessere Approximation 
-des Histogramms (siehe Bild \ref{pic:histogramOfEstimates}), wohingegen allerdings die Raum-Zeit 
-Kohärenz verloren geht.
+des Histogramms (siehe Bild \ref{pic:histogramOfEstimates}). Denn mann erhöht die Anzahl an Pixelschätzungen für
+jeden einzelnen Pixel. Allerdings geht im Gegenzug die Raum-Zeit Kohärenz verloren. Der Algorithmus wird anfälliger 
+für Szenen, die keine größeren homogenen Flächen aufweisen.
 
 \begin{figure}[H]
 
@@ -91,22 +91,22 @@ Kohärenz verloren geht.
 
     \begin{subfigure}[b]{0.2\linewidth}
         \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/2/seed_debug_5.0_small_screen.png}
-         \caption{Ausschnitt B=2}
+         \caption{B=2}
          \label{pic:screen_B2}
     \end{subfigure}
     \begin{subfigure}[b]{0.2\linewidth}
         \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/3/seed_debug_5.0_small_screen.png}
-         \caption{Ausschnitt B=3}
+         \caption{B=3}
          \label{pic:screen_B3}
     \end{subfigure}
     \begin{subfigure}[b]{0.2\linewidth}
         \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/4/seed_debug_5.0_small_screen.png}
-         \caption{Ausschnitt B=4}
+         \caption{B=4}
          \label{pic:screen_B4}
     \end{subfigure}
     \begin{subfigure}[b]{0.2\linewidth}
         \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/5/seed_debug_5.0_small_screen.png}
-         \caption{Ausschnitt B=5}
+         \caption{B=5}
          \label{pic:screen_B5}
     \end{subfigure}
 
@@ -142,26 +142,26 @@ Kohärenz verloren geht.
 
     \begin{subfigure}[b]{0.2\linewidth}
         \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/6/seed_debug_5.0_small_screen.png}
-         \caption{Ausschnitt B=6}
+         \caption{B=6}
          \label{pic:screen_B6}
     \end{subfigure}
     \begin{subfigure}[b]{0.2\linewidth}
         \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/7/seed_debug_5.0_small_screen.png}
-         \caption{Ausschnitt B=7}
+         \caption{B=7}
          \label{pic:screen_B7}
     \end{subfigure}
     \begin{subfigure}[b]{0.2\linewidth}
         \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/8/seed_debug_5.0_small_screen.png}
-         \caption{Ausschnitt B=8}
+         \caption{B=8}
          \label{pic:screen_B8}
     \end{subfigure}
     \begin{subfigure}[b]{0.2\linewidth}
         \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/10/seed_debug_5.0_small_screen.png}
-         \caption{Ausschnitt B=10}
+         \caption{B=10}
          \label{pic:screen_B10}
     \end{subfigure}
 
-    \caption{Verschiedene Blockgrößen B bei selben homogenen Szenenausschnitt; jeweils drittes Bild}
+    \caption{Verschiedene Blockgrößen B bei selben homogenen Szenenausschnitt; nur Sortierschritt; jeweils drittes erzeugtes Bild}
     \label{fig:VerschiedeneBlockgrößenSorting}
       
 \end{figure}
@@ -169,10 +169,40 @@ Kohärenz verloren geht.
 Generell lässt sich aus den Untersuchungen in Abbildung \ref{fig:VerschiedeneBlockgrößenSorting} schließen,
 dass eine geringe Blockgröße des Sortierschrittes ein Fehlen bzw. starke Abschwächung der 
 \nameref{ch:Content1:sec:blue noise} Fehlerverteilung im Bildraum zur Folge hat. Erklärung: Das Histogramm
-(siehe \ref{pic:histogramOfEstimates}), Wahrscheinlichkeitsfunktion
+(siehe Abbildung \ref{pic:histogramOfEstimates}), Wahrscheinlichkeitsfunktion
 aller möglichen Pixelwerte, wird mit zu wenigen Werten approximiert. Diese sehr wage Approximation 
 hat zur Folge, dass die Sortierung einer randomisierten Folge entspricht. Deshalb sind im Bildraum
 viele Cluster und die white noise Eigenschaften in den Spektra zu erkennen.
+Unsere Untersuchungen ergeben, dass eine Blockgröße < 4 vermieden werden sollte. Ab einer Blockgröße
+B = 4 hat man bereits eine rechengünstige benutzbare Approximation. Eine gute Abschätzung ergibt sich 
+bei uns mit einer Blockgröße von $B \approx 8/10$. Mit dieser Blockgröße hat man immernoch eine gute 
+effiziente parallele Ausführbarkeit garantiert und liefert eine generelle gute Approximation der 
+Pixelwerte.   
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Histogramm Verdeutlichung
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[H]
+
+    \begin{subfigure}{\textwidth}
+        \centering \includegraphics[width=0.6\linewidth]{content/TemporalerAlg/Bilder/Sorting/Histogramm/HistogrammSchätzungPrevious.png} 
+        \caption{Vorheriges Bild}
+        \label{fig:Histogramm_Previous}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+        \centering \includegraphics[width=0.6\linewidth]{content/TemporalerAlg/Bilder/Sorting/Histogramm/HistogrammSchätzungPostBearbeitet.png}
+        \caption{Gleiche Seeds wie im vorherigen Bild, bloß verschoben}
+        \label{fig:Histogram_Post}
+    \end{subfigure}
+        \caption{Wir sortieren unsere Anfangswerte und erhalten durch die Pixelwertschätzungen in der Umgebung eine gute Approximation im ersten Bild
+        \ref{fig:Histogramm_Previous}; Verschieben wir die Anfangswertetextur ohne weiter zu sortieren so werden nun Anfangswerte, die anhand der Pixelwertschätzung des
+        Posters verwendet wurden nun zur Pixelfarbgebung für die Wand verwendet (grünes Rechteck)}. Mann kann sehen das hier keine blue noise Eigenschaft mehr zu erkennen
+        ist, da die Pixelwertschätzungen des Posters nicht auf die Wand übertragbar sind! Hingegen kann man im blauen Rechteck eine blue noise Eigenschaft erkennen, da 
+        die verwendeten Anfangswerte anhand einer ähnlich farbigen Oberfläche sortiert wurden. 
+        \label{fig:Vergleich der Histogramme}
+
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Screenshotreihe
@@ -322,7 +352,22 @@ viele Cluster und die white noise Eigenschaften in den Spektra zu erkennen.
 \end{figure}
 
 Die Bildreihe zeigt die ersten sieben erstellten Bilder mit ausschließlichem 
-Sortieren ohne \nameref{ch:Content2:sec:Retargeting}. Bereits im dritten Bild 
-\ref{fig:Nur_Sorting_Verlauf_t3} ist eine \nameref{ch:Content1:sec:blue noise}
-Fehlerverteilung im Bildraum zu erkennen. Die darauffolgenden Ausschnitte 
-\ref{fig:Nur_Sorting_Verlauf_t4} - \ref{fig:Nur_Sorting_Verlauf_t7}
+Sortieren(B=8) ohne \nameref{ch:Content2:sec:Retargeting}.
+
+\begin{itemize}
+    \item[t=1-2] Die ersten beiden erzeugten Bilder lassen keine blue noise Eigenschaften erkennen.
+                    Das typische weiße Rauschen ist zu erkennen und hat einen unbefriedigenden optischen Eindruck.
+                     \par 
+                    
+    \item[t=3] Ab dem dritten Bild können wir eine \nameref{ch:Content1:sec:blue noise} Eigenschaft im Bild durch ein 
+                bloßes Sortieren erkennen. Die daraus resultierende Steigerung der optisch wahrnehmbaren 
+                Qualität, wie bereits in Arbeiten wie \cite{3288} besprochen, lässt sich gut erkennen. 
+    \item[t=4-7] Der blue noise Charakter kann auch über die darauffolgenden Bilder erhalten werden.
+                Allerdings ist der Charakter noch nicht stark genug ausgeprägt. Hier lässt sich der zuvor beschriebene 
+                Effekt erkennen: Durch die Benutzung einer neuen blue noise Textur in jedem Bild akkumulieren 
+                Verbesserungen nicht so gut und das Spektrum hat einen mehr verschwommenen Charakter ohne hohen 
+                Kontrast.
+\end{itemize}
+
+Diese Erkenntnisse veranlassen uns einen zusätzlichen Schritt nach dem Sortieren (vor der erneuten Bilderzeugung) 
+einzuführen: Das \nameref{ch:Content2:sec:Retargeting}.

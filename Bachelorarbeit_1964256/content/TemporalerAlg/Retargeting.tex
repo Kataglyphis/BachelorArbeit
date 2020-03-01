@@ -1,8 +1,8 @@
 Bevor die Anfangswerte zur globalen Beleuchtung benutzt werden (siehe auch \nameref{pic:Render Graph}), durchlaufen Sie nach dem Sortieren 
 (siehe \ref{ch:Content2:sec:Sorting}) das Retargeting. Der Sinn liegt hierbei beim Vertauschen der Anfangswerte, sodass Sie 
-verteilt sind wie $BlueNoise_{t}$ , aufgrund des zuvor ausgeführten Sortierschrittes,
-sodass Sie verteilt sind wie die Textur $BlueNoise_{t+1}$. Aufgrund dessen haben wir eine Aufsummierung der
-\nameref{ch:Content1:sec:blue noise} Fehlerverteilungen über die ersten paar Bilder(siehe Bilderreihe \ref{fig:Retargeting_And_Sorting_Szene_t1}).
+verteilt sind wie $BlueNoise_{t+1}$. Aufgrund dessen ergibt sich eine bessere Aufsummierung der
+\nameref{ch:Content1:sec:blue noise} Fehlerverteilungen über die ersten paar Bilder.
+\par 
 
 \begin{figure}[H]
 
@@ -64,6 +64,7 @@ sodass Sie verteilt sind wie die Textur $BlueNoise_{t+1}$. Aufgrund dessen haben
 Die Abbildung \ref{fig:VergleichRetargetSorting} verdeutlicht die Bedeutung des Retargeting 
 Schrittes. Sie zeigen dieselben Ausschnitte eines homogenen Szenenausschnitts bzw. die korrespondierende 
 Spektra über die ersten drei Bilder. Die erste Reihe mit den Bildern
+
 \begin{itemize}
     \item[a.) - d.)] zeigt auch nach dem dritten Bild keine \nameref{ch:Content1:sec:blue noise} Eigenschaften.
                      Dies liegt an der geringen Blockgröße des Sortierschrittes 
@@ -75,7 +76,7 @@ Spektra über die ersten drei Bilder. Die erste Reihe mit den Bildern
                      \par 
                     Benutzt man hingegen wie in den Bildern  
     \item[e.) - h.)] zu dem wagen Sortierschritt mit Blockgröße B=2 noch den Retargetingschritt, so akkumulieren sich die 
-                    Umverteilungen aus dem Sortierschritt. Trotz der geringen Blockgröße, die nicht reicht, damit nach einem 
+                    Umverteilungen aus dem Sortierschritt besser. Trotz der geringen Blockgröße, die nicht reicht, damit nach einem 
                     Bild \nameref{ch:Content1:sec:blue noise} Eigenschaften auftreten und aufgrund der Nutzung einer neuen 
                     Textur (siehe auch Abschnitt \ref{ch:Content1:sec:Quasi-Zufallsfolgen}) innerhalb eines jeden 
                     Bilderstellungsvorgangs wieder verschwimmen würden, können wir bereits im dritten Bild 
@@ -85,7 +86,10 @@ Spektra über die ersten drei Bilder. Die erste Reihe mit den Bildern
                     als bei dem bloßen Sortierschritt (Bild \ref{pic:sortier_t2})
 \end{itemize}
 
-An sich ist der Schritt eine bloße Anwendung einer Permutation.\ref{alg:retargetingAlg}
+\textbf{Anmerkung}: Das gewünschte Ergebnis stellt sich allerdings nur bei einem Sortierschritt mit ausreichender Blockgröße und 
+anschließenden Retargeting ein (wie bei unserer Screenshotreihe \ref{fig:Retargetbilderstrecke}).
+
+An sich ist der Schritt eine bloße Anwendung einer Permutation wie im Algorithmus \ref{alg:retargetingAlg}.
 
 \begin{algorithm}[H]
     \caption{\textbf{Retargeting Schritt}}
@@ -99,7 +103,9 @@ An sich ist der Schritt eine bloße Anwendung einer Permutation.\ref{alg:retarge
     \label{alg:retargetingAlg}
 \end{algorithm}
 
-Wir greifen auf unsere beiden vorberechneten Texturen quasi zufällig (siehe \ref{ch:Content1:sec:Quasi-Zufallsfolgen})
+Da die Berechnung der Permutation \glqq on-the-fly\grqq{} zu rechenintensiv, verwenden wir eine durch 
+\nameref{ch:Content2:sec:Simulated Annealing} berechnete Textur.
+Wir greifen auf unsere beiden vorberechneten Texturen quasi-zufällig (siehe \ref{ch:Content1:sec:Quasi-Zufallsfolgen})
 zu. Dabei wird der Permutationswert auf die jeweilige Position des Anfangswertes addiert.
 Dabei kann ein jeder Pixel in einem Umfeld (Radius r = 6) permutiert werden (siehe \ref{pic:Permutation}).
 
@@ -109,15 +115,6 @@ Dabei kann ein jeder Pixel in einem Umfeld (Radius r = 6) permutiert werden (sie
     \caption{Permutation}
     \label{pic:Permutation}
 \end{figure}
-
-\begin{algorithm}[H]
-    \caption{Benutzung unser zwei vorberechneten Texturen: Blue Noise und Retarget}
-    \begin{algorithmic}[1]
-        \State $bluenoise_{t}$(i,j) = $bluenoise_{0}$(i + $\alpha$t, j + $\beta$t); 
-        \State $retarget_{t}$(i,j) = $retarget_{0}$(i + $\alpha$t, j + $\beta$t) + ($\alpha$t, $\beta$t)
-    \end{algorithmic}
-    \label{alg:Benutzung vorberechneter Texturen}
-\end{algorithm}
 
 \newpage
 
@@ -267,27 +264,42 @@ Dabei kann ein jeder Pixel in einem Umfeld (Radius r = 6) permutiert werden (sie
         \label{fig:Retargeting_And_Sorting_Verlauf_t7}
 \end{figure}
 
-Im dritten Bild der Reihe \ref{fig:Retargeting_And_Sorting_Verlauf_t3} können wir eine erste 
-\ref{ch:Content1:sec:blue noise} Fehlerverteilung im Bildraum erkennen. Im Gegensatz zum 
-reinen \nameref{ch:Content2:sec:Sorting} ohne dem Retargetingschritt haben wir hier in den 
-Bildern danach \ref{fig:Retargeting_And_Sorting_Verlauf_t4} - \ref{fig:Retargeting_And_Sorting_Verlauf_t7}
-keine so starke Abschwächung der Verteilung zwischen den Bildern sondern eine Akkumulation.
+
+\begin{itemize}
+    \item[t=1-2] Die ersten beiden erzeugten Bilder lassen keine blue noise Eigenschaften erkennen.
+                    Das typische weiße Rauschen ist zu erkennen und hat einen unbefriedigenden optischen Eindruck.
+                     \par 
+                    
+    \item[t=3] Ab dem dritten Bild können wir eine \nameref{ch:Content1:sec:blue noise} Eigenschaft im Bild durch ein 
+                bloßes Sortieren erkennen. Die daraus resultierende Steigerung der optisch wahrnehmbaren 
+                Qualität, wie bereits in Arbeiten wie \cite{3288} besprochen, lässt sich gut erkennen. 
+    \item[t=4-7] In den darauffolgenden Schritten ist eine zeitlich stabilere blue noise Verteilung zu erkennen.
+                 Die Schwankungen zwischen den darauf folgenden Bildern wird geringer durch die vorherige 
+                 Umsortierung zur nächsten blue noise Textur. 
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Verdeutlichung der Akkumulation des Retargeting
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Zur Verdeutlichung der Bedeutung des zusätzlichen Retargeting zum vorherigen Sortierschritt:
 
 \begin{figure}[H]
     \begin{subfigure}{0.5\textwidth}
-        %\centering\includegraphics[width=0.5\linewidth]{content/TemporalerAlg/Bilder/Sorting/Screenshots/Spektren/seed_debug_9.0_ausschnitt.png} 
+        \centering\includegraphics[width=0.5\linewidth]{content/TemporalerAlg/Bilder/Sorting/Spektren/Ausschnitt7.png} 
         \caption{FFT reines Sorting}
         \label{fig:VergleichSorting}
     \end{subfigure}
     \begin{subfigure}{0.5\textwidth}
-        %\centering\includegraphics[width=0.5\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Screenshots/Spektren/seed_debug_9.0_ausschnitt.png}
+        \centering\includegraphics[width=0.5\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Spektren/Ausschnitt7.png}
         \caption{FFT Sorting + Retargeting}
         \label{fig:VergleichRetargeting}
     \end{subfigure}
-        \caption{Vergleich des siebten Bildes vom reinen Sorting und zusätzlichem Retargeting}
+        \caption{Vergleich des jeweilig siebten Bildes reines Sorting und zusätzliches Retargeting}
         \label{fig:VergleichBild7}
 \end{figure}
 
-Das siebte Bild \ref{fig:VergleichBild7} nach Beginn steht beispielhaft für die Akkumulation des Retargeting Schrittes bzw. 
-dem Verwischen der \ref{ch:Content1:sec:blue noise} Verteilung bei bloßem Sorting aufgrund ständig 
-wechselnder blue noise Textur.
+Über die Zeit lässt sich der zusätzliche Permutationschritt gut verdeutlichen. Das Spektrum des siebten gerenderten Bildes 
+hat beim bloßen Sortieren (Bild \ref{fig:VergleichSorting}) keinen so starken Kontrast wie das Spektrum mit 
+zusätzlichem Retargeting (Bild \ref{fig:VergleichRetargeting}). Die blue noise Umverteilungen Akkumulieren nicht so gut 
+und führen zu dem verwischten Charakter. 

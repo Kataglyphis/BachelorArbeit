@@ -63,8 +63,8 @@ private:
     uint32_t frame_height = 1080;
 
     //compute context
-    uint32_t groupDimX = 2;
-    uint32_t groupDimY = 2;
+    uint32_t groupDimX = 8;
+    uint32_t groupDimY = 8;
     uint32_t numberOfGroupsX = (frame_width / groupDimX) + 1;
     uint32_t numberOfGroupsY = (frame_height / groupDimY) + 1;
 

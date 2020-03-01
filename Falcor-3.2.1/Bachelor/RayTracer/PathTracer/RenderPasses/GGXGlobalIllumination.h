@@ -90,7 +90,7 @@ private:
 
     //for following our tracing; to capture the frames
     uint32_t trace_count;
-    bool enable_white_noise = true;
+    bool enable_white_noise = false;
     uint32_t distribute_as_white_noise_shader_var;
 
     //stats of a seed texture
