@@ -29,9 +29,9 @@ This work explains a temporally stable algorithm based on this technique. In con
 - Simulated Annealing
 - Path Tracing
 
-
+--------------------
 ### Installing
-
+--------------------
 A step by step series of examples that tell you how to get a development env running
 
 Say what the step will be
@@ -47,9 +47,9 @@ until finished
 ```
 
 End with an example of getting some data out of the system or using it for a little demo
-
+--------------------
 ## Running the program
-
+--------------------
 Falcor Project
 
 ![Get your shit together ... link your pictures right Jonas](Bilder/Anleitung.png?raw=true "UI")
@@ -70,32 +70,25 @@ Retargeting
 
 Under the main file one finds the different tasks to run (i.e. Simulated Anneling Tester, Visualizer, etc.) 
 
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
 ## Deployment
 
 Add additional notes about how to deploy this on a live system
-
+--------------------
 ## Built With
-
+--------------------
 * [Falcor](https://developer.nvidia.com/falcor) - The real-time rendering framework used
 * [Matplotlib](https://github.com/lava/matplotlib-cpp) - C++ Wrapper Class for the python lib
-
+--------------------
 ## Authors
-
+--------------------
 * **Jonas Heinle** - [Kataglyphis](https://github.com/Kataglyphis)
-
+--------------------
 ## License
-
+--------------------
 This project is licensed under the BSD License - see the [LICENSE.md](LICENSE.md) file for details
-
+--------------------
 ## Acknowledgments
+--------------------
 This work was inspired by previous work on blue noise. Especially to mention:
 * https://eheitzresearch.wordpress.com/772-2/
 * https://dl.acm.org/doi/10.1145/2897839.2927430
