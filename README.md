@@ -48,25 +48,25 @@ until finished
 --------------------
 ## Running the program
 --------------------
-Falcor Project
+- Falcor Project
 
 ![Get your shit together ... link your pictures right Jonas](Bilder/Anleitung.png?raw=true "UI")
 
-Red - Toogle the retarget pass, will only be affective if white noise disabled
+    - Red - Toogle the retarget pass, will only be affective if white noise disabled
 
-Green - add temporal reprojection to your retargeting pass 
+    - Green - add temporal reprojection to your retargeting pass 
 
-Blue - Toogle to a conventional approach with a white noise 
+    - Blue - Toogle to a conventional approach with a white noise 
 
-Yellow - toogle to sorting pass, will only be affective if white noise is disabled 
+    - Yellow - toogle to sorting pass, will only be affective if white noise is disabled 
 
-RetargetingGui
+- RetargetingGui
 
-Gui support is still under development therefore use the 
+    - Gui support is still under development therefore use the 
 
-Retargeting
+- Retargeting
 
-Under the main file one finds the different tasks to run (i.e. Simulated Anneling Tester, Visualizer, etc.) 
+    - Under the main file one finds the different tasks to run (i.e. Simulated Anneling Tester, Visualizer, etc.) 
 
 --------------------
 ## Built With
