@@ -8,7 +8,9 @@
     - real time applications 
     - path tracing
 
+--------
 ## Prerequisites
+--------
 
 - Falcor 
 - VS 2017/19
