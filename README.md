@@ -54,10 +54,10 @@ Falcor Project
 
 ![Get your shit together ... link your pictures right Jonas](Bilder/Anleitung.png?raw=true "UI")
 
-Red - Toogle the retarget pass, will only be affective if white noise disabled
-Green - add temporal reprojection to your retargeting pass
-Blue - Toogle to a conventional approach with a white noise
-Yellow - toogle to sorting pass, will only be affective if white noise is disabled
+Red - Toogle the retarget pass, will only be affective if white noise disabled \n
+Green - add temporal reprojection to your retargeting pass \n
+Blue - Toogle to a conventional approach with a white noise \n
+Yellow - toogle to sorting pass, will only be affective if white noise is disabled \n
 
 RetargetingGui
 
