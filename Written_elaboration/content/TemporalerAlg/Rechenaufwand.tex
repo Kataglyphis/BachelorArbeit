@@ -5,14 +5,15 @@ mit den Schritten Sorting und Retargeting sowohl auf  CPU als auf GPU Seite im n
 
 \begin{center}
     \begin{table}[H]
-        \begin{tabular}{ | l | p{5cm} |l |}
+        \begin{tabular}{ | p{4cm} | p{5cm} |l |}
         \hline
-        \textbf{Pipelinestage}  &  \textbf{Rechenzeit(ms/\%)} CPU & \textbf{Rechenzeit(ms/\%)} GPU \\ \hline
-        Gesamt                  &  29.87/100\%                    & 17.76/100\%\\ \hline
-        GBuffer                 &  06.48/21.7\%                   & 01.30/7.32\%\\ \hline
-        Retargeting             &  01.12/3.7\%                    & 00.33/1.9\%\\ \hline
-        GGXGlobalIllumination   &  21.20/70.97\%                  & 15.51/87,33\%\\ \hline
-        Sorting                 &  00.94/3,14\%                   & 00.63/3,55\%\\ \hline
+        \textbf{Pipelinestage}                              &  \textbf{Rechenzeit(ms/\%)} CPU & \textbf{Rechenzeit(ms/\%)} GPU \\ \hline
+        Gesamt                                              &  29.87/100\%                    & 17.76/100\%\\ \hline
+        GBuffer                                             &  06.48/21.7\%                   & 01.30/7.32\%\\ \hline
+        Retargeting                                         &  01.12/3.7\%                    & 00.33/1.9\%\\ \hline
+        Retargeting + zusätzliches temporales Projezieren   &  01.12/3.7\%                    & 00.33/1.9\%\\ \hline
+        GGXGlobalIllumination                               &  21.20/70.97\%                  & 15.51/87,33\%\\ \hline
+        Sorting                                             &  00.94/3,14\%                   & 00.63/3,55\%\\ \hline
         \hline
         \end{tabular}
         \caption{Rechenzeiten die auf die einzelnen Stages fallen}

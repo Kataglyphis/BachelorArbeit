@@ -15,6 +15,7 @@
 
 //for calculating texture while displaying stuff
 #include <thread>
+#include <atlstr.h>
 
 /**
 our own created files.
@@ -29,6 +30,9 @@ our own created files.
 #include "MersenneTwister.h"
 #include "TemporalReprojection.h"
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////// task we run when normal retarget texture needs to be calculated!
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void calculate_retarget_texture() {
 
     const char* filename = "LDR_RGBA_0_64.png";
@@ -36,6 +40,42 @@ void calculate_retarget_texture() {
     int image_height = 64;
     SimulatedAnnealingTest testing = SimulatedAnnealingTest(filename, image_width, image_height);
     testing.testPermutation();
+
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////// task we run when retarget textures with additional temporal reprojection need to be calculated!
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void calculate_temporal_rep_textures() {
+    
+    TemporalReprojection tr;
+    tr.generateRetargetTextureSet(4,4);
+
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////// task we run when cool down schedules need to be compared
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void compare_cool_downs_schedules() {
+
+    //test different cool down functions
+    const char* filename = "LDR_RGBA_0_64.png";
+    int image_width = 64;
+    int image_height = 64;
+     CoolDownTester test(1000, image_width, image_height, filename);
+     test.compareDifferentCoolDownSchedules();
+
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////// task we run when seed texture needs to be calculated!
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void calculate_seed_texture(helpers* helper) {
+
+    uint64_t seed_texture_width = 1920;
+    uint64_t seed_texture_height = 1080;
+    uint64_t seed_texture_resolution = 32;
+    helper->generate_seed_png(seed_texture_width, seed_texture_height, seed_texture_resolution, new MersenneTwister());
 
 }
 
@@ -104,10 +144,34 @@ int main(int, char**)
     // Our state
     bool show_main_window = true;
     bool show_another_window = false;
+
+    //our self-defined variables we need for our tasks 
+    uint64_t seed_texture_width = 1920;
+    uint64_t seed_texture_height = 1080;
+    uint64_t seed_texture_resolution = 32;
+    int image_width = 64;
+    int image_height = 64;
+
+    bool started_calculation = false;
+    bool started_calculation_temporal_reprojection = false;
+    bool started_calculation_cool_downs = false;
+    bool started_calculation_seed_texture = false;
+    
+    //threads  we run  for not stopping our main loop!
+    std::thread calc_perm;
+    std::thread compare_cool_downs;
+    std::thread calc_temporal_reprojection_textures;
+    std::thread calc_seed_texture;
+
+    //look up the available #threads
+    uint32_t available_threads;
+
+    const char* filename_small = "LDR_RGBA_0_16.png";
+    const char* filename = "LDR_RGBA_0_64.png";
     
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-    //Image data
+    //Load the textures as images in our window
     helpers* helper = new helpers();
     int my_image_width = 0;
     int my_image_height = 0;
@@ -116,12 +180,7 @@ int main(int, char**)
         "LDR_RGBA_0_64.png", 
         &my_texture, g_pd3dDevice, &my_image_width, &my_image_height);
 	if (!ret) return 1;
-    //helper->freeImageFunction();
-    //helper->generateSeedPNG();
 
-    uint64_t seed_texture_width = 1920;
-    uint64_t seed_texture_height = 1080;
-    uint64_t seed_texture_resolution = 32;
     //BOOL generated_seed_texture = helper->generate_seed_png(seed_texture_width, seed_texture_height, seed_texture_resolution, new MersenneTwister());
     //if (!generated_seed_texture) cout << "Something went horribly wrong!";
     //calc retargeted texture with temporal annealing!
@@ -138,12 +197,6 @@ int main(int, char**)
     if (!erstellt) return 1;
     */
 
-    bool started_calculation = false;
-    std::thread calc_perm;
-    const char* filename_small = "LDR_RGBA_0_16.png";
-    const char* filename = "LDR_RGBA_0_64.png";
-    int image_width = 64;
-    int image_height = 64;
     //testing the simulated annealing
     //SimulatedAnnealingTest testing = SimulatedAnnealingTest(filename, image_width, image_height);
     //testing.testPermutation();
@@ -186,12 +239,22 @@ int main(int, char**)
             static float f = 0.0f;
             static int counter = 0;
 
+            //update number available threads 
+            available_threads = std::thread::hardware_concurrency();
+            CString str_number_threads;
+            str_number_threads.Format("%d", available_threads);
+
             ImGui::Begin("Retargeting");                          // Create a window for displaying blue noise and retargeting texture!!
 
+   
+            ImGui::Text("Number available concurrent Threads = "+ str_number_threads);
             ImGui::Text("Our Blue noise texture we are performing our simulated annealing on");
 			//show image
 			ImGui::Image((void*)my_texture, ImVec2((float)my_image_width, (float)my_image_height));
-   
+            ImGui::Text("Calculation results are stored in \pictures subfolder!");
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //////////////////// from here we can launch the task for calculating the retarget texture with its corresponding visualizations
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             if (ImGui::Button("Calculate retarget texture with correspondig visualization!")) {
                 if (!started_calculation) {
                     started_calculation = true;
@@ -199,6 +262,39 @@ int main(int, char**)
                 }
             }
             if(started_calculation) ImGui::Text("Started Calculation of retarget texture!");
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //////////////////// from here we can launch the task for calculating the retarget textures with additional temporal reprojection
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            if (ImGui::Button("Calculate retarget texture with additional tempral Reprojection support!")) {
+                if (!started_calculation_temporal_reprojection) {
+                    started_calculation_temporal_reprojection = true;
+                    calc_temporal_reprojection_textures = std::thread(calculate_temporal_rep_textures);
+                }
+            }
+            if (started_calculation_temporal_reprojection) ImGui::Text("Started Calculation of retarget textures with additional tempral Reprojection support!");
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //////////////////// compare different cool down functions
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            if (ImGui::Button("Comparing Cool Down Schedules now!")) {
+                if (!started_calculation_cool_downs) {
+                    started_calculation_cool_downs = true;
+                    compare_cool_downs = std::thread(compare_cool_downs_schedules);
+                }
+            }
+            if (started_calculation_cool_downs) ImGui::Text("Started Calculation of CoolDown Comparison!");
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //////////////////// calculate the seed texture
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            if (ImGui::Button("Calculate seed texture with Marsenne Twister!")) {
+                if (!started_calculation_seed_texture) {
+                    started_calculation_seed_texture = true;
+                    calc_seed_texture = std::thread(calculate_seed_texture, helper);
+                }
+            }
+            if (started_calculation_seed_texture) ImGui::Text("Started Calculation of seed texture!");
 
             ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
 
@@ -235,7 +331,13 @@ int main(int, char**)
     ::DestroyWindow(hwnd);
     ::UnregisterClass(wc.lpszClassName, wc.hInstance);
 
-    calc_perm.join();
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////// calculate the seed texture
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    if(started_calculation) calc_perm.join();
+    if(started_calculation_cool_downs) compare_cool_downs.join();
+    if(started_calculation_temporal_reprojection) calc_temporal_reprojection_textures.join();
+    if(started_calculation_seed_texture) calc_seed_texture.join();
 
     return 0;
 }
