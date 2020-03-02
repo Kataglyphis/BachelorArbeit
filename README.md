@@ -36,15 +36,14 @@ This work explains a temporally stable algorithm based on this technique. In con
 ### Installing
 --------------------
 
-```
-Give the example
-```
+- Retargeting should run immediately after cloning
 
-And repeat
+- For the Falcor part:
+    - Falcor 4.3.1 will be added as submodule
+    - copy the content of the assets folder into the \media subfolder of the \TemporalAlgortihm folder
+    - copy entire folder \Code into \TemporalAlgorithm
+    - now follow the steps descriped in Falcor README.md for adding our temporal Algorithm solution to the framework 
 
-```
-until finished
-```
 --------------------
 ## Running the program
 --------------------
@@ -62,11 +61,12 @@ until finished
 
 - RetargetingGui
 
-    - Gui support is still under development therefore use the 
+    - Qt Gui support is still under development! Do not use!
 
 - Retargeting
 
-    - Under the main file one finds the different tasks to run (i.e. Simulated Anneling Tester, Visualizer, etc.) 
+    - Very simplified GUI gives opportunity to start the calculation of a permutation texture
+    - all textures/visualization pics etc will be saved under the \pictures subfolder
 
 --------------------
 ## Built With
