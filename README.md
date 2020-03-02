@@ -27,10 +27,10 @@ included the blue noise error distributions and emphasized and clarified their i
 This work explains a temporally stable algorithm based on this technique. In contrast to the previous approaches, we want to apply an error redistribution directly in the image space, and so one accordingly to get correlated pixel sequence. The algorithm achieves all of this without significant additional computing effort.
 
 - going from the typical noisy output by a path tracer
-![Get your shit together ... link your pictures right Jonas](Bilder/white_noise_auschnitt.png?raw=true "UI")
+![Get your shit together ... link your pictures right Jonas](Bilder/white_noise_auschnitt.png?raw=true "White Noise")
 
-- to the output of the temporal algorithm to a temporally stable blue noise screen space distribution
-![Get your shit together ... link your pictures right Jonas](Bilder/blue_noise_ausschnitt.png?raw=true "UI")
+- to the eye pleasing output of the extra temporal algorithm: a temporally stable blue noise screen space distribution
+![Get your shit together ... link your pictures right Jonas](Bilder/blue_noise_ausschnitt.png?raw=true "Blue noise")
  
 --------------------
 ## Algorithmic Analysis
