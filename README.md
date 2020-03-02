@@ -68,8 +68,8 @@ This work explains a temporally stable algorithm based on this technique. In con
     - Very simplified GUI gives opportunity to start the calculation of a permutation texture
     - all textures/visualization pics etc will be saved under the \pictures subfolder
     <p align="center">
-        <img src="Bilder/LDR_RGBA_0_64-RGBA_r_channel.png?raw=true" width="350" title="hover text">
-        <img src="Bilder/permutation_texture_295744_swapsKirkpatrickCooldownSchedule.png?raw=true" width="350" alt="accessibility text">
+        <img src="Bilder/LDR_RGBA_0_64-RGBA_r_channel.png?raw=true" width="350" title="Dither Texture" image-rendering="pixelated">
+        <img src="Bilder/permutation_texture_295744_swapsKirkpatrickCooldownSchedule.png?raw=true" width="350" alt="Get your shit together ... link your pictures right Jonas" image-rendering="pixelated" title="Retargeting Texture">
     </p>
 
     ![Get your shit together ... link your pictures right Jonas](Bilder/Energy_286100_steps_KirkpatrickCooldownSchedule.png?raw=true "UI")
