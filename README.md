@@ -67,9 +67,10 @@ This work explains a temporally stable algorithm based on this technique. In con
 
     - Very simplified GUI gives opportunity to start the calculation of a permutation texture
     - all textures/visualization pics etc will be saved under the \pictures subfolder
-
+    <p align="center">
     ![Get your shit together ... link your pictures right Jonas](Bilder/LDR_RGBA_0_64-RGBA_r_channel.png?raw=true "UI")
     ![Get your shit together ... link your pictures right Jonas](Bilder/permutation_texture_295744_swapsKirkpatrickCooldownSchedule.png?raw=true "UI")
+    </p>
     ![Get your shit together ... link your pictures right Jonas](Bilder/Energy_286100_steps_KirkpatrickCooldownSchedule.png?raw=true "UI")
     ![Get your shit together ... link your pictures right Jonas](Bilder/Energy_Cooldown_compared_steps_85771.png?raw=true "UI")
 
