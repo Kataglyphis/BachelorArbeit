@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="PathTracer.cpp" />
+    <ClCompile Include="RenderPasses\GGXGlobalIllumination.cpp">
+      <Filter>RenderPasses\GGXGlobalIllumination</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPasses\GBufferRaster.cpp">
+      <Filter>RenderPasses\GBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPasses\Sorting.cpp">
+      <Filter>RenderPasses\Sorting</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPasses\Retargeting.cpp">
+      <Filter>RenderPasses\Retargeting</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPasses\TemporalReprojection.cpp">
+      <Filter>RenderPasses\TemporalReprojection</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPasses\TemporalAccumulation.cpp">
+      <Filter>RenderPasses\TemporalAccumulation</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PathTracer.h" />
+    <ClInclude Include="RenderPasses\GGXGlobalIllumination.h">
+      <Filter>RenderPasses\GGXGlobalIllumination</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPasses\GBufferRaster.h">
+      <Filter>RenderPasses\GBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPasses\GBuffer.h">
+      <Filter>RenderPasses\GBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPasses\Sorting.h">
+      <Filter>RenderPasses\Sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPasses\Retargeting.h">
+      <Filter>RenderPasses\Retargeting</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPasses\TemporalReprojection.h">
+      <Filter>RenderPasses\TemporalReprojection</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPasses\TemporalAccumulation.h">
+      <Filter>RenderPasses\TemporalAccumulation</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="RenderPasses">
+      <UniqueIdentifier>{b6a8a680-8843-4162-9110-beb7c61c98c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderPasses\GBuffer">
+      <UniqueIdentifier>{b2788f57-7ebf-40c0-b553-3102f2279bf9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderPasses\GGXGlobalIllumination">
+      <UniqueIdentifier>{90b33fce-7aa1-4ae1-be85-2bac5f88c8ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{f060b8f2-6026-499b-9047-99d2ccba11e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\GBuffer">
+      <UniqueIdentifier>{929740ec-b9db-4ac0-ba45-b444f34fc1c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\GGXGlobalIllumination">
+      <UniqueIdentifier>{8a6d968b-234a-4d7a-a6ba-3f78bc3e4018}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderPasses\Retargeting">
+      <UniqueIdentifier>{5963d752-7f87-4be9-b230-156917a2ab7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderPasses\Sorting">
+      <UniqueIdentifier>{4dc72282-1178-4eeb-a7f3-282cbb1a5e9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Retargeting">
+      <UniqueIdentifier>{54ae45ee-74f4-4044-a2d7-19ff2df81af3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Sorting">
+      <UniqueIdentifier>{8546c391-8b89-4ba7-8cbb-367b8ffb492c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderPasses\TemporalReprojection">
+      <UniqueIdentifier>{8e91af1c-84b1-4bdc-a766-bf647c6e55b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\TemporalReprojection">
+      <UniqueIdentifier>{38d60d91-3b57-477c-a6c2-9cb062497e87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\TemporalAccumulation">
+      <UniqueIdentifier>{4512e7c9-6503-455b-8591-918595f51fe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderPasses\TemporalAccumulation">
+      <UniqueIdentifier>{e4b635c0-6724-406c-99eb-9cbbceb32a18}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\RasterPrimary.slang">
+      <Filter>Data\GBuffer</Filter>
+    </None>
+    <None Include="Data\GGXGICommon.slang">
+      <Filter>Data\GGXGlobalIllumination</Filter>
+    </None>
+    <None Include="Data\GGXGIRayGen.slang">
+      <Filter>Data\GGXGlobalIllumination</Filter>
+    </None>
+    <None Include="Data\GGXGIIndirectRay.slang">
+      <Filter>Data\GGXGlobalIllumination</Filter>
+    </None>
+    <None Include="Data\GGXGIShadowRay.slang">
+      <Filter>Data\GGXGlobalIllumination</Filter>
+    </None>
+    <None Include="..\..\..\Samples\Raytracing\PathTracer\Data\Accumulate.slang">
+      <Filter>Data\TemporalAccumulation</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Data\Sort.hlsl">
+      <Filter>Data\Sorting</Filter>
+    </FxCompile>
+    <FxCompile Include="Data\Retarget.hlsl">
+      <Filter>Data\Retargeting</Filter>
+    </FxCompile>
+    <FxCompile Include="Data\Reproject.hlsl">
+      <Filter>Data\TemporalReprojection</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>
