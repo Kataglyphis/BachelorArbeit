@@ -72,7 +72,7 @@ This work explains a temporally stable algorithm based on this technique. In con
 - Retargeting
 
     - Very simplified GUI gives opportunity to start the calculation of a permutation texture
-    ![Get your shit together ... link your pictures right Jonas](Bilder/RetargetingGUI.png?raw=true "Retargeting GUI")
+    ![Get your shit together ... link your pictures right Jonas](Bilder/Retargeting_GUI.png?raw=true "Retargeting GUI")
         - right now I support basic GUI without choosing parameter for the annealing process by your own
         - each button will start a calculation in a new thread
     - all textures/visualization pics etc will be saved under the \pictures subfolder
