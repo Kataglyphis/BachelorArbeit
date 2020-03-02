@@ -1,5 +1,4 @@
 #pragma once
-#include "AnnealingSchedule.h"
 
 #pragma once
 #include "AnnealingSchedule.h"
@@ -9,6 +8,7 @@
 #include <stdio.h>
 #include <sstream>
 
+#include "AnnealingSchedule.h"
 /**
 The initial temperature value is established by starting with quite a high temperature and gradually increasing
 it until the ratio between the numbers of accepted and proposed transitions is practically one.

@@ -5,10 +5,11 @@
 #include <iostream>
 #include "FreeImage/FreeImage.h"
 #include "FreeImage/FreeImagePlus.h"
-#include "RandomnessStrategy.h"
 #include <vector>
 #include <sstream>
 #include <ctime>
+
+#include "RandomnessStrategy.h"
 
 using namespace std;
 
@@ -31,11 +32,15 @@ class helpers {
 		bool saveImageToFile(const char* filenameToSave, FIBITMAP* retargetBitMap);
 		bool loadPNGinArray(const char* fileName, Image& img_data);
 		bool getNextDither(Image dither_data, Image& next_dither_data, const uint32_t frame_width, const uint32_t frame_height);
-		bool deepCopyImage(Image& source, Image& dest, const int image_width, const int image_height);
+		bool deepCopyImage(Image source, Image& dest, const int image_width, const int image_height);
 		bool fromPermuteToBitmap(Image img_data, FIBITMAP* bitmap, const uint32_t image_width, const uint32_t image_height);
 		void fromImageToFile(const char* filename, Image image);
-		int getDitherWith();
+		int getDitherWidth();
 		int getDitherHeight();
+		void initializeImage(Image& img);
+		void initializePermutation(Image& perm);
+		void initializePositions(Image& pos);
+		Image applyPermutationToOriginal(Image original, Image permutation);
 
 private:
 

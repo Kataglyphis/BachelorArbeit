@@ -1,0 +1,157 @@
+\begin{thebibliography}{}
+
+\bibitem[UE4, 2014]{UE4TAA}
+ (2014).
+\newblock High-quality temporal supersampling.
+\newblock Brian Karis. 2014.
+
+\bibitem[JCr, 2018]{JCrystalSoft2018}
+ (2018).
+\newblock Jcrystal.
+\newblock performing fft on images.
+
+\bibitem[INS, 2018]{INSIDETAA}
+ (2018).
+\newblock Temporal reprojection anti-aliasing in inside.
+\newblock INSIDE at GDC.
+
+\bibitem[Ray, 2019]{RayFlags}
+ (2019).
+\newblock Rayflag enumeration.
+\newblock control behaviour of a traced ray.
+
+\bibitem[Whi, 2019]{WhiteNoiseGenerator}
+ (2019).
+\newblock Whitenoisegenerato.
+\newblock \url{https://www.cssmatic.com/noise-texture}.
+\newblock Accessed: 24.11.2019.
+
+\bibitem[Sci, 2020]{ScienceDirectCoolingSchedule}
+ (2020).
+\newblock Cooling schedule.
+\newblock very good overview and further explanation of kirkpatrick.
+
+\bibitem[Dis, 2020]{DisneyPathTracing}
+ (2020).
+\newblock Disneys guide to path tracing.
+\newblock very good overview and further explanation of path tracing.
+
+\bibitem[Akenine-Moller et~al., 2008]{akenine2018real}
+Akenine-Moller, T., Haines, E., and Hoffman, N. (2008).
+\newblock {\em Real-time rendering}.
+\newblock AK Peters/CRC Press.
+
+\bibitem[Barr{\'e}-Brisebois et~al., 2019]{Barre-Brisebois2019}
+Barr{\'e}-Brisebois, C., Hal{\'e}n, H., Wihlidal, G., Lauritzen, A., Bekkers,
+  J., Stachowiak, T., and Andersson, J. (2019).
+\newblock {\em Hybrid Rendering for Real-Time Ray Tracing}, pages 437--473.
+\newblock Apress, Berkeley, CA.
+
+\bibitem[Benty et~al., 2018]{Benty18}
+Benty, N., Yao, K.-H., Foley, T., Oakes, M., Lavelle, C., and Wyman, C. (2018).
+\newblock The {Falcor} rendering framework.
+\newblock \url{https://github.com/NVIDIAGameWorks/Falcor}.
+
+\bibitem[Caflisch, 1998]{caflisch_1998}
+Caflisch, R.~E. (1998).
+\newblock Monte carlo and quasi-monte carlo methods.
+\newblock {\em Acta Numerica}, 7:1–49.
+
+\bibitem[Drettakis and Seidel, 2002]{KK02}
+Drettakis, G. and Seidel, H.-P. (2002).
+\newblock Efficient multidimensional sampling.
+\newblock 21:1--8.
+
+\bibitem[Eric~Heitz, 2019]{hal02158423}
+Eric~Heitz, L.~B. (2019).
+\newblock Distributing monte carlo errors as a blue noise in screen space by
+  permuting pixel seeds between frames.
+\newblock 38:1--10.
+
+\bibitem[Games, 2017]{Pet17}
+Games, E. (2017).
+\newblock The problem with 3d blue noise.
+\newblock \small \texttt{Blogpost}.
+
+\bibitem[Georgiev and Fajardo, 2016]{georgiev2016blue}
+Georgiev, I. and Fajardo, M. (2016).
+\newblock Blue-noise dithered sampling.
+\newblock In {\em ACM SIGGRAPH 2016 Talks}, page~35. ACM.
+
+\bibitem[Haines and Akenine-M\"oller, 2019]{Haines2019}
+Haines, E. and Akenine-M\"oller, T., editors (2019).
+\newblock {\em Ray Tracing Gems}.
+\newblock Apress.
+\newblock \url{http://raytracinggems.com}.
+
+\bibitem[Hajek, 1988]{hajek1988cooling}
+Hajek, B. (1988).
+\newblock Cooling schedules for optimal annealing.
+\newblock {\em Mathematics of operations research}, 13(2):311--329.
+
+\bibitem[Kirkpatrick et~al., 1983]{Kirkpatrick671}
+Kirkpatrick, S., Gelatt, C.~D., and Vecchi, M.~P. (1983).
+\newblock Optimization by simulated annealing.
+\newblock {\em Science}, 220(4598):671--680.
+
+\bibitem[Kraft, 2018]{turingarchitecture}
+Kraft, B. (2018).
+\newblock Aufbau turing architektur.
+\newblock blogpost.
+
+\bibitem[Krcadinac, 2006]{krcadinac2006new}
+Krcadinac, V. (2006).
+\newblock A new generalization of the golden ratio.
+\newblock {\em Fibonacci Quarterly}, 44(4):335.
+
+\bibitem[Marschner and Shirley, 2009]{marschner2009fundamentals}
+Marschner, S. and Shirley, P. (2009).
+\newblock {\em Fundamentals of computer graphics}.
+\newblock CRC Press.
+
+\bibitem[Padovan, 2002]{vanderlaanplasticnumber}
+Padovan, R. (2002).
+\newblock Dom hans van der laan and the plastic number.
+\newblock {\em Nexus IV: Architecture and Mathematics}, pages 181--193.
+
+\bibitem[Peters, 2016]{bluenoisechrisschied}
+Peters, C. (2016).
+\newblock Free blue noise textures.
+\newblock blogpost.
+
+\bibitem[Roberts, 2018]{quasirandomsequencesbyRoberts}
+Roberts, M. (2018).
+\newblock The unreasonable effectiveness of quasirandom sequences,.
+\newblock
+  \url{http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/}.
+
+\bibitem[Schied, 2019]{Sch19}
+Schied, C. (2019).
+\newblock Real-time path tracing and denoising in quake 2.
+\newblock Game Developer Conference.
+
+\bibitem[Schied et~al., 2017]{schied2017spatiotemporal}
+Schied, C., Kaplanyan, A., Wyman, C., Patney, A., Chaitanya, C. R.~A., Burgess,
+  J., Liu, S., Dachsbacher, C., Lefohn, A., and Salvi, M. (2017).
+\newblock Spatiotemporal variance-guided filtering: real-time reconstruction
+  for path-traced global illumination.
+\newblock In {\em Proceedings of High Performance Graphics}, pages 1--12.
+
+\bibitem[{Ulichney}, 1988]{3288}
+{Ulichney}, R.~A. (1988).
+\newblock Dithering with blue noise.
+\newblock {\em Proceedings of the IEEE}, 76(1):56--79.
+
+\bibitem[Ulichney, 1993]{ulichney1993void}
+Ulichney, R.~A. (1993).
+\newblock Void-and-cluster method for dither array generation.
+\newblock In {\em Human Vision, Visual Processing, and Digital Display IV},
+  volume 1913, pages 332--343. International Society for Optics and Photonics.
+
+\bibitem[Van~Laarhoven and Aarts, 1987]{van1987simulated}
+Van~Laarhoven, P.~J. and Aarts, E.~H. (1987).
+\newblock Simulated annealing.
+\newblock In {\em Simulated annealing: Theory and applications}, pages 7--15.
+  Springer.
+
+\end{thebibliography}

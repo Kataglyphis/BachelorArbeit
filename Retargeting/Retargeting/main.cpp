@@ -10,10 +10,16 @@
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include <tchar.h>
-#include "CoolDownTester.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb/stb_image_write.h"
 
+//for calculating texture while displaying stuff
+#include <thread>
+
+/**
+our own created files.
+*/
+#include "CoolDownTester.h"
 #include "helpers.h"
 #include "SimulatedAnnealingTest.h"
 #include "SimulatedAnnealing.h"
@@ -21,6 +27,17 @@
 #include "RandomnessStrategy.h"
 #include "WangHash.h"
 #include "MersenneTwister.h"
+#include "TemporalReprojection.h"
+
+void calculate_retarget_texture() {
+
+    const char* filename = "LDR_RGBA_0_64.png";
+    int image_width = 64;
+    int image_height = 64;
+    SimulatedAnnealingTest testing = SimulatedAnnealingTest(filename, image_width, image_height);
+    testing.testPermutation();
+
+}
 
 // Data
 static ID3D11Device* g_pd3dDevice = NULL;
@@ -39,7 +56,7 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 int main(int, char**)
 {
     // Create application window
-    WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("ImGui Example"), NULL };
+    WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("Retarget Seeds!"), NULL };
     ::RegisterClassEx(&wc);
     HWND hwnd = ::CreateWindow(wc.lpszClassName, _T("Retargeting pixel seeds"), WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, wc.hInstance, NULL);
 
@@ -85,8 +102,9 @@ int main(int, char**)
     //IM_ASSERT(font != NULL);
 
     // Our state
-    bool show_demo_window = true;
+    bool show_main_window = true;
     bool show_another_window = false;
+    
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
     //Image data
@@ -120,13 +138,18 @@ int main(int, char**)
     if (!erstellt) return 1;
     */
 
+    bool started_calculation = false;
+    std::thread calc_perm;
     const char* filename_small = "LDR_RGBA_0_16.png";
     const char* filename = "LDR_RGBA_0_64.png";
     int image_width = 64;
     int image_height = 64;
     //testing the simulated annealing
-    SimulatedAnnealingTest testing = SimulatedAnnealingTest(filename, image_width, image_height);
-    testing.testPermutation();
+    //SimulatedAnnealingTest testing = SimulatedAnnealingTest(filename, image_width, image_height);
+    //testing.testPermutation();
+
+    //TemporalReprojection tr;
+    //tr.generateRetargetTextureSet(4,4);
 
     //test different cool down functions
     //CoolDownTester test(100000, 64, 64, filename);
@@ -154,32 +177,30 @@ int main(int, char**)
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
 
-        // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-        if (show_demo_window)
-            ImGui::ShowDemoWindow(&show_demo_window);
+        // 1. Show the big main window (Most of the sample code is in ImGui::ShowmainWindow()! You can browse its code to learn more about Dear ImGui!).
+        if (show_main_window)
+            ImGui::ShowDemoWindow(&show_main_window);
 
         // 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
         {
             static float f = 0.0f;
             static int counter = 0;
 
-            ImGui::Begin("Calculate Retargeting texture!");                          // Create a window for displaying blue noise and retargeting texture!!
-            
-            ImGui::Text("Load Blue Noise Texture to Retarget!");              
+            ImGui::Begin("Retargeting");                          // Create a window for displaying blue noise and retargeting texture!!
 
+            ImGui::Text("Our Blue noise texture we are performing our simulated annealing on");
 			//show image
 			ImGui::Image((void*)my_texture, ImVec2((float)my_image_width, (float)my_image_height));
-            //ImGui::Image((void*)my_retarget_texture, ImVec2((float)my_retarget_width, (float)my_retarget_height));
-
-            //if (ImGui::Button("Save Image")) stbi_write_png("Experimental.png",my_image_width, my_image_height,3, (void*)my_texture);
+   
+            if (ImGui::Button("Calculate retarget texture with correspondig visualization!")) {
+                if (!started_calculation) {
+                    started_calculation = true;
+                    calc_perm = thread(calculate_retarget_texture); 
+                }
+            }
+            if(started_calculation) ImGui::Text("Started Calculation of retarget texture!");
 
             ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-            ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-            if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-                counter++;
-            ImGui::SameLine();
-            ImGui::Text("counter = %d", counter);
 
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
             ImGui::End();
@@ -213,6 +234,8 @@ int main(int, char**)
     CleanupDeviceD3D();
     ::DestroyWindow(hwnd);
     ::UnregisterClass(wc.lpszClassName, wc.hInstance);
+
+    calc_perm.join();
 
     return 0;
 }
@@ -297,3 +320,5 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     }
     return ::DefWindowProc(hWnd, msg, wParam, lParam);
 }
+
+

@@ -34,6 +34,9 @@
     <Filter Include="Quelldateien\SimulatedAnnealing">
       <UniqueIdentifier>{04ec8c65-9d8e-4d8e-8043-6af6c969fb63}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\TemporalReprojection">
+      <UniqueIdentifier>{76e2f46e-bcb2-447f-90b7-c5294fa83458}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -93,6 +96,9 @@
     <ClInclude Include="RandomnessStrategy.h">
       <Filter>Quelldateien\Randomness</Filter>
     </ClInclude>
+    <ClInclude Include="TemporalReprojection.h">
+      <Filter>Quelldateien\TemporalReprojection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui.cpp">
@@ -151,6 +157,9 @@
     </ClCompile>
     <ClCompile Include="MersenneTwister.cpp">
       <Filter>Quelldateien\Randomness</Filter>
+    </ClCompile>
+    <ClCompile Include="TemporalReprojection.cpp">
+      <Filter>Quelldateien\TemporalReprojection</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

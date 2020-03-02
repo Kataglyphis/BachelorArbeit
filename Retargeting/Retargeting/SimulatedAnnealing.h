@@ -1,6 +1,4 @@
 ﻿#pragma once
-#include "helpers.h"
-#include "SimulatedAnnealingVisualizer.h"
 #include <stdlib.h>
 #include <cassert>
 #include <iostream>
@@ -9,16 +7,18 @@
 #include <chrono>
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
+#include <sstream>
+#include <time.h>
+
+#include "helpers.h"
+#include "SimulatedAnnealingVisualizer.h"
 #include "AnnealingSchedule.h"
 #include "Hajek.h"
 #include "ExponentialCoolDown.h"
 #include "Inverse.h"
 #include "Lineary.h"
 #include "Kirkpatrick.h"
-#include <fstream>
-#include <sstream>
-
-#include <time.h>
 
 
 using namespace std;
@@ -84,6 +84,7 @@ class SimulatedAnnealing {
         SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule, Energy& energy, bool visualize_single_annealing, int image_width, int image_height, helpers helper, const char* filename);
         SimulatedAnnealing();
 		Image execute(int& good_swaps);
+        Image execute(Image org, const char* temp_rep_filename, int offset_x, int offset_y, int& good_swaps);
         Energy getEnergy();
         AnnealingSchedule* getSchedule();
         int getNumSwaps();

@@ -1,0 +1,305 @@
+Bevor die Anfangswerte zur globalen Beleuchtung benutzt werden (siehe auch \nameref{pic:Render Graph}), durchlaufen Sie nach dem Sortieren 
+(siehe \ref{ch:Content2:sec:Sorting}) das Retargeting. Der Sinn liegt hierbei beim Vertauschen der Anfangswerte, sodass Sie 
+verteilt sind wie $BlueNoise_{t+1}$. Aufgrund dessen ergibt sich eine bessere Aufsummierung der
+\nameref{ch:Content1:sec:blue noise} Fehlerverteilungen über die ersten paar Bilder.
+\par 
+
+\begin{figure}[H]
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% second row --> sorting block size 2 without retargeting
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \centering
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Bedeutung Retargeting/Sorting_Small_Block/Spektrum/Ausschnitt1.png}
+       \caption{FT t = 0}
+       \label{pic:sortier_t0}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Bedeutung Retargeting/Sorting_Small_Block/Spektrum/Ausschnitt2.png}
+      \caption{FT t = 1}
+      \label{pic:sortier_t1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Bedeutung Retargeting/Sorting_Small_Block/Ausschnitt/Ausschnitt3.png}
+      \caption{Ausschnitt t=2}
+      \label{pic:sortier_screen_t2}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Bedeutung Retargeting/Sorting_Small_Block/Spektrum/Ausschnitt3.png}
+        \caption{FT t = 2}
+        \label{pic:sortier_t2}
+      \end{subfigure}
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% second row --> sorting block size 2 with retargeting
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Bedeutung Retargeting/Sorting_Small_Block_WithRetargeting/Spektrum/Ausschnitt1.png}
+         \caption{FT t = 0}
+         \label{pic:retarget_t0}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Bedeutung Retargeting/Sorting_Small_Block_WithRetargeting/Spektrum/Ausschnitt2.png}
+         \caption{FT t = 1}
+         \label{pic:retarget_t1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Bedeutung Retargeting/Sorting_Small_Block_WithRetargeting/Ausschnitt/Ausschnitt3.png}
+         \caption{Ausschnitt t=2}
+         \label{pic:retarget_screen_t2}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Bedeutung Retargeting/Sorting_Small_Block_WithRetargeting/Spektrum/Ausschnitt3.png}
+         \caption{FT t = 2}
+         \label{pic:retarget_t2}
+    \end{subfigure}
+    \caption{Vergleich erste Bilder Sorting(B=2) mit bzw. ohne Retargeting}
+    \label{fig:VergleichRetargetSorting}
+      
+\end{figure}
+
+Die Abbildung \ref{fig:VergleichRetargetSorting} verdeutlicht die Bedeutung des Retargeting 
+Schrittes. Sie zeigen dieselben Ausschnitte eines homogenen Szenenausschnitts bzw. die korrespondierende 
+Spektra über die ersten drei Bilder. Die erste Reihe mit den Bildern
+
+\begin{itemize}
+    \item[a.) - d.)] zeigt auch nach dem dritten Bild keine \nameref{ch:Content1:sec:blue noise} Eigenschaften.
+                     Dies liegt an der geringen Blockgröße des Sortierschrittes 
+                     (in Abschnitt \ref{subsec:Blockgröße} bereits besprochen). Das Histogramm, Wahrscheinlichkeitsfunktion
+                     aller möglichen Pixelwerte, wird mit nur vier Werten approximiert. Diese sehr wage Approximation 
+                     hat zur Folge, das die Sortierung einer randomisierten Folge entspricht. Deshalb sind im Bildraum
+                     (siehe Bild \ref{pic:sortier_screen_t2}) viele Cluster und die white noise Eigenschaften 
+                     (siehe Bild \ref{pic:white noise} im Spektrum zu erkennen.
+                     \par 
+                    Benutzt man hingegen wie in den Bildern  
+    \item[e.) - h.)] zu dem wagen Sortierschritt mit Blockgröße B=2 noch den Retargetingschritt, so akkumulieren sich die 
+                    Umverteilungen aus dem Sortierschritt besser. Trotz der geringen Blockgröße, die nicht reicht, damit nach einem 
+                    Bild \nameref{ch:Content1:sec:blue noise} Eigenschaften auftreten und aufgrund der Nutzung einer neuen 
+                    Textur (siehe auch Abschnitt \ref{ch:Content1:sec:Quasi-Zufallsfolgen}) innerhalb eines jeden 
+                    Bilderstellungsvorgangs wieder verschwimmen würden, können wir bereits im dritten Bild 
+                    \ref{ch:Content1:sec:blue noise} Eigenschaften erkennen. Im Bildraum (Bild \ref{pic:retarget_screen_t2})
+                    sind die Pixelverbünde verschwunden(=hohe Frequenzen). Dies macht sich im Frequenzraum 
+                    (siehe Bild \ref{pic:retarget_t2}) erkenntlich, indem niedere Frequenzen weniger vertreten sind 
+                    als bei dem bloßen Sortierschritt (Bild \ref{pic:sortier_t2})
+\end{itemize}
+
+\textbf{Anmerkung}: Das gewünschte Ergebnis stellt sich allerdings nur bei einem Sortierschritt mit ausreichender Blockgröße und 
+anschließenden Retargeting ein (wie bei unserer Screenshotreihe \ref{fig:Retargetbilderstrecke}).
+
+An sich ist der Schritt eine bloße Anwendung einer Permutation wie im Algorithmus \ref{alg:retargetingAlg}.
+
+\begin{algorithm}[H]
+    \caption{\textbf{Retargeting Schritt}}
+    \begin{algorithmic}[1]
+        \State //permutation indices from precomputed texture
+        \State $retaget_{t}$ = retarget\_texure[calc\_correct\_offset()];
+        
+        \State $retargetedSeeds(old\_id + retaget_{t}) = incomingSeeds(old\_id);$
+        
+    \end{algorithmic}
+    \label{alg:retargetingAlg}
+\end{algorithm}
+
+Da die Berechnung der Permutation \glqq on-the-fly\grqq{} zu rechenintensiv, verwenden wir eine durch 
+\nameref{ch:Content2:sec:Simulated Annealing} berechnete Textur.
+Wir greifen auf unsere beiden vorberechneten Texturen quasi-zufällig (siehe \ref{ch:Content1:sec:Quasi-Zufallsfolgen})
+zu. Dabei wird der Permutationswert auf die jeweilige Position des Anfangswertes addiert.
+Dabei kann ein jeder Pixel in einem Umfeld (Radius r = 6) permutiert werden (siehe \ref{pic:Permutation}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{content/simulatedAnnealing/Bilder/Permutation.png}
+    \caption{Permutation}
+    \label{pic:Permutation}
+\end{figure}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% Beginning the Sequence of getting to blue noise from white noise
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\label{fig:Retargetbilderstrecke}
+\begin{figure}[H]
+
+    \begin{subfigure}{\textwidth}
+        \centering \includegraphics[scale=.25]{content/TemporalerAlg/Bilder/Retargeting/Szene/Szene1.png}
+        \caption{Szene}
+        \label{fig:Retargeting_And_Sorting_Szene_t1}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering \includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Ausschnitt/Ausschnitt1.png} 
+        \caption{Szenenausschnitt}
+        \label{fig:Retargeting_And_Sorting_ausschnitt_t1}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering \includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Spektren/Ausschnitt1.png}
+        \caption{Fouriertransformierte des Ausschnitts}
+        \label{fig:Retargeting_And_Sorting_Fouriertransformierte_t1}
+    \end{subfigure}
+        \caption{Zeitpunkt t=1}
+        \label{fig:Retargeting_And_Sorting_Verlauf_t1}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{subfigure}{\textwidth}
+        \centering \includegraphics[scale=.25]{content/TemporalerAlg/Bilder/Retargeting/Szene/Szene2.png}
+        \caption{Szene}
+        \label{fig:Retargeting_And_Sorting_Szene_t2}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Ausschnitt/Ausschnitt2.png} 
+        \caption{Szenenausschnitt}
+        \label{fig:Retargeting_And_Sorting_ausschnitt_t2}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Spektren/Ausschnitt2.png}
+        \caption{Fouriertransformierte des Ausschnitts}
+        \label{fig:Retargeting_And_Sorting_Fouriertransformierte_t2}
+    \end{subfigure}
+        \caption{Zeitpunkt t=2}
+        \label{fig:Retargeting_And_Sorting_Verlauf_t2}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{subfigure}{\textwidth}
+        \centering \includegraphics[scale=.25]{content/TemporalerAlg/Bilder/Retargeting/Szene/Szene3.png}
+        \caption{Szene}
+        \label{fig:Retargeting_And_Sorting_Szene_t3}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Ausschnitt/Ausschnitt3.png} 
+        \caption{Szenenausschnitt}
+        \label{fig:Retargeting_And_Sorting_ausschnitt_t3}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Spektren/Ausschnitt3.png}
+        \caption{Fouriertransformierte des Ausschnitts}
+        \label{fig:Retargeting_And_Sorting_Fouriertransformierte_t3}
+    \end{subfigure}
+        \caption{Zeitpunkt t=3}
+        \label{fig:Retargeting_And_Sorting_Verlauf_t3}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{subfigure}{\textwidth}  
+        \centering \includegraphics[scale=.25]{content/TemporalerAlg/Bilder/Retargeting/Szene/Szene4.png}
+        \caption{Szene}
+        \label{fig:Retargeting_And_Sorting_Szene_t4}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Ausschnitt/Ausschnitt4.png} 
+        \caption{Szenenausschnitt}
+        \label{fig:Retargeting_And_Sorting_ausschnitt_t4}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Spektren/Ausschnitt4.png}
+        \caption{Fouriertransformierte des Ausschnitts}
+        \label{fig:Retargeting_And_Sorting_Fouriertransformierte_t4}
+    \end{subfigure}
+        \caption{Zeitpunkt t=4}
+        \label{fig:Retargeting_And_Sorting_Verlauf_t4}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{subfigure}{\textwidth}   
+        \centering \includegraphics[scale=.25]{content/TemporalerAlg/Bilder/Retargeting/Szene/Szene5.png}
+        \caption{Szene}
+        \label{fig:Retargeting_And_Sorting_Szene_t5}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Ausschnitt/Ausschnitt5.png} 
+        \caption{Szenenausschnitt}
+        \label{fig:Retargeting_And_Sorting_ausschnitt_t5}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Spektren/Ausschnitt5.png}
+        \caption{Fouriertransformierte des Ausschnitts}
+        \label{fig:Retargeting_And_Sorting_Fouriertransformierte_t5}
+    \end{subfigure}
+        \caption{Zeitpunkt t=5}
+        \label{fig:Retargeting_And_Sorting_Verlauf_t5}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{subfigure}{\textwidth}   
+        \centering \includegraphics[scale=.25]{content/TemporalerAlg/Bilder/Retargeting/Szene/Szene6.png}
+        \caption{Szene}
+        \label{fig:Retargeting_And_Sorting_Szene_t6}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Ausschnitt/Ausschnitt6.png} 
+        \caption{Szenenausschnitt}
+        \label{fig:Retargeting_And_Sorting_ausschnitt_t6}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Spektren/Ausschnitt6.png}
+        \caption{Fouriertransformierte des Ausschnitts}
+        \label{fig:Retargeting_And_Sorting_Fouriertransformierte_t6}
+    \end{subfigure}
+        \caption{Zeitpunkt t=6}
+        \label{fig:Retargeting_And_Sorting_Verlauf_t6}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{subfigure}{\textwidth}   
+        \centering \includegraphics[scale=.25]{content/TemporalerAlg/Bilder/Retargeting/Szene/Szene7.png}
+        \caption{Szene}
+        \label{fig:Retargeting_And_Sorting_Szene_t7}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Ausschnitt/Ausschnitt7.png} 
+        \caption{Szenenausschnitt}
+        \label{fig:Retargeting_And_Sorting_ausschnitt_t7}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Spektren/Ausschnitt7.png}
+        \caption{Fouriertransformierte des Ausschnitts}
+        \label{fig:Retargeting_And_Sorting_Fouriertransformierte_t7}
+    \end{subfigure}
+        \caption{Zeitpunkt t=7}
+        \label{fig:Retargeting_And_Sorting_Verlauf_t7}
+\end{figure}
+
+
+\begin{itemize}
+    \item[t=1-2] Die ersten beiden erzeugten Bilder lassen keine blue noise Eigenschaften erkennen.
+                    Das typische weiße Rauschen ist zu erkennen und hat einen unbefriedigenden optischen Eindruck.
+                     \par 
+                    
+    \item[t=3] Ab dem dritten Bild können wir eine \nameref{ch:Content1:sec:blue noise} Eigenschaft im Bild durch ein 
+                bloßes Sortieren erkennen. Die daraus resultierende Steigerung der optisch wahrnehmbaren 
+                Qualität, wie bereits in Arbeiten wie \cite{3288} besprochen, lässt sich gut erkennen. 
+    \item[t=4-7] In den darauffolgenden Schritten ist eine zeitlich stabilere blue noise Verteilung zu erkennen.
+                 Die Schwankungen zwischen den darauf folgenden Bildern wird geringer durch die vorherige 
+                 Umsortierung zur nächsten blue noise Textur. 
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Verdeutlichung der Akkumulation des Retargeting
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Zur Verdeutlichung der Bedeutung des zusätzlichen Retargeting zum vorherigen Sortierschritt:
+
+\begin{figure}[H]
+    \begin{subfigure}{0.5\textwidth}
+        \centering\includegraphics[width=0.5\linewidth]{content/TemporalerAlg/Bilder/Sorting/Spektren/Ausschnitt7.png} 
+        \caption{FFT reines Sorting}
+        \label{fig:VergleichSorting}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering\includegraphics[width=0.5\linewidth]{content/TemporalerAlg/Bilder/Retargeting/Spektren/Ausschnitt7.png}
+        \caption{FFT Sorting + Retargeting}
+        \label{fig:VergleichRetargeting}
+    \end{subfigure}
+        \caption{Vergleich des jeweilig siebten Bildes reines Sorting und zusätzliches Retargeting}
+        \label{fig:VergleichBild7}
+\end{figure}
+
+Über die Zeit lässt sich der zusätzliche Permutationschritt gut verdeutlichen. Das Spektrum des siebten gerenderten Bildes 
+hat beim bloßen Sortieren (Bild \ref{fig:VergleichSorting}) keinen so starken Kontrast wie das Spektrum mit 
+zusätzlichem Retargeting (Bild \ref{fig:VergleichRetargeting}). Die blue noise Umverteilungen Akkumulieren nicht so gut 
+und führen zu dem verwischten Charakter. 

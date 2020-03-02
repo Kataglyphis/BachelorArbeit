@@ -166,6 +166,7 @@
     <ClInclude Include="SimulatedAnnealing.h" />
     <ClInclude Include="SimulatedAnnealingTest.h" />
     <ClInclude Include="SimulatedAnnealingVisualizer.h" />
+    <ClInclude Include="TemporalReprojection.h" />
     <ClInclude Include="WangHash.h" />
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +191,7 @@
     <ClCompile Include="SimulatedAnnealing.cpp" />
     <ClCompile Include="SimulatedAnnealingTest.cpp" />
     <ClCompile Include="SimulatedAnnealingVisualizer.cpp" />
+    <ClCompile Include="TemporalReprojection.cpp" />
     <ClCompile Include="WangHash.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

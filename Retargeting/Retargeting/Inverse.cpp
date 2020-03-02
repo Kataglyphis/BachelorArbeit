@@ -17,7 +17,9 @@ double Inverse::getTemperature(int step) {
 }
 
 std::string Inverse::getName() {
+
 	return "InverseCooldownSchedule";
+
 }
 
 std::string Inverse::getFunction() {
