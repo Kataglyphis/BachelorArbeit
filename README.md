@@ -25,6 +25,12 @@ single image. Along with this short computing time, there are fewer ray paths wi
 Length. Previous work already has shown how to counteract the resulting image noise,
 included the blue noise error distributions and emphasized and clarified their importance in increasing the perceptible image quality.
 This work explains a temporally stable algorithm based on this technique. In contrast to the previous approaches, we want to apply an error redistribution directly in the image space, and so one accordingly to get correlated pixel sequence. The algorithm achieves all of this without significant additional computing effort.
+
+- going from the typical noisy output by a path tracer
+![Get your shit together ... link your pictures right Jonas](Bilder/white_noise_auschnitt.png?raw=true "UI")
+
+- to the output of the temporal algorithm to a temporally stable blue noise screen space distribution
+![Get your shit together ... link your pictures right Jonas](Bilder/blue_noise_ausschnitt.png?raw=true "UI")
  
 --------------------
 ## Algorithmic Analysis
