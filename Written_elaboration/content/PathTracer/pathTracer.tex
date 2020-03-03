@@ -122,6 +122,7 @@ Im Folgenden Algorithmus \ref{alg:Path Tracer Konzept} wird nochmal vereinfacht 
 eines Path Tracers erläutert, wobei die entsprechenden programmierbaren Shader von DirectX 
 im jeweiligen Codeabschnitt markiert sind.
 
+\begin{tcolorbox}
 \begin{algorithm}[H]
     \caption{Path Tracing Algorithmus}
     \begin{algorithmic}[1]
@@ -144,12 +145,13 @@ im jeweiligen Codeabschnitt markiert sind.
     \end{algorithmic}
     \label{alg:Path Tracer Konzept}
 \end{algorithm}
-
+\end{tcolorbox}
 
 In Abbildung \ref{pic:DirectXRaytracingPipeline} und  Algorithmus \ref{alg:Path Tracer Konzept} lässt sich
 der Beginn (Generierung eines Strahles) der neuen Pipeline durch den programmierbaren
 \textbf{Ray Generation shader} erkennen.
 
+\begin{tcolorbox}
 \begin{algorithm}[H]
     \caption{Beispielhafter minimalistischer Ray Generation Shader}
     \begin{algorithmic}[1]
@@ -167,6 +169,7 @@ der Beginn (Generierung eines Strahles) der neuen Pipeline durch den programmier
     \end{algorithmic}
     \label{alg:Ray Gen}
 \end{algorithm}
+\end{tcolorbox}
 
 Mit Hilfe der Methode \textbf{TraceRay()} werden dann zur Beleuchtungsberechnung 
 die Strahlen verschossen. Damit diese Methode richtig arbeiten kann übergeben wir neben unseren Strahl 
@@ -174,13 +177,15 @@ unter Anderem  unsere Szene inklusive Beschleunigungsstruktur, rayflags
 (beeinflussen Transparaenz, Culling, Abbruch)\cite{RayFlags} und einen payload.
 Mit dem \textit{$payload_t$} können wir einen struct mit Informationen jedem einzelnen Strahl mitgeben.
 
+\begin{tcolorbox}
 \begin{algorithm}[H]
     \caption{beispielhafter payload}
     \begin{algorithmic}[1]
         \State struct RayPayload = {float4 color, uint32 seed, uint32 depth};        
         \end{algorithmic}
         \label{alg:payload}
-    \end{algorithm}
+\end{algorithm}
+\end{tcolorbox}
     
 Diese Methode \textbf{TraceRay()} kann auch innerhalb der anderen Shader zum weiteren verschießen
 von Strahlen verwendet werden. So beispielweise beim Verschießen eines Schattenstrahls mit flags 
@@ -201,6 +206,7 @@ Bei einem gefundenen nähsten Schnittpunkt einer durchsichtigen Oberfläche wird
 \textbf{Any-hit shaders} erlauben klassische \textit{Discards} oder informieren
 über einen korrekten Schnitt. So können wir z.B. einen Alpha Test durchführen.
 
+\begin{tcolorbox}
 \begin{algorithm}[H]
     \caption{Any-Hit shader}
     \begin{algorithmic}[1]
@@ -211,6 +217,7 @@ Bei einem gefundenen nähsten Schnittpunkt einer durchsichtigen Oberfläche wird
     \end{algorithmic}
     \label{alg:any hit}
 \end{algorithm}
+\end{tcolorbox}
 
 Der \textbf{Closest-hit shader} berechnet den Schnittpunkt des Strahls mit der Geometrie
 der Szene, die dem Strahlursprung am nähesten ist.

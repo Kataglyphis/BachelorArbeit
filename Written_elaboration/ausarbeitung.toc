@@ -42,5 +42,7 @@
 \contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}nur Sorting}}}{38}{section*.36}%
 \contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}Sorting + Retargeting}}}{38}{section*.37}%
 \contentsline {section}{\numberline {3.4}Temporaler Ansatz}{39}{section.3.4}%
+\contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}nur Retargeting}}}{42}{section*.42}%
+\contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}mit zusätzlichen temporalen Projezieren}}}{42}{section*.43}%
 \contentsline {section}{\numberline {3.5}Rechenaufwand und Speicherbedarf}{43}{section.3.5}%
-\contentsline {chapter}{Literaturverzeichnis}{44}{section*.44}%
+\contentsline {chapter}{Literaturverzeichnis}{44}{section*.46}%

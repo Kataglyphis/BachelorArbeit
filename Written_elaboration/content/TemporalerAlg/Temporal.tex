@@ -5,7 +5,8 @@ ziehen bereits temporale Lösungsansätze z.B. temporales Akkumulieren \cite{sch
 
 Eine klassisches Formulierung \cite{UE4TAA} haben wir beispielhaft wie im Folgenden angewandt:
 
-\begin{algorithm}[H]
+\begin{tcolorbox}
+  \begin{algorithm}[H]
     \caption{Beispielhafte Akkumulation}
     \begin{algorithmic}[1]
         \State Texture2D current\_frame;
@@ -17,6 +18,7 @@ Eine klassisches Formulierung \cite{UE4TAA} haben wir beispielhaft wie im Folgen
     \end{algorithmic}
     \label{alg:TemporalAccumulation}
 \end{algorithm}
+\end{tcolorbox}
 
 Diese klassische Formulierung, verletzt unsere Annahme für die Quantilfunktion \ref{eq:inverse Funktion}
 in den \nameref{ch:Content2:sec:a Posteriori}-Bedingungen des zugrundeliegenden Algorithmus 
@@ -65,8 +67,9 @@ haben würde aufgrund der Drehung.
 
 \begin{figure}[H]
   \begin{tcolorbox}[boxrule=4pt,sharp corners=downhill,title=Szene unter Kamerabewegung, fonttitle=\bfseries]
-    \begin{tcolorbox}[boxrule=4pt,sharp corners=downhill,title=Keine Projektion,colbacktitle=blue!50!white, coltitle=black]
+    %\begin{tcolorbox}[boxrule=4pt,sharp corners=downhill,title=Keine Projektion,colbacktitle=blue!50!white, coltitle=black]
     %\tcbsubtitle{Keine Projection}
+    \paragraph{\hfill\colorbox{blue}{\textcolor{white}{nur Retargeting}}}
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% first row 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -114,13 +117,14 @@ haben würde aufgrund der Drehung.
          \caption{}
          \label{pic:NoTemporalRepr_4}
     \end{subfigure}
-    \end{tcolorbox}
+    %\end{tcolorbox}
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% third row 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \tcblower
-    \begin{tcolorbox}[boxrule=4pt,sharp corners=downhill,title=Projektion,colbacktitle=green!50!white, coltitle=black]
+    %\begin{tcolorbox}[boxrule=4pt,sharp corners=downhill,title=Projektion,colbacktitle=green!50!white, coltitle=black]
     %\tcbsubtitle{Projection}
+    \paragraph{\hfill\colorbox{blue}{\textcolor{white}{mit zusätzlichen temporalen Projezieren}}}
     \centering
     \begin{subfigure}[b]{0.2\linewidth}
       \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/TemporalRepr/Ausschnitte/Ausschnitt1_FFT.png}
@@ -165,7 +169,7 @@ haben würde aufgrund der Drehung.
          \caption{}
          \label{pic:TemporalRepr_4}
     \end{subfigure}
-  \end{tcolorbox}
+  %\end{tcolorbox}
   \end{tcolorbox}
     \caption{Erste beiden Reihen: kein temporales Reprojezieren; letzte beiden Reihen: Retargeting mit zusätzlichem temporalen Projezieren}
     \label{fig:Auswirkung temporales Projezieren}

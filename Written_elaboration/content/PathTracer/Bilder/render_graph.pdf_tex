@@ -38,7 +38,7 @@
   \newcommand*\fsize{\dimexpr\f@size pt\relax}%
   \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{2267.71653543bp}%
+    \setlength{\unitlength}{5442.51968504bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -50,29 +50,30 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.37125)%
+  \begin{picture}(1,0.5625)%
     \lineheight{1}%
     \setlength\tabcolsep{0pt}%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{render_graph.pdf}}%
-    \put(0.20690549,0.27195997){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.13474026\unitlength}\raggedright \nameref{ch:Content2:sec:Retargeting}\end{minipage}}}%
-    \put(0.265,-0.21939957){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.4675\unitlength}\raggedright \end{minipage}}}%
-    \put(0.07097408,0.17350752){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}GBuffer\end{tabular}}}}%
-    \put(0.5622024,0.23527643){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.07883688\unitlength}\raggedright \end{minipage}}}%
-    \put(3,-0.22439957){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.3825\unitlength}\raggedright \end{minipage}}}%
-    \put(0.82569008,0.19039151){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\nameref{ch:Content2:sec:Sorting}\end{tabular}}}}%
+    \put(0.17400784,0.4149107){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.23147901\unitlength}\raggedright \nameref{ch:Content2:sec:Retargeting}\end{minipage}}}%
+    \put(0.11041667,-0.09141649){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.19479167\unitlength}\raggedright \end{minipage}}}%
+    \put(0.03184243,0.31896106){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}GBuffer\end{tabular}}}}%
+    \put(0.234251,0.09803185){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0328487\unitlength}\raggedright \end{minipage}}}%
+    \put(1.25,-0.09349982){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.159375\unitlength}\raggedright \end{minipage}}}%
+    \put(0.84536732,0.30816418){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\nameref{ch:Content2:sec:Sorting}\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{render_graph.pdf}}%
-    \put(0.43915205,0.24836219){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.10325843\unitlength}\raggedright retargeted seeds für frame t+1\end{minipage}}}%
-    \put(0.41712057,0.07953165){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.55459741\unitlength}\raggedright sortierte seeds für frame t+1 anhand blue noise textur t+1\end{minipage}}}%
-    \put(0.7586927,0.36975521){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.20703646\unitlength}\raggedright \nameref{ch:Content1:sec:blue noise} textur\end{minipage}}}%
-    \put(0.46963541,0.33866667){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.14221354\unitlength}\raggedright seed textur t = 0\end{minipage}}}%
-    \put(0.1031875,0.32808333){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.18322396\unitlength}\raggedright Vorberechnete \\ Permutation\end{minipage}}}%
-    \put(0.72902163,0.24436161){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.06935857\unitlength}\raggedright seeds of \\ frame t+1\end{minipage}}}%
-    \put(2.375,-0.27689964){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.065\unitlength}\raggedright \end{minipage}}}%
-    \put(0.57761981,0.22551652){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.14326243\unitlength}\raggedright Global\\ Illumination\end{minipage}}}%
-    \put(0.20505208,0.24606249){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.22210643\unitlength}\raggedright + optinales Temporales Projezieren(siehe Bild \ref{pic:Uebersicht_Temporal_Reprojection})\end{minipage}}}%
+    \put(0.42430085,0.42351521){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.10101776\unitlength}\raggedright retargeted seeds für frame t+1\end{minipage}}}%
+    \put(0.39298018,0.20645456){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.59657689\unitlength}\raggedright sortierte seeds für frame t+1 anhand blue noise textur t+1\end{minipage}}}%
+    \put(0.69098039,0.51447768){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.13368176\unitlength}\raggedright \nameref{ch:Content1:sec:blue noise} textur\end{minipage}}}%
+    \put(0.4640161,0.52975615){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.21168814\unitlength}\raggedright seed textur t = 0\end{minipage}}}%
+    \put(0.10137427,0.53939584){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.09425706\unitlength}\raggedright Vorberechnete \\ Permutation\end{minipage}}}%
+    \put(0.70884834,0.40416495){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.07147065\unitlength}\raggedright seeds of \\ frame t+1\end{minipage}}}%
+    \put(0.98958333,-0.11537485){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.02708333\unitlength}\raggedright \end{minipage}}}%
+    \put(0.54795627,0.34841432){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.13324677\unitlength}\raggedright Global\\ Illumination\end{minipage}}}%
+    \put(0.17634465,0.38283982){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.23748013\unitlength}\raggedright + optinales Temporales Projezieren(siehe Bild \ref{pic:Uebersicht_Temporal_Reprojection})\end{minipage}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=3]{render_graph.pdf}}%
-    \put(0.1318507,0.08819445){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0189618\unitlength}\raggedright ...\end{minipage}}}%
+    \put(0.15239523,0.12812814){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.05295127\unitlength}\raggedright ...\end{minipage}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=4]{render_graph.pdf}}%
-    \put(0.02816334,0.07650869){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.30544839\unitlength}\raggedright Vorberechnete Permutationen für temporales Projezieren\end{minipage}}}%
+    \put(0.05135249,0.09236052){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.31579332\unitlength}\raggedright Vorberechnete Permutationen für temporales Projezieren\end{minipage}}}%
+    \put(0.02026794,0.32116889){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.01169304\unitlength}\raggedright \end{minipage}}}%
   \end{picture}%
 \endgroup%

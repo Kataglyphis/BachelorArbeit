@@ -10,6 +10,7 @@ Die sortierte Liste als Histogramm zu benutzen ist zulässig. Denn beim Benutzen
 zufällige Zahlen auf ein bestimmtes Wahrscheinlichkeitsquantil, das einer gewissen Sortierung entspricht, abzubilden. Deshalb können wir die Pixelintensitäten 
 innerhalb eines Blocks anhand ihrer Indizes (entspricht den Wahrscheinlichkeitsquantilen bei der Wahrscheinlichkeitsfunktion) sortieren! 
 
+\begin{tcolorbox}
 \begin{algorithm}[H]
     \caption{\textbf{Sortier Schritt t}}
     \begin{algorithmic}[1]
@@ -32,6 +33,7 @@ innerhalb eines Blocks anhand ihrer Indizes (entspricht den Wahrscheinlichkeitsq
     \end{algorithmic}
     \label{alg:Sortier}
 \end{algorithm}
+\end{tcolorbox}
 
 Das Verwenden der anhand Pixel- und blue noise Werten sortierten Indizes in Zeile 13,14 des Algorithmus \ref{alg:Sortier} ist die praktische Anwendung der zuvor eingeführten 
 Quantilfunktion \ref{eq:inverse Funktion}. Denn die Anfangswerte $x \in [0,1]$ der Quantilfunktion \ref{eq:inverse Funktion} werden hier einem eindeutigen sortierten Intensitätswert 
