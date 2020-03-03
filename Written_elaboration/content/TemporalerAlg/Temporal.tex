@@ -48,3 +48,132 @@ View-Projektion-Matrizen der Kameras, um herauszufinden welche Koordinaten der j
 haben würde aufgrund der Drehung.
 \par 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% comparrison retargeting + temporal reprojection 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+  \begin{figure}[H]
+    \begin{tcolorbox}
+    \centering
+    \includegraphics[width=0.6\linewidth]{content/TemporalerAlg/Bilder/Reprojection/Szene_bearbeitet.png}
+    \end{tcolorbox}
+    \caption{Ausschnitt(grüner Kasten) verfolgt bei Bewegungsvektor(blauer Pfeil)}
+    \label{pic:TemporalReprComparison}
+  \end{figure}
+
+
+\begin{figure}[H]
+  \begin{tcolorbox}[boxrule=4pt,sharp corners=downhill,title=Szene unter Kamerabewegung, fonttitle=\bfseries]
+    \begin{tcolorbox}[boxrule=4pt,sharp corners=downhill,title=Keine Projektion,colbacktitle=blue!50!white, coltitle=black]
+    %\tcbsubtitle{Keine Projection}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% first row 
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \centering
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/NoTemporalRepr/Ausschnitte/Ausschnitt1_FFT.png}
+       \caption{FT}
+       \label{pic:NoTemporalRepr_1_FFT}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/NoTemporalRepr/Ausschnitte/Ausschnitt2_FFT.png}
+      \caption{FT}
+      \label{pic:NoTemporalRepr_2_FFT}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/NoTemporalRepr/Ausschnitte/Ausschnitt3_FFT.png}
+      \caption{FT}
+      \label{pic:NoTemporalRepr_3_FFT}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/NoTemporalRepr/Ausschnitte/Ausschnitt4_FFT.png}
+        \caption{FT}
+        \label{pic:NoTemporalRepr_4_FFT}
+    \end{subfigure}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% second row
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/NoTemporalRepr/Ausschnitte/Ausschnitt1.png}
+         \caption{}
+         \label{pic:NoTemporalRepr_1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/NoTemporalRepr/Ausschnitte/Ausschnitt2.png}
+         \caption{}
+         \label{pic:NoTemporalRepr_2}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/NoTemporalRepr/Ausschnitte/Ausschnitt3.png}
+         \caption{}
+         \label{pic:NoTemporalRepr_3}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/NoTemporalRepr/Ausschnitte/Ausschnitt4.png}
+         \caption{}
+         \label{pic:NoTemporalRepr_4}
+    \end{subfigure}
+    \end{tcolorbox}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% third row 
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \tcblower
+    \begin{tcolorbox}[boxrule=4pt,sharp corners=downhill,title=Projektion,colbacktitle=green!50!white, coltitle=black]
+    %\tcbsubtitle{Projection}
+    \centering
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/TemporalRepr/Ausschnitte/Ausschnitt1_FFT.png}
+       \caption{FT}
+       \label{pic:TemporalRepr_1_FFT}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/TemporalRepr/Ausschnitte/Ausschnitt2_FFT.png}
+      \caption{FT}
+      \label{pic:TemporalRepr_2_FFT}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/TemporalRepr/Ausschnitte/Ausschnitt3_FFT.png}
+      \caption{FT}
+      \label{pic:TemporalRepr_3_FFT}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/TemporalRepr/Ausschnitte/Ausschnitt4_FFT.png}
+        \caption{FT}
+        \label{pic:TemporalRepr_4_FFT}
+    \end{subfigure}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 4th row
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/TemporalRepr/Ausschnitte/Ausschnitt1.png}
+         \caption{}
+         \label{pic:TemporalRepr_1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/TemporalRepr/Ausschnitte/Ausschnitt2.png}
+         \caption{}
+         \label{pic:TemporalRepr_2}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/TemporalRepr/Ausschnitte/Ausschnitt3.png}
+         \caption{}
+         \label{pic:TemporalRepr_3}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/TemporalRepr/Ausschnitte/Ausschnitt4.png}
+         \caption{}
+         \label{pic:TemporalRepr_4}
+    \end{subfigure}
+  \end{tcolorbox}
+  \end{tcolorbox}
+    \caption{Erste beiden Reihen: kein temporales Reprojezieren; letzte beiden Reihen: Retargeting mit zusätzlichem temporalen Projezieren}
+    \label{fig:Auswirkung temporales Projezieren}
+\end{figure}
+
+\begin{itemize}
+  \item[t=1-2]                  
+  \item[t=3] 
+  \item[t=4] 
+\end{itemize}
+

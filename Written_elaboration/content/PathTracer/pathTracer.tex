@@ -8,9 +8,11 @@ vom Betrachter angesetzt (siehe Abbildung \ref{pic::GrundkonzeptPathTracing}). S
 Farbgebung eines Pixels vom Betrachter, über das betrachtete Objekt bis hin zur Lichtquelle zurückverfolgt.
 
 \begin{figure}[H]
+    \begin{tcolorbox}
     \centering
     \includegraphics[width=\linewidth]{content/PathTracer/Bilder/PathTracerGuide.png}
-    \caption{Grundkonzept Strahlverfolgung}
+    \end{tcolorbox}
+\caption{Grundkonzept Strahlverfolgung}
     \label{pic::GrundkonzeptPathTracing}
 \end{figure}
 
@@ -36,11 +38,13 @@ Der hier verwendete \nameref{ch:Content1:sec:Path Tracer} wurde mit dem Framewor
 (siehe \cite{Benty18}) beruht auf Erkenntnisse der Lösung der allgemeinen Rendergleichung
 (siehe Gleichung \ref{eq:Allgemeine Rendergleichung}).
 
-\begin{equation}\label{eq:Allgemeine Rendergleichung}
-    I(x,{x}^{'}) = g(x,{x}^{'}) * \biggl[\epsilon(x,{x}^{'}) + 
-    \int_{S}^{} \rho(x,{x}^{'},{x}^{''})
-    I({x}^{'},{x}^{''}d{x}^{''})\biggr] 
-\end{equation}
+\begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \begin{equation}\label{eq:Allgemeine Rendergleichung}
+        I(x,{x}^{'}) = g(x,{x}^{'}) * \biggl[\epsilon(x,{x}^{'}) + 
+        \int_{S}^{} \rho(x,{x}^{'},{x}^{''})
+        I({x}^{'},{x}^{''}d{x}^{''})\biggr] 
+    \end{equation}
+\end{tcolorbox}
 
 Sie beschreibt den Energietransport \textit{I} von einem Punkt ${x}^{'}$
 zu einem Punkt x. Dabei ist ein maßgebender Faktor der Geometrieterm \textit{g},
@@ -59,9 +63,11 @@ beschreiben.
 Wie von \cite{marschner2009fundamentals} beschrieben wird ausgehend von der vollständigen Transportgleichung
 \nameref{eq:vollständige Transportgleichung}
 
-\begin{equation}\label{eq:vollständige Transportgleichung}
-    L_s(k_0) = L_e(k_0) + \int_{all(k_i)}^{} \rho(k_i, k_0)*L_f(k_i)*cos(\theta_i)d\theta_i
-\end{equation}
+\begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \begin{equation}\label{eq:vollständige Transportgleichung}
+        L_s(k_0) = L_e(k_0) + \int_{all(k_i)}^{} \rho(k_i, k_0)*L_f(k_i)*cos(\theta_i)d\theta_i
+    \end{equation}
+\end{tcolorbox}
 
 der vollständige Lichttransport beschrieben. Man kann deutlich die Ähnlichkeit
 zu \nameref{eq:Allgemeine Rendergleichung} erkennen. Wir haben den Emissionsterm, die relative Lage der 
@@ -75,9 +81,11 @@ Bei gegebener Dimensionalität n des Renderintegrals und der
 Wahrscheinlichkeitsdichtefunktion $\rho(x_i)$
 (siehe auch \cite{KK02})
 
-\begin{equation}\label{eq:Monte-Carlo}
-    E\biggl[\frac{1}{k}\sum_{i=1}^{k}\frac{f(X_{i})}{\rho(X_{i})}\biggl] = \int_{[0,1]^{n}}f(x)dx
-\end{equation}
+\begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \begin{equation}\label{eq:Monte-Carlo}
+        E\biggl[\frac{1}{k}\sum_{i=1}^{k}\frac{f(X_{i})}{\rho(X_{i})}\biggl] = \int_{[0,1]^{n}}f(x)dx
+    \end{equation}
+\end{tcolorbox}
 
 Dabei wird das n-dimensionale Integral \ref{eq:vollständige Transportgleichung} approximiert. Die Dichtefunktion $\rho(x_i)$ 
 deutet an, dass hierbei die Stichproben auch nicht-uniform genommen werden können. 
@@ -90,11 +98,12 @@ welche eine niedrige Abweichung aufweisen, durchgeführt.
 Um die Konvergenzrate zu steigern liegen eine Reihe von Varianzreduktionsmethoden vor. Jedoch werden wird hier 
 einen Temporalen Algorithmus (siehe Kapitel \ref{ch:Temporaler Algorithmus}) anwenden und damit eine direkte Umverteilung im Bildraum 
 umsetzen.
-
-\begin{equation}\label{eq:Monte-Carlo-Varianz}
-    V[X] = E\biggl[(X-E[X])^{2}\biggl] = E[X^{2}]
-    - E[X]^{2}
-\end{equation}
+\begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \begin{equation}\label{eq:Monte-Carlo-Varianz}
+        V[X] = E\biggl[(X-E[X])^{2}\biggl] = E[X^{2}]
+        - E[X]^{2}
+    \end{equation}
+\end{tcolorbox}
 
 \subsubsection{DirectX Raytracing}
 
@@ -216,9 +225,11 @@ Environment Map verwendet werden.
 \subsection{Render Graph}
 
 \begin{figure}[H]
+    \begin{tcolorbox}
     \centering
     \def\svgwidth{\columnwidth}
     \import{content/PathTracer/Bilder/}{render_graph.pdf_tex}
+    \end{tcolorbox}
     \caption{Unser Render Graph}
     \label{pic:Render Graph}
 \end{figure}

@@ -13,9 +13,11 @@ Folgenden eine (theoretische) Menge aller möglichen Pixelwerte, welche durch al
 In Abbildung \ref{eq:Pixel Schätzung Wahrscheinlichkeitsdichtefunktion} ist die Wahrscheinlichkeitsdichtefunktion
 $h_{ij}$, als eine Funktion über alle möglichen Werte $I_{ij}$ eines Pixels (i,j) aufgetragen.
 
-\begin{equation}\label{eq:Pixel Schätzung Wahrscheinlichkeitsdichtefunktion}
-    H_{ij}([I_{Anfang},I_{Ende}]) = \int_{I_{Anfang}}^{I_{Ende}} h_{ij} dI
-\end{equation}
+\begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \begin{equation}\label{eq:Pixel Schätzung Wahrscheinlichkeitsdichtefunktion}
+        H_{ij}([I_{Anfang},I_{Ende}]) = \int_{I_{Anfang}}^{I_{Ende}} h_{ij} dI
+    \end{equation}
+\end{tcolorbox}
 
 Verfolgt man beispielhaft die Werte eines Pixels über neun Bilder bei unseren \nameref{ch:Content1:sec:Path Tracer}, 
 so ergibt es sich zur Anschauung wie folgt:
@@ -62,9 +64,11 @@ In Gleichung \ref{eq:inverse Funktion} lässt sich die Quantilfunktion $H_{ij}^{
 Sie verdeutlicht die Zuordnung eines Anfangswertes zu einem konkreten daraus entstandenen Wert 
 eines erzeugten Pixels.
 
-\begin{equation}\label{eq:inverse Funktion}
-    I_{ij} = H_{ij}^{-1}(x), x \in [0,1]
-\end{equation}
+\begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \begin{equation}\label{eq:inverse Funktion}
+        I_{ij} = H_{ij}^{-1}(x), x \in [0,1]
+    \end{equation}
+\end{tcolorbox}
 
 \par
 

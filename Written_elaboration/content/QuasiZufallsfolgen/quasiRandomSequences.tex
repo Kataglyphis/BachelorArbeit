@@ -9,9 +9,11 @@ Textur verwenden zu können. \par
 Quasi-zufällige Sequenzen mit niedriger Abweichung sind deterministisch 
 erzeugte Sequenzen, welche die Likelihood-Funktion der Clusterbildung
 
-\begin{equation}\label{eq:Likeli-Hood-Gleichung}
-    L_{x}(\delta) = f_{\delta}(x)
-\end{equation}
+\begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \begin{equation}\label{eq:Likeli-Hood-Gleichung}
+        L_{x}(\delta) = f_{\delta}(x)
+    \end{equation}
+\end{tcolorbox}
 
 minimieren (siehe Abschnitt \ref{ch:Content1:sec:blue noise:Niedrige Frequenzen}) und dabei die 
 Uniformität (siehe Abschnitt \ref{ch:Content1:sec:blue noise:Uniformität}) erhalten. Beide Eigenschaften 
@@ -33,18 +35,22 @@ ist mitsamt ihren Eigenschaften bereits früh beschrieben worden \cite{vanderlaa
 Als wichtiges Seitenverhältnis in der Architektur konnte Sie durch verschiedene Arbeiten ihren 
 Eingang in die Mathematik finden \cite{krcadinac2006new}.
 
-\begin{equation}\label{eq:GoldenerSchnitt}
-    \Phi_{1} = \frac{1 + \sqrt{5}}{2} \approx 1.6180339887
-\end{equation}
+\begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \begin{equation}\label{eq:GoldenerSchnitt}
+        \Phi_{1} = \frac{1 + \sqrt{5}}{2} \approx 1.6180339887
+    \end{equation}
+\end{tcolorbox}
 
 \label{subsec:1-Dimension}
 \subsection{1-Dimension}
 Wir benutzen Rekurrenz Sequenzen, basierend auf irrationalem 
 Bruchrechnen der Form
 
-\begin{equation}\label{eq:Rekurrenz Sequenz}
-    R_{1}(\alpha) : t_n = s_0 + n\alpha(mod 1); n = 1,2,3,...
-\end{equation}
+\begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \begin{equation}\label{eq:Rekurrenz Sequenz}
+        R_{1}(\alpha) : t_n = s_0 + n\alpha(mod 1); n = 1,2,3,...
+    \end{equation}
+\end{tcolorbox}
 
 wobei $\alpha \in \mathbb{I}$ und das (mod 1) einen \textit{"toroidally shift"}
 bezeichnet. Will man mit dieser Formel eine Sequenz mit möglichst geringer
@@ -57,15 +63,19 @@ $\alpha = \Phi_{1}$.
 Da uns die Generalisierung des goldenen Schnittes auf die Lösung der Gleichung
 \ref{eq:GeneralisierungGoldenerSchnitt} führt
 
-\begin{equation}\label{eq:GeneralisierungGoldenerSchnitt}
-    x^{d+1} = x+1
-\end{equation}
+\begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \begin{equation}\label{eq:GeneralisierungGoldenerSchnitt}
+        x^{d+1} = x+1
+    \end{equation}
+\end{tcolorbox}
 
 ist das Lösen der kubischen Gleichung \ref{eq:kubisch}
 
-\begin{equation}\label{eq:kubisch}
-    x^{3} - x - 1 = 0
-\end{equation}
+\begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \begin{equation}\label{eq:kubisch}
+        x^{3} - x - 1 = 0
+    \end{equation}
+\end{tcolorbox}
 
 für den zweidimensionalen Fall nötig. Die Generalisierung und Erweiterung des goldenen 
 Schnittes wurde bereits ausgiebig erforscht \cite{krcadinac2006new}.
@@ -73,16 +83,20 @@ Schnittes wurde bereits ausgiebig erforscht \cite{krcadinac2006new}.
 Die sogenannte Plastische Zahl in ist die Lösung der
 Gleichung \ref{eq:kubisch}
 
-\begin{equation}\label{eq:plastische Zahl}
-    \Phi_{2} \approx 1.32471795724
-\end{equation}
+\begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \begin{equation}\label{eq:plastische Zahl}
+        \Phi_{2} \approx 1.32471795724
+    \end{equation}
+\end{tcolorbox}
 
 Die eindimensionale Rekurrenzsequenz \ref{eq:Rekurrenz Sequenz} ist einfach erweiterbar 
 für höhere Dimensionen.
-\begin{equation}\label{eq:1 zu N - Dimensional}
-    t_{n} = n\alpha(mod 1), n = 1,2,3,..
-    \alpha = (\frac{1}{\Phi_{d}}, \frac{1}{\Phi_{d}^{2}}),
-\end{equation}
+\begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \begin{equation}\label{eq:1 zu N - Dimensional}
+        t_{n} = n\alpha(mod 1), n = 1,2,3,..
+        \alpha = (\frac{1}{\Phi_{d}}, \frac{1}{\Phi_{d}^{2}}),
+    \end{equation}
+\end{tcolorbox}
 
 Für den Texturzugriff in unserem Shader bei dem temporalen Algorithmus \ref{ch:Temporaler Algorithmus}
 werden wir also wie folgt vorgehen:

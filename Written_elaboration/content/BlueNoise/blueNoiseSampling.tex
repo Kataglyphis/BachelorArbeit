@@ -8,9 +8,12 @@ dieses Rauschen in ein Bild zu bringen. Hier wollen wir durch Dithering die Vert
 Grundlage des d-dimensionalen Path Tracers werden sowohl eine \nameref{ch:Content1:sec:blue noise}-Verteilung als auch Anfangswerte $s_{n}$ mit d-Dimensionen.
 Damit konkretisiert sich die Monte-Carlo Integration (siehe Gleichung \ref{eq:Monte-Carlo}) mit Integrand f zu folgender Gleichung:
 
-\begin{equation}\label{eq:concreteMonteCarlo}
-    \frac{1}{N}\sum_{n=0}^{N-1}f(s_{n})
-\end{equation}
+\begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \begin{equation}\label{eq:concreteMonteCarlo}
+        \frac{1}{N}\sum_{n=0}^{N-1}f(s_{n})
+    \end{equation}
+\end{tcolorbox}
+
 
 Mit dem Ziel, eine blue noise Fehlerverteilung im Bildraum zu erreichen, hat sich bereits die Arbeit \cite{georgiev2016blue} beschäftigt. 
 Mit im Vorraus (\glqq a priori\grqq{}) blue noise korrelierten Zahlenfolgen $s_{n}$ hoffte man ebenso korrelierte Pixelwerte nach 
