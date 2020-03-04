@@ -1,27 +1,18 @@
-Für unseren temporalen Algorithmus (siehe Abschnitt \ref{ch:Temporaler Algorithmus}) gibt es einen 
-wichtigen \nameref{ch:Content2:sec:Retargeting} Schritt.
-In diesem Schritt wird eine vorberechnete Textur verwendet. Diese speichert eine
-Permutation, die unsere \nameref{ch:Content1:sec:blue noise} Textur vom Bild t in eine
-blue noise Textur von Bild t+1 umwandelt. Diese Permutation wird 
-dann auf die Startwerte angewandt bevor das nächste Bild t+1 gerendert wird (siehe auch Übersicht \nameref{pic:Render Graph}).
-Dadurch werden die blue noise Umverteilungen der \nameref{ch:Content2:sec:Sorting} Phase akkumuliert. 
-All diese Vorberechnungen sind möglich, da wir mit \textit{\glqq nur\grqq} quasi-zufälligen Sequenzen 
-(siehe Abschnitt \ref{ch:Content1:sec:Quasi-Zufallsfolgen}) arbeiten.
-Das andauernde Permutieren von Pixeln bis zu einem Punkt, an dem ein Bild aussieht wie das Andere ist 
-ein klassisches TSP, wofür es aktuell keine effiziente optimale Lösungsmethode gibt.
-Da wir nur an einer sehr guten Lösung, nahe dem globalen Optimum, interessiert sind 
-greifen wir wie in \cite{hal02158423} vorgeschlagen auf das heuristische Approximationsverfahren,
+Für unseren temporalen Algorithmus (siehe Abschnitt \ref{ch:Temporaler Algorithmus}) gibt es einen wichtigen \nameref{ch:Content2:sec:Retargeting} Schritt.
+In diesem Schritt wird eine vorberechnete Textur verwendet. Diese speichert eine Permutation, die unsere \nameref{ch:Content1:sec:blue noise} Textur vom Bild t in eine
+blue noise Textur von Bild t+1 umwandelt. Diese Permutation wird dann auf die Startwerte angewandt bevor das nächste Bild t+1 gerendert wird 
+(siehe auch Übersicht \nameref{pic:Render Graph}). Dadurch werden die blue noise Umverteilungen der \nameref{ch:Content2:sec:Sorting} Phase akkumuliert. 
+All diese Vorberechnungen sind möglich, da wir mit \textit{\glqq nur\grqq} quasi-zufälligen Sequenzen (siehe Abschnitt \ref{ch:Content1:sec:Quasi-Zufallsfolgen}) arbeiten.
+Das andauernde Permutieren von Pixeln bis zu einem Punkt, an dem ein Bild aussieht wie das Andere ist ein klassisches TSP, wofür es aktuell keine effiziente optimale Lösungsmethode gibt.
+Da wir nur an einer sehr guten Lösung, nahe dem globalen Optimum, interessiert sind greifen wir wie in \cite{hal02158423} vorgeschlagen auf das heuristische Approximationsverfahren,
 dem Simulated Annealing, zu.
 
 \subsubsection{Allgemein}
 
-Angelehnt an metallurgischem Aufheizen und dem sich anschließenden Abkühlen wollen wir eine approximativ
-optimale Lösung finden. Wir haben also eine zu Anfang hohe Temperatur, welche durch eine Abkühlfunktionen
-(siehe Abschnitt \ref{subsec:Abkühlfunktion} für Weiteres) verringert wird.
-Wir definieren die Energie als pixelweisen Unterschied der sich in Abkühlung 
-befindlichen bereits permutierten Textur und der $Textur_{t+1}$(siehe Abbildung \ref{eq:pixel energy function}). 
-$Textur_{t+1}$ ist durch quasi Zufall (siehe Abschnitt \ref{ch:Content1:sec:Quasi-Zufallsfolgen}) bereits bekannt.
-Mit Erkenntnissen aus\cite{georgiev2016blue} ergibt sich
+Angelehnt an metallurgischem Aufheizen und dem sich anschließenden Abkühlen wollen wir eine approximativ optimale Lösung finden. Wir haben also eine zu Anfang hohe Temperatur, welche 
+durch eine Abkühlfunktionen (siehe Abschnitt \ref{subsec:Abkühlfunktion} für Weiteres) verringert wird. Wir definieren die Energie als pixelweisen Unterschied der sich in Abkühlung 
+befindlichen bereits permutierten Textur und der $Textur_{t+1}$(siehe Abbildung \ref{eq:pixel energy function}). $Textur_{t+1}$ ist durch quasi Zufall (siehe Abschnitt
+\ref{ch:Content1:sec:Quasi-Zufallsfolgen}) bereits bekannt. Mit Erkenntnissen aus\cite{georgiev2016blue} ergibt sich
 
 \begin{figure}[H]
     \begin{tcolorbox}[rightrule=3mm, rounded corners=east]
@@ -32,10 +23,8 @@ Mit Erkenntnissen aus\cite{georgiev2016blue} ergibt sich
     \label{eq:pixel energy function}
 \end{figure}
 
-Mit dem definierten Ziel, die Energiefunktion \ref{eq:pixel energy function} zu minimieren, wenden 
-wir in jedem Schritt eine Permutation an und entscheiden anhand einer Akzeptanzwahrscheinlichkeitsfunktion
-\ref{eq:Akzeptanzwahrscheinlichkeitsfunktion}, ob wir diese Permutation beibehalten.
-Da wir in jedem Schritt nur eine Permutation anwenden, vereinfacht sich unsere Energiefunktion
+Mit dem definierten Ziel, die Energiefunktion \ref{eq:pixel energy function} zu minimieren, wenden wir in jedem Schritt eine Permutation an und entscheiden anhand einer Akzeptanzwahrscheinlichkeitsfunktion
+\ref{eq:Akzeptanzwahrscheinlichkeitsfunktion}, ob wir diese Permutation beibehalten. Da wir in jedem Schritt nur eine Permutation anwenden, vereinfacht sich unsere Energiefunktion
 \ref{eq:pixel energy function} zu 
 
 \newpage
@@ -70,24 +59,15 @@ Da wir in jedem Schritt nur eine Permutation anwenden, vereinfacht sich unsere E
     \caption{}
 \end{figure}
 
-Die günstigen Eigenschaften der Exponentialfunktion (siehe Abbildung \ref{fig:Exponentialfunktion}) als
-Wahrscheinlichkeitsakzeptanzfunktion sind vielfältig und bereits in weiterführender Literatur wie 
-\cite{Kirkpatrick671},\cite{van1987simulated} gut belegt. Eine der Eigenschaften ist in der obigen Abbildung 
-\ref{fig:Exponentialfunktion} dargestellt. Das Argument der Funktion \ref{fig:Exponentialfunktion} hat 
-einen Divisor Temperatur und einen Dividenten $\Delta_{energie}$.
-Mit absteigender Temperatur erkennt man 
-in der Abbildung \ref{fig:Exponentialfunktion} eine ebenfalls abnehmende Wahrscheinlichkeit
-der Akzeptanz. Dies führt zu dem gewünschten Verhalten, energiehöhere Zustände 
-zuzulassen, um somit lokale Maxima zu verlassen. Dies geschieht bei höheren 
-Temperaturen häufiger wohingegen bei niederen Temperaturen ein gefundenes Maxima
-seltener verlassen wird. Höhere Deltas führen passender Weise zu einem höheren negativen 
-Exponenten und damit eine geringere Akzeptanz als Energiezustände, die nur bisschen 
-drüber liegen. Die Wahl des Abkühlvorgangs (also das Updaten der Temperatur über die Zeit)
-ist problemspezifisch \cite[S. 9]{Kirkpatrick671}. Dabei muss der Abkühlvorgang derart
-gewählt werden, sodass kein bloßer Greedy-Algorithmus entsteht und man in einem lokalen 
-Maxima stecken bleibt aber auch kein wahlloses Vertauschen entsteht. Diese Vorgänge habe 
-ich im Abschnitt \ref{subsec:Abkühlfunktion} untersucht.
-Nun haben wir alle Begriffe zusammen um einen ersten Blick auf den Algorithmus zu werfen.
+Die günstigen Eigenschaften der Exponentialfunktion (siehe Abbildung \ref{fig:Exponentialfunktion}) als Wahrscheinlichkeitsakzeptanzfunktion sind vielfältig und bereits in weiterführender Literatur wie 
+\cite{Kirkpatrick671},\cite{van1987simulated} gut belegt. Eine der Eigenschaften ist in der obigen Abbildung \ref{fig:Exponentialfunktion} dargestellt. Das Argument der Funktion 
+\ref{fig:Exponentialfunktion} hat einen Divisor Temperatur und einen Dividenten $\Delta_{energie}$. Mit absteigender Temperatur erkennt man 
+in der Abbildung \ref{fig:Exponentialfunktion} eine ebenfalls abnehmende Wahrscheinlichkeit der Akzeptanz. Dies führt zu dem gewünschten Verhalten, energiehöhere Zustände 
+zuzulassen, um somit lokale Maxima zu verlassen. Dies geschieht bei höheren Temperaturen häufiger wohingegen bei niederen Temperaturen ein gefundenes Maxima
+seltener verlassen wird. Höhere Deltas führen passender Weise zu einem höheren negativen Exponenten und damit eine geringere Akzeptanz als Energiezustände, die nur bisschen 
+drüber liegen. Die Wahl des Abkühlvorgangs (also das Updaten der Temperatur über die Zeit) ist problemspezifisch \cite[S. 9]{Kirkpatrick671}. Dabei muss der Abkühlvorgang derart
+gewählt werden, sodass kein bloßer Greedy-Algorithmus entsteht und man in einem lokalen Maxima stecken bleibt aber auch kein wahlloses Vertauschen entsteht. Diese Vorgänge habe 
+ich im Abschnitt \ref{subsec:Abkühlfunktion} untersucht. Nun haben wir alle Begriffe zusammen um einen ersten Blick auf den Algorithmus zu werfen.
 
 \begin{tcolorbox}
 \begin{algorithm}[H]
@@ -114,34 +94,22 @@ Nun haben wir alle Begriffe zusammen um einen ersten Blick auf den Algorithmus z
 \end{algorithm}
 \end{tcolorbox}
 
-Für die abzuspeichernde Permutation gilt Folgendes.
-Als Startzustand $s_{0}$ definieren wir eine Permutation, die alle 
-Elemente auf sich selbst abbildet.
-Um von einem Zustand s zu einem neuem Zustand $s_{new}$ zu kommen,
-definieren wir eine Nachbarschaftsfunktion \textit{Nachbarzustand()}. 
-Diese kann zwei Elemente genau dann vertauschen, wenn Sie in einem 
-gegenseitigen Radius r = 6 erreichbar sind(folgend der Empfehlung aus \cite[S.7]{hal02158423})
-Dabei vertauschen wir in jedem Schritt ein Pixelpaar. 
-Die Wahrscheinlichkeitsfunktion zur neuen Zustandsannahme
-P(Energie(s), Energie($s_{new}$)) beschreibt, ob wir den neu
-gewählten Zustand $s_{new}$ übernehmen. Dabei wird klassischerweise die
-Akzeptanz von Zuständen mit höherer Energie immer kleiner.(bzw. die 
-Toleranz gegenüber größeren Fehlern im Bezug zur Zeit). Die allgemeine Akzeptanz von 
-Zuständen mit höherer Energie ist dabei von fundamentaler Bedeutung.
+Für die abzuspeichernde Permutation gilt Folgendes. Als Startzustand $s_{0}$ definieren wir eine Permutation, die alle Elemente auf sich selbst abbildet.
+Um von einem Zustand s zu einem neuem Zustand $s_{new}$ zu kommen, definieren wir eine Nachbarschaftsfunktion \textit{Nachbarzustand()}. 
+Diese kann zwei Elemente genau dann vertauschen, wenn Sie in einem gegenseitigen Radius r = 6 erreichbar sind(folgend der Empfehlung aus \cite[S.7]{hal02158423})
+Dabei vertauschen wir in jedem Schritt ein Pixelpaar. Die Wahrscheinlichkeitsfunktion zur neuen Zustandsannahme P(Energie(s), Energie($s_{new}$)) beschreibt, ob wir den neu
+gewählten Zustand $s_{new}$ übernehmen. Dabei wird klassischerweise die Akzeptanz von Zuständen mit höherer Energie immer kleiner.(bzw. die 
+Toleranz gegenüber größeren Fehlern im Bezug zur Zeit). Die allgemeine Akzeptanz von Zuständen mit höherer Energie ist dabei von fundamentaler Bedeutung.
 Somit verlassen wir möglicherweiße nur lokale Maxima.
 
 \subsection{Abkühlfunktion}
 \label{subsec:Abkühlfunktion}
 
-Für die Wahl unserer Abkühlfunktion bieten sich einige Möglichkeiten.(siehe Abbildung \ref{pic:Cool Down Comparisson}).
-Im Folgenden wird auf die verschiedenen möglichen Abkühlfunktionen (\cite{ScienceDirectCoolingSchedule}) und ihre Eigenschaften
-sowie die Wahl interner Parameter(z.B. Starttemperatur, Gleichgewicht) eingegangen. Denn diese Funktion
-trägt maßgeblich mit ihrem Konvergenzverhalten zur Effizienz des Abkühlvorgangs bei.
-So beeinflusst Sie auch unsere wichtige Wahrscheinlichkeitsakzeptanzfunktion \ref{eq:Akzeptanzwahrscheinlichkeitsfunktion}.
-Nach \cite{Kirkpatrick671} wählen wir die Anfangstemperatur $T_0$ derart, dass anfangs jede Neue generierte Lösung akzeptiert
-wird. Außerdem werden wir einen Zustand des Quasiequilibriums (Gleichgewicht) definieren.
-Für einige Abkühlvorgänge wird es sinnvoll sein, erst nach einer bestimmten Anzahl von erfolgreichen Zustandsübergängen 
-die Temperatur zu senken. Dazu beim jeweiligen Vorgang mehr.
+Für die Wahl unserer Abkühlfunktion bieten sich einige Möglichkeiten.(siehe Abbildung \ref{pic:Cool Down Comparisson}). Im Folgenden wird auf die verschiedenen möglichen Abkühlfunktionen 
+(\cite{ScienceDirectCoolingSchedule}) und ihre Eigenschaften sowie die Wahl interner Parameter(z.B. Starttemperatur, Gleichgewicht) eingegangen. Denn diese Funktion
+trägt maßgeblich mit ihrem Konvergenzverhalten zur Effizienz des Abkühlvorgangs bei. So beeinflusst Sie auch unsere wichtige Wahrscheinlichkeitsakzeptanzfunktion \ref{eq:Akzeptanzwahrscheinlichkeitsfunktion}.
+Nach \cite{Kirkpatrick671} wählen wir die Anfangstemperatur $T_0$ derart, dass anfangs jede Neue generierte Lösung akzeptiert wird. Außerdem werden wir einen Zustand des Quasiequilibriums (Gleichgewicht) definieren.
+Für einige Abkühlvorgänge wird es sinnvoll sein, erst nach einer bestimmten Anzahl von erfolgreichen Zustandsübergängen die Temperatur zu senken. Dazu beim jeweiligen Vorgang mehr.
 
 \subsubsection{Hajek}
 \begin{tcolorbox}[rightrule=3mm, rounded corners=east]

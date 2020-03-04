@@ -2,19 +2,27 @@ Da unsere Ressourcen beschränkt sind und trotz Hardwarebeschleunigung immer noc
 ist es von großer Bedeutung, dass unser temporaler Algorithmus keinen signifikanten zusätzlichen Aufwand schafft.
 Mit einem Großteil der Rechenzeit, der auf die Berechnung des GBuffers und der globalen Beleuchtung fällt sind wir hingegen 
 mit den Schritten Sorting und Retargeting(+ temporal Reprojection) sowohl auf  CPU als auf GPU Seite im niedrigen einstelligen Prozentbereich.
-
+\par
 \newcolumntype{Y}{>{\raggedleft\arraybackslash}X}% see tabularx
 %\tcbset{enhanced,fonttitle=\bfseries\large,fontupper=\normalsize\sffamily,
 %colback=yellow!10!white,colframe=red!50!black,colbacktitle=red!30!white,
 %coltitle=black,center title}
 \begin{figure}[H]
-    \begin{tcolorbox}[tabularx={X|Y|Y},title=Rechenaufwand, colbacktitle=yellow!50!red, coltitle=white]
-        \textbf{Pipelinestage}                              &  \textbf{Rechenzeit(ms/\%)} CPU & \textbf{Rechenzeit(ms/\%)} GPU \\\hline\hline
-        Gesamt                                              &  29.55/100\%                    & 19.04/100\%\\\hline
-        GBuffer                                             &  06.48/21.91\%                  & 01.30/6,83\%\\\hline
-        Retargeting(+ optionale temporale Reprojektion)     &  01.12/3.8\%                    & 00.11/0.57\%\\\hline
-        GGXGlobalIllumination                               &  21.20/71.74\%                  & 15.51/81,46\%\\\hline\hline
-        Sorting                                             &  00.75/2,53\%                   & 02.12/11,13\%
+    \begin{tcolorbox}[title=Rechenaufwand]
+        \begin{tcolorbox}[tabularx={X|Y|Y},title=Pipeline, colbacktitle=yellow!50!red, coltitle=white]
+            \textbf{Stufen}                                     &  \textbf{Rechenzeit(ms/\%)} CPU & \textbf{Rechenzeit(ms/\%)} GPU \\\hline\hline
+            \textbf{Gesamt}                                     &  29.55/100\%                    & 19.04/100\%\\\hline
+            GBuffer                                             &  06.48/21.91\%                  & 01.30/6,83\%\\\hline
+            Retargeting(+ optionale temporale Reprojektion)     &  01.12/3.8\%                    & 00.11/0.57\%\\\hline
+            GGXGlobalIllumination                               &  21.20/71.74\%                  & 15.51/81,46\%\\\hline\hline
+            Sorting                                             &  00.75/2,53\%                   & 02.12/11,13\%
+        \end{tcolorbox}  
+        \tcblower
+        \begin{tcolorbox}[tabularx={X|Y|Y},title=Vorberechnungen, colbacktitle=yellow!50!red, coltitle=white]
+            \textbf{Vorberechnung}        &  \textbf{Rechenzeit(m/\%)} &  \textbf{Fehler(m/\%)}\\\hline\hline
+            Retargeting                   &  01.12/3.8\%               &  \\\hline
+            Temporale Projizieren         &  21.20/71.74\%             &  \\\hline\hline
+        \end{tcolorbox}  
     \end{tcolorbox}
     \caption{Rechenzeiten die auf die einzelnen Stages fallen}
     \medskip
@@ -30,8 +38,7 @@ mit den Schritten Sorting und Retargeting(+ temporal Reprojection) sowohl auf  C
         \textbf{Pipelinestage}  &  \textbf{Speicherbedarf}        \\\hline\hline
         Gesamt                  &  29.55/100\%                    \\\hline
         Retargeting             &  01.12/3.8\%                    \\\hline
-        Temporale Reprojektion  &  01.12/3.8\%                    \\\hline
-        Sorting                 &  00.75/2,53\%                   
+        Temporale Reprojektion  &  01.12/3.8\%                    \\\hline                   
     \end{tcolorbox}
     \caption{Speicherdarf}
 \end{figure}

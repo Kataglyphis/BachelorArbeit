@@ -1,13 +1,10 @@
 \subsection{Einleitung}
 
 Um ungewollten strukturellen Artefakten entgegenzuwirken, wird empfohlen (so auch in \cite{bluenoisechrisschied})
-mehrere verschiedene \nameref{ch:Content1:sec:blue noise} Texturen in ein Array zu laden 
-und diese abwechselnd, randomisiert zu verwenden. Wir führen hier Kenntnisse über  
-Quasi-Zufallsfolgen ein (siehe auch \cite{quasirandomsequencesbyRoberts}) um aus den zuvor 
-(nach Abbildung \ref{pic:tiled blue noise}) genannten Gründen nur eine kleine \nameref{ch:Content1:sec:blue noise}
-Textur verwenden zu können. \par
-Quasi-zufällige Sequenzen mit niedriger Abweichung sind deterministisch 
-erzeugte Sequenzen, welche die Likelihood-Funktion der Clusterbildung
+mehrere verschiedene \nameref{ch:Content1:sec:blue noise} Texturen in ein Array zu laden und diese in aufeinanderfolgenden
+Zeitpunkten randomisiert zu verwenden. Wir führen hier Kenntnisse über Quasi-Zufallsfolgen ein (siehe auch \cite{quasirandomsequencesbyRoberts}) 
+um aus den zuvor (nach Abbildung \ref{pic:tiled blue noise}) genannten Gründen nur eine kleine \nameref{ch:Content1:sec:blue noise} Textur verwenden zu können.\par
+Quasi-zufällige Sequenzen mit niedriger Abweichung sind deterministisch erzeugte Sequenzen, welche die Likelihood-Funktion der Clusterbildung
 
 \begin{tcolorbox}[rightrule=3mm, rounded corners=east]
     \begin{equation}\label{eq:Likeli-Hood-Gleichung}
@@ -53,7 +50,8 @@ Bruchrechnen der Form
 \end{tcolorbox}
 
 wobei $\alpha \in \mathbb{I}$ und das (mod 1) einen \textit{"toroidally shift"}
-bezeichnet. Will man mit dieser Formel eine Sequenz mit möglichst geringer
+bezeichnet. Konkret bedeutet das, dass man jedes neu berechnete $t_{n}$ den Bereich vor dem Dezimalpunkt abschneidet 
+und den Bereich danach weiterführt. Will man mit dieser Formel eine Sequenz mit möglichst geringer
 Abweichung schaffen so wählen wir den goldenen Schnitt (siehe auch \ref{eq:GoldenerSchnitt})
 $\alpha = \Phi_{1}$.
 
