@@ -46,7 +46,7 @@ Image SimulatedAnnealing::execute(Image org, const char* temp_rep_filename, int 
 	for (unsigned int i = 0; i < this->number_steps; i++) {
 
 		progress_temp = progress_prev +  (float)i / ((float) (number_steps * number_of_dim));
-		if ((i % when_taking_snapshot) == 0) takeIntermediateSnapshot(permutation_data_output, dither_data);
+		//if ((i % when_taking_snapshot) == 0) takeIntermediateSnapshot(permutation_data_output, dither_data);
 
 		this->temperature = schedule->getTemperature(good_swaps);
 		temperatures.push_back(this->temperature);
