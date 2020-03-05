@@ -106,7 +106,7 @@ private:
         float temperature;
         bool visualize;
         std::string folder_intermediate_steps = "pictures/AppliedPermutation/Intermediate_Steps/";
-        uint32_t intermediate_step_count;
+        uint32_t intermediate_step_count = 0;
         uint32_t num_intermediate_shots = 10;
         std::string folder_permutation_textures = "pictures/Permutations/";
         const char* filename;

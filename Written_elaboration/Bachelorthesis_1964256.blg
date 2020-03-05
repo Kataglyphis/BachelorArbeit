@@ -1,0 +1,23 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: Bachelorthesis_1964256.aux
+A level-1 auxiliary file: titlepage.aux
+A level-1 auxiliary file: content.aux
+The style file: IEEEtranSA.bst
+Database file #1: Bachelorthesis_1964256.bib
+-- IEEEtranSA.bst version 1.14 (2015/08/26) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+** Sorting Alpha version - not for normal IEEE work.
+Warning--to sort, need author, organization, or key in RasterisierungImplementierung
+Warning--to sort, need author, organization, or key in PathTracingInProduction
+Warning--to sort, need author, organization, or key in RayFlags
+Warning--to sort, need author, organization, or key in JCrystalSoft2018
+Warning--to sort, need author, organization, or key in WhiteNoiseGenerator
+Warning--to sort, need author, organization, or key in ScienceDirectCoolingSchedule
+Warning--to sort, need author, organization, or key in UE4TAA
+Warning--to sort, need author, organization, or key in INSIDETAA
+Warning--empty journal in KK02
+Warning--empty journal in hal02158423
+Warning--empty booktitle in Sch19
+
+Done.
+(There were 11 warnings)

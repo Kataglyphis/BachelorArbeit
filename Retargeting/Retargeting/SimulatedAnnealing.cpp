@@ -38,11 +38,11 @@ Image SimulatedAnnealing::execute(Image org, const char* temp_rep_filename, int 
 	helper.getNextDither(org, next_dither_data, image_width, image_height);
 	this->current_energy = calculateStartingEnergy(dither_data, next_dither_data, permutation_data_output);
 
+	int number_of_intermediate_snapshots = 10;
+	int when_taking_snapshot = this->number_steps / number_of_intermediate_snapshots;
 	for (unsigned int i = 0; i < this->number_steps; i++) {
 
-		float number_of_intermediate_snapshots = 6;
-		float when_taking_snapshot = this->number_steps / number_of_intermediate_snapshots;
-		//if (std::fmod((float)i,when_taking_snapshot) == 0.f) takeIntermediateSnapshot(permutation_data_output, dither_data);
+		if ((i % when_taking_snapshot) == 0) takeIntermediateSnapshot(permutation_data_output, dither_data);
 
 		this->temperature = schedule->getTemperature(good_swaps);
 		temperatures.push_back(this->temperature);
@@ -121,11 +121,12 @@ Image SimulatedAnnealing::execute(int& good_swaps) {
 	helper.getNextDither(dither_data, next_dither_data, image_width, image_height);
 	this->current_energy = calculateStartingEnergy(dither_data, next_dither_data, permutation_data_output);
 
+	int number_of_intermediate_snapshots = 20;
+	int when_taking_snapshot = this->number_steps / number_of_intermediate_snapshots;
+
 	for (unsigned int i = 0; i < this->number_steps; i++) {
 
-		float number_of_intermediate_snapshots = 6;
-		float when_taking_snapshot = this->number_steps / number_of_intermediate_snapshots;
-		//if (std::fmod((float)i,when_taking_snapshot) == 0.f) takeIntermediateSnapshot(permutation_data_output, dither_data);
+		if ((i % when_taking_snapshot) == 0) takeIntermediateSnapshot(permutation_data_output, dither_data);
 
 		this->temperature = schedule->getTemperature(good_swaps);
 		temperatures.push_back(this->temperature);
