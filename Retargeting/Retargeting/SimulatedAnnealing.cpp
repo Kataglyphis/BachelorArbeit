@@ -10,8 +10,8 @@ SimulatedAnnealing::SimulatedAnnealing() /*: helper(), image_width(64), image_he
 
 }
 
-SimulatedAnnealing::SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule, Energy& energy, bool visualize_single_annealing, int image_width, int image_height, helpers helper,
-											const char* filename) : visualizer(), good_swaps(0), intermediate_step_count(0), energy(0.f) {
+SimulatedAnnealing::SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule, Energy& energy, bool visualize_single_annealing, int image_width, int image_height, 
+	helpers helper, const char* filename) : visualizer(), good_swaps(0), intermediate_step_count(0), energy(0.f) {
 	
 	this->filename = filename;
 	this->helper = helper;
@@ -33,15 +33,19 @@ SimulatedAnnealing::SimulatedAnnealing(int number_steps, AnnealingSchedule* sche
 
 }
 
-Image SimulatedAnnealing::execute(Image org, const char* temp_rep_filename, int offset_x, int offset_y, int& good_swaps) {
+Image SimulatedAnnealing::execute(Image org, const char* temp_rep_filename, int offset_x, int offset_y, int& good_swaps, float& progress_temp) {
 
 	helper.getNextDither(org, next_dither_data, image_width, image_height);
 	this->current_energy = calculateStartingEnergy(dither_data, next_dither_data, permutation_data_output);
 
+	int number_of_dim = 16;
 	int number_of_intermediate_snapshots = 10;
 	int when_taking_snapshot = this->number_steps / number_of_intermediate_snapshots;
+	float progress_prev = progress_temp;
+
 	for (unsigned int i = 0; i < this->number_steps; i++) {
 
+		progress_temp = progress_prev +  (float)i / ((float) (number_steps * number_of_dim));
 		if ((i % when_taking_snapshot) == 0) takeIntermediateSnapshot(permutation_data_output, dither_data);
 
 		this->temperature = schedule->getTemperature(good_swaps);
@@ -112,10 +116,12 @@ Image SimulatedAnnealing::execute(Image org, const char* temp_rep_filename, int 
 		visualizer.visualizeAcceptanceProbabilities(this->deltas, this->probs);
 	}
 
+	//progress_temp += 1/(float)16;
+
 	return permutation_data_output;
 }
 
-Image SimulatedAnnealing::execute(int& good_swaps) {
+Image SimulatedAnnealing::execute(int& good_swaps, float& progress) {
 
 	helper.loadPNGinArray(this->filename, dither_data);
 	helper.getNextDither(dither_data, next_dither_data, image_width, image_height);
@@ -126,7 +132,9 @@ Image SimulatedAnnealing::execute(int& good_swaps) {
 
 	for (unsigned int i = 0; i < this->number_steps; i++) {
 
-		if ((i % when_taking_snapshot) == 0) takeIntermediateSnapshot(permutation_data_output, dither_data);
+		progress = i / float(number_steps);
+
+		//if ((i % when_taking_snapshot) == 0) takeIntermediateSnapshot(permutation_data_output, dither_data);
 
 		this->temperature = schedule->getTemperature(good_swaps);
 		temperatures.push_back(this->temperature);

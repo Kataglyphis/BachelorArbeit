@@ -176,8 +176,12 @@ haben würde aufgrund der Drehung.
 \end{figure}
 
 \begin{itemize}
-  \item[t=1-2]                  
-  \item[t=3] 
-  \item[t=4] 
+  \item[nur Retargeting] Bei reinem \nameref{ch:Content2:sec:Retargeting} sieht man in der linken Hälfte des Ausschnitts Artefakte, die unsere 
+                         \nameref{ch:Content1:sec:blue noise} Verteilung stören. Da zwischen den Bildern die Anfangswerte nicht projiziert
+                         werden, nutzt die Bilderzeugung die anhand des vorherigen Bildes sortierten Anfangswerte. Die Sortierung allerdings
+                         wurde an den vorherigen Pixelintensitäten gemacht. Da der Ausschnitt an einem inhomogenen Bildübergang gemacht wurde,
+                         passen die neuen Pixelwerte nicht, um unsere \nameref{ch:Content2:sec:a Posteriori}(siehe Abschnitt \ref{ch:Content2:sec:a Posteriori})
+                         Bedingung zu erfüllen. Die Anfangswerte wurden zuvor anhand völlig anderer Pixelwerte sortiert.                  
+  \item[temporales Projezieren] Bei dem zusätzlichen Projizieren, wird die Bewegung
 \end{itemize}
 

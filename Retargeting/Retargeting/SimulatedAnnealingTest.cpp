@@ -7,7 +7,7 @@ SimulatedAnnealingTest::SimulatedAnnealingTest() : helper(), number_steps(10000)
 }
 
 
-SimulatedAnnealingTest::SimulatedAnnealingTest(const char* filename, int image_width, int image_height) : number_steps(1000000) {
+SimulatedAnnealingTest::SimulatedAnnealingTest(const char* filename, int image_width, int image_height, int number_steps) {
 	
 	this->helper = helpers(filename, image_width, image_height);
 	//this->schedule = new ExponentialCoolDown();
@@ -18,14 +18,14 @@ SimulatedAnnealingTest::SimulatedAnnealingTest(const char* filename, int image_w
 	Energy energy;
 	this->sa = SimulatedAnnealing(number_steps, schedule, energy, true, image_width, image_height, helper, filename);
 	this->filename = filename;
-
+	this->number_steps = number_steps;
 }
 
-void SimulatedAnnealingTest::testPermutation() {
+void SimulatedAnnealingTest::testPermutation(float& progress) {
 
 	int32_t goodswaps = 0;
 
-	Image permutation = sa.execute(goodswaps);
+	Image permutation = sa.execute(goodswaps, progress);
 
 	Image next_dither;
 	Image original; 
