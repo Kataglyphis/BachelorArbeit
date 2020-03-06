@@ -90,6 +90,7 @@ This work explains a temporally stable algorithm based on this technique. In con
 
 * [Falcor](https://developer.nvidia.com/falcor) - The real-time rendering framework used
 * [Matplotlib](https://github.com/lava/matplotlib-cpp) - C++ Wrapper Class for the python lib
+* [gnuplot-cpp](https://github.com/martinruenz/gnuplot-cpp) - C++ Wrapper for gnuplot
 
 --------------------
 ## Authors

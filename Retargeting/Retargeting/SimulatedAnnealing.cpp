@@ -433,7 +433,7 @@ bool SimulatedAnnealing::acceptanceProbabilityFunction(const float energy_old_co
 
 		
 		//for plotting reasons
-		//this->deltas.push_back(delta);
+		this->deltas.push_back(delta);
 		this->probs.push_back((int)(prob * 100));
 
 		if (prob > currentRandomNumber) {

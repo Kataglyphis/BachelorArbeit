@@ -116,14 +116,14 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Program Files\Python38\Lib\site-packages\numpy\core\include;C:\Program Files\Python38\include;C:\Program Files\Python38\Lib\site-packages\numpy\core\include;C:\Program Files\Python38\include;C:\BachelorArbeit\Retargeting\Retargeting\boost;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Python27\Lib\site-packages\numpy\core\include;C:\BachelorArbeit\Retargeting\Retargeting\gnuplot-cpp\gnuplot-cpp-master\include;C:\Python27\include;C:\BachelorArbeit\Retargeting\Retargeting\boost;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>d3d11.lib;FreeImage.lib;FreeImagePlus.lib;python38.lib;python38_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\BachelorArbeit\Retargeting\Retargeting\FreeImage;C:\Program Files\Python38\libs;C:\Program Files\Python38\libs;C:\BachelorArbeit\Retargeting\Retargeting\FreeImage;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;FreeImage.lib;FreeImagePlus.lib;python27.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Python27\libs;C:\BachelorArbeit\Retargeting\Retargeting\FreeImage</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -134,14 +134,14 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Program Files\Python38\Lib\site-packages\numpy\core\include;C:\Program Files\Python38\include;C:\Program Files\Python38\Lib\site-packages\numpy\core\include;C:\Program Files\Python38\include;C:\local\boost;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Python27\Lib\site-packages\numpy\core\include;C:\BachelorArbeit\Retargeting\Retargeting\gnuplot-cpp\gnuplot-cpp-master\include;C:\Python27\include;C:\local\boost;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>d3d11.lib;FreeImage.lib;FreeImagePlus.lib;python38.lib;python38_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\BachelorArbeit\Retargeting\Retargeting\FreeImage;C:\Program Files\Python38\libs;C:\Program Files\Python38\libs;C:\BachelorArbeit\Retargeting\Retargeting\FreeImage;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;FreeImage.lib;FreeImagePlus.lib;python27.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Python27\libs;C:\BachelorArbeit\Retargeting\Retargeting\FreeImage</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

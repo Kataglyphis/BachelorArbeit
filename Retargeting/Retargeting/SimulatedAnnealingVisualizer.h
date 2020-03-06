@@ -1,5 +1,8 @@
 #pragma once
 #include "matplotlib/matplotlibcpp.h"
+#include <map>
+#include <vector>
+#include <cmath>
 #include <sstream>
 #include <string>
 
