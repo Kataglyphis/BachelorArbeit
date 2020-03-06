@@ -12,8 +12,8 @@ class TemporalReprojection
 {
 public:
 
-	TemporalReprojection();
-	void generateRetargetTextureSet(int vector_offest_x, int vector_offset_y);
+	TemporalReprojection(int number_of_steps_temp);
+	void generateRetargetTextureSet(int vector_offest_x, int vector_offset_y, float& progress_temp);
 
 private:
 

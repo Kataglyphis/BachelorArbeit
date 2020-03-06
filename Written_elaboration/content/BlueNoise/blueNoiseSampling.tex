@@ -5,17 +5,21 @@ zugrundeliegenden Monte-Carlo Integration (siehe Gleichung \ref{eq:Monte-Carlo})
 \textit{Dithering} ist das bewusste Einbringen eines Rauschens, um entstehende Quantisierungsfehler zu randomisieren.
 Klassischerweise wird eine zweidimensionale \nameref{ch:Content1:sec:blue noise} Textur verwendet, um mit einer darauf aufbauenden Schwellenwertbildung,
 dieses Rauschen in ein Bild zu bringen. Hier wollen wir durch Dithering die Verteilung des entstehenden Monte-Carlo Integrationsfehlers (Rauschen) verändern.\par
-Grundlage des d-dimensionalen Path Tracers werden sowohl eine \nameref{ch:Content1:sec:blue noise}-Verteilung als auch Anfangswerte $s_{n}$ mit d-Dimensionen.
+Grundlage des n-dimensionalen Path Tracers werden sowohl eine \nameref{ch:Content1:sec:blue noise}-Verteilung als auch Anfangswerte $s_{n}$ mit d-Dimensionen.
 Damit konkretisiert sich die Monte-Carlo Integration (siehe Gleichung \ref{eq:Monte-Carlo}) mit Integrand f zu folgender Gleichung:
 
-\begin{equation}\label{eq:concreteMonteCarlo}
-    \frac{1}{N}\sum_{n=0}^{N-1}f(s_{n})
-\end{equation}
+\begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \begin{equation}\label{eq:concreteMonteCarlo}
+        \frac{1}{N}\sum_{n=0}^{N-1}f(s_{n})
+    \end{equation}
+\end{tcolorbox}
+
 
 Mit dem Ziel, eine blue noise Fehlerverteilung im Bildraum zu erreichen, hat sich bereits die Arbeit \cite{georgiev2016blue} beschäftigt. 
 Mit im Vorraus (\glqq a priori\grqq{}) blue noise korrelierten Zahlenfolgen $s_{n}$ hoffte man ebenso korrelierte Pixelwerte nach 
 der Integration zu erhalten. Der temporale Algorithmus im Kapitel \ref{ch:Temporaler Algorithmus} führt \nameref{ch:Content2:sec:a Posteriori}
-Formulierungen ein und mit ihr eine inverse Funktion \ref{eq:inverse Funktion}, welche (approximative) garantierte korrelationerhaltene Integranden liefert!  
+Formulierungen ein (\glqq a Posteriori\grqq{}(im Nachhinein) im Sinne, dass die Methode auf bereits erzeugten Bilddaten arbeitet) und mit ihr eine 
+inverse Funktion \ref{eq:inverse Funktion}, welche (approximative) garantierte korrelationerhaltene Integranden liefert!  
 Neben der Eigenschaft der Verteilungsbeibehaltung der Integranden zeigt die frühere Arbeit von \cite[Seite 3]{hal02158423} eine weitere wichtige Vorraussetzung 
 des blue noise sampling: Die Bildraumkohärenz. Wie auch beim konventionellen Prozess des Dithering so sollten für ein gutes Ergebnis zwei benachbarte 
 Pixel einen ähnlichen Wert aufweisen \cite{3288}.

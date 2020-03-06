@@ -64,11 +64,20 @@
 \usepackage{fancyhdr}         % Define simple headings
 %\usepackage{subfigure}       %removed because outdated
 %for figure func in temporal alg
+\usepackage{caption}
 \usepackage{subcaption}
 \usepackage{url}
 \usepackage[absolute,overlay]{textpos}
 \usepackage{tikz}
 \usepackage[english,ngerman]{babel}
+
+%\usepackage{float}
+%\floatstyle{boxed} 
+%\restylefloat{figure}
+\usepackage[most]{tcolorbox}
+\newtcolorbox[blend into=figures]{myfigure}[2][]{float=htb,title={#2},#1}
+\usepackage{array, tabularx}
+\usepackage{colortbl}
 
 %using pdf's
 \usepackage{pdfpages}

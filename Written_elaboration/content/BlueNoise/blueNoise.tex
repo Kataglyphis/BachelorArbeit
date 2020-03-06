@@ -1,7 +1,7 @@
 % \cite{3288} gibt eine Einführung zu \textit{Dithering mit blue noise}. Darunter ist ein abbilden
 % beliebiger Grauwerte zu einer Menge von blue noise verteilten Schwarz- und Weißwerten zu verstehen.
 Eine Ansammlung von Pixeln, deren Verteilung über den Raum einer blue noise entspricht, 
-weist eine Reihe von Eigenschaften
+weist eine Reihe von Eigenschaften zur Steigerung der visuellen Qualität des Bildes auf \cite{3288}
 
 \begin{itemize}
 
@@ -12,7 +12,6 @@ weist eine Reihe von Eigenschaften
 
 \end{itemize}
 
-zur Steigerung der visuellen Qualität des Bildes auf. \cite{3288}
 Im Folgenden wollen wir uns diese Eigenschaften genauer anschauen.
 Hierfür verwenden wir die in \cite{Pet17} vorgestellten Texturen, welche anhand der
 \textit{Void and Cluster}-Methode(siehe \cite{ulichney1993void}) erstellt wurden.
@@ -63,11 +62,11 @@ diese Eigenschaft alleine nicht ausreicht und uns zur Eigenschaft der niedrigen 
 \subsubsection{Niedrige Frequenzen}
 \label{ch:Content1:sec:blue noise:Niedrige Frequenzen}
 Niedrige Frequenzen sind in einer blue noise sehr wenig bis gar nicht 
-vertreten. Dies macht sich sowohl in der Zeitdomäne erkenntlich: keine erkenntlichen gleichfarbigen Pixelverbünde 
-innerhalb der Textur als auch in der Frequenzdomäne: der schwarze Ring innerhalb der Amplitudendichte
+vertreten. Dies macht sich sowohl in der Zeitdomäne erkenntlich (Abbildung \ref{pic:ZeitdomäneBlueNoise}): keine erkenntlichen gleichfarbigen Pixelverbünde 
+innerhalb der Textur als auch in der Frequenzdomäne (Abbildung \ref{pic:FrequenzspektrumBlueNoise}): der schwarze Ring innerhalb der Amplitudendichte
 deutet auf das Fehlen von niederen Frequenzen und dem hohen Unterschied benachbarter Pixel hin.
 Außerdem haben wir aus der vorherigen Eigenschaft der \nameref{ch:Content1:sec:blue noise:Uniformität} gesehen:
-Wir wollen das alle Grauwerte gleichwahrscheinlich auftreten. Dies können wir am besten im Frequenzspektrum 
+Wir wollen, dass alle Grauwerte gleichwahrscheinlich auftreten. Dies können wir am besten im Frequenzspektrum 
 (siehe \ref{pic:FrequenzspektrumBlueNoise})
 beobachten. Hier sind alle hohen Frequenzen wie beim weißen Rauschen \ref{pic:FrequenzspektrumWhiteNoise} gleich stark vertreten.
 
@@ -78,6 +77,7 @@ beobachten. Hier sind alle hohen Frequenzen wie beim weißen Rauschen \ref{pic:F
         \centering
         \includegraphics[width=\linewidth]{content/BlueNoise/Bilder/HDR_L_0.png}
         \caption{$512^{2}$ blue noise Textur}
+        \label{pic:ZeitdomäneBlueNoise}
     \end{minipage}
     \hfill
     \begin{minipage}[t]{0.45\linewidth}
@@ -94,7 +94,8 @@ Auch zu erkennen ist die weitere Eigenschaft der \nameref{ch:Content1:sec:blue n
 \label{ch:Content1:sec:blue noise:Isotropie}
 
 Die Isotropie(altgr. \textit{isos}-gleich und \textit{tropos}-Richtung)
-einer blue noise Textur bietet eine weitere wichtige Eigenschaft. Dabei haben wir in allen Dimensionen
+einer blue noise Textur bietet eine weitere wichtige Eigenschaft: in alle Richtungen eine gleiche  
+Verteilung. Dabei haben wir in allen Dimensionen
 die Unabhängigkeit einer Eigenschaft. Um uns dies an einem Gegenbeispiel 
 klar zu machen, schauen wir uns das Bayer-Pattern an. Dieses Pattern erfüllt sowohl 
 die Eigenschaft der Niedrigen Frequenz (siehe Abschnitt \ref{ch:Content1:sec:blue noise:Niedrige Frequenzen}) als auch 
@@ -122,8 +123,6 @@ In der Frequenzdomäne (Abbildung \ref{pic:Frequnzdomäne Bayer}) ist zu erkenne
 Punkten organisiert ist. Diese lassen sich durch die vorhandenen
 Richtungen der Textur erklären. Speziell in zwei Richtungen ist eine sich
 wiederholende Pixelsequenz zu erkennen.
-Allerdings wollen wir in alle Richtungen eine gleiche (isotrope!) 
-Verteilung.
 
 \subsubsection{Kachelung}
 \label{ch:Content1:sec:blue noise:Kachelung}
@@ -160,7 +159,9 @@ Obwohl Sie in der Frequenzdomäne erkennbar sind und unsere \nameref{ch:Content1
 auf diese Textur zugreifen und die Isotropie (teilweise) wiederherstellen.
 Daher können wir hier folgendes Fazit ziehen: Regelmäßige Kachelung einer kleineren \nameref{ch:Content1:sec:blue noise} Textur 
 über das gesamte Bild liefert eine gute \nameref{ch:Content1:sec:blue noise} Verteilung bei vertretbaren Rechenaufwand und guter 
-Cacheausnutzung!
+Cacheausnutzung! Mit einer Größe von 16,1KB und der korrespondierenden Retarget-Textur (siehe Abschnitt \ref{ch:Content2:sec:Simulated Annealing}
+über die Erstellung dieser Textur) Größe von 12,1KB passen Beide in den 96KB großen L1 Cache \cite{turingarchitecture}. Wohingegen 
+eine korrespondierende $512^{2}$-Textur mit einer Größe von 1MB nur in L2-Cache passt.
 
 %% ===========================
 \section{Dithering Sampling}

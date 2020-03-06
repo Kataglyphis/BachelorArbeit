@@ -25,6 +25,12 @@ single image. Along with this short computing time, there are fewer ray paths wi
 Length. Previous work already has shown how to counteract the resulting image noise,
 included the blue noise error distributions and emphasized and clarified their importance in increasing the perceptible image quality.
 This work explains a temporally stable algorithm based on this technique. In contrast to the previous approaches, we want to apply an error redistribution directly in the image space, and so one accordingly to get correlated pixel sequence. The algorithm achieves all of this without significant additional computing effort.
+
+- going from the typical noisy output by a path tracer
+![Get your shit together ... link your pictures right Jonas](Bilder/white_noise_auschnitt.png?raw=true "White Noise")
+
+- to the eye pleasing output of the extra temporal algorithm: a temporally stable blue noise screen space distribution
+![Get your shit together ... link your pictures right Jonas](Bilder/blue_noise_ausschnitt.png?raw=true "Blue noise")
  
 --------------------
 ## Algorithmic Analysis
@@ -66,6 +72,9 @@ This work explains a temporally stable algorithm based on this technique. In con
 - Retargeting
 
     - Very simplified GUI gives opportunity to start the calculation of a permutation texture
+    ![Get your shit together ... link your pictures right Jonas](Bilder/Retargeting_GUI.png?raw=true "Retargeting GUI")
+        - right now I support basic GUI without choosing parameter for the annealing process by your own
+        - each button will start a calculation in a new thread
     - all textures/visualization pics etc will be saved under the \pictures subfolder
     <p align="center">
         <img src="Bilder/LDR_RGBA_0_64-RGBA_r_channel.png" width="350" title="Dither Texture" style="image-rendering: pixelated;">
@@ -81,6 +90,7 @@ This work explains a temporally stable algorithm based on this technique. In con
 
 * [Falcor](https://developer.nvidia.com/falcor) - The real-time rendering framework used
 * [Matplotlib](https://github.com/lava/matplotlib-cpp) - C++ Wrapper Class for the python lib
+* [gnuplot-cpp](https://github.com/martinruenz/gnuplot-cpp) - C++ Wrapper for gnuplot
 
 --------------------
 ## Authors

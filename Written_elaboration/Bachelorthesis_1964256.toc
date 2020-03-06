@@ -1,0 +1,47 @@
+\babel@toc {ngerman}{}
+\contentsline {chapter}{\numberline {1}Prelude}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Abstract}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Einleitung}{2}{section.1.2}%
+\contentsline {chapter}{\numberline {2}Grundlagen}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Rasterisierung}{3}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Beschränktheit}{5}{subsection.2.1.1}%
+\contentsline {section}{\numberline {2.2}Path Tracer}{7}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Monte-Carlo-Integration}{7}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Funktionsweise}{7}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}DirectX Raytracing}{9}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Render Graph}{11}{subsection.2.2.4}%
+\contentsline {section}{\numberline {2.3}A Posteriori}{12}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Praktische Durchführung}{13}{subsection.2.3.1}%
+\contentsline {section}{\numberline {2.4}Blue Noise}{15}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Eigenschaften}{15}{subsection.2.4.1}%
+\contentsline {subsubsection}{\numberline {2.4.1.1}Uniformität}{15}{subsubsection.2.4.1.1}%
+\contentsline {subsubsection}{\numberline {2.4.1.2}Niedrige Frequenzen}{16}{subsubsection.2.4.1.2}%
+\contentsline {subsubsection}{\numberline {2.4.1.3}Isotropie}{16}{subsubsection.2.4.1.3}%
+\contentsline {subsubsection}{\numberline {2.4.1.4}Kachelung}{17}{subsubsection.2.4.1.4}%
+\contentsline {section}{\numberline {2.5}Dithering Sampling}{18}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Quasi-Zufallsfolgen}{19}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Einleitung}{19}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {2.6.2}Goldener Schnitt}{19}{subsection.2.6.2}%
+\contentsline {subsection}{\numberline {2.6.3}1-Dimension}{19}{subsection.2.6.3}%
+\contentsline {subsection}{\numberline {2.6.4}2-Dimensionen}{19}{subsection.2.6.4}%
+\contentsline {section}{\numberline {2.7}Simulated Annealing}{21}{section.2.7}%
+\contentsline {subsubsection}{\numberline {2.7.0.1}Allgemein}{21}{subsubsection.2.7.0.1}%
+\contentsline {subsection}{\numberline {2.7.1}Abkühlfunktion}{23}{subsection.2.7.1}%
+\contentsline {subsubsection}{\numberline {2.7.1.1}Hajek}{23}{subsubsection.2.7.1.1}%
+\contentsline {subsubsection}{\numberline {2.7.1.2}Linear}{24}{subsubsection.2.7.1.2}%
+\contentsline {subsubsection}{\numberline {2.7.1.3}Exponential}{24}{subsubsection.2.7.1.3}%
+\contentsline {subsubsection}{\numberline {2.7.1.4}Inverse}{24}{subsubsection.2.7.1.4}%
+\contentsline {subsubsection}{\numberline {2.7.1.5}Kirkpatrick}{25}{subsubsection.2.7.1.5}%
+\contentsline {chapter}{\numberline {3}Temporaler Algorithmus}{29}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Sorting}{31}{section.3.1}%
+\contentsline {subsubsection}{\numberline {3.1.0.1}Blockgöße}{32}{subsubsection.3.1.0.1}%
+\contentsline {section}{\numberline {3.2}Retargeting}{36}{section.3.2}%
+\contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}nur Sorting}}}{36}{section*.29}%
+\contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}Sorting + Retargeting}}}{36}{section*.30}%
+\contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}nur Sorting}}}{39}{section*.36}%
+\contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}Sorting + Retargeting}}}{39}{section*.37}%
+\contentsline {section}{\numberline {3.3}Temporaler Ansatz}{40}{section.3.3}%
+\contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}nur Retargeting}}}{43}{section*.42}%
+\contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}mit zusätzlichen temporalen Projizieren}}}{43}{section*.43}%
+\contentsline {section}{\numberline {3.4}Rechenaufwand und Speicherbedarf}{44}{section.3.4}%
+\contentsline {chapter}{Literaturverzeichnis}{46}{section*.46}%

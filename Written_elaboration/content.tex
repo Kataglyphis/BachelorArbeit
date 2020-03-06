@@ -13,12 +13,13 @@
 \vspace*{\fill}
 
 Die Bildberechnung durch hardwareunterstützte Strahlenverfolgung und dazugehörige Techniken gewinnen gegenwärtig in der Echtzeitcomputergrafik an Bedeutung. 
-Trotz dieser neuen Hardwareunterstützung entfällt nur wenig Rechenzeit auf die Berechnung eines
-einzelnen Bildes. Einhergehend zu dieser kurzen Rechenzeit sind wiederrum weniger Pfade mit dementsprechend geringerer
-Länge. Bereits frühere Arbeiten haben, um den so entstehenden Bildrauschen entgegenzuwirken,
-die blue noise Fehlerverteilungen miteinbezogen und deren Bedeutung in der Steigerung der wahrnehmbaren Bildqualität hervorgehoben und verdeutlicht.
-Diese Arbeit erläutert einen zeitlich stabilen Algorithmus aufgrund dieser Technik. Im Gegensatz zu vorhergehenden Ansätzen wollen wir direkt im Bildraum eine Fehlerumverteilung anwenden, um so eine entsprechend 
-korrelierte Pixelfolge zu erhalten. All dies erreicht der Algorithmus ohne signifikanten Mehraufwand.
+Trotz dieser neuen Hardwareunterstützung gibt es eine Limitierung bei der Anzahl verschossener Strahlen. Einhergehend mit dieser Limitierung sind 
+wenige Strahlenpfade mit dementsprechend geringer Strahlentiefe. Bereits frühere Arbeiten haben, um den so entstehenden Bildrauschen entgegenzuwirken,
+die \nameref{ch:Content1:sec:blue noise} Fehlerverteilungen miteinbezogen. Diese Einbeziehung wurde aus der Kenntnis der Kontrastsensitivtät des menschlichen Auges
+und des hohen Kontrastes einer \nameref{ch:Content1:sec:blue noise} getroffen. Damit lässt sich eine Steigerung der wahrnehmbaren Bildqualität erzielen.
+Diese Arbeit erläutert einen zeitlich stabilen Algorithmus aufgrund dieser Technik. Wir wollen eine Fehlerumverteilung direkt im Bildraum anwenden, um so eine entsprechend 
+korrelierte Pixelfolge zu erhalten. Der Algorithmus erreicht dies im Vergleich zu einer Lösung ohne Fehlerumverteilungen im Bildraum ohne signifikant mehr
+\nameref{ch:Content2:sec:Rechenaufwand}.
 \vfill
 
 \newpage
@@ -26,7 +27,7 @@ korrelierte Pixelfolge zu erhalten. All dies erreicht der Algorithmus ohne signi
 \section{Einleitung}
 \vspace*{\fill}
 
-Das \textit{q2vkpt}-Projekt(siehe \cite{Sch19}) zeigt beispielhaft den aktuellen Übergang in Echtzeitanwendungen, indem es in einem konventionellen Spiel die (teilweise) konventionelle Bilderzeugung 
+Das \textit{q2vkpt}-Projekt \cite{Sch19} zeigt beispielhaft den aktuellen Übergang in Echtzeitanwendungen, indem es in einem konventionellen Spiel die (teilweise) konventionelle Bilderzeugung 
 mit neuen Technologien des \textit{Real-Time Raytracing} austauscht.
 
 \begin{itemize}
@@ -35,17 +36,18 @@ mit neuen Technologien des \textit{Real-Time Raytracing} austauscht.
 
     \item[Abschnitt \ref{ch:Content1:sec:Path Tracer}] besprochen wird. Hiermit lassen sich optische Phänomene, so z.B. Schatten, Spiegelungen \textit{korrekt} darstellen.
         Diese Technik wird durch die neue Hardwareunterstützung für Echtzeitanwendungen zugänglich, wenn auch mit deutlichen Leistungseinschränkungen.
-        Aktuelle Entwicklungen wie in \cite{georgiev2016blue} haben sich in Bezug auf diese Technik mit \nameref{ch:Content1:sec:blue noise} dither masks beschäftigt
+        Aktuelle Entwicklungen \cite{georgiev2016blue} haben sich in Bezug auf diese Technik mit \nameref{ch:Content1:sec:blue noise} dither masks beschäftigt
         und ihre Nützlichkeit in Steigerung der visuellen Qualität, bei geringer verfügbarer verbleibender Rechenzeit, gezeigt. Diese Ergebnisse motivieren den
 
-    \item[Abschnitt \ref{ch:Content1:sec:blue noise}] über blue noise in welchem wir uns die Theorie aneignen und ihre Funktionsweise auf die Steigerung der 
-        Bildqualität genau anschauen. Dabei liefert uns \cite{bluenoisechrisschied} eine blue noise Textur, welche wir im
+    \item[Abschnitt \ref{ch:Content1:sec:blue noise}] über \nameref{ch:Content1:sec:blue noise} in welchem wir uns die Theorie aneignen und ihre Funktionsweise auf die Steigerung der 
+        Bildqualität genau anschauen. Dabei liefert uns \cite{bluenoisechrisschied} eine \nameref{ch:Content1:sec:blue noise} Textur, welche wir im
 
     \item[Kapitel \ref{ch:Temporaler Algorithmus}]in einem temporalen Algorithmus, vorgestellt in \cite{hal02158423}, verwenden können. In zwei zusätzlichen Schritten, dem 
     \nameref{ch:Content2:sec:Sorting} und \nameref{ch:Content2:sec:Retargeting}, lassen sich unsere Pixel im Bildraum so korrelieren, dass eine zeitlich stabile Fehlerverteilungen
-    entsteht. Dabei machen wir uns die Erkenntnisse aus Abschnitt \ref{ch:Content1:sec:Quasi-Zufallsfolgen} zu nutze, um nur eine Textur zu nutzen ohne jedoch auf den Effekt von mehreren 
-    durchwechselnden Texturen verzichten zu müssen. Neben der vorberechneten blue noise Textur verwenden wir eine weitere \textit{Retarget}-Textur, welche wir erhalten, indem ein Optimierungsproblem 
-    mit Hilfe der im  
+    entsteht. Diese Arbeit stellt einen zusätzlichen Schritt in Abschnitt \ref{ch:Content2:sec:Temporaler Ansatz}: das temporale Projizieren vor, um die zeitliche Stabilität zu steigern. 
+    Dabei machen wir uns die Erkenntnisse aus Abschnitt \ref{ch:Content1:sec:Quasi-Zufallsfolgen} zu nutze, um nur eine Textur zu nutzen ohne jedoch auf den Effekt von mehreren durchwechselnden
+    Texturen verzichten zu müssen. Neben der vorberechneten \nameref{ch:Content1:sec:blue noise} Textur verwenden wir eine weitere \textit{Retarget}-Textur, welche wir erhalten, 
+    indem ein Optimierungsproblem mit Hilfe der im  
 
     \item[Abschnitt \ref{ch:Content2:sec:Simulated Annealing}]vorgestellten Technik, dem Simulated Annealing, gelöst wird.   
 
@@ -57,6 +59,11 @@ mit neuen Technologien des \textit{Real-Time Raytracing} austauscht.
 %% ==============
 \chapter{Grundlagen}
 \label{ch:Grundlagen}
+%1-2 Sätze zur Einleitung
+Zum Verständnis des temporalen Algorithmus und dessen Steigerung der visuellen Bildqualität durch eine zeitlich stabile \nameref{ch:Content1:sec:blue noise} Fehlerverteilung
+im Bildraum im Kapitel \ref{ch:Temporaler Algorithmus} werden wir uns im Folgenden, die hier verwendete grundlegende Technik zur globalen
+Beleuchtung, den \nameref{ch:Content1:sec:Path Tracer}) und dessen Benutzung von quasi-Zufallszahlen, Eigenschaften der \nameref{ch:Content1:sec:blue noise}, 
+und das \nameref{ch:Content2:sec:Simulated Annealing}, anschauen.
 %% ==============
 
 %% ===========================
@@ -69,9 +76,22 @@ mit neuen Technologien des \textit{Real-Time Raytracing} austauscht.
 \newpage
 \section{Path Tracer}
 \label{ch:Content1:sec:Path Tracer}
+%%%%%%%%%%%%%%%%%%%%%%%
+%% Einleitung 1/2 Sätze
+%%%%%%%%%%%%%%%%%%%%%%%
+Ein verbreiteter Ansatz zur physikalisch korrekten Simulation des Lichttransportes ist die Pfadverfolgung. Im Folgenden wird auf die Funktionweise, welche wir 
+zur globalen Beleuchtung innerhalb des \nameref{pic:Render Graph}(siehe Abbildung \ref{pic:Render Graph}) benutzen, eingegangen. Die vollständige 
+Beschreibung des Lichttransportes in einer Szene hebt bisherige Limitierungen der \nameref{ch:Content1:sec:Rasterisierung} auf. 
+\par
 \input{content/PathTracer/pathTracer.tex}
 %% ===========================
 
+%% ===========================
+\newpage
+\section{A Posteriori}
+\label{ch:Content2:sec:a Posteriori}
+\input{content/TemporalerAlg/APosteriori.tex}
+%% ===========================
 
 %% ===========================
 \newpage
@@ -107,12 +127,6 @@ mit neuen Technologien des \textit{Real-Time Raytracing} austauscht.
 \input{content/TemporalerAlg/general.tex}
 %% ==============
 
-%% ===========================
-\newpage
-\section{A Posteriori}
-\label{ch:Content2:sec:a Posteriori}
-\input{content/TemporalerAlg/APosteriori.tex}
-%% ===========================
 
 
 
@@ -132,20 +146,20 @@ mit neuen Technologien des \textit{Real-Time Raytracing} austauscht.
 \input{content/TemporalerAlg/Retargeting.tex}
 %% ===========================
 
-
-%% ===========================
-\newpage
-\section{Rechenaufwand}
-\label{ch:Content2:sec:Rechenaufwand}
-\input{content/TemporalerAlg/Rechenaufwand.tex}
-%% ===========================
-
 %% ===========================
 \newpage
 \section{Temporaler Ansatz}
 \label{ch:Content2:sec:Temporaler Ansatz}
 \input{content/TemporalerAlg/Temporal.tex}
 %% ===========================
+
+%% ===========================
+\newpage
+\section{Rechenaufwand und Speicherbedarf}
+\label{ch:Content2:sec:Rechenaufwand}
+\input{content/TemporalerAlg/Rechenaufwand.tex}
+%% ===========================
+
 
 
 

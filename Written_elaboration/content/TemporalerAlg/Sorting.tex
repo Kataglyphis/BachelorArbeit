@@ -10,6 +10,7 @@ Die sortierte Liste als Histogramm zu benutzen ist zulässig. Denn beim Benutzen
 zufällige Zahlen auf ein bestimmtes Wahrscheinlichkeitsquantil, das einer gewissen Sortierung entspricht, abzubilden. Deshalb können wir die Pixelintensitäten 
 innerhalb eines Blocks anhand ihrer Indizes (entspricht den Wahrscheinlichkeitsquantilen bei der Wahrscheinlichkeitsfunktion) sortieren! 
 
+\begin{tcolorbox}
 \begin{algorithm}[H]
     \caption{\textbf{Sortier Schritt t}}
     \begin{algorithmic}[1]
@@ -32,6 +33,7 @@ innerhalb eines Blocks anhand ihrer Indizes (entspricht den Wahrscheinlichkeitsq
     \end{algorithmic}
     \label{alg:Sortier}
 \end{algorithm}
+\end{tcolorbox}
 
 Das Verwenden der anhand Pixel- und blue noise Werten sortierten Indizes in Zeile 13,14 des Algorithmus \ref{alg:Sortier} ist die praktische Anwendung der zuvor eingeführten 
 Quantilfunktion \ref{eq:inverse Funktion}. Denn die Anfangswerte $x \in [0,1]$ der Quantilfunktion \ref{eq:inverse Funktion} werden hier einem eindeutigen sortierten Intensitätswert 
@@ -58,11 +60,10 @@ jeden einzelnen Pixel. Allerdings geht im Gegenzug die Raum-Zeit Kohärenz verlo
 für Szenen, die keine größeren homogenen Flächen aufweisen.
 
 \begin{figure}[H]
-
+    \begin{tcolorbox}[boxrule=4pt,sharp corners=downhill,title=Verschiedene Blockgrößen]
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% first row 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
     \centering
     \begin{subfigure}[b]{0.2\linewidth}
       \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/2/seed_debug_5.0_small.png}
@@ -84,11 +85,9 @@ für Szenen, die keine größeren homogenen Flächen aufweisen.
         \caption{FT B = 5}
         \label{pic:fftB_5}
     \end{subfigure}
-    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% second row
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
     \begin{subfigure}[b]{0.2\linewidth}
         \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/2/seed_debug_5.0_small_screen.png}
          \caption{B=2}
@@ -109,11 +108,9 @@ für Szenen, die keine größeren homogenen Flächen aufweisen.
          \caption{B=5}
          \label{pic:screen_B5}
     \end{subfigure}
-
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% third row 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
     \centering
     \begin{subfigure}[b]{0.2\linewidth}
       \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/6/seed_debug_5.0_small.png}
@@ -135,11 +132,9 @@ für Szenen, die keine größeren homogenen Flächen aufweisen.
         \caption{FT B = 10}
         \label{pic:fftB_10}
     \end{subfigure}
-    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 4th row
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
     \begin{subfigure}[b]{0.2\linewidth}
         \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/DiffDimensions/6/seed_debug_5.0_small_screen.png}
          \caption{B=6}
@@ -160,10 +155,9 @@ für Szenen, die keine größeren homogenen Flächen aufweisen.
          \caption{B=10}
          \label{pic:screen_B10}
     \end{subfigure}
-
-    \caption{Verschiedene Blockgrößen B bei selben homogenen Szenenausschnitt; nur Sortierschritt; jeweils drittes erzeugtes Bild}
+    \end{tcolorbox}
+    \caption{Verschiedene Blockgrößen B bei selben homogenen Szenenausschnitt; nur Sortierschritt}
     \label{fig:VerschiedeneBlockgrößenSorting}
-      
 \end{figure}
 
 Generell lässt sich aus den Untersuchungen in Abbildung \ref{fig:VerschiedeneBlockgrößenSorting} schließen,
@@ -184,24 +178,24 @@ Pixelwerte.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure}[H]
-
-    \begin{subfigure}{\textwidth}
-        \centering \includegraphics[width=0.6\linewidth]{content/TemporalerAlg/Bilder/Sorting/Histogramm/HistogrammSchätzungPrevious.png} 
+    \centering
+    \begin{subfigure}{0.4\textwidth}
+        \centering\includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/Histogramm/HistogrammSchätzungPrevious.png} 
         \caption{Vorheriges Bild}
         \label{fig:Histogramm_Previous}
     \end{subfigure}
-    \begin{subfigure}{\textwidth}
-        \centering \includegraphics[width=0.6\linewidth]{content/TemporalerAlg/Bilder/Sorting/Histogramm/HistogrammSchätzungPostBearbeitet.png}
-        \caption{Gleiche Seeds wie im vorherigen Bild, bloß verschoben}
+    \centering
+    \begin{subfigure}{0.4\textwidth}
+        \centering\includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Sorting/Histogramm/HistogrammSchätzungPostBearbeitet.png}
+        \caption{Nach Verschiebung}
         \label{fig:Histogram_Post}
     \end{subfigure}
-        \caption{Wir sortieren unsere Anfangswerte und erhalten durch die Pixelwertschätzungen in der Umgebung eine gute Approximation im ersten Bild
-        \ref{fig:Histogramm_Previous}; Verschieben wir die Anfangswertetextur ohne weiter zu sortieren so werden nun Anfangswerte, die anhand der Pixelwertschätzung des
-        Posters verwendet wurden nun zur Pixelfarbgebung für die Wand verwendet (grünes Rechteck)}. Mann kann sehen das hier keine blue noise Eigenschaft mehr zu erkennen
-        ist, da die Pixelwertschätzungen des Posters nicht auf die Wand übertragbar sind! Hingegen kann man im blauen Rechteck eine blue noise Eigenschaft erkennen, da 
-        die verwendeten Anfangswerte anhand einer ähnlich farbigen Oberfläche sortiert wurden. 
-        \label{fig:Vergleich der Histogramme}
-
+    \caption{Wir sortieren unsere Anfangswerte und erhalten durch die Pixelwertschätzungen in der Umgebung eine gute Approximation im ersten Bild
+    \ref{fig:Histogramm_Previous}; Verschieben wir die Anfangswertetextur ohne weiter zu sortieren so werden nun Anfangswerte, die anhand der Pixelwertschätzung des
+    Posters verwendet wurden nun zur Pixelfarbgebung für die Wand verwendet (grünes Rechteck)}. Mann kann sehen das hier keine blue noise Eigenschaft mehr zu erkennen
+    ist, da die Pixelwertschätzungen des Posters nicht auf die Wand übertragbar sind! Hingegen kann man im blauen Rechteck eine blue noise Eigenschaft erkennen, da 
+    die verwendeten Anfangswerte anhand einer ähnlich farbigen Oberfläche sortiert wurden. 
+    \label{fig:Vergleich der Histogramme}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -210,145 +204,137 @@ Pixelwerte.
 
 \newpage
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% first row; starting point scene
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 \begin{figure}[H]
-
-    \begin{subfigure}{\textwidth}
         \centering \includegraphics[scale=.25]{content/TemporalerAlg/Bilder/Sorting/Szene/Szene1.png}
-        \caption{Szene}
+        \caption{Szene vor eingeschalteten Sortieren, Ausschnitt(grüner Kasten wird über mehrere 
+        Bilder nach Aktivierung des Sortierens verfolgt)}
         \label{fig:Nur_Sorting_Szene_t1}
-    \end{subfigure}
-    \begin{subfigure}{0.5\textwidth}
-        \centering \includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Sorting/Ausschnitte/Ausschnitt1.png} 
-        \caption{Szenenausschnitt}
-        \label{fig:Nur_Sorting_ausschnitt_t1}
-    \end{subfigure}
-    \begin{subfigure}{0.5\textwidth}
-        \centering \includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Sorting/Spektren/Ausschnitt1.png}
-        \caption{Fouriertransformierte des Ausschnitts}
-        \label{fig:Nur_Sorting_Fouriertransformierte_t1}
-    \end{subfigure}
-        \caption{Zeitpunkt t=1}
-        \label{fig:Nur_Sorting_Verlauf_t1}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% second row; ausschnitt over time
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 \begin{figure}[H]
-    \begin{subfigure}{\textwidth}
-        \centering \includegraphics[scale=.25]{content/TemporalerAlg/Bilder/Sorting/Szene/Szene2.png}
-        \caption{Szene}
-        \label{fig:Nur_Sorting_Szene_t2}
+    \begin{tcolorbox}[boxrule=4pt,sharp corners=downhill,title=Sortieren]
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% first ausschnitt row
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+    \begin{subfigure}[b]{0.2\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{content/TemporalerAlg/Bilder/Sorting/Ausschnitte/Ausschnitt1.png}
+        \caption{t=1}
+        \label{pic:sorting_t1}
     \end{subfigure}
-    \begin{subfigure}{0.5\textwidth}
-        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Sorting/Ausschnitte/Ausschnitt2.png} 
-        \caption{Szenenausschnitt}
-        \label{fig:Nur_Sorting_ausschnitt_t2}
+    \begin{subfigure}[b]{0.2\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{content/TemporalerAlg/Bilder/Sorting/Spektren/Ausschnitt1.png}
+        \subcaption{FFT t=1}
+        \label{pic:sorting_t1_FFT}
     \end{subfigure}
-    \begin{subfigure}{0.5\textwidth}
-        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Sorting//Spektren/Ausschnitt2.png}
-        \caption{Fouriertransformierte des Ausschnitts}
-        \label{fig:Nur_Sorting_Fouriertransformierte_t2}
+    \begin{subfigure}[b]{0.1\textwidth}
+        \hspace*{1cm}
     \end{subfigure}
-        \caption{Zeitpunkt t=2}
-        \label{fig:Nur_Sorting_Verlauf_t2}
+    \begin{subfigure}[b]{0.2\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{content/TemporalerAlg/Bilder/Sorting/Ausschnitte/Ausschnitt5.png}
+        \subcaption{FFT t=5}
+        \label{pic:sorting_t5}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{content/TemporalerAlg/Bilder/Sorting/Spektren/Ausschnitt5.png}
+        \subcaption{FFT t=5}
+        \label{pic:sorting_t5_FFT}
+    \end{subfigure}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% second row; ausschnitt over time
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+    \begin{subfigure}[b]{0.2\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{content/TemporalerAlg/Bilder/Sorting/Ausschnitte/Ausschnitt2.png}
+        \caption{t=2}
+        \label{pic:sorting_t2}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{content/TemporalerAlg/Bilder/Sorting/Spektren/Ausschnitt2.png}
+        \subcaption{FFT t=2}
+        \label{pic:sorting_t2_FFT}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.1\textwidth}
+        \hspace*{1cm}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{content/TemporalerAlg/Bilder/Sorting/Ausschnitte/Ausschnitt6.png}
+        \subcaption{FFT t=6}
+        \label{pic:sorting_t6}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{content/TemporalerAlg/Bilder/Sorting/Spektren/Ausschnitt6.png}
+        \subcaption{FFT t=6}
+        \label{pic:sorting_t6_FFT}
+    \end{subfigure}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% third row; ausschnitt over time
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+    \begin{subfigure}[b]{0.2\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{content/TemporalerAlg/Bilder/Sorting/Ausschnitte/Ausschnitt3.png}
+        \caption{t=3}
+        \label{pic:sorting_t3}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{content/TemporalerAlg/Bilder/Sorting/Spektren/Ausschnitt3.png}
+        \subcaption{FFT t=3}
+        \label{pic:sorting_t3_FFT}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.1\textwidth}
+        \hspace*{1cm}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{content/TemporalerAlg/Bilder/Sorting/Ausschnitte/Ausschnitt7.png}
+        \subcaption{FFT t=7}
+        \label{pic:sorting_t7}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{content/TemporalerAlg/Bilder/Sorting/Spektren/Ausschnitt7.png}
+        \subcaption{FFT t=7}
+        \label{pic:sorting_t7_FFT}
+    \end{subfigure}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 4th row; ausschnitt over time
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+    \begin{subfigure}[b]{0.2\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{content/TemporalerAlg/Bilder/Sorting/Ausschnitte/Ausschnitt4.png}
+        \caption{t=4}
+        \label{pic:sorting_t4}
+    \end{subfigure}
+    \hspace*{0.1cm}
+    \begin{subfigure}[b]{0.2\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{content/TemporalerAlg/Bilder/Sorting/Spektren/Ausschnitt4.png}
+        \subcaption{FFT t=4}
+        \label{pic:sorting_t4_FFT}
+    \end{subfigure}
+    \end{tcolorbox}
+    \caption{Sorting ab t=1 aktiviert}
+    \label{pic:Sorting_over_seven_frames}
 \end{figure}
 
-\begin{figure}[H]
-    \begin{subfigure}{\textwidth}
-        \centering \includegraphics[scale=.25]{content/TemporalerAlg/Bilder/Sorting/Szene/Szene3.png}
-        \caption{Szene}
-        \label{fig:Nur_Sorting_Szene_t3}
-    \end{subfigure}
-    \begin{subfigure}{0.5\textwidth}
-        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Sorting/Ausschnitte/Ausschnitt3.png} 
-        \caption{Szenenausschnitt}
-        \label{fig:Nur_Sorting_ausschnitt_t3}
-    \end{subfigure}
-    \begin{subfigure}{0.5\textwidth}
-        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Sorting/Spektren/Ausschnitt3.png}
-        \caption{Fouriertransformierte des Ausschnitts}
-        \label{fig:Nur_Sorting_Fouriertransformierte_t3}
-    \end{subfigure}
-        \caption{Zeitpunkt t=3}
-        \label{fig:Nur_Sorting_Verlauf_t3}
-\end{figure}
 
 \begin{figure}[H]
-    \begin{subfigure}{\textwidth}  
-        \centering \includegraphics[scale=.25]{content/TemporalerAlg/Bilder/Sorting/Szene/Szene4.png}
-        \caption{Szene}
-        \label{fig:Nur_Sorting_Szene_t4}
-    \end{subfigure}
-    \begin{subfigure}{0.5\textwidth}
-        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Sorting/Ausschnitte/Ausschnitt4.png} 
-        \caption{Szenenausschnitt}
-        \label{fig:Nur_Sorting_ausschnitt_t4}
-    \end{subfigure}
-    \begin{subfigure}{0.5\textwidth}
-        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Sorting//Spektren/Ausschnitt4.png}
-        \caption{Fouriertransformierte des Ausschnitts}
-        \label{fig:Nur_Sorting_Fouriertransformierte_t4}
-    \end{subfigure}
-        \caption{Zeitpunkt t=4}
-        \label{fig:Nur_Sorting_Verlauf_t4}
-\end{figure}
-
-\begin{figure}[H]
-    \begin{subfigure}{\textwidth}   
-        \centering \includegraphics[scale=.25]{content/TemporalerAlg/Bilder/Sorting/Szene/Szene5.png}
-        \caption{Szene}
-        \label{fig:Nur_Sorting_Szene_t5}
-    \end{subfigure}
-    \begin{subfigure}{0.5\textwidth}
-        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Sorting/Ausschnitte/Ausschnitt5.png} 
-        \caption{Szenenausschnitt}
-        \label{fig:Nur_Sorting_ausschnitt_t5}
-    \end{subfigure}
-    \begin{subfigure}{0.5\textwidth}
-        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Sorting//Spektren/Ausschnitt5.png}
-        \caption{Fouriertransformierte des Ausschnitts}
-        \label{fig:Nur_Sorting_Fouriertransformierte_t5}
-    \end{subfigure}
-        \caption{Zeitpunkt t=5}
-        \label{fig:Nur_Sorting_Verlauf_t5}
-\end{figure}
-
-\begin{figure}[H]
-    \begin{subfigure}{\textwidth}   
-        \centering \includegraphics[scale=.25]{content/TemporalerAlg/Bilder/Sorting/Szene/Szene6.png}
-        \caption{Szene}
-        \label{fig:Nur_Sorting_Szene_t6}
-    \end{subfigure}
-    \begin{subfigure}{0.5\textwidth}
-        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Sorting/Ausschnitte/Ausschnitt6.png} 
-        \caption{Szenenausschnitt}
-        \label{fig:Nur_Sorting_ausschnitt_t6}
-    \end{subfigure}
-    \begin{subfigure}{0.5\textwidth}
-        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Sorting/Spektren/Ausschnitt6.png}
-        \caption{Fouriertransformierte des Ausschnitts}
-        \label{fig:Nur_Sorting_Fouriertransformierte_t6}
-    \end{subfigure}
-        \caption{Zeitpunkt t=6}
-        \label{fig:Nur_Sorting_Verlauf_t6}
-\end{figure}
-
-\begin{figure}[H]
-    \begin{subfigure}{\textwidth}   
-        \centering \includegraphics[scale=.25]{content/TemporalerAlg/Bilder/Sorting/Szene/Szene7.png}
-        \caption{Szene}
-        \label{fig:Nur_Sorting_Szene_t7}
-    \end{subfigure}
-    \begin{subfigure}{0.5\textwidth}
-        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Sorting/Ausschnitte/Ausschnitt7.png} 
-        \caption{Szenenausschnitt}
-        \label{fig:Nur_Sorting_ausschnitt_t7}
-    \end{subfigure}
-    \begin{subfigure}{0.5\textwidth}
-        \centering\includegraphics[width=0.4\linewidth]{content/TemporalerAlg/Bilder/Sorting/Spektren/Ausschnitt7.png}
-        \caption{Fouriertransformierte des Ausschnitts}
-        \label{fig:Nur_Sorting_Fouriertransformierte_t7}
-    \end{subfigure}
-        \caption{Zeitpunkt t=7}
-        \label{fig:Nur_Sorting_Verlauf_t7}
+    \centering \includegraphics[scale=.25]{content/TemporalerAlg/Bilder/Sorting/Szene/Szene7.png}
+    \caption{Szene}
+    \label{fig:Nur_Sorting_Szene_t7}
 \end{figure}
 
 Die Bildreihe zeigt die ersten sieben erstellten Bilder mit ausschließlichem 

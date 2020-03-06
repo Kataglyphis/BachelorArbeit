@@ -1,23 +1,61 @@
 Da unsere Ressourcen beschränkt sind und trotz Hardwarebeschleunigung immer noch viel Rechenzeit eines Frames auf die globale Beleuchtung entfällt,
-ist es von großer Bedeutung, dass unser temporaler Algorithmus keinen signifikanten zusätzlichen Aufwand schafft.
+ist es von Bedeutung, dass unser temporaler Algorithmus keinen signifikanten zusätzlichen Aufwand schafft.
 Mit einem Großteil der Rechenzeit, der auf die Berechnung des GBuffers und der globalen Beleuchtung fällt sind wir hingegen 
-mit den Schritten Sorting und Retargeting sowohl auf  CPU als auf GPU Seite im niedrigen einstelligen Prozentbereich.
+mit den Schritten Sorting und Retargeting (+ temporal Reprojection) sowohl auf  CPU als auf GPU Seite im niedrigen Prozentbereich.
+Dabei wurde hier eine Blockgröße (siehe Abschnitt \ref{subsec:Blockgröße}) von B = 64 verwendet. Bei einer kleineren Blockgröße von B = 16, welche 
+bereits gute Ergebnisse liefert, reduziert sich der Aufwand auf ein Viertel. 
+\par
+\newcolumntype{Y}{>{\raggedleft\arraybackslash}X}% see tabularx
+%\tcbset{enhanced,fonttitle=\bfseries\large,fontupper=\normalsize\sffamily,
+%colback=yellow!10!white,colframe=red!50!black,colbacktitle=red!30!white,
+%coltitle=black,center title}
+\begin{figure}[H]
+    \begin{tcolorbox}[title=Rechenaufwand]
+        \begin{tcolorbox}[tabularx={X|Y|Y},title=Pipeline, colbacktitle=yellow!50!red, coltitle=white]
+            \textbf{Stufen}                                     &  \textbf{Rechenzeit(ms/\%)} CPU & \textbf{Rechenzeit(ms/\%)} GPU \\\hline\hline
+            \textbf{Gesamt}                                     &  29.55/100\%                    & 19.04/100\%\\\hline
+            GBuffer                                             &  06.48/21.91\%                  & 01.30/6,83\%\\\hline
+            Retargeting(+ optionale temporale Reprojektion)     &  01.12/3.8\%                    & 00.11/0.57\%\\\hline
+            GGXGlobalIllumination                               &  21.20/71.74\%                  & 15.51/81,46\%\\\hline\hline
+            Sorting(B=64)                                       &  00.75/2,53\%                   & 02.12/11,13\%\\\hline\hline
+            \textbf{Nicht in Gesamt}                            &                                 &              \\\hline\hline
+            Sorting(B=16)                                       &  00.75                          & 00.55        \\\hline\hline
+        \end{tcolorbox}  
+        \tcblower
+        \begin{tcolorbox}[tabularx={X|Y|Y},title=Vorberechnungen, colbacktitle=yellow!50!red, coltitle=white]
+            \textbf{Vorberechnung}        &  \textbf{Rechenzeit(m)}    &  \textbf{Fehler(raw/\%)}\\\hline\hline
+            Retargeting                   &  17,07                     &  10714 $\approx$ 3.07\%\\\hline
+            Retargeting                   &  35,36                     &  9444 $\approx$ 2,71\%\\\hline
+            Temporale Projizieren         &  194,7                     &  $\approx$ 10000\\\hline\hline
+        \end{tcolorbox}  
+    \end{tcolorbox}
+    \caption{Rechenzeiten die auf die einzelnen Stages fallen}
+    \medskip
+    \small
+    * Hardware: AMD Ryzen 5 2600X, NVIDIA GeForce RTX 2060 SUPER\newline
+    * Fehler: Anteil orientiert sich am Anfangsfehler von 348180 $\rightarrow$ Summe von pixelweise Differenz Blue Noise(t=0) und Blue Noise(t=1) 
+\end{figure}
 
-\begin{center}
-    \begin{table}[H]
-        \begin{tabular}{ | l | p{5cm} |l |}
-        \hline
-        \textbf{Pipelinestage}  &  \textbf{Rechenzeit(ms/\%)} CPU & \textbf{Rechenzeit(ms/\%)} GPU \\ \hline
-        Gesamt                  &  29.87/100\%                    & 17.76/100\%\\ \hline
-        GBuffer                 &  06.48/21.7\%                   & 01.30/7.32\%\\ \hline
-        Retargeting             &  01.12/3.7\%                    & 00.33/1.9\%\\ \hline
-        GGXGlobalIllumination   &  21.20/70.97\%                  & 15.51/87,33\%\\ \hline
-        Sorting                 &  00.94/3,14\%                   & 00.63/3,55\%\\ \hline
-        \hline
-        \end{tabular}
-        \caption{Rechenzeiten die auf die einzelnen Stages fallen}
-        \medskip
-        \small
-        * Hardware: AMD Ryzen 5 2600X, NVIDIA GeForce RTX 2060 SUPER
-    \end{table}
-\end{center}
+Um zu einem Ergebnis wie in Figur \ref{fig:annelaing animated}(siehe Abschnitt \nameref{ch:Content2:sec:Simulated Annealing}) zu kommen, braucht man $\approx17$ Minuten. 
+Diese Berechnung liefert ein gutes Ergebnis bei akzeptablen Rechenaufwand. Für einen Fehler von (minimale Verbesserung) sind bereits $\approx17$ Minuten 
+nötig.
+
+%%%%%%%%%%%%%%%%%%%
+%%%%% storage usage
+%%%%%%%%%%%%%%%%%%%
+Wie speichern unsere Anfangswerte in einer 1920x1080 32-Bit-Textur. Die \nameref{ch:Content1:sec:blue noise} Textur innerhalb des \nameref{ch:Content2:sec:Sorting} Schrittes 
+ist eine 64x64 32-Bit Textur. Die Retarget-Textur benutzt eine 64x64 16-Bit Textur. Das temporale Projizieren benutzt 11 solcher Texturen.
+\begin{figure}[H]
+    \begin{tcolorbox}[tabularx={X|Y},title=Speicherbedarf, colbacktitle=red, coltitle=white]
+        \textbf{Pipelinestage}  &  \textbf{Speicherbedarf/KB} \\\hline\hline
+        Sorting                 &  16,1                     \\\hline
+        Retargeting             &  12,1                    \\\hline
+        Temporale Reprojektion  &  133,1                    \\\hline
+        Anfangswerte(Seeds)     &  7920                     \\\hline\hline
+        \textbf{Gesamt}         &  \textbf{8226,5}           \\\hline\hline                
+    \end{tcolorbox}
+    \caption{Speicherdarf}
+\end{figure}
+
+
+    

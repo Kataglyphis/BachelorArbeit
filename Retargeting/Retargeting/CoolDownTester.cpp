@@ -33,8 +33,9 @@ void CoolDownTester::compareDifferentCoolDownSchedules() {
 
     for (auto iter = sas.begin(); iter != sas.end(); ++iter) {
         
+        float progress = 0;
         int good_swaps = 0;
-        iter->execute(good_swaps);
+        iter->execute(good_swaps, progress);
 
     }
 

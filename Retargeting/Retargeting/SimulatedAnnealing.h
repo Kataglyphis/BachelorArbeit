@@ -81,10 +81,11 @@ typedef std::pair<position_index, step_index> old_indices;
 class SimulatedAnnealing {
 	public:
 
-        SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule, Energy& energy, bool visualize_single_annealing, int image_width, int image_height, helpers helper, const char* filename);
+        SimulatedAnnealing(int number_steps, AnnealingSchedule* schedule, Energy& energy, bool visualize_single_annealing, int image_width, int image_height, 
+            helpers helper, const char* filename);
         SimulatedAnnealing();
-		Image execute(int& good_swaps);
-        Image execute(Image org, const char* temp_rep_filename, int offset_x, int offset_y, int& good_swaps);
+		Image execute(int& good_swaps, float& progress);
+        Image execute(Image org, const char* temp_rep_filename, int offset_x, int offset_y, int& good_swaps, float& progress_temp);
         Energy getEnergy();
         AnnealingSchedule* getSchedule();
         int getNumSwaps();
@@ -106,7 +107,7 @@ private:
         float temperature;
         bool visualize;
         std::string folder_intermediate_steps = "pictures/AppliedPermutation/Intermediate_Steps/";
-        uint32_t intermediate_step_count;
+        uint32_t intermediate_step_count = 0;
         uint32_t num_intermediate_shots = 10;
         std::string folder_permutation_textures = "pictures/Permutations/";
         const char* filename;

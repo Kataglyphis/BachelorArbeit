@@ -67,6 +67,7 @@ struct perFrameData {
 //structure containing our frame data
 StructuredBuffer<perFrameData> data;
 
+//our groupshared difference due to different screen space position attained with temporal reprojection!
 groupshared uint2 difference = uint2(0);
 
 //fetching precomputed permutation and applying it to the seeds
@@ -101,6 +102,7 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     int2 retarget = int2(0);
 
     // if enabled read retarget coords from textures
+    // if normal retargeting enabled or temporal is activated and camera ist not moving :)
     if (((enable_retargeting_pass == 1) && (enable_temporal_reprojection == 0)) ||
         ((enable_temporal_reprojection == 1) && (camera_moved == false)))
     {
@@ -110,7 +112,7 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     } else if ((enable_temporal_reprojection == 1) && (camera_moved == true)) {
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-         // otherwise we will temporally reproject!!
+        // otherwise we will temporally reproject!!
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         
         float2 screen_space = float2(thread_ID.x / (float) (frame_width), thread_ID.y / (float) (frame_height));
@@ -119,7 +121,6 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
         clip_coord.y = 1.f - (screen_space.y * 2.f); //cause here is left handed coord system!!!
 
         float frag_depth = depth[thread_ID];
-        //now reproject here!!
         float z = (frag_depth * 2.f) - 1.f;
         float4 clip_space_pos = float4(clip_coord, z, 1.f);
 
@@ -145,7 +146,7 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
         
         difference += diff;
 
-        float2 retarget_value;
+        float2 additional_reprojection;
 
         GroupMemoryBarrierWithGroupSync();
 
@@ -158,58 +159,58 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
         
         if (vectors_are_equal(difference, uint2(0,0)))
         {
-            retarget_value = retarget_texture[bluenoise_index].rg;
+            additional_reprojection = retarget_texture[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, uint2(0, 1)))
         {
-            retarget_value = retarget_texture0x1[bluenoise_index].rg;
+            additional_reprojection = retarget_texture0x1[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, uint2(0, 2)))
         {
-            retarget_value = retarget_texture0x2[bluenoise_index].rg;
+            additional_reprojection = retarget_texture0x2[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, uint2(0, 3)))
         {
-            retarget_value = retarget_texture0x3[bluenoise_index].rg;
+            additional_reprojection = retarget_texture0x3[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, uint2(1, 0)))
         {
-            retarget_value = retarget_texture1x0[bluenoise_index].rg;
+            additional_reprojection = retarget_texture1x0[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, uint2(1, 1)))
         {
-            retarget_value = retarget_texture1x1[bluenoise_index].rg;
+            additional_reprojection = retarget_texture1x1[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, uint2(1, 2)))
         {
-            retarget_value = retarget_texture1x2[bluenoise_index].rg;
+            additional_reprojection = retarget_texture1x2[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, uint2(1, 3)))
         {
-            retarget_value = retarget_texture1x3[bluenoise_index].rg;
+            additional_reprojection = retarget_texture1x3[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, uint2(2, 0)))
         {
-            retarget_value = retarget_texture2x0[bluenoise_index].rg;
+            additional_reprojection = retarget_texture2x0[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, uint2(2, 1)))
         {
-            retarget_value = retarget_texture2x1[bluenoise_index].rg;
+            additional_reprojection = retarget_texture2x1[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, uint2(2, 2)))
         {
-            retarget_value = retarget_texture2x2[bluenoise_index].rg;
+            additional_reprojection = retarget_texture2x2[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, uint2(2, 3)))
         {
-            retarget_value = retarget_texture2x3[bluenoise_index].rg;
+            additional_reprojection = retarget_texture2x3[bluenoise_index].rg;
         }
         else
         {
-            retarget_value = retarget_texture2x3[bluenoise_index].rg;
+            additional_reprojection = retarget_texture2x3[bluenoise_index].rg;
         }
                  
-        retarget += int2(round(retarget_value * 12.f - float2(6.f)));
+        retarget += int2(round(additional_reprojection * 12.f - float2(6.f)));
         
     }
 

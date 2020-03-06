@@ -60,6 +60,10 @@ void PathTracer::onGuiRender(SampleCallbacks* pCallbacks, Gui* pGui)
         toggleCameraPathState();
     }
 
+    pGui->addSeparator();
+
+    pGui->addCheckBox("Dis-/Enable the screenshot series", enableScreenshotSeries);
+
     if (mpGraph != nullptr)
     {
         mpGraph->renderUI(pGui, nullptr);
@@ -206,7 +210,7 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
     //this is for evaluating our projecting pass
     if (hasCameraMoved())
     {
-        takeScreenshot(pCallbacks, "previous_frame");
+        if(enableScreenshotSeries) takeScreenshot(pCallbacks, "temporal_projection");
         mpLastViewProjMatrix = mpScene->getActiveCamera()->getViewProjMatrix();
     }
 

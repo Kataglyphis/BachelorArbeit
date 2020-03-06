@@ -5,7 +5,8 @@ ziehen bereits temporale Lösungsansätze z.B. temporales Akkumulieren \cite{sch
 
 Eine klassisches Formulierung \cite{UE4TAA} haben wir beispielhaft wie im Folgenden angewandt:
 
-\begin{algorithm}[H]
+\begin{tcolorbox}
+  \begin{algorithm}[H]
     \caption{Beispielhafte Akkumulation}
     \begin{algorithmic}[1]
         \State Texture2D current\_frame;
@@ -17,6 +18,7 @@ Eine klassisches Formulierung \cite{UE4TAA} haben wir beispielhaft wie im Folgen
     \end{algorithmic}
     \label{alg:TemporalAccumulation}
 \end{algorithm}
+\end{tcolorbox}
 
 Diese klassische Formulierung, verletzt unsere Annahme für die Quantilfunktion \ref{eq:inverse Funktion}
 in den \nameref{ch:Content2:sec:a Posteriori}-Bedingungen des zugrundeliegenden Algorithmus 
@@ -26,7 +28,7 @@ Anfangswert die Pixelfarbe!
 
 \begin{figure}[H]
     
-    \label{subsec:Temporales Projezieren}
+    \label{subsec:Temporales Projizieren}
 \end{figure}
 Um die a Posteriori Annahmen anwenden zu können und die Vorbedingungen der Quantilfunktion \ref{eq:inverse Funktion}
 für unseren Algorithmus zu erfüllen brauchen wir eine erneute Permutation! Denn durch die Permutation haben wir wieder garantiert, 
@@ -47,4 +49,140 @@ Wir benutzen die berechneten Tiefenwerte aus dem GBuffer (siehe auch unserer \na
 View-Projektion-Matrizen der Kameras, um herauszufinden welche Koordinaten der jeweilige Anfangswert von Bild t im Bild t+1 
 haben würde aufgrund der Drehung.
 \par 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% comparrison retargeting + temporal reprojection 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+  \begin{figure}[H]
+    \begin{tcolorbox}
+    \centering
+    \includegraphics[width=0.6\linewidth]{content/TemporalerAlg/Bilder/Reprojection/Szene_bearbeitet.png}
+    \end{tcolorbox}
+    \caption{Ausschnitt(grüner Kasten) verfolgt bei Bewegungsvektor(blauer Pfeil)}
+    \label{pic:TemporalReprComparison}
+  \end{figure}
+
+
+\begin{figure}[H]
+  \begin{tcolorbox}[boxrule=4pt,sharp corners=downhill,title=Szene unter Kamerabewegung, fonttitle=\bfseries]
+    %\begin{tcolorbox}[boxrule=4pt,sharp corners=downhill,title=Keine Projektion,colbacktitle=blue!50!white, coltitle=black]
+    %\tcbsubtitle{Keine Projection}
+    \paragraph{\hfill\colorbox{blue}{\textcolor{white}{nur Retargeting}}}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% first row 
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \centering
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/NoTemporalRepr/Ausschnitte/Ausschnitt1_FFT.png}
+       \caption{FT}
+       \label{pic:NoTemporalRepr_1_FFT}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/NoTemporalRepr/Ausschnitte/Ausschnitt2_FFT.png}
+      \caption{FT}
+      \label{pic:NoTemporalRepr_2_FFT}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/NoTemporalRepr/Ausschnitte/Ausschnitt3_FFT.png}
+      \caption{FT}
+      \label{pic:NoTemporalRepr_3_FFT}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/NoTemporalRepr/Ausschnitte/Ausschnitt4_FFT.png}
+        \caption{FT}
+        \label{pic:NoTemporalRepr_4_FFT}
+    \end{subfigure}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% second row
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/NoTemporalRepr/Ausschnitte/Ausschnitt1.png}
+         \caption{}
+         \label{pic:NoTemporalRepr_1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/NoTemporalRepr/Ausschnitte/Ausschnitt2.png}
+         \caption{}
+         \label{pic:NoTemporalRepr_2}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/NoTemporalRepr/Ausschnitte/Ausschnitt3.png}
+         \caption{}
+         \label{pic:NoTemporalRepr_3}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/NoTemporalRepr/Ausschnitte/Ausschnitt4.png}
+         \caption{}
+         \label{pic:NoTemporalRepr_4}
+    \end{subfigure}
+    %\end{tcolorbox}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% third row 
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \tcblower
+    %\begin{tcolorbox}[boxrule=4pt,sharp corners=downhill,title=Projektion,colbacktitle=green!50!white, coltitle=black]
+    %\tcbsubtitle{Projection}
+    \paragraph{\hfill\colorbox{blue}{\textcolor{white}{mit zusätzlichen temporalen Projizieren}}}
+    \centering
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/TemporalRepr/Ausschnitte/Ausschnitt1_FFT.png}
+       \caption{FT}
+       \label{pic:TemporalRepr_1_FFT}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/TemporalRepr/Ausschnitte/Ausschnitt2_FFT.png}
+      \caption{FT}
+      \label{pic:TemporalRepr_2_FFT}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+      \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/TemporalRepr/Ausschnitte/Ausschnitt3_FFT.png}
+      \caption{FT}
+      \label{pic:TemporalRepr_3_FFT}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/TemporalRepr/Ausschnitte/Ausschnitt4_FFT.png}
+        \caption{FT}
+        \label{pic:TemporalRepr_4_FFT}
+    \end{subfigure}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 4th row
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/TemporalRepr/Ausschnitte/Ausschnitt1.png}
+         \caption{}
+         \label{pic:TemporalRepr_1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/TemporalRepr/Ausschnitte/Ausschnitt2.png}
+         \caption{}
+         \label{pic:TemporalRepr_2}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/TemporalRepr/Ausschnitte/Ausschnitt3.png}
+         \caption{}
+         \label{pic:TemporalRepr_3}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\linewidth}
+        \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/TemporalRepr/Ausschnitte/Ausschnitt4.png}
+         \caption{}
+         \label{pic:TemporalRepr_4}
+    \end{subfigure}
+  %\end{tcolorbox}
+  \end{tcolorbox}
+    \caption{Erste beiden Reihen: kein temporales ReProjizieren; letzte beiden Reihen: Retargeting mit zusätzlichem temporalen Projizieren}
+    \label{fig:Auswirkung temporales Projizieren}
+\end{figure}
+
+\begin{itemize}
+  \item[nur Retargeting] Bei reinem \nameref{ch:Content2:sec:Retargeting} sieht man in der linken Hälfte des Ausschnitts Artefakte, die unsere 
+                         \nameref{ch:Content1:sec:blue noise} Verteilung stören. Da zwischen den Bildern die Anfangswerte nicht projiziert
+                         werden, nutzt die Bilderzeugung die anhand des vorherigen Bildes sortierten Anfangswerte. Die Sortierung allerdings
+                         wurde an den vorherigen Pixelintensitäten gemacht. Da der Ausschnitt an einem inhomogenen Bildübergang gemacht wurde,
+                         passen die neuen Pixelwerte nicht, um unsere \nameref{ch:Content2:sec:a Posteriori}(siehe Abschnitt \ref{ch:Content2:sec:a Posteriori})
+                         Bedingung zu erfüllen. Die Anfangswerte wurden zuvor anhand völlig anderer Pixelwerte sortiert. 
+
+  \item[temporales Projizieren] Bei dem zusätzlichen Projizieren, wird die Bewegung
+\end{itemize}
 

@@ -1,46 +1,39 @@
-Für unseren temporalen Algorithmus (siehe Abschnitt \ref{ch:Temporaler Algorithmus}) gibt es einen 
-wichtigen \nameref{ch:Content2:sec:Retargeting} Schritt.
-In diesem Schritt wird eine vorberechnete Textur verwendet. Diese speichert eine
-Permutation, die unsere \nameref{ch:Content1:sec:blue noise} Textur vom Bild t in eine
-blue noise Textur von Bild t+1 umwandelt. Diese Permutation wird 
-dann auf die Startwerte angewandt bevor das nächste Bild t+1 gerendert wird (siehe auch Übersicht \nameref{pic:Render Graph}).
-Dadurch werden die blue noise Umverteilungen der \nameref{ch:Content2:sec:Sorting} Phase akkumuliert. 
-All diese Vorberechnungen sind möglich, da wir mit \textit{\glqq nur\grqq} quasi-zufälligen Sequenzen 
-(siehe Abschnitt \ref{ch:Content1:sec:Quasi-Zufallsfolgen}) arbeiten.
-Das andauernde Permutieren von Pixeln bis zu einem Punkt, an dem ein Bild aussieht wie das Andere ist 
-ein klassisches TSP, wofür es aktuell keine effiziente optimale Lösungsmethode gibt.
-Da wir nur an einer sehr guten Lösung, nahe dem globalen Optimum, interessiert sind 
-greifen wir wie in \cite{hal02158423} vorgeschlagen auf das heuristische Approximationsverfahren,
+Für unseren temporalen Algorithmus (siehe Abschnitt \ref{ch:Temporaler Algorithmus}) gibt es einen wichtigen \nameref{ch:Content2:sec:Retargeting} Schritt.
+In diesem Schritt wird eine vorberechnete Textur verwendet. Diese speichert eine Permutation, die unsere \nameref{ch:Content1:sec:blue noise} Textur vom Bild t in eine
+blue noise Textur von Bild t+1 umwandelt. Diese Permutation wird dann auf die Startwerte angewandt bevor das nächste Bild t+1 gerendert wird 
+(siehe auch Übersicht \nameref{pic:Render Graph}). Dadurch werden die blue noise Umverteilungen der \nameref{ch:Content2:sec:Sorting} Phase akkumuliert. 
+All diese Vorberechnungen sind möglich, da wir mit \textit{\glqq nur\grqq} quasi-zufälligen Sequenzen (siehe Abschnitt \ref{ch:Content1:sec:Quasi-Zufallsfolgen}) arbeiten.
+Das andauernde Permutieren von Pixeln bis zu einem Punkt, an dem ein Bild aussieht wie das Andere ist ein klassisches TSP, wofür es aktuell keine effiziente optimale Lösungsmethode gibt.
+Da wir nur an einer sehr guten Lösung, nahe dem globalen Optimum, interessiert sind greifen wir wie in \cite{hal02158423} vorgeschlagen auf das heuristische Approximationsverfahren,
 dem Simulated Annealing, zu.
 
 \subsubsection{Allgemein}
 
-Angelehnt an metallurgischem Aufheizen und dem sich anschließenden Abkühlen wollen wir eine approximativ
-optimale Lösung finden. Wir haben also eine zu Anfang hohe Temperatur, welche durch eine Abkühlfunktionen
-(siehe Abschnitt \ref{subsec:Abkühlfunktion} für Weiteres) verringert wird.
-Wir definieren die Energie als pixelweisen Unterschied der sich in Abkühlung 
-befindlichen bereits permutierten Textur und der $Textur_{t+1}$(siehe Abbildung \ref{eq:pixel energy function}). 
-$Textur_{t+1}$ ist durch quasi Zufall (siehe Abschnitt \ref{ch:Content1:sec:Quasi-Zufallsfolgen}) bereits bekannt.
-Mit Erkenntnissen aus\cite{georgiev2016blue} ergibt sich
+Angelehnt an metallurgischem Aufheizen und dem sich anschließenden Abkühlen wollen wir eine approximativ optimale Lösung finden. Wir haben also eine zu Anfang hohe Temperatur, welche 
+durch eine Abkühlfunktionen (siehe Abschnitt \ref{subsec:Abkühlfunktion} für Weiteres) verringert wird. Wir definieren die Energie als pixelweisen Unterschied der sich in Abkühlung 
+befindlichen bereits permutierten Textur und der $Textur_{t+1}$(siehe Abbildung \ref{eq:pixel energy function}). $Textur_{t+1}$ ist durch quasi Zufall (siehe Abschnitt
+\ref{ch:Content1:sec:Quasi-Zufallsfolgen}) bereits bekannt. Mit Erkenntnissen aus\cite{georgiev2016blue} ergibt sich
 
 \begin{figure}[H]
-  \[ E(SA) = \sum_{p \neq q}E(p,q) = \sum_{\forall i \in [0,N-1]} \Vert{p_{i}-q_{i}}\Vert \]
-  \caption{\nameref{ch:Content1:sec:blue noise} Textur mit Dimension N; Pixel p von abkühlende 
-  $Textur_{t=0}$; Pixel q von $Textur_{t=1}$}
-  \label{eq:pixel energy function}
+    \begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \[ E(SA) = \sum_{p \neq q}E(p,q) = \sum_{\forall i \in [0,N-1]} \Vert{p_{i}-q_{i}}\Vert \]
+    \end{tcolorbox}
+    \caption{\nameref{ch:Content1:sec:blue noise} Textur mit Dimension N; Pixel p von abkühlende 
+    $Textur_{t=0}$; Pixel q von $Textur_{t=1}$}
+    \label{eq:pixel energy function}
 \end{figure}
 
-Mit dem definierten Ziel, die Energiefunktion \ref{eq:pixel energy function} zu minimieren, wenden 
-wir in jedem Schritt eine Permutation an und entscheiden anhand einer Akzeptanzwahrscheinlichkeitsfunktion
-\ref{eq:Akzeptanzwahrscheinlichkeitsfunktion}, ob wir diese Permutation beibehalten.
-Da wir in jedem Schritt nur eine Permutation anwenden, vereinfacht sich unsere Energiefunktion
+Mit dem definierten Ziel, die Energiefunktion \ref{eq:pixel energy function} zu minimieren, wenden wir in jedem Schritt eine Permutation an und entscheiden anhand einer Akzeptanzwahrscheinlichkeitsfunktion
+\ref{eq:Akzeptanzwahrscheinlichkeitsfunktion}, ob wir diese Permutation beibehalten. Da wir in jedem Schritt nur eine Permutation anwenden, vereinfacht sich unsere Energiefunktion
 \ref{eq:pixel energy function} zu 
 
 \newpage
 
 \begin{figure}[H]
-  \[ E(SA) = E(s_{previous}) + \Vert{p_{i}-q_{i}}\Vert + \Vert{p_{i 
+    \begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \[ E(SA) = E(s_{previous}) + \Vert{p_{i}-q_{i}}\Vert + \Vert{p_{i 
         + permutation}-q_{i + permutation}}\Vert\]
+    \end{tcolorbox}
   \caption{Zustand $s_{previous}$ ohne angewandte Permutation}
   \label{eq:vereinfachte pixel energy function}
 \end{figure}
@@ -49,9 +42,11 @@ Da wir in jedem Schritt nur eine Permutation anwenden, vereinfacht sich unsere E
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.4\textwidth}
-        \begin{equation}\label{eq:Akzeptanzwahrscheinlichkeitsfunktion}
-            P = e^{-(\Delta_{energy})/ temperature}
-        \end{equation}
+        \begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+            \begin{equation}\label{eq:Akzeptanzwahrscheinlichkeitsfunktion}
+                P = e^{-(\Delta_{energy})/ temperature}
+            \end{equation}
+        \end{tcolorbox}
         \caption{Akzeptanzwahrscheinlichkeitsfunktion; Abhängig von Energie und aktueller Temperatur}
     \end{subfigure}
     ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
@@ -64,25 +59,17 @@ Da wir in jedem Schritt nur eine Permutation anwenden, vereinfacht sich unsere E
     \caption{}
 \end{figure}
 
-Die günstigen Eigenschaften der Exponentialfunktion (siehe Abbildung \ref{fig:Exponentialfunktion}) als
-Wahrscheinlichkeitsakzeptanzfunktion sind vielfältig und bereits in weiterführender Literatur wie 
-\cite{Kirkpatrick671},\cite{van1987simulated} gut belegt. Eine der Eigenschaften ist in der obigen Abbildung 
-\ref{fig:Exponentialfunktion} dargestellt. Das Argument der Funktion \ref{fig:Exponentialfunktion} hat 
-einen Divisor Temperatur und einen Dividenten $\Delta_{energie}$.
-Mit absteigender Temperatur erkennt man 
-in der Abbildung \ref{fig:Exponentialfunktion} eine ebenfalls abnehmende Wahrscheinlichkeit
-der Akzeptanz. Dies führt zu dem gewünschten Verhalten, energiehöhere Zustände 
-zuzulassen, um somit lokale Maxima zu verlassen. Dies geschieht bei höheren 
-Temperaturen häufiger wohingegen bei niederen Temperaturen ein gefundenes Maxima
-seltener verlassen wird. Höhere Deltas führen passender Weise zu einem höheren negativen 
-Exponenten und damit eine geringere Akzeptanz als Energiezustände, die nur bisschen 
-drüber liegen. Die Wahl des Abkühlvorgangs (also das Updaten der Temperatur über die Zeit)
-ist problemspezifisch \cite[S. 9]{Kirkpatrick671}. Dabei muss der Abkühlvorgang derart
-gewählt werden, sodass kein bloßer Greedy-Algorithmus entsteht und man in einem lokalen 
-Maxima stecken bleibt aber auch kein wahlloses Vertauschen entsteht. Diese Vorgänge habe 
-ich im Abschnitt \ref{subsec:Abkühlfunktion} untersucht.
-Nun haben wir alle Begriffe zusammen um einen ersten Blick auf den Algorithmus zu werfen.
+Die günstigen Eigenschaften der Exponentialfunktion (siehe Abbildung \ref{fig:Exponentialfunktion}) als Wahrscheinlichkeitsakzeptanzfunktion sind vielfältig und bereits in weiterführender Literatur wie 
+\cite{Kirkpatrick671},\cite{van1987simulated} gut belegt. Eine der Eigenschaften ist in der obigen Abbildung \ref{fig:Exponentialfunktion} dargestellt. Das Argument der Funktion 
+\ref{fig:Exponentialfunktion} hat einen Divisor Temperatur und einen Dividenten $\Delta_{energie}$. Mit absteigender Temperatur erkennt man 
+in der Abbildung \ref{fig:Exponentialfunktion} eine ebenfalls abnehmende Wahrscheinlichkeit der Akzeptanz. Dies führt zu dem gewünschten Verhalten, energiehöhere Zustände 
+zuzulassen, um somit lokale Maxima zu verlassen. Dies geschieht bei höheren Temperaturen häufiger wohingegen bei niederen Temperaturen ein gefundenes Maxima
+seltener verlassen wird. Höhere Deltas führen passender Weise zu einem höheren negativen Exponenten und damit eine geringere Akzeptanz als Energiezustände, die nur bisschen 
+drüber liegen. Die Wahl des Abkühlvorgangs (also das Updaten der Temperatur über die Zeit) ist problemspezifisch \cite[S. 9]{Kirkpatrick671}. Dabei muss der Abkühlvorgang derart
+gewählt werden, sodass kein bloßer Greedy-Algorithmus entsteht und man in einem lokalen Maxima stecken bleibt aber auch kein wahlloses Vertauschen entsteht. Diese Vorgänge habe 
+ich im Abschnitt \ref{subsec:Abkühlfunktion} untersucht. Nun haben wir alle Begriffe zusammen um einen ersten Blick auf den Algorithmus zu werfen.
 
+\begin{tcolorbox}
 \begin{algorithm}[H]
     \caption{\textbf{Simulated Annealing}}
     \begin{algorithmic}[1]
@@ -105,41 +92,31 @@ Nun haben wir alle Begriffe zusammen um einen ersten Blick auf den Algorithmus z
     \end{algorithmic}
     \label{alg:retargeting}
 \end{algorithm}
+\end{tcolorbox}
 
-Für die abzuspeichernde Permutation gilt Folgendes.
-Als Startzustand $s_{0}$ definieren wir eine Permutation, die alle 
-Elemente auf sich selbst abbildet.
-Um von einem Zustand s zu einem neuem Zustand $s_{new}$ zu kommen,
-definieren wir eine Nachbarschaftsfunktion \textit{Nachbarzustand()}. 
-Diese kann zwei Elemente genau dann vertauschen, wenn Sie in einem 
-gegenseitigen Radius r = 6 erreichbar sind(folgend der Empfehlung aus \cite[S.7]{hal02158423})
-Dabei vertauschen wir in jedem Schritt ein Pixelpaar. 
-Die Wahrscheinlichkeitsfunktion zur neuen Zustandsannahme
-P(Energie(s), Energie($s_{new}$)) beschreibt, ob wir den neu
-gewählten Zustand $s_{new}$ übernehmen. Dabei wird klassischerweise die
-Akzeptanz von Zuständen mit höherer Energie immer kleiner.(bzw. die 
-Toleranz gegenüber größeren Fehlern im Bezug zur Zeit). Die allgemeine Akzeptanz von 
-Zuständen mit höherer Energie ist dabei von fundamentaler Bedeutung.
+Für die abzuspeichernde Permutation gilt Folgendes. Als Startzustand $s_{0}$ definieren wir eine Permutation, die alle Elemente auf sich selbst abbildet.
+Um von einem Zustand s zu einem neuem Zustand $s_{new}$ zu kommen, definieren wir eine Nachbarschaftsfunktion \textit{Nachbarzustand()}. 
+Diese kann zwei Elemente genau dann vertauschen, wenn Sie in einem gegenseitigen Radius r = 6 erreichbar sind(folgend der Empfehlung aus \cite[S.7]{hal02158423})
+Dabei vertauschen wir in jedem Schritt ein Pixelpaar. Die Wahrscheinlichkeitsfunktion zur neuen Zustandsannahme P(Energie(s), Energie($s_{new}$)) beschreibt, ob wir den neu
+gewählten Zustand $s_{new}$ übernehmen. Dabei wird klassischerweise die Akzeptanz von Zuständen mit höherer Energie immer kleiner.(bzw. die 
+Toleranz gegenüber größeren Fehlern im Bezug zur Zeit). Die allgemeine Akzeptanz von Zuständen mit höherer Energie ist dabei von fundamentaler Bedeutung.
 Somit verlassen wir möglicherweiße nur lokale Maxima.
 
 \subsection{Abkühlfunktion}
 \label{subsec:Abkühlfunktion}
 
-Für die Wahl unserer Abkühlfunktion bieten sich einige Möglichkeiten.(siehe Abbildung \ref{pic:Cool Down Comparisson}).
-Im Folgenden wird auf die verschiedenen möglichen Abkühlfunktionen (\cite{ScienceDirectCoolingSchedule}) und ihre Eigenschaften
-sowie die Wahl interner Parameter(z.B. Starttemperatur, Gleichgewicht) eingegangen. Denn diese Funktion
-trägt maßgeblich mit ihrem Konvergenzverhalten zur Effizienz des Abkühlvorgangs bei.
-So beeinflusst Sie auch unsere wichtige Wahrscheinlichkeitsakzeptanzfunktion \ref{eq:Akzeptanzwahrscheinlichkeitsfunktion}.
-Nach \cite{Kirkpatrick671} wählen wir die Anfangstemperatur $T_0$ derart, dass anfangs jede Neue generierte Lösung akzeptiert
-wird. Außerdem werden wir einen Zustand des Quasiequilibriums (Gleichgewicht) definieren.
-Für einige Abkühlvorgänge wird es sinnvoll sein, erst nach einer bestimmten Anzahl von erfolgreichen Zustandsübergängen 
-die Temperatur zu senken. Dazu beim jeweiligen Vorgang mehr.
+Für die Wahl unserer Abkühlfunktion bieten sich einige Möglichkeiten.(siehe Abbildung \ref{pic:Cool Down Comparisson}). Im Folgenden wird auf die verschiedenen möglichen Abkühlfunktionen 
+(\cite{ScienceDirectCoolingSchedule}) und ihre Eigenschaften sowie die Wahl interner Parameter(z.B. Starttemperatur, Gleichgewicht) eingegangen. Denn diese Funktion
+trägt maßgeblich mit ihrem Konvergenzverhalten zur Effizienz des Abkühlvorgangs bei. So beeinflusst Sie auch unsere wichtige Wahrscheinlichkeitsakzeptanzfunktion \ref{eq:Akzeptanzwahrscheinlichkeitsfunktion}.
+Nach \cite{Kirkpatrick671} wählen wir die Anfangstemperatur $T_0$ derart, dass anfangs jede Neue generierte Lösung akzeptiert wird. Außerdem werden wir einen Zustand des Quasiequilibriums (Gleichgewicht) definieren.
+Für einige Abkühlvorgänge wird es sinnvoll sein, erst nach einer bestimmten Anzahl von erfolgreichen Zustandsübergängen die Temperatur zu senken. Dazu beim jeweiligen Vorgang mehr.
 
 \subsubsection{Hajek}
-
-\begin{equation}\label{eq:Hajek}
-    f(t) = T_0\log(1+t)
-\end{equation}
+\begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \begin{equation}\label{eq:Hajek}
+        f(t) = T_0\log(1+t)
+    \end{equation}
+\end{tcolorbox}
 
 In \cite{hajek1988cooling} haben wir eine Abkühlfunktion gegeben, welche durch ihre Eigenschaft,
 stets gegen das globale Maximum zu konvergieren, eine Funktion die unter allen Anderen heraussticht.
@@ -148,10 +125,12 @@ allerdings auch ihre sehr langsame Konvergenz.
 Sie hat sich daher für diese Aufgabenstellung als nicht nützliche Abkühlfunktion herausgestellt.
 
 \subsubsection{Linear}
+\begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \begin{equation}\label{eq:lineare Abkühlung}
+        f(t) = T_0 - \mu*t
+    \end{equation}
+\end{tcolorbox}
 
-\begin{equation}\label{eq:lineare Abkühlung}
-    f(t) = T_0 - \mu*t
-\end{equation}
 Typische Werte für $\alpha$ liegen zwischen 0.8 and 0.99. Wie man in Abbildung \ref{pic:Cool Down Comparisson}
 erkennen kann, ist das Problem der linearen Abkühlung die extreme Langsamkeit.
 Anstatt nur am Anfang schlechtere Energiezustände zuzulassen um lokale Minima zu verlassen 
@@ -161,9 +140,11 @@ geht der Algorithmus durch diesen Abkühlvorgang in ein bloßes randomisiertes T
 Ist nach \cite{Kirkpatrick671} eine für viele Fälle zutreffende und zu wählende Abkühlfunktion.
 Wobei $\alpha \in [0.8; 0.99]$.
 
-\begin{equation}\label{eq:Exponential}
-    f(t) = T_0*pow(\alpha,t)
-\end{equation}
+\begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \begin{equation}\label{eq:Exponential}
+        f(t) = T_0*pow(\alpha,t)
+    \end{equation}
+\end{tcolorbox}
 
 Wie in Abbildung \ref{pic:Cool Down Comparisson} zu erkennen haben wir hier hingegen zu den vorherigen Vorgängen
 eine deutlich schnellere Abkühlung. Jedoch lässt sich hier das andere Extrem, im Vergleich zum bloßen randomisierten
@@ -172,9 +153,11 @@ in einen \textit{greedy} Zustand und manche Bildbereiche bleiben in einem lokale
 
 \subsubsection{Inverse}
 
-\begin{equation}\label{eq:Inverse}
-    f(t) = T_0 / (1 + alpha * step)
-\end{equation}
+\begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \begin{equation}\label{eq:Inverse}
+        f(t) = T_0 / (1 + alpha * step)
+    \end{equation}
+\end{tcolorbox}
 
 Wie in Abbildung \ref{pic:Cool Down Comparisson} zu erkennen haben wir hier hingegen zu ersten beiden Vorgängen
 eine deutlich schnellere Abkühlung. Hat jedoch das selbe Problem wie die exponentielle \ref{eq:Exponential} Variante.
@@ -196,9 +179,11 @@ eine deutlich schnellere Abkühlung. Hat jedoch das selbe Problem wie die expone
 Wir haben uns bei unserem Optimierungsproblem für einen Abkühlvorgang, der in \cite{Kirkpatrick671} beschrieben wird, 
 entschieden und in danach benannt. Die Abkühlfunktion hat hierbei exponentiellen Charakter. 
 
-\begin{equation}\label{eq:ExponentialKirkpatrick}
-  f(t) = T_0 * pow(\alpha,t)
-\end{equation}
+\begin{tcolorbox}[rightrule=3mm, rounded corners=east]
+    \begin{equation}\label{eq:ExponentialKirkpatrick}
+        f(t) = T_0 * pow(\alpha,t)
+      \end{equation}
+\end{tcolorbox}
 
 Wobei wieder $\alpha \in [0.8; 0.99]$ und nach Auflösung der Textur zu wählen ist. Ein anderer Parameter, der nach 
 Auflösung der Textur zu wählen ist, ist das Quasi-Gleichgewicht. Mit dem Quasi-Gleichgewicht lässt sich erreichen, 
@@ -266,26 +251,26 @@ akzeptiert werden.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure}[H]
-
+    \begin{tcolorbox}[boxrule=4pt,sharp corners=downhill,title=Abkühlen]
     \centering
     \begin{subfigure}[b]{0.2\linewidth}
-      \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_0_quasieqstepKirkpatrickCooldownSchedule_energy_348180-RGBA_r_channel.png}
+      \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/LDR_RGBA_0_64-RGBA_r_channel.png}
        \caption{\nameref{ch:Content1:sec:blue noise} t}
        \label{pic:dither0}
     \end{subfigure}
     \begin{subfigure}[b]{0.2\linewidth}
-      \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_1_quasieqstepKirkpatrickCooldownSchedule_energy_313012-RGBA_r_channel.png}
-      \caption{313012}
+      \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_0_quasieqstepKirkpatrickCooldownSchedule_energy_348180-RGBA_r_channel.png}
+      \caption{348180}
       \label{pic:abkühl_schritt_1}
     \end{subfigure}
     \begin{subfigure}[b]{0.2\linewidth}
-      \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_2_quasieqstepKirkpatrickCooldownSchedule_energy_281170-RGBA_r_channel.png}
-      \caption{281170}
+      \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_1_quasieqstepKirkpatrickCooldownSchedule_energy_275698-RGBA_r_channel.png}
+      \caption{275698}
       \label{pic:abkühl_schritt_2}
     \end{subfigure}
     \begin{subfigure}[b]{0.2\linewidth}
-        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_3_quasieqstepKirkpatrickCooldownSchedule_energy_253330-RGBA_r_channel.png}
-         \caption{253330}
+        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_2_quasieqstepKirkpatrickCooldownSchedule_energy_174766-RGBA_r_channel.png}
+         \caption{174766}
          \label{pic:abkühl_schritt_3}
       \end{subfigure}
 
@@ -294,23 +279,23 @@ akzeptiert werden.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     \begin{subfigure}[b]{0.2\linewidth}
-        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_4_quasieqstepKirkpatrickCooldownSchedule_energy_185486-RGBA_r_channel.png}
-        \caption{185486}
+        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_3_quasieqstepKirkpatrickCooldownSchedule_energy_86398-RGBA_r_channel.png}
+        \caption{86398}
         \label{pic:abkühl_schritt_4}
     \end{subfigure}
     \begin{subfigure}[b]{0.2\linewidth}
-        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_5_quasieqstepKirkpatrickCooldownSchedule_energy_136464-RGBA_r_channel.png}
-        \caption{136464}
+        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_4_quasieqstepKirkpatrickCooldownSchedule_energy_52550-RGBA_r_channel.png}
+        \caption{52550}
         \label{pic:abkühl_schritt_5}
     \end{subfigure}
     \begin{subfigure}[b]{0.2\linewidth}
-        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_11_quasieqstepKirkpatrickCooldownSchedule_energy_29068-RGBA_r_channel.png}
-         \caption{29068}
+        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_8_quasieqstepKirkpatrickCooldownSchedule_energy_19742-RGBA_r_channel.png}
+         \caption{19742}
          \label{pic:abkühl_schritt_6}
     \end{subfigure}
     \begin{subfigure}[b]{0.2\linewidth}
-        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_20_quasieqstepKirkpatrickCooldownSchedule_energy_13070-RGBA_r_channel.png}
-        \caption{13070}
+        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_15_quasieqstepKirkpatrickCooldownSchedule_energy_12056-RGBA_r_channel.png}
+        \caption{12056}
         \label{pic:abkühl_schritt_7}
     \end{subfigure}
 
@@ -319,24 +304,24 @@ akzeptiert werden.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     \begin{subfigure}[b]{0.2\linewidth}
-        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_49_quasieqstepKirkpatrickCooldownSchedule_energy_8688-RGBA_r_channel.png}
-        \caption{8688}
+        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/intermediate_applied_permutation_19_quasieqstepKirkpatrickCooldownSchedule_energy_10714-RGBA_r_channel.png}
+        \caption{10714}
         \label{pic:abkühl_schritt_8}
     \end{subfigure}
     \begin{subfigure}[b]{0.2\linewidth}
         \begin{picture}(120,120)
-            \put(35,50){\Huge $\approx$}
+            \put(25,50){\Huge $\rightarrow$}
         \end{picture}
     \end{subfigure}
     \begin{subfigure}[b]{0.2\linewidth}
-        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/next_dither_LDR_RGBA_0_64_r_channel.png}
-        \caption{\nameref{ch:Content1:sec:blue noise} t+1}
+        \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Annealing/difference.png}
+        \caption{Differenz}
         \label{pic:dither1}
     \end{subfigure}
+    \end{tcolorbox}
     \caption{Der Prozess des Abkühlens mit jeweiliger Auswertung der Energiefunktion \ref{eq:pixel energy function}}
     \label{fig:annelaing animated}
-    
-  \end{figure}
+\end{figure}
 
   Nachdem wir in Bild 
   \begin{itemize}
@@ -354,8 +339,7 @@ akzeptiert werden.
                                     die gesamte Textur zu erkennen. Mit abnehmender Energie in den Bildern   
     \item[\ref{pic:abkühl_schritt_5}-\ref{pic:abkühl_schritt_8}] lassen wir sehr wenige/keine schlechteren Zustände mehr zu und gelangen durch 
                                     lokale Permutationen zu einer immer exakteren Verteilung.  
-    \item[\ref{pic:dither1}] Zieltextur; so soll unsere Textur t nach angewandter 
-                              Permutation aussehen. 
+    \item[\ref{pic:dither1}] Pixelweise Differenz mit Zieltextur; Durchschnittlicher Fehler/Pixel von $\approx 2,6$ 
   \end{itemize}
 
 

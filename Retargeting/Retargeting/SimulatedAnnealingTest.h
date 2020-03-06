@@ -6,10 +6,10 @@
 class SimulatedAnnealingTest {
 public: 
 
-	  SimulatedAnnealingTest(const char* filename, int image_width, int image_height);
+	  SimulatedAnnealingTest(const char* filename, int image_width, int image_height, int number_steps);
 	  SimulatedAnnealingTest();
-	  void testPermutation();
-	  Image applyPermutationToOriginal(Image original, Image applied_perm);
+	  void testPermutation(float& progress);
+	  //Image applyPermutationToOriginal(Image original, Image applied_perm);
 
 private:
 
