@@ -1,4 +1,4 @@
-Um die Lichtverteilung in einer Szene vollständig zu beschreiben langt folgende Gleichung \ref{eq:Allgemeine Rendergleichung} \cite{kajiya1986rendering}
+Um die Lichtverteilung in einer Szene vollständig zu beschreiben, langt folgende Gleichung \ref{eq:Allgemeine Rendergleichung} \cite{kajiya1986rendering}
 
 \begin{tcolorbox}[rightrule=3mm, rounded corners=east]
     \begin{equation}\label{eq:Allgemeine Rendergleichung}
@@ -10,7 +10,7 @@ Die Strahldichte eines Punktes x in Richtung $\omega$ wird dabei maßgeblich von
 $L_{\epsilon}(x,\omega)$ sowie dem Integral über die positive Hemisphäre (für reine Reflexion; komplettes Sphärenintegral für zusätzliche 
 Transmissionen) bestimmt. Dabei bestimmt das Integral jedwedes auf den Punkt x einfallendes Licht aus der Richtung $\omega_{i}$ und berechnet 
 anhand der Reflektanzverteilungsfunktion $f_{r}$ seinen jeweiligen reflektierten Anteil in Richtung $\omega$. Da die Berechnung eines Integrals
-über eine Hemisphäre unpraktikabel, wird zur photorealistischen Bildsynthese in aktuellen Anwendungen \cite{PathTracingInProduction} eine 
+über eine Hemisphäre unpraktikabel ist, wird zur photorealistischen Bildsynthese in aktuellen Anwendungen \cite{PathTracingInProduction} eine 
 Monte-Carlo Integration angewandt.
 
 \subsection{Monte-Carlo-Integration}
@@ -45,13 +45,13 @@ Das Path Tracing ist eine Methode, die die Lichtverteilung durch Approximation d
 Zur Näherung werden hier nun für jeden Pixel mehrere Strahlen verschossen, welche jeweils nur einen Folgestrahl haben. Daher entstehen
 mit dieser Methode pro Pixel mehrere einzelne Lichtpfade.
 Der hier verwendete \nameref{ch:Content1:sec:Path Tracer} wurde mit dem Real-Time Rendering Framework Falcor \cite{Benty18} umgesetzt.
-Die pro Pixel verschossenen zufälligen Strahlen, ergeben hierbei den \textit{Samplewert}. Mehrere
+Die pro Pixel verschossenen zufälligen Strahlen ergeben hierbei den \textit{Samplewert}. Mehrere
 unkorrelierte zufällige Folgen ergeben somit die schlussendliche Pixelfarbe. Der Fehler, der 
 bei der zugrundeliegenden Monte-Carlo Integration (siehe Gleichung \ref{eq:Monte-Carlo}) entsteht, 
 wird klassischerweiße über Varianzreduktionsmethoden wie \textit{Importance Sampling}
 angegangen.
 Das Ziel hierbei ist es, die Fehlerverteilung im Bildraum zu beeinflussen, da diese für die wahrnehmbare 
-visuelle Qualität des Bildes verantwortlich ist. Diese Arbeit wird vom diesen Vorgehen abweichen und direkt im 
+visuelle Qualität des Bildes verantwortlich ist. Diese Arbeit wird von diesem Vorgehen abweichen und direkt im 
 Bildraum eine zeitlich stabile \nameref{ch:Content1:sec:blue noise}
 Fehlerverteilung durch korrelierte Folgen erreichen. Die positive Auswirkung von \nameref{ch:Content1:sec:blue noise} 
 Verteilungen auf die visuelle Qualität wurde bereits ausgiebig erforscht \cite{3288}.
@@ -98,7 +98,7 @@ der Beginn (Generierung eines Strahles) der neuen Pipeline durch den programmier
 \end{tcolorbox}
 
 Mit Hilfe der Methode \colorbox{blue}{\textcolor{white}{TraceRay}} werden dann zur Beleuchtungsberechnung 
-die Strahlen verschossen. Damit diese Methode richtig arbeiten kann übergeben wir neben unseren Strahl 
+die Strahlen verschossen. Damit diese Methode richtig arbeiten kann, übergeben wir neben unserem Strahl 
 unter Anderem  unsere Szene inklusive Beschleunigungsstruktur, rayflags 
 (beeinflussen Transparaenz, Culling, Abbruch)\cite{RayFlags} und einen payload.
 Mit dem \textit{$payload_t$} können wir einen struct mit Informationen jedem einzelnen Strahl mitgeben.
@@ -124,7 +124,7 @@ Anfangswerte verwenden um z.B eine weiteren Strahlenschuss in einem Any-Hit Shad
 solange die mit übergebene Rekursionstiefe in unserem payload eingehalten wird.  
 
 \textbf{Intersection shader} führt die Schnittberechnungen durch.
-Haben wir eine Szene, welche aus ausschließlich Dreiecken besteht, können wir
+Haben wir eine Szene, welche ausschließlich aus Dreiecken besteht, können wir
 die auf Hardware standardmäßig gelieferte Implementierung übernehmen. 
 Optionale Berechnungen für andere Geometrie können hier implementiert werden.
 Bei einem gefundenen nähsten Schnittpunkt einer durchsichtigen Oberfläche wird der 
@@ -212,7 +212,7 @@ Eine klassisches Formulierung \cite{UE4TAA} haben wir beispielhaft wie im Folgen
 \end{algorithm}
 \end{tcolorbox}
 
-Diese klassische Formulierung, verletzt unsere Annahme für die Quantilfunktion \ref{eq:inverse Funktion}
+Diese klassische Formulierung verletzt unsere Annahme für die Quantilfunktion \ref{eq:inverse Funktion}
 in den \nameref{ch:Content2:sec:a Posteriori}-Bedingungen des zugrundeliegenden Algorithmus. 
 Denn durch diese Akkumulation bestimmt nicht mehr allein der Anfangswert die Pixelfarbe!
 

@@ -47,12 +47,12 @@ Zuallererst befindet man sich im \nameref{pic:Rasterisierungsablauf}(siehe Abbil
 Unbeeinflussbar vom Programmierer werden hier Daten berechnet, welche zur Pixeleinfärbung
 benötigt werden. Beim darauffolgenden Schritt, dem \textit{Triangle Traversal}, werden die \textit{Fragmente} erzeugt, indem diejenigen Pixel bestimmt werden, welche innerhalb des Dreiecks liegen. 
 Als freiprogrammierbare Shadereinheit können im \textit{Fragment Shader} vom Programmierer weitere Berechnungen vorgenommen werden. Dazu zählt eine pro Pixel Beleuchtungsberechnung (Phong Shading).
-Das abschließende nicht komplett freiprogrammierbare, aber hoch konfigurierbare \textit{Merging} hat eine besondere Aufgabe beim Abspeichern der Farbe für
+Das abschließende, nicht komplett freiprogrammierbare, aber hoch konfigurierbare \textit{Merging} hat eine besondere Aufgabe beim Abspeichern der Farbe für
 jeden Pixel im color Buffer. Zur Bestimmung der aktuellen Farbe wird nun auch das Problem der Sichtbarkeit von Objekten angegangen. Zu den Depth-Werten, welche wir als Tiefe beim 
 Viewport Transform gespeichert haben, gibt es hier Zugang zum Depth-Buffer. Dieser Depth-Buffer speichert anfangs überall den Wert inf. Beim Durchlauf der Geometrie wird nun jeweils für jeden Pixel,
-der die Geometrie bedeckt der color und depth buffer wie folgt aktualisiert: Ist der verglichene Tiefenwert des vom Objekt erzeugten Fragment kleiner als der Wert
+der die Geometrie bedeckt, der color und depth buffer wie folgt aktualisiert: Ist der verglichene Tiefenwert des vom Objekt erzeugten Fragment kleiner als der Wert
 im Tiefenbuffer für den betroffenen Pixel, so schreibt er diesen Tiefenwert in den Depth-Buffer und auch der color Buffer mit der Fragmentfarbe aktualisiert.
-Falls nicht passiert nichts und das nächste Primitiv bzw. Fragment wird betrachtet. 
+Falls nicht, passiert nichts und das nächste Primitiv bzw. Fragment wird betrachtet. 
 Eine Möglichkeit ist die Ausgabe, bestehend aus Lichter, Normalen, Tiefenwert, Farbe (sog. \textit{GBuffer}) in mehrere verschiedene \textit{render targets} zu schreiben. 
 Wir werden zur Beschleunigung der globalen Beleuchtung durch einen \nameref{ch:Content1:sec:Path Tracer} einen solchen durch Rasterisierung berechneten \textit{GBuffer}(siehe auch
 Abschnitt \ref{pic:Render Graph}) verwenden.

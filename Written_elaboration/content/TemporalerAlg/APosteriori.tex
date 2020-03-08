@@ -74,11 +74,11 @@ eines erzeugten Pixels.
 
 \textbf{Fazit}: Betrachte nun blue noise verteilte Zahlenfolge $d_{ij}$, die zum Erzeugen eines Pixelwertes herangezogen wird (wir erhalten eine solche 
 Zahlenfolge für jeden Pixel mit gekachelter \nameref{ch:Content1:sec:blue noise}) Textur über das Bild). Unsere Quantilfunktion 
-$H_{ij}^{-1}(x)$ ist monoton (da Sie die Inverse einer Wahrscheinlichkeitsfunktion). Monotone Funktionen erhalten die Verteilung ihres
+$H_{ij}^{-1}(x)$ ist monoton (da sie die Inverse einer Wahrscheinlichkeitsfunktion ist). Monotone Funktionen erhalten die Verteilung ihres
 Integranden (siehe vorherige Arbeiten zu \glqq blue noise dithering sampling\grqq{} \cite[Seite 3]{hal02158423} \cite{georgiev2016blue}). 
 Damit sind nun auch die daraus entstehenden Pixel wie eine \nameref{ch:Content1:sec:blue noise} verteilt! 
 
-Anmerkung: Das Dies nur theoretisch möglich und gerade für Echtzeitanwendungen nicht umsetzbar ist, 
+Anmerkung: Da dies nur theoretisch möglich und gerade für Echtzeitanwendungen nicht umsetzbar ist, 
 folgt eine praktikable Formulierung!
 
 \label{subsec:Praktische_Durchführung}
@@ -92,8 +92,8 @@ Algorithmus zu garantieren, eine nicht zu schnelle Bewegung der Kamera (siehe Ab
 Wir werden zur praktischen Durchführbarkeit die Anzahl an Pixelschätzung auf eine feste Zahl reduzieren (weitere Untersuchungen dazu siehe Abschnitt \ref{subsec:Blockgröße}).
 Die Pixelwerte eines Pixels (i,j) werden wir in jedem Schritt durch seine benachbarten Pixelwerte approximieren. Diese Approximation macht bei kohärenten 
 Bildbereichen Sinn. Diese Vorraussetzung passt allerdings sowieso sehr gut zu der im Abschnitt \ref{ch:Content1:sec:blue noise sampling} besprochenen nötigen 
-Bildkohärenz um ein gutes Resultat im Dithering zu erreichen. Um die parallele Ausführbarkeit weiterhin zu steigern werden wir außerdem dieses 
-berechnet Histogramm eines Pixels für einen ganzen Block benutzen!
+Bildkohärenz um ein gutes Resultat im Dithering zu erreichen. Um die parallele Ausführbarkeit weiterhin zu steigern, werden wir außerdem dieses 
+berechnete Histogramm eines Pixels für einen ganzen Block benutzen!
 \par
 
 \textbf{Fazit}: Wir teilen das Bild in Blöcken auf, berechnen pro Block ein Histogramm und verwenden es als Schätzung für jeden Pixel.

@@ -2,7 +2,7 @@ Bisherige temporale Lösungsansätze zur Steigerung der optisch wahrnehmbaren Qu
 lieferten gute Ergebnisse. Wir nehmen hier diesen Ansatz auf um den Algorithmus noch zeitlich stabiler zu machen.
 \par
 
-Allerdings: Um die a Posteriori Annahmen und die Vorbedingungen der Quantilfunktion \ref{eq:inverse Funktion}
+Allerdings: Um die \nameref{ch:Content2:sec:a Posteriori} Annahmen und die Vorbedingungen der Quantilfunktion \ref{eq:inverse Funktion}
 für unseren Algorithmus zu erfüllen, brauchen wir eine erneute Permutation! Denn durch die Permutation haben wir wieder garantiert, 
 dass je ein Anfangswert $x \in [0,1]$ auf je ein Pixelfarbwert abbgebildet wird.
 Die Arbeit \cite[S.9/10]{hal02158423} motivierte diese Verbesserung. Da unser Algorithmus davon ausgeht, dass zwei aufeinanderfolgende Bilder gleiche Pixelwerte 
@@ -18,11 +18,11 @@ anwenden, baut auf aktuelle verbreitete Techniken des TAA auf \cite{INSIDETAA}.
 \end{figure}
 
 Wir benutzen die berechneten Tiefenwerte aus dem GBuffer (siehe auch unserer \nameref{pic:Render Graph}) und die jeweiligen 
-View-Projektion-Matrizen der Kameras, um herauszufinden welche Koordinaten der jeweilige Anfangswert von Bild t im Bild t+1 
+View-Projektion-Matrizen der Kameras, um herauszufinden, welche Koordinaten der jeweilige Anfangswert von Bild t im Bild t+1 
 haben würde aufgrund der Drehung.
 \par 
 
-Wir berechnen nun anhand der aktuell berechneten projizierten Position den jeweiligen Verschiebungsvektor jedes Einzelnen 
+Wir berechnen nun anhand der aktuell berechneten projizierten Position den jeweiligen Verschiebungsvektor jedes einzelnen 
 Pixels und damit der neuen Position des jeweiligen Anfangswertes. Eine anschließende Mittelung über das gesamt Bild verschafft 
 uns einen durchschnittlichen Bewegungsvektor. Dieser fließt nun in die Auswahl einer extra berechneten Retarget-Textur, die diese
 Bewegung berücksichtigt. In einem zusätzlichen Vorberechnungsschritt wurden eine Vielzahl von Bewegungsvektoren auf die 

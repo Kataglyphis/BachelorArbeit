@@ -44,5 +44,11 @@
 \contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}mit zusätzlichen temporalen Projizieren}}}{43}{section*.43}%
 \contentsline {section}{\numberline {3.4}Rechenaufwand und Speicherbedarf}{45}{section.3.4}%
 \contentsline {chapter}{\numberline {4}Implementierung}{47}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Zukünftige Arbeit}{48}{section.4.1}%
-\contentsline {chapter}{Literaturverzeichnis}{49}{section*.46}%
+\contentsline {subsection}{\numberline {4.0.1}Falcor}{47}{subsection.4.0.1}%
+\contentsline {subsection}{\numberline {4.0.2}Simulated Annealing}{47}{subsection.4.0.2}%
+\contentsline {subsection}{\numberline {4.0.3}Anfangswerte}{47}{subsection.4.0.3}%
+\contentsline {subsection}{\numberline {4.0.4}STB}{47}{subsection.4.0.4}%
+\contentsline {subsection}{\numberline {4.0.5}Programmiersprache}{47}{subsection.4.0.5}%
+\contentsline {subsection}{\numberline {4.0.6}Visualisierungen}{47}{subsection.4.0.6}%
+\contentsline {chapter}{\numberline {5}Zukünftige Arbeit}{48}{chapter.5}%
+\contentsline {chapter}{Literaturverzeichnis}{49}{section*.47}%

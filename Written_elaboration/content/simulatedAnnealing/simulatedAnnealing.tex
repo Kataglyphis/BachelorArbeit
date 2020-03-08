@@ -1,12 +1,12 @@
 Für unseren temporalen Algorithmus (siehe Abschnitt \ref{ch:Temporaler Algorithmus}) gibt es einen wichtigen \nameref{ch:Content2:sec:Retargeting} Schritt.
 In diesem Schritt wird eine vorberechnete Textur verwendet. Diese speichert eine Permutation, die unsere \nameref{ch:Content1:sec:blue noise} Textur vom Bild t in eine
-\nameref{ch:Content1:sec:blue noise} Textur von Bild t+1 umwandelt. Diese Permutation wird dann auf die Startwerte angewandt bevor das nächste Bild t+1 erzeugt wird 
+\nameref{ch:Content1:sec:blue noise} Textur von Bild t+1 umwandelt. Diese Permutation wird dann auf die Startwerte angewandt, bevor das nächste Bild t+1 erzeugt wird 
 (siehe auch Übersicht \ref{pic:Render Graph}). Dadurch werden die \nameref{ch:Content1:sec:blue noise} Umverteilungen der \nameref{ch:Content2:sec:Sorting} Phase akkumuliert. 
 All diese Vorberechnungen sind möglich, da wir mit \textit{\glqq nur\grqq} quasi-zufälligen Sequenzen (siehe Abschnitt \ref{ch:Content1:sec:Quasi-Zufallsfolgen}) arbeiten.
-Das andauernde Permutieren von Pixeln bis zu einem Punkt, an dem ein Bild aussieht wie das Andere ist ein klassisches TSP, wofür es aktuell keine effiziente optimale Lösungsmethode gibt.
-Da wir nur an einer sehr guten Lösung, nahe dem globalen Optimum, interessiert sind greifen wir wie in \cite{hal02158423} vorgeschlagen auf das heuristische Approximationsverfahren,
+Das andauernde Permutieren von Pixeln bis zu einem Punkt, an dem ein Bild aussieht wie das andere, ist ein klassisches TSP, wofür es aktuell keine effiziente optimale Lösungsmethode gibt.
+Da wir nur an einer sehr guten Lösung, nahe dem globalen Optimum, interessiert sind, greifen wir wie in \cite{hal02158423} vorgeschlagen auf das heuristische Approximationsverfahren,
 dem Simulated Annealing, zu.
-Aus der Metallurgie kommend fand das Simulated Annealing seine Verwendung in die Algorithmik. So fand man ursprünglich bei erhitztem Metall heraus, dass man durch einen 
+Aus der Metallurgie kommend fand das Simulated Annealing seine Verwendung in der Algorithmik. So fand man ursprünglich bei erhitztem Metall heraus, dass man durch einen 
 kontrollierten Abkühlprozess den einzelnen Atomen ausreichend Zeit geben kann eine feste Ordnung und damit feste Kristalle zu bilden. Diese Ordnung entspricht der 
 physikalischen Vorstellung eines energetisch günstigsten Zustandes.
 
@@ -40,7 +40,7 @@ Da wir in jedem Schritt nur eine Permutation anwenden, vereinfacht sich unsere E
 
 \newpage
 Mit dem definierten Ziel, die Energiefunktion \ref{eq:pixel energy function} zu minimieren und damit einen energieärmeren Zustand anzunehmen,
-wenden wir in jedem Schritt eine Permutation an. Das physikalische Vorbild, das metallurgische Abkühlen, orientiert sich an 
+wenden wir in jedem Schritt einer Permutation an. Das physikalische Vorbild, das metallurgische Abkühlen, orientiert sich an 
 der Boltzmann-Statistik \ref{eq:Boltzmann-Statistik}.
 
 \begin{figure}[H]
@@ -84,13 +84,13 @@ in der Abbildung \ref{fig:Exponentialfunktion} eine ebenfalls abnehmende Wahrsch
 zuzulassen, um somit lokale Maxima zu verlassen. Dies geschieht bei höheren Temperaturen häufiger wohingegen bei niederen Temperaturen ein gefundenes Maxima
 seltener verlassen wird. Höhere Deltas führen passender Weise zu einem höheren negativen Exponenten und damit eine geringere Akzeptanz als Energiezustände, die nur bisschen 
 drüber liegen. Die Wahl des Abkühlvorgangs (also das Updaten der Temperatur über die Zeit) ist problemspezifisch \cite[S. 9]{Kirkpatrick671}. Dabei muss der Abkühlvorgang derart
-gewählt werden, sodass kein bloßer Greedy-Algorithmus entsteht und man in einem lokalen Maxima stecken bleibt aber auch kein wahlloses Vertauschen entsteht.
+gewählt werden, sodass kein bloßer Greedy-Algorithmus entsteht und man in einem lokalen Maxima stecken bleibt, aber auch kein wahlloses Vertauschen entsteht.
 Diese Vorgänge habe ich im Abschnitt \ref{subsec:Abkühlfunktion} untersucht.\par
 Wir stellen fest, dass sich durch die physikalische Analogie der Akzeptanzwahrscheinlichkeitsfunktion \ref{eq:Akzeptanzwahrscheinlichkeitsfunktion} zur 
 Boltzmann-Statistik \ref{eq:Boltzmann-Statistik} Erkenntnisse des zweiten Hauptsatz der Thermodynamik übertragen. Dieser besagt vereinfacht, 
 dass mit Energiezunahme eine Zunahme an möglichen Zustandsübergängen einhergeht.
 
-Nun haben wir alle Begriffe zusammen um einen ersten Blick auf den Algorithmus zu werfen.
+Nun haben wir alle Begriffe zusammen, um einen ersten Blick auf den Algorithmus zu werfen.
 \begin{tcolorbox}
 \begin{algorithm}[H]
     \caption{\textbf{Simulated Annealing}}
@@ -142,7 +142,7 @@ Für einige Abkühlvorgänge wird es sinnvoll sein, erst nach einer bestimmten A
 \end{tcolorbox}
 
 In \cite{hajek1988cooling} haben wir eine Abkühlfunktion gegeben, welche durch ihre Eigenschaft,
-stets gegen das globale Maximum zu konvergieren, eine Funktion die unter allen Anderen heraussticht.
+stets gegen das globale Maximum zu konvergieren, unter allen Anderen heraussticht.
 In Abbildung \ref{pic:Cool Down Comparisson} angedeutet und in weiteren Beobachtungen bestätigt hat sich 
 allerdings auch ihre sehr langsame Konvergenz.
 Sie hat sich daher für diese Aufgabenstellung als nicht nützliche Abkühlfunktion herausgestellt.
@@ -156,7 +156,7 @@ Sie hat sich daher für diese Aufgabenstellung als nicht nützliche Abkühlfunkt
 
 Typische Werte für $\alpha$ liegen zwischen 0.8 and 0.99. Wie man in Abbildung \ref{pic:Cool Down Comparisson}
 erkennen kann, ist das Problem der linearen Abkühlung die extreme Langsamkeit.
-Anstatt nur am Anfang schlechtere Energiezustände zuzulassen um lokale Minima zu verlassen 
+Anstatt nur am Anfang schlechtere Energiezustände zuzulassen, um lokale Minima zu verlassen, 
 geht der Algorithmus durch diesen Abkühlvorgang in ein bloßes randomisiertes Tauschen von Pixeln über.
 
 \textbf{Exponential}
@@ -171,7 +171,7 @@ Ist nach \cite{Kirkpatrick671} eine für viele Fälle zutreffende und zu wählen
 Wobei $\alpha \in [0.8; 0.99]$.
 
 
-Wie in Abbildung \ref{pic:Cool Down Comparisson} zu erkennen haben wir hier hingegen zu den vorherigen Vorgängen
+Wie in Abbildung \ref{pic:Cool Down Comparisson} zu erkennen, haben wir hier im Vergleich zu den vorherigen Vorgängen
 eine deutlich schnellere Abkühlung. Jedoch lässt sich hier das andere Extrem, im Vergleich zum bloßen randomisierten
 Vertauschen von Pixelpaaren, erkennen: Wir verharren viel zu kurz in einem Temperaturzustand, geraten daher schnell 
 in einen \textit{greedy} Zustand und manche Bildbereiche bleiben in einem lokalen Minima hängen.
@@ -184,7 +184,7 @@ in einen \textit{greedy} Zustand und manche Bildbereiche bleiben in einem lokale
     \end{equation}
 \end{tcolorbox}
 
-Wie in Abbildung \ref{pic:Cool Down Comparisson} zu erkennen haben wir hier hingegen zu ersten beiden Vorgängen
+Wie in Abbildung \ref{pic:Cool Down Comparisson} zu erkennen, haben wir hier im Vergleich zu den ersten beiden Vorgängen
 eine deutlich schnellere Abkühlung. Hat jedoch das selbe Problem wie die exponentielle \ref{eq:Exponential} Variante.
 
 \begin{figure}[H]
@@ -213,10 +213,10 @@ entschieden und in danach benannt. Die Abkühlfunktion hat hierbei exponentielle
 Wobei wieder $\alpha \in [0.8; 0.99]$ und nach Auflösung der Textur zu wählen ist. Ein anderer Parameter, der nach 
 Auflösung der Textur zu wählen ist, ist das Quasi-Gleichgewicht. Mit dem Quasi-Gleichgewicht lässt sich erreichen, 
 dass jeder Bildabschnitt vor dem jeweiligen Abkühlen jede Temperatur durchläuft und dabei jeden Bildabschnitt davor 
-bewahrt in einen lokalen Minima zu verharren.
+bewahrt in einem lokalen Minima zu verharren.
 So lässt sich in einem direkten Vergleich mit dem bloßen exponentiellen Abkühlen in Abbildung 
 \ref{pic:Cool Down Comparisson} erkennen, das wir anfangs langsamer abkühlen und immer wieder auch 
-höhere Energiezustände bewusst zu lassen.
+höhere Energiezustände bewusst zulassen.
 \vfill
 
 \subsection{Visualisierung}
@@ -230,7 +230,7 @@ höhere Energiezustände bewusst zu lassen.
 
 Die Abbildung \ref{pic:kirkpatrick energie verlauf} verdeutlicht, dass wir durch unser Abkühlen insgesamt die 
 Energiefunktion \ref{eq:pixel energy function} minimieren. Dabei akzeptieren wir in Abhängigkeit unserer Schritte,
-anfangs sehr häufig und am Ende immer seltener, neben günstigeren Zuständen, auch energetische Höherwertigere.
+anfangs sehr häufig und am Ende immer seltener, neben günstigeren Zuständen, auch energetische Höherwertige.
 
 \begin{figure}[H]
     \centering
@@ -243,7 +243,7 @@ Wir wählen die Starttemperatur (siehe Abbildung \ref{pic:Temperaturverlauf kirk
 anfangs alle Permutationen akzeptiert werden. Dazu muss die 
 Akzeptanzwahrscheinlichkeitsfunktion \ref{eq:Akzeptanzwahrscheinlichkeitsfunktion} auch die energetisch
 ungünstigste Permutation akzeptieren. Minimiere Argument der Exponentialfunktion \ref{fig:Exponentialfunktion}.
-In unseren konkreten Fall: Maximales $\Delta_{Energy}$ bei einem 8-Bit Graustufenbild 2*255 = 510. Jeweilige 
+In unserem konkreten Fall: Maximales $\Delta_{Energy}$ bei einem 8-Bit Graustufenbild 2*255 = 510. Jeweilige 
 Anpassungen müssen bei anderer Auflösung vorgenommen werden.
 
 \begin{figure}[H]
@@ -354,9 +354,9 @@ schlechtere Akzeptanz höherer Fehler hindeutet.
   Nachdem wir in Bild 
   \begin{itemize}
     \item[\ref{pic:dither0}] unsere \nameref{ch:Content1:sec:blue noise} Textur zum Zeitpunkt t=0 
-                              haben können wir in dem Bild
+                              haben, können wir in dem Bild
     \item[\ref{pic:abkühl_schritt_2}] typische Clusterbildungen erkennen, die die Folge von 
-                                    uniformen randomisierten Vertauschungen sind. Diese hatte wir bereits 
+                                    uniformen randomisierten Vertauschungen sind. Diese hatten wir bereits 
                                     im Abschnitt \ref{ch:Content1:sec:blue noise} und \ref{ch:Content1:sec:Quasi-Zufallsfolgen}
                                     besprochen. Diese Vertauschungen sind die Folge der hohen Temperatur, welche wiederrum zur Folge haben, 
                                     dass alle Vertauschungen von der Funktion \ref{eq:Akzeptanzwahrscheinlichkeitsfunktion} angenommen werden. 

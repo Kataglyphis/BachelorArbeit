@@ -18,14 +18,14 @@ Hierfür verwenden wir die in \cite{Pet17} vorgestellten Texturen, welche anhand
 
 \subsection{Eigenschaften}
 
-Um die Eigenschaften der Texturen zu untersuchen wurden korrespondierende Spektren zu den Texturen mit Hilfe von 
+Um die Eigenschaften der Texturen zu untersuchen, wurden korrespondierende Spektren zu den Texturen mit Hilfe von 
 \cite{JCrystalSoft2018} erstellt und miteingebunden.
 
 \subsubsection{Uniformität}
 \label{ch:Content1:sec:blue noise:Uniformität}
 
 Für die Wahrscheinlichkeitsfunktion, dass
-ein Pixel mit Grauwert p bei der Generierung ausgeben wird  ($\textit{p} \in [0,1]$) muss gelten: 
+ein Pixel mit Grauwert p bei der Generierung ausgeben wird  ($\textit{p} \in [0,1]$), muss gelten: 
 
 \begin{equation}\label{eq:Uniformitätsgleichung}
     P(n \leq p) = p
@@ -133,7 +133,7 @@ und Größe der Textur schnell anwächst, deutlich höher (siehe auch \cite{blue
 Es empfiehlt sich daher für den temporalen Algorithmus in Kapitel \ref{ch:Temporaler Algorithmus} eine 
 kleinere Textur zu verwenden.
 Dies hat außerdem den Vorteil, eine bessere Ausnutzung des kleinen aber schnellen Cachespeichers zu gewährleisten.
-Aufgrund des Aufbaus von aktueller Grafikhardware (siehe \cite{turingarchitecture}) wollen wir diese Textur
+Aufgrund des Aufbaus von aktueller Grafikhardware (siehe \cite{turingarchitecture}), wollen wir diese Textur
 soweit oben wie möglich in der Cachehierarchie halten.(L1 96KByte, L2 6MByte).
 
 \label{pic:tiled blue noise}
@@ -155,7 +155,7 @@ soweit oben wie möglich in der Cachehierarchie halten.(L1 96KByte, L2 6MByte).
 Betrachtet man die Abbildung \ref{pic:tiled blue noise} lässt sich der blue noise Charakter anhand des
 wenigen niederen Frequenzanteils erkennen. Wiederholungen sind in der Zeitdomäne schwerer zu erkennen. 
 Obwohl Sie in der Frequenzdomäne erkennbar sind und unsere \nameref{ch:Content1:sec:blue noise:Isotropie}
-(teilweise) aufheben. Um dieses Problem zu umgehen werden wir mit Hilfe von \nameref{ch:Content1:sec:Quasi-Zufallsfolgen}
+(teilweise) aufheben. Um dieses Problem zu umgehen, werden wir mit Hilfe von \nameref{ch:Content1:sec:Quasi-Zufallsfolgen}
 auf diese Textur zugreifen und die Isotropie (teilweise) wiederherstellen.
 Daher können wir hier folgendes Fazit ziehen: Regelmäßige Kachelung einer kleineren \nameref{ch:Content1:sec:blue noise} Textur 
 über das gesamte Bild liefert eine gute \nameref{ch:Content1:sec:blue noise} Verteilung bei vertretbaren Rechenaufwand und guter 

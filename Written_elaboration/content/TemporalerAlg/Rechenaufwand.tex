@@ -1,6 +1,6 @@
 Da unsere Ressourcen beschränkt sind und trotz Hardwarebeschleunigung immer noch viel Rechenzeit eines Frames auf die globale Beleuchtung entfällt,
 ist es von Bedeutung, dass unser temporaler Algorithmus keinen signifikanten zusätzlichen Aufwand schafft.
-Mit einem Großteil der Rechenzeit, der auf die Berechnung des GBuffers und der globalen Beleuchtung fällt sind wir hingegen 
+Mit einem Großteil der Rechenzeit, der auf die Berechnung des GBuffers und der globalen Beleuchtung fällt, sind wir hingegen 
 mit den Schritten Sorting und Retargeting (+ temporal Reprojection) sowohl auf  CPU als auf GPU Seite im niedrigen Prozentbereich.
 Dabei wurde hier eine Blockgröße (siehe Abschnitt \ref{subsec:Blockgröße}) von B = 64 verwendet. Bei einer kleineren Blockgröße von B = 16, welche 
 bereits gute Ergebnisse liefert, reduziert sich der Aufwand auf ein Viertel. 
@@ -37,14 +37,14 @@ bereits gute Ergebnisse liefert, reduziert sich der Aufwand auf ein Viertel.
 \end{figure}
 
 Um zu einem Ergebnis wie in Figur \ref{fig:annelaing animated}(siehe Abschnitt \nameref{ch:Content2:sec:Simulated Annealing}) zu kommen, braucht man $\approx17$ Minuten. 
-Diese Berechnung liefert ein gutes Ergebnis bei akzeptablen Rechenaufwand. Für einen Fehler von 9444 (minimale Verbesserung) sind bereits $\approx35$ Minuten 
+Diese Berechnung liefert ein gutes Ergebnis bei einem akzeptablen Rechenaufwand. Für einen Fehler von 9444 (minimale Verbesserung) sind bereits $\approx35$ Minuten 
 nötig.\par 
 Die langen Ausführungszeiten auf CPU-Seite (siehe GBuffer, GGXGlobalIllumination) sind dabei mit dem Warten auf Resultate der GPU Seite zu erklären. 
 
 %%%%%%%%%%%%%%%%%%%
 %%%%% storage usage
 %%%%%%%%%%%%%%%%%%%
-Wie speichern unsere Anfangswerte in einer 1920x1080 32-Bit-Textur. Die \nameref{ch:Content1:sec:blue noise} Textur innerhalb des \nameref{ch:Content2:sec:Sorting} Schrittes 
+Wir speichern unsere Anfangswerte in einer 1920x1080 32-Bit-Textur. Die \nameref{ch:Content1:sec:blue noise} Textur innerhalb des \nameref{ch:Content2:sec:Sorting} Schrittes 
 ist eine 64x64 32-Bit Textur. Die Retarget-Textur benutzt eine 64x64 16-Bit Textur. Das temporale Projizieren benutzt 11 solcher Texturen.
 \begin{figure}[H]
     \begin{tcolorbox}[tabularx={X|Y},title=Speicherbedarf, colbacktitle=yellow!50!red, coltitle=white]

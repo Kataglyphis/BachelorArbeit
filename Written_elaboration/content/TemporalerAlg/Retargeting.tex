@@ -1,4 +1,4 @@
-Bevor die Anfangswerte zur globalen Beleuchtung benutzt werden (siehe auch \nameref{pic:Render Graph}), durchlaufen Sie nach dem Sortieren 
+Bevor die Anfangswerte zur globalen Beleuchtung benutzt werden (siehe auch \nameref{pic:Render Graph}), durchlaufen sie nach dem Sortieren 
 (siehe \ref{ch:Content2:sec:Sorting}) das Retargeting. Der Sinn liegt hierbei beim Vertauschen der Anfangswerte, sodass Sie 
 verteilt sind wie $BlueNoise_{t+1}$. Aufgrund dessen ergibt sich eine bessere Aufsummierung der
 \nameref{ch:Content1:sec:blue noise} Fehlerverteilungen über die ersten paar Bilder.
@@ -63,20 +63,20 @@ verteilt sind wie $BlueNoise_{t+1}$. Aufgrund dessen ergibt sich eine bessere Au
 \end{figure}
 
 Die Abbildung \ref{fig:VergleichRetargetSorting} verdeutlicht die Bedeutung des Retargeting 
-Schrittes. Sie zeigen dieselben Ausschnitte eines homogenen Szenenausschnitts bzw. die korrespondierende 
+Schrittes. Sie zeigt dieselben Ausschnitte eines homogenen Szenenausschnitts bzw. die korrespondierende 
 Spektra über die ersten drei Bilder. Die erste Reihe mit den Bildern
 
 \begin{itemize}
     \item[a.) - d.)] zeigt auch nach dem dritten Bild keine \nameref{ch:Content1:sec:blue noise} Eigenschaften.
                      Dies liegt an der geringen Blockgröße des Sortierschrittes 
                      (in Abschnitt \ref{subsec:Blockgröße} bereits besprochen). Das Histogramm, Wahrscheinlichkeitsfunktion
-                     aller möglichen Pixelwerte, wird mit nur vier Werten approximiert. Diese sehr wage Approximation 
+                     aller möglichen Pixelwerte, wird mit nur vier Werten approximiert. Diese sehr vage Approximation 
                      hat zur Folge, dass die Sortierung einer randomisierten Folge entspricht. Deshalb sind im Bildraum
                      (siehe Bild \ref{pic:sortier_screen_t2}) viele Cluster und die white noise Eigenschaften 
                      (siehe Bild \ref{pic:white noise} im Spektrum zu erkennen.
                      \par 
                     
-    \item[e.) - h.)] Benutzt man hingegen wie in diesen Bildern zu dem wagen Sortierschritt mit Blockgröße B=2 noch den Retargetingschritt, so akkumulieren sich die 
+    \item[e.) - h.)] Benutzt man hingegen wie in diesen Bildern zu dem vagen Sortierschritt mit Blockgröße B=2 noch den Retargetingschritt, so akkumulieren sich die 
                     Umverteilungen aus dem Sortierschritt besser. Trotz der geringen Blockgröße, die nicht reicht, damit nach einem 
                     Bild \nameref{ch:Content1:sec:blue noise} Eigenschaften auftreten und aufgrund der Nutzung einer neuen 
                     Textur (siehe auch Abschnitt \ref{ch:Content1:sec:Quasi-Zufallsfolgen}) innerhalb eines jeden 
@@ -88,7 +88,7 @@ Spektra über die ersten drei Bilder. Die erste Reihe mit den Bildern
 \end{itemize}
 
 \textbf{Anmerkung}: Das gewünschte Ergebnis stellt sich allerdings nur bei einem Sortierschritt mit ausreichender Blockgröße und 
-anschließenden Retargeting ein (wie bei unserer Screenshotreihe.
+anschließenden Retargeting ein (wie bei unserer Screenshotreihe).
 
 An sich ist der Schritt eine bloße Anwendung einer Permutation wie im Algorithmus \ref{alg:retargetingAlg}.
 
@@ -106,7 +106,7 @@ An sich ist der Schritt eine bloße Anwendung einer Permutation wie im Algorithm
 \end{algorithm}
 \end{tcolorbox}
 
-Da die Berechnung der Permutation \glqq on-the-fly\grqq{} zu rechenintensiv, verwenden wir eine durch 
+Da die Berechnung der Permutation \glqq on-the-fly\grqq{} zu rechenintensiv ist, verwenden wir eine durch 
 \nameref{ch:Content2:sec:Simulated Annealing} berechnete Textur.
 Wir greifen auf unsere beiden vorberechneten Texturen quasi-zufällig (siehe \ref{ch:Content1:sec:Quasi-Zufallsfolgen})
 zu. Dabei wird der Permutationswert auf die jeweilige Position des Anfangswertes addiert.
@@ -293,5 +293,5 @@ Zur Verdeutlichung der Bedeutung des zusätzlichen Retargeting zum vorherigen So
 
 Über die Zeit lässt sich der zusätzliche Permutationschritt gut verdeutlichen. Das Spektrum des siebten gerenderten Bildes 
 hat beim bloßen Sortieren (Bild \ref{fig:VergleichSorting}) keinen so starken Kontrast wie das Spektrum mit 
-zusätzlichem Retargeting (Bild \ref{fig:VergleichRetargeting}). Die blue noise Umverteilungen Akkumulieren nicht so gut 
+zusätzlichem Retargeting (Bild \ref{fig:VergleichRetargeting}). Die blue noise Umverteilungen akkumulieren nicht so gut 
 und führen zu dem verwischten Charakter. 

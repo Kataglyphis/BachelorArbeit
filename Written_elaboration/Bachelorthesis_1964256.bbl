@@ -66,6 +66,12 @@ I.~Georgiev and M.~Fajardo, ``Blue-noise dithered sampling,'' in \emph{ACM
   SIGGRAPH 2016 Talks}.\hskip 1em plus 0.5em minus 0.4em\relax ACM, 2016,
   p.~35.
 
+\bibitem[gnu]{gnuplot}
+\BIBentryALTinterwordspacing
+``gnuplot,'' very good for visualizing 3d-data. [Online]. Available:
+  \url{http://www.gnuplot.info/}
+\BIBentrySTDinterwordspacing
+
 \bibitem[Haj88]{hajek1988cooling}
 B.~Hajek, ``Cooling schedules for optimal annealing,'' \emph{Mathematics of
   operations research}, vol.~13, no.~2, pp. 311--329, 1988.
@@ -108,6 +114,12 @@ B.~Kraft, ``Aufbau turing architektur,'' blogpost, 2018. [Online]. Available:
 \bibitem[Krc06]{krcadinac2006new}
 V.~Krcadinac, ``A new generalization of the golden ratio,'' \emph{Fibonacci
   Quarterly}, vol.~44, no.~4, p. 335, 2006.
+
+\bibitem[mat]{matplotlibwrapper}
+\BIBentryALTinterwordspacing
+``matplotlib,'' good for 2D-plots; 3d plots to buggy! [Online]. Available:
+  \url{https://github.com/lava/matplotlib-cpp}
+\BIBentrySTDinterwordspacing
 
 \bibitem[Pad02]{vanderlaanplasticnumber}
 \BIBentryALTinterwordspacing
