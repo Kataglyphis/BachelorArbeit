@@ -53,24 +53,38 @@ mit neuen Technologien des \textit{Real-Time Raytracing} austauscht.
 
 \end{itemize}
  
-
-
 \vfill
 %% ==============
 \chapter{Grundlagen}
 \label{ch:Grundlagen}
 %1-2 Sätze zur Einleitung
-Zum Verständnis des temporalen Algorithmus und dessen Steigerung der visuellen Bildqualität durch eine zeitlich stabile \nameref{ch:Content1:sec:blue noise} Fehlerverteilung
-im Bildraum im Kapitel \ref{ch:Temporaler Algorithmus} werden wir uns im Folgenden, die hier verwendete grundlegende Technik zur globalen
-Beleuchtung, den \nameref{ch:Content1:sec:Path Tracer}) und dessen Benutzung von quasi-Zufallszahlen, Eigenschaften der \nameref{ch:Content1:sec:blue noise}, 
-und das \nameref{ch:Content2:sec:Simulated Annealing}, anschauen.
+Um den temporalen Algorithmus für eine zeitlich stabile \nameref{ch:Content1:sec:blue noise} Fehlerverteilung im Bildraum umzusetzen, werden wir uns 
+die zugrundliegende Bildsynthesetechnik, den \nameref{ch:Content1:sec:Path Tracer}, anschauen. Dazu benötigen wir Kenntnisse aus der Wahrscheinlichkeitstheorie, welche 
+uns zusätzliche Einblicke auf von uns gewählte Texturzugriffe verschafft. Zugriffe auf vorberechnete Texturen, welche wir zum Teil in einer eigenen Umsetzung des
+Simulted Annealing erstellen.
+
 %% ==============
 
 %% ===========================
+\section{Zufall}
+\label{ch:Content1:sec:Zufall}
+\input{content/Zufall/Zufall.tex}
+%% ===========================
+
+%% ===========================
+\newpage
+\section{Simulated Annealing}
+\label{ch:Content2:sec:Simulated Annealing}
+\input{content/simulatedAnnealing/simulatedAnnealing.tex}
+%% ===========================
+
+%% ===========================
+\newpage
 \section{Rasterisierung}
 \label{ch:Content1:sec:Rasterisierung}
 \input{content/PathTracer/Rasterisierung.tex}
 %% ===========================
+
 
 %% ===========================
 \newpage
@@ -79,8 +93,9 @@ und das \nameref{ch:Content2:sec:Simulated Annealing}, anschauen.
 %%%%%%%%%%%%%%%%%%%%%%%
 %% Einleitung 1/2 Sätze
 %%%%%%%%%%%%%%%%%%%%%%%
+\vspace*{2cm}
 Ein verbreiteter Ansatz zur physikalisch korrekten Simulation des Lichttransportes ist die Pfadverfolgung. Im Folgenden wird auf die Funktionweise, welche wir 
-zur globalen Beleuchtung innerhalb des \nameref{pic:Render Graph}(siehe Abbildung \ref{pic:Render Graph}) benutzen, eingegangen. Die vollständige 
+zur globalen Beleuchtung innerhalb des Render Graphen (siehe Abbildung \ref{pic:Render Graph}) benutzen, eingegangen. Die vollständige 
 Beschreibung des Lichttransportes in einer Szene hebt bisherige Limitierungen der \nameref{ch:Content1:sec:Rasterisierung} auf. 
 \par
 \input{content/PathTracer/pathTracer.tex}
@@ -103,19 +118,10 @@ Beschreibung des Lichttransportes in einer Szene hebt bisherige Limitierungen de
 
 %% ===========================
 \newpage
-\section{Quasi-Zufallsfolgen}
-\label{ch:Content1:sec:Quasi-Zufallsfolgen}
-\input{content/QuasiZufallsfolgen/quasiRandomSequences.tex}
+\section{Render Graph}
+\label{ch:Content2:sec:Render Graph}
+\input{content/RenderGraph.tex}
 %% ===========================
-
-
-%% ===========================
-\newpage
-\section{Simulated Annealing}
-\label{ch:Content2:sec:Simulated Annealing}
-\input{content/simulatedAnnealing/simulatedAnnealing.tex}
-%% ===========================
-
 
 %% content.tex
 %%
@@ -127,17 +133,12 @@ Beschreibung des Lichttransportes in einer Szene hebt bisherige Limitierungen de
 \input{content/TemporalerAlg/general.tex}
 %% ==============
 
-
-
-
 %% ===========================
 \newpage
 \section{Sorting}
 \label{ch:Content2:sec:Sorting}
 \input{content/TemporalerAlg/Sorting.tex}
 %% ===========================
-
-
 
 %% ===========================
 \newpage
@@ -160,6 +161,19 @@ Beschreibung des Lichttransportes in einer Szene hebt bisherige Limitierungen de
 \input{content/TemporalerAlg/Rechenaufwand.tex}
 %% ===========================
 
+%% ===========================
+\newpage
+\chapter{Implementierung}
+\label{ch:Implementierung}
+\input{content/Implementierung/Implementierung.tex}
+%% ===========================
+
+%% ===========================
+\newpage
+\section{Zukünftige Arbeit}
+\label{ch:Content3:sec:ZukünftigeArbeit}
+\input{content/FutureWork/FutureWork.tex}
+%% ===========================
 
 
 

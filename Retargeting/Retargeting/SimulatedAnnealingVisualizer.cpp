@@ -45,14 +45,33 @@ void SimulatedAnnealingVisualizer::visualizeEnergyOverSteps(Energy energy) {
 
 void SimulatedAnnealingVisualizer::visualizeAcceptanceProbabilities(Deltas deltas, Probabilities probs) {
     
+    std::fstream myplot;
+    int size = deltas.size() - 1;
+
+    myplot.open("plot.dat", std::fstream::in | std::fstream::out | std::fstream::trunc);
+    
+    //myplot << "set xrange [0:" << size << "]" << std::endl;
+    //myplot << "set yrange [0:" << size << "]" << std::endl;
+    //myplot << "set dgrid3d 30,30" << std::endl;
+    //myplot << "set hidden3d" << std::endl;
+    //myplot << "set ticslevel 0" << std::endl;
+    //myplot << "splot 1:2:3 with lines" << std::endl;
+    myplot << "X Y Z" << std::endl;
+    for (int i = 0; i < deltas.size(); i++) {
+        myplot << i << " " << deltas[i] << " "<< probs[i] <<std::endl;
+    }
+    myplot.close();
+
+    /**
+    plt::backend("WXAgg");
     // Prepare data.
     std::vector<std::vector<double>> x, y, z;
     for (double i = 0; i < deltas.size(); i += 1) {
         std::vector<double> x_row, y_row, z_row;
         for (double j = 0; j < deltas.size(); j += 1) {
             x_row.push_back(i);
-            y_row.push_back(deltas.at(j));
-            z_row.push_back(probs.at(j));
+            y_row.push_back(j);
+            z_row.push_back(::std::sin(::std::hypot(i, j)));
         }
         x.push_back(x_row);
         y.push_back(y_row);
@@ -82,8 +101,9 @@ void SimulatedAnnealingVisualizer::visualizeAcceptanceProbabilities(Deltas delta
    // plt::legend();
     // Save the image (file format is determined by the extension)
     std::stringstream ss2;
-    ss2 << this->folder_energy << "Acceptance_Probabilities_over_time_" /*<< size*/ << "_steps_" << schedule->getName() << ".png";
+    ss2 << this->folder_energy << "Acceptance_Probabilities_over_time_" << size << "_steps_" << schedule->getName() << ".png";
     //plt::save(ss2.str());
+    */
 }
 
 void SimulatedAnnealingVisualizer::visualizeTemperatureOverSteps(Temperatures temperatures) {

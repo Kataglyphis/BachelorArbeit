@@ -46,7 +46,7 @@ nötig.
 Wie speichern unsere Anfangswerte in einer 1920x1080 32-Bit-Textur. Die \nameref{ch:Content1:sec:blue noise} Textur innerhalb des \nameref{ch:Content2:sec:Sorting} Schrittes 
 ist eine 64x64 32-Bit Textur. Die Retarget-Textur benutzt eine 64x64 16-Bit Textur. Das temporale Projizieren benutzt 11 solcher Texturen.
 \begin{figure}[H]
-    \begin{tcolorbox}[tabularx={X|Y},title=Speicherbedarf, colbacktitle=red, coltitle=white]
+    \begin{tcolorbox}[tabularx={X|Y},title=Speicherbedarf, colbacktitle=yellow!50!red, coltitle=white]
         \textbf{Pipelinestage}  &  \textbf{Speicherbedarf/KB} \\\hline\hline
         Sorting                 &  16,1                     \\\hline
         Retargeting             &  12,1                    \\\hline
@@ -57,5 +57,7 @@ ist eine 64x64 32-Bit Textur. Die Retarget-Textur benutzt eine 64x64 16-Bit Text
     \caption{Speicherdarf}
 \end{figure}
 
-
+Die Texturen für das Retargeting sowie für das temporale Projizieren wurden unkomprimiert verwendet. Dabei würde dies ein weiteres hohes
+Speichereinsparpotenzial bieten. Bei den 8 Bit pro Farbkanal stehen uns 256 Werte zum Abspeichern bereit. Dabei benutzen wir im Retarget-Schritt 
+nur sieben und dem Projizieren nur zehn.
     

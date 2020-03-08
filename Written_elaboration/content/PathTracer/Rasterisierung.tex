@@ -26,9 +26,9 @@ Aufgrund dieser Vorgehensweise spricht man auch von einem objektbasierten Bilder
     \end{algorithm}
 \end{tcolorbox}
 
-Die bereits angesprochene Effizienz hat der Rasterisierungsalgorithmus \ref{alg:RasterizationAlg} der rechengünstigen Operation des Projizierens und Herausfinden 
-der Pixelzugehörigkeit zu einem Dreieck zu verdanken. Desweiteren lassen sich verschiedene sehr effiziente Verbesserungen vornehmen, z.B. lassen sich Bounding-Boxen
-verwenden, womit sich die untersuchten Pixel für jedes Dreieck (stark) reduzieren lassen. 
+Die bereits angesprochene Effizienz hat der Rasterisierungsalgorithmus \ref{alg:RasterizationAlg} der rechengünstigen Operation des Projizierens und der 
+einfachen Umsetzung eines Pixelzugehörigkeitstests für ein Dreieck zu verdanken. Desweiteren lassen sich verschiedene sehr effiziente Verbesserungen vornehmen, 
+z.B. lassen sich Bounding-Boxen verwenden, womit sich die untersuchten Pixel für jedes Dreieck (stark) reduzieren lassen. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%% wie Rasterisierung funktioniert 
@@ -42,8 +42,9 @@ verwenden, womit sich die untersuchten Pixel für jedes Dreieck (stark) reduzier
     \label{pic:Rasterisierungsablauf}
 \end{figure}
 
-        
-Zuallererst befindet man sich im \nameref{pic:Rasterisierungsablauf} beim \textit{Triangle Setup}. Unbeeinflussbar vom Programmierer werden hier Daten berechnet, welche zur Pixeleinfärbung
+\vspace*{3cm}        
+Zuallererst befindet man sich im \nameref{pic:Rasterisierungsablauf}(siehe Abbildung \ref{pic:Rasterisierungsablauf}) beim \textit{Triangle Setup}. 
+Unbeeinflussbar vom Programmierer werden hier Daten berechnet, welche zur Pixeleinfärbung
 benötigt werden. Beim darauffolgenden Schritt, dem \textit{Triangle Traversal}, werden die \textit{Fragmente} erzeugt, indem diejenigen Pixel bestimmt werden, welche innerhalb des Dreiecks liegen. 
 Als freiprogrammierbare Shadereinheit können im \textit{Fragment Shader} vom Programmierer weitere Berechnungen vorgenommen werden. Dazu zählt eine pro Pixel Beleuchtungsberechnung (Phong Shading).
 Das abschließende nicht komplett freiprogrammierbare, aber hoch konfigurierbare \textit{Merging} hat eine besondere Aufgabe beim Abspeichern der Farbe für
@@ -55,7 +56,7 @@ Falls nicht passiert nichts und das nächste Primitiv bzw. Fragment wird betrach
 Eine Möglichkeit ist die Ausgabe, bestehend aus Lichter, Normalen, Tiefenwert, Farbe (sog. \textit{GBuffer}) in mehrere verschiedene \textit{render targets} zu schreiben. 
 Wir werden zur Beschleunigung der globalen Beleuchtung durch einen \nameref{ch:Content1:sec:Path Tracer} einen solchen durch Rasterisierung berechneten \textit{GBuffer}(siehe auch
 Abschnitt \ref{pic:Render Graph}) verwenden.
-\par
+\vfill
 
 \subsection{Beschränktheit}
 \label{sec:Rasterisierung:Beschränktheit}
@@ -93,5 +94,5 @@ Hardwareleistung). Einzig direkte Beleuchtung sowie Post-Processing Effekte lauf
 
 Wir wollen diesen Ansatz in dieser Arbeit aufnehmen. Berechnung des \textit{GBuffer}'s mit Hilfe von Rasterisierung und globale Beleuchtung durch 
 einen \nameref{ch:Content1:sec:Path Tracer} erreichen. Da trotz hardwarebeschleunigtes Strahlenverschießen unsere Anzahl an Strahlen beschränkt ist, 
-beschäftigen wir uns innerhalb dieser Arbeit mit einem \nameref{ch:Temporaler Algorithmus}, der die visuelle Qualität nicht durch Verschießen von mehr Strahlen, 
-sondern durch eine zeitlich stabile \nameref{ch:Content1:sec:blue noise} Fehlerverteilungen im Bildraum erreicht.
+beschäftigen wir uns innerhalb dieser Arbeit mit einem temporalen Algorithmus (siehe Kapitel \ref{ch:Temporaler Algorithmus}), der die visuelle Qualität nicht 
+durch Verschießen von mehr Strahlen, sondern durch eine zeitlich stabile \nameref{ch:Content1:sec:blue noise} Fehlerverteilungen im Bildraum erreicht.

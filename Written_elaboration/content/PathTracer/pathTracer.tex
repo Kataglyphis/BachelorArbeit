@@ -11,7 +11,7 @@ $L_{\epsilon}(x,\omega)$ sowie dem Integral über die positive Hemisphäre (für
 Transmissionen) bestimmt. Dabei bestimmt das Integral jedwedes auf den Punkt x einfallendes Licht aus der Richtung $\omega_{i}$ und berechnet 
 anhand der Reflektanzverteilungsfunktion $f_{r}$ seinen jeweiligen reflektierten Anteil in Richtung $\omega$. Da die Berechnung eines Integrals
 über eine Hemisphäre unpraktikabel, wird zur photorealistischen Bildsynthese in aktuellen Anwendungen \cite{PathTracingInProduction} eine 
-Monte-Carlo Integration gemacht.
+Monte-Carlo Integration angewandt.
 
 \subsection{Monte-Carlo-Integration}
 Mit der Monte Carlo Integration approximieren wir die Rendergleichung \ref{eq:Allgemeine Rendergleichung} bei gegebener Dimensionalität n des Renderintegrals 
@@ -25,6 +25,7 @@ Mit der Monte Carlo Integration approximieren wir die Rendergleichung \ref{eq:Al
 
 Dabei wird das Integral \ref{eq:Allgemeine Rendergleichung} approximiert, indem wir die Funktion $f(x)$ an N zufälligen, uniform-verteilten
 Stellen auswerten. 
+\newpage 
 
 \subsection{Funktionsweise}
 
@@ -40,12 +41,11 @@ Das Path Tracing ist eine Methode, die die Lichtverteilung durch Approximation d
     \label{pic::GrundkonzeptPathTracing}
 \end{figure}
 
+\vspace*{3cm} 
 Zur Näherung werden hier nun für jeden Pixel mehrere Strahlen verschossen, welche jeweils nur einen Folgestrahl haben. Daher entstehen
 mit dieser Methode pro Pixel mehrere einzelne Lichtpfade.
 Der hier verwendete \nameref{ch:Content1:sec:Path Tracer} wurde mit dem Real-Time Rendering Framework Falcor \cite{Benty18} umgesetzt.
-
-Klassischerweiße werden hierbei pro Pixel mehrere zufällige Strahlen verschossen, welche jeder 
-für sich einen \textit{Samplewert} ergibt und zur Farbgebung des Pixels beiträgt. Mehrere
+Die pro Pixel verschossenen zufälligen Strahlen, ergeben hierbei den \textit{Samplewert}. Mehrere
 unkorrelierte zufällige Folgen ergeben somit die schlussendliche Pixelfarbe. Der Fehler, der 
 bei der zugrundeliegenden Monte-Carlo Integration (siehe Gleichung \ref{eq:Monte-Carlo}) entsteht, 
 wird klassischerweiße über Varianzreduktionsmethoden wie \textit{Importance Sampling}
@@ -55,8 +55,8 @@ visuelle Qualität des Bildes verantwortlich ist. Diese Arbeit wird vom diesen V
 Bildraum eine zeitlich stabile \nameref{ch:Content1:sec:blue noise}
 Fehlerverteilung durch korrelierte Folgen erreichen. Die positive Auswirkung von \nameref{ch:Content1:sec:blue noise} 
 Verteilungen auf die visuelle Qualität wurde bereits ausgiebig erforscht \cite{3288}.
+\vfill
 
-\par 
 \subsection{DirectX Raytracing}
 
 \begin{figure}[H]
@@ -66,9 +66,9 @@ Verteilungen auf die visuelle Qualität wurde bereits ausgiebig erforscht \cite{
     \label{pic:DirectXRaytracingPipeline}
 \end{figure}
 
-Das hardwareunterstützte Raytracing erhielt Einzug in moderne Programmierschnittstellen(DirectX, Vulkan) und wird 
-hier anhand von DirectX erläutert, welche auch für die \textit{Global Illumination} innerhalb des 
-Render Graphs \ref{pic:Render Graph} benutzt wurde. 
+Das hardwareunterstützte Raytracing erhielt Einzug in moderne Programmierschnittstellen (DirectX, Vulkan) und wird 
+hier anhand von DirectX erläutert, welche auch für die \textit{Global Illumination} innerhalb des Render Graphs \ref{pic:Render Graph}
+benutzt wurde. 
 
 In Abbildung \ref{pic:DirectXRaytracingPipeline} und  Algorithmus \ref{alg:Path Tracer Konzept} lässt sich
 der Beginn (Generierung eines Strahles) der neuen Pipeline durch den programmierbaren
@@ -81,7 +81,8 @@ der Beginn (Generierung eines Strahles) der neuen Pipeline durch den programmier
         \State [shader(\dq raygeneration \dq)]
         \State launchIndex = DispatchRaysIndex().xy;
         \For{(int i = 0; i < numberOfRays;i++)}
-            \State float shadowRayMult = TraceRay(gRtScene,\par
+            %\paragraph{\hfill\colorbox{blue}{\textcolor{white}{nur Sorting}}}
+            \State float shadowRayMult = \colorbox{blue}{\textcolor{white}{TraceRay}}(gRtScene,\par
             RAY\_FLAG\_ACCEPT\_FIRST\_HIT \_AND\_END\_SEARCH |\par
             RAY\_FLAG\_SKIP\_CLOSEST\_HIT\_SHADER,\par
             0xFF, 0, hitProgramCount, 0, ray, payload);
@@ -96,7 +97,7 @@ der Beginn (Generierung eines Strahles) der neuen Pipeline durch den programmier
 \end{algorithm}
 \end{tcolorbox}
 
-Mit Hilfe der Methode \textbf{TraceRay()} werden dann zur Beleuchtungsberechnung 
+Mit Hilfe der Methode \colorbox{blue}{\textcolor{white}{TraceRay}} werden dann zur Beleuchtungsberechnung 
 die Strahlen verschossen. Damit diese Methode richtig arbeiten kann übergeben wir neben unseren Strahl 
 unter Anderem  unsere Szene inklusive Beschleunigungsstruktur, rayflags 
 (beeinflussen Transparaenz, Culling, Abbruch)\cite{RayFlags} und einen payload.
@@ -119,7 +120,7 @@ RAY\_FLAG\_SKIP\_CLOSEST\_HIT\_SHADER setzen, um unnötige
 Beleuchtungsberechnungen und weitere Schnittpunktberechnungen zu umgehen und mit einem Bit als payload 
 die Sichtbarkeit zur Lichtquelle mitzugeben.
 Mit diesem beispielhaften payload können wir die Farbe akkumulieren, unsere  
-seeds verwenden um z.B eine weiteren Strahlenschuss in einem Any-Hit Shader zu verwirklichen,  
+Anfangswerte verwenden um z.B eine weiteren Strahlenschuss in einem Any-Hit Shader zu verwirklichen,  
 solange die mit übergebene Rekursionstiefe in unserem payload eingehalten wird.  
 
 \textbf{Intersection shader} führt die Schnittberechnungen durch.
@@ -154,6 +155,7 @@ Der \textbf{miss shader} wird immer dann ausgeführt, wenn ein Strahl die
 Szenengeometrie nicht schneidet. Kann also für das Nachschauen in einer 
 Environment Map verwendet werden. 
 
+\newpage
 Im Folgenden Algorithmus \ref{alg:Path Tracer Konzept} wird nochmal vereinfacht die Funktionsweise 
 eines Path Tracers erläutert, wobei die entsprechenden programmierbaren Shader von DirectX 
 im jeweiligen Codeabschnitt markiert sind.
@@ -185,24 +187,33 @@ im jeweiligen Codeabschnitt markiert sind.
 \end{algorithm}
 \end{tcolorbox}
 
-\subsection{Render Graph}
+\subsection{Temporale Lösungsansätze}
 
-\begin{figure}[H]
-    \begin{tcolorbox}
-    \centering
-    \def\svgwidth{\columnwidth}
-    \import{content/PathTracer/Bilder/}{render_graph.pdf_tex}
-    \end{tcolorbox}
-    \caption{Render Graph}
-    \label{pic:Render Graph}
-\end{figure}
+Das Problem der globalen Beleuchtung durch physikalisch basierter Monte-Carlo Integration und gleichzeitiges Erreichen der 
+Echtzeitanforderung von 30$\frac{Bilder}{s}$ ist ein bekanntes Problem. Dazugehörige bekannte Lösungsansätze 
+ziehen bereits temporale Lösungsansätze z.B. temporales Akkumulieren \cite{schied2017spatiotemporal} in Betracht. 
+\par 
 
-Für jeden Bilderzeugungsvorgang werden die in Abbildung \ref{pic:Render Graph} angegebenen Schritte von links nach rechts 
-durchlaufen.
+Eine klassisches Formulierung \cite{UE4TAA} haben wir beispielhaft wie im Folgenden angewandt:
 
+\begin{tcolorbox}
+  \begin{algorithm}[H]
+    \caption{Beispielhafte Akkumulation}
+    \begin{algorithmic}[1]
+        \State Texture2D current\_frame;
+        \State RWTexture2D accumulation\_buffer;
+        \State float4 current\_color = current\_frame[pixel\_pos];
+        \State float4 prev\_color = accumulation\_buffer[pixel\_pos];
+        \State accumulation\_buffer[pixel\_pos] = 
+        \State (frame\_count * prev\_color + current\_color) / (frame\_count + 1);
+    \end{algorithmic}
+    \label{alg:TemporalAccumulation}
+\end{algorithm}
+\end{tcolorbox}
 
-
-
+Diese klassische Formulierung, verletzt unsere Annahme für die Quantilfunktion \ref{eq:inverse Funktion}
+in den \nameref{ch:Content2:sec:a Posteriori}-Bedingungen des zugrundeliegenden Algorithmus. 
+Denn durch diese Akkumulation bestimmt nicht mehr allein der Anfangswert die Pixelfarbe!
 
 
 

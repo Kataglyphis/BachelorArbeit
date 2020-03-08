@@ -430,16 +430,16 @@ bool SimulatedAnnealing::acceptanceProbabilityFunction(const float energy_old_co
 		std::cout << "Decision Probability is " << prob << "\n";
 
 		#endif // _DEBUG
-
-		
-		//for plotting reasons
 		this->deltas.push_back(delta);
-		this->probs.push_back((int)(prob * 100));
+		this->probs.push_back((int)(prob * 100));		
+
 
 		if (prob > currentRandomNumber) {
 			result = true;
+		//for plotting reasons
 		}
 	}
+
 
 	return result;
 }

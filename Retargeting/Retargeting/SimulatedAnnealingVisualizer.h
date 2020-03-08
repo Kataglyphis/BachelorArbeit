@@ -1,10 +1,15 @@
 #pragma once
 #include "matplotlib/matplotlibcpp.h"
+
 #include <map>
 #include <vector>
 #include <cmath>
 #include <sstream>
 #include <string>
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+#include <fstream>
 
 #include "AnnealingSchedule.h"
 #include "Hajek.h"

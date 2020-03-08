@@ -278,7 +278,7 @@ int main(int, char**)
             ImGui::Text("");
             ImGui::Text("Simulated Annealing for calculate retarget texture");
             if (!started_calculation) {
-                ImGui::SliderInt("# of steps retarget texture", number_of_steps, 100, 3000000);
+                ImGui::SliderInt("# of steps retarget texture", number_of_steps, 100, 500000);
                 if (ImGui::Button("Start calculate retarget texture with correspondig visualization!")) {
                        started_calculation = true;
                        calc_perm = thread(calculate_retarget_texture, std::ref(progress), *number_of_steps);
