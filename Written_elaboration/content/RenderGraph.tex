@@ -9,4 +9,12 @@
 \end{figure}
 
 Für jeden Bilderzeugungsvorgang werden die in Abbildung \ref{pic:Render Graph} angegebenen Schritte von links nach rechts 
-durchlaufen.
+durchlaufen. Zu Beginn wird die Berechnung eines \textit{GBuffers} vorgenommen und berechnete Normalen, Positionen etc. 
+an die Beleuchtungsstufe weitergegeben. Der darauffolgende Retarget-Schritt permutiert die Anfangswerte anhand einer 
+vorberechneten Textur, die sortiert sind wie $\nameref{ch:Content1:sec:blue noise}_{t}$, zu einer Verteilung von 
+$\nameref{ch:Content1:sec:blue noise}_{t+1}$. Bei aktivierter temporaler Projizierung (siehe \ref{ch:Content2:sec:Temporaler Ansatz})
+werden Kamerabewegungen für die Permutation der Anfangswerte berücksichtigt. Die so umsortierten Anfangswerte werden an den 
+\nameref{ch:Content1:sec:Path Tracer} übergeben. Das darauffolgend synthetisierte Bild wird in der Sortierphase zusammen mit einer
+vorberechneten \nameref{ch:Content1:sec:blue noise} Textur verwendet um die Anfangswerte zu einer \nameref{ch:Content1:sec:blue noise}
+Verteilung zu sortieren. Diese sortieren Anfangswerte bilden im nächsten Durchlauf die Eingabe des Permutierens zur nächsten 
+\nameref{ch:Content1:sec:blue noise} Textur.

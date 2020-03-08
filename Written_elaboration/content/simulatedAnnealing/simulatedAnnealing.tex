@@ -38,9 +38,10 @@ Da wir in jedem Schritt nur eine Permutation anwenden, vereinfacht sich unsere E
   \label{eq:vereinfachte pixel energy function}
 \end{figure}
 
+\newpage
 Mit dem definierten Ziel, die Energiefunktion \ref{eq:pixel energy function} zu minimieren und damit einen energieärmeren Zustand anzunehmen,
 wenden wir in jedem Schritt eine Permutation an. Das physikalische Vorbild, das metallurgische Abkühlen, orientiert sich an 
-der Botzmann-Statistik \ref{eq:Boltzmann-Statistik}.
+der Boltzmann-Statistik \ref{eq:Boltzmann-Statistik}.
 
 \begin{figure}[H]
     \begin{tcolorbox}[rightrule=3mm, rounded corners=east]
@@ -122,6 +123,7 @@ Dabei vertauschen wir in jedem Schritt ein Pixelpaar. Die Wahrscheinlichkeitsfun
 gewählten Zustand $s_{new}$ übernehmen. Dabei wird klassischerweise die Akzeptanz von Zuständen mit höherer Energie immer kleiner.(bzw. die 
 Toleranz gegenüber größeren Fehlern im Bezug zur Zeit). Die allgemeine Akzeptanz von Zuständen mit höherer Energie ist dabei von fundamentaler Bedeutung.
 Somit verlassen wir möglicherweiße nur lokale Maxima.
+\newpage
 
 \subsection{Abkühlfunktion}
 \label{subsec:Abkühlfunktion}
@@ -158,14 +160,16 @@ Anstatt nur am Anfang schlechtere Energiezustände zuzulassen um lokale Minima z
 geht der Algorithmus durch diesen Abkühlvorgang in ein bloßes randomisiertes Tauschen von Pixeln über.
 
 \textbf{Exponential}
-Ist nach \cite{Kirkpatrick671} eine für viele Fälle zutreffende und zu wählende Abkühlfunktion.
-Wobei $\alpha \in [0.8; 0.99]$.
 
 \begin{tcolorbox}[rightrule=3mm, rounded corners=east]
     \begin{equation}\label{eq:Exponential}
         f(t) = T_0*pow(\alpha,t)
     \end{equation}
 \end{tcolorbox}
+
+Ist nach \cite{Kirkpatrick671} eine für viele Fälle zutreffende und zu wählende Abkühlfunktion.
+Wobei $\alpha \in [0.8; 0.99]$.
+
 
 Wie in Abbildung \ref{pic:Cool Down Comparisson} zu erkennen haben wir hier hingegen zu den vorherigen Vorgängen
 eine deutlich schnellere Abkühlung. Jedoch lässt sich hier das andere Extrem, im Vergleich zum bloßen randomisierten
@@ -213,12 +217,13 @@ bewahrt in einen lokalen Minima zu verharren.
 So lässt sich in einem direkten Vergleich mit dem bloßen exponentiellen Abkühlen in Abbildung 
 \ref{pic:Cool Down Comparisson} erkennen, das wir anfangs langsamer abkühlen und immer wieder auch 
 höhere Energiezustände bewusst zu lassen.
+\vfill
 
 \subsection{Visualisierung}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Energy_286100_steps_KirkpatrickCooldownSchedule.png}
+    \includegraphics[width=0.8\linewidth]{content/simulatedAnnealing/Bilder/Energy_286100_steps_KirkpatrickCooldownSchedule.png}
     \caption{Energieverlauf beim Simulated Annealing}
     \label{pic:kirkpatrick energie verlauf}
 \end{figure}
@@ -229,7 +234,7 @@ anfangs sehr häufig und am Ende immer seltener, neben günstigeren Zuständen, 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\linewidth]{content/simulatedAnnealing/Bilder/Temperature.png}
+    \includegraphics[width=0.8\linewidth]{content/simulatedAnnealing/Bilder/Temperature.png}
     \caption{Temperaturverlauf}
     \label{pic:Temperaturverlauf kirkpatrick}
 \end{figure}

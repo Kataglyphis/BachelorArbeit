@@ -4,14 +4,16 @@
 \contentsline {section}{\numberline {1.2}Einleitung}{2}{section.1.2}%
 \contentsline {chapter}{\numberline {2}Grundlagen}{3}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Zufall}{3}{section.2.1}%
-\contentsline {subsection}{\numberline {2.1.1}Quasi-Zufallsfolgen}{3}{subsection.2.1.1}%
-\contentsline {subsubsection}{\numberline {2.1.1.1}Goldener Schnitt}{4}{subsubsection.2.1.1.1}%
-\contentsline {subsubsection}{\numberline {2.1.1.2}1-Dimension}{4}{subsubsection.2.1.1.2}%
-\contentsline {subsubsection}{\numberline {2.1.1.3}2-Dimensionen}{4}{subsubsection.2.1.1.3}%
-\contentsline {section}{\numberline {2.2}Simulated Annealing}{5}{section.2.2}%
-\contentsline {subsubsection}{\numberline {2.2.0.1}Algorithmik}{5}{subsubsection.2.2.0.1}%
-\contentsline {subsection}{\numberline {2.2.1}Abkühlfunktion}{7}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Visualisierung}{10}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.1.1}Pseudozufallszahlen}{3}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Uniforme Wahrscheinlichkeitsverteilung}{3}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}Quasi-Zufallsfolgen}{3}{subsection.2.1.3}%
+\contentsline {subsubsection}{\numberline {2.1.3.1}Goldener Schnitt}{4}{subsubsection.2.1.3.1}%
+\contentsline {subsubsection}{\numberline {2.1.3.2}1-Dimension}{4}{subsubsection.2.1.3.2}%
+\contentsline {subsubsection}{\numberline {2.1.3.3}2-Dimensionen}{4}{subsubsection.2.1.3.3}%
+\contentsline {section}{\numberline {2.2}Simulated Annealing}{6}{section.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.0.1}Algorithmik}{6}{subsubsection.2.2.0.1}%
+\contentsline {subsection}{\numberline {2.2.1}Abkühlfunktion}{9}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Visualisierung}{11}{subsection.2.2.2}%
 \contentsline {section}{\numberline {2.3}Rasterisierung}{14}{section.2.3}%
 \contentsline {subsection}{\numberline {2.3.1}Beschränktheit}{16}{subsection.2.3.1}%
 \contentsline {section}{\numberline {2.4}Path Tracer}{18}{section.2.4}%
@@ -37,9 +39,9 @@
 \contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}Sorting + Retargeting}}}{38}{section*.31}%
 \contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}nur Sorting}}}{41}{section*.37}%
 \contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}Sorting + Retargeting}}}{41}{section*.38}%
-\contentsline {section}{\numberline {3.3}Temporaler Ansatz}{42}{section.3.3}%
-\contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}nur Retargeting}}}{44}{section*.42}%
-\contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}mit zusätzlichen temporalen Projizieren}}}{44}{section*.43}%
+\contentsline {section}{\numberline {3.3}Temporales Projizieren}{42}{section.3.3}%
+\contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}nur Retargeting}}}{43}{section*.42}%
+\contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}mit zusätzlichen temporalen Projizieren}}}{43}{section*.43}%
 \contentsline {section}{\numberline {3.4}Rechenaufwand und Speicherbedarf}{45}{section.3.4}%
 \contentsline {chapter}{\numberline {4}Implementierung}{47}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Zukünftige Arbeit}{48}{section.4.1}%
