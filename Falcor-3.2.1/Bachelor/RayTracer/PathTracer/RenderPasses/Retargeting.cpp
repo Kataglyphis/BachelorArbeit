@@ -41,11 +41,16 @@ RenderPassReflection Retargeting::reflect(void) const {
 
     r.addInput("input_depthStencil", "depth and stencil from g-buffer").format(ResourceFormat::D32Float).bindFlags(Resource::BindFlags::DepthStencil);
 
+    r.addInput("input_average_motion_vector", "the average motion vector for reprojection").texture2D(frame_width, frame_height).format(ResourceFormat::RG16Float).bindFlags
+                                                                                                                                                                                                                                (Resource::BindFlags::UnorderedAccess |
+                                                                                                                                                                                                                                 Resource::BindFlags::RenderTarget |
+                                                                                                                                                                                                                                 Resource::BindFlags::ShaderResource).mipLevels(1);
+
     //output
     r.addOutput("output_seed", "the retargeted seed texture outgoing to path tracer").texture2D(seed_texture_width, seed_texture_height).format(ResourceFormat::BGRA8Unorm).bindFlags
-                                                                                                                                                                                                                                                        (Resource::BindFlags::UnorderedAccess |
-                                                                                                                                                                                                                                                       Resource::BindFlags::RenderTarget |
-                                                                                                                                                                                                                                                        Resource::BindFlags::ShaderResource).mipLevels(1);
+                                                                                                                                                                                                                                              (Resource::BindFlags::UnorderedAccess |
+                                                                                                                                                                                                                                              Resource::BindFlags::RenderTarget |
+                                                                                                                                                                                                                                              Resource::BindFlags::ShaderResource).mipLevels(1);
     return r;
 }
 
@@ -137,24 +142,19 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
 void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     //on first run we want it to intialize
     if (!mIsInitialized) {
-
         initialize(pContext, pData);
-
     }
     
     bool camera_moved = hasCameraMoved();
 
     if (camera_moved) {
-        //std::cout << "KameraPosition x = " << mpScene->getActiveCamera()->getPosition().x << "KameraPosition y = " << mpScene->getActiveCamera()->getPosition().y
-        //    << "KameraPosition z = " << mpScene->getActiveCamera()->getPosition().z;
-        //save VP-Matrix of last frame!
+
         mpPrevViewProjMatrix = mpCurrViewProjMatrix;
         mpPrevViewProjMatrixInv = mpCurrViewProjMatrixInv;
         mpCurrViewProjMatrix = mpScene->getActiveCamera()->getViewProjMatrix();
         mpCurrViewProjMatrixInv = mpScene->getActiveCamera()->getInvViewProjMatrix();
-    }
 
-    //if(mpScene) lastCameraPosition = mpScene->getActiveCamera()->getPosition();
+    }
 
     //update frame count
     //it is enough for this application to toroidally switch between 128 frame counts
@@ -167,10 +167,8 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     mpComputeProgVars->getStructuredBuffer("data")[0]["enable_retargeting"] = this->enable_retarget_pass_shader_var;
     mpComputeProgVars->getStructuredBuffer("data")[0]["enable_temporal_reprojection"] = this->enable_temporal_reprojection_pass_shader_var;
     mpComputeProgVars->getStructuredBuffer("data")[0]["camera_moved"] = camera_moved;
-    mpComputeProgVars->getStructuredBuffer("data")[0]["Inverse_VP_prev_frame"] = mpPrevViewProjMatrixInv;
-    mpComputeProgVars->getStructuredBuffer("data")[0]["VP_curr_frame"] = mpCurrViewProjMatrix;
 
-    mpComputeProgVars->setTexture("depth", pData->getTexture("input_depthStencil"));
+    mpComputeProgVars->setTexture("input_average_motion_vector", pData->getTexture("input_average_motion_vector"));
     mpComputeProgVars->setTexture("src_seed_texture", pData->getTexture("input_seed"));
     mpComputeProgVars->setTexture("output_seed_texture", pData->getTexture("output_seed"));
 

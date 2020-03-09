@@ -55,6 +55,12 @@ L.~B. Eric~Heitz, ``Distributing monte carlo errors as a blue noise in screen
   \url{https://hal.archives-ouvertes.fr/hal-02158423/document}
 \BIBentrySTDinterwordspacing
 
+\bibitem[Fre]{FreeImage}
+\BIBentryALTinterwordspacing
+``Freeimage,'' etablierte; ausführlich getestete lib zum Laden/ Speichern von
+  Bildern. [Online]. Available: \url{http://freeimage.sourceforge.net/}
+\BIBentrySTDinterwordspacing
+
 \bibitem[Gam17]{Pet17}
 \BIBentryALTinterwordspacing
 E.~Games, ``The problem with 3d blue noise,'' 2017, \small \texttt{Blogpost}.
@@ -119,6 +125,12 @@ V.~Krcadinac, ``A new generalization of the golden ratio,'' \emph{Fibonacci
 \BIBentryALTinterwordspacing
 ``matplotlib,'' good for 2D-plots; 3d plots to buggy! [Online]. Available:
   \url{https://github.com/lava/matplotlib-cpp}
+\BIBentrySTDinterwordspacing
+
+\bibitem[Mer]{MersenneTwister}
+\BIBentryALTinterwordspacing
+``random numbers through mersenne twister,'' abgerufen 09.03.2020. [Online].
+  Available: \url{https://de.wikipedia.org/wiki/Mersenne-Twister}
 \BIBentrySTDinterwordspacing
 
 \bibitem[Pad02]{vanderlaanplasticnumber}
@@ -200,6 +212,13 @@ R.~A. Ulichney, ``Void-and-cluster method for dither array generation,'' in
 P.~J. Van~Laarhoven and E.~H. Aarts, ``Simulated annealing,'' in
   \emph{Simulated annealing: Theory and applications}.\hskip 1em plus 0.5em
   minus 0.4em\relax Springer, 1987, pp. 7--15.
+
+\bibitem[wan]{wanghash}
+\BIBentryALTinterwordspacing
+``Quick and easy gpu random numbers in d3d11,'' blogpost about random numbers;
+  abgerufen 09.03.2020. [Online]. Available:
+  \url{http://www.reedbeta.com/blog/quick-and-easy-gpu-random-numbers-in-d3d11/}
+\BIBentrySTDinterwordspacing
 
 \bibitem[Whi19]{WhiteNoiseGenerator}
 ``Whitenoisegenerato,'' \url{https://www.cssmatic.com/noise-texture}, 2019,

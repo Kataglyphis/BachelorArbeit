@@ -91,7 +91,7 @@ private:
      //survey variables
      bool mIsInitialized = false;
      bool enableRetargetingPass = false;
-     bool enableTemporalReprojectionPass = false;
+     bool enableTemporalReprojectionPass = true;
 
      //seed texture stats
      uint seed_texture_width = 1920;

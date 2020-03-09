@@ -15,11 +15,14 @@ Warning--to sort, need author, organization, or key in UE4TAA
 Warning--to sort, need author, organization, or key in JCrystalSoft2018
 Warning--to sort, need author, organization, or key in WhiteNoiseGenerator
 Warning--to sort, need author, organization, or key in INSIDETAA
-Warning--to sort, need author, organization, or key in gnuplot
+Warning--to sort, need author, organization, or key in MersenneTwister
+Warning--to sort, need author, organization, or key in wanghash
+Warning--to sort, need author, organization, or key in FreeImage
 Warning--to sort, need author, organization, or key in matplotlibwrapper
+Warning--to sort, need author, organization, or key in gnuplot
 Warning--empty journal in KK02
 Warning--empty journal in hal02158423
 Warning--empty booktitle in Sch19
 
 Done.
-(There were 13 warnings)
+(There were 16 warnings)

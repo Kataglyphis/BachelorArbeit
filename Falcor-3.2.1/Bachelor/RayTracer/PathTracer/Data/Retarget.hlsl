@@ -31,8 +31,8 @@ Texture2D<float4> retarget_texture;
 Texture2D<float4> src_seed_texture;
 //output to render our new frame t + 1 to
 RWTexture2D<float4> output_seed_texture;
-//the previous calculated depth buffer from gbuffer state
-Texture2D<float> depth;
+//texture to get our motion vector from
+RWTexture2D<float2> input_average_motion_vector;
 
 //all the textures for the temporal reprojection!
 Texture2D<float4> retarget_texture0x1;
@@ -58,17 +58,11 @@ struct perFrameData {
     int frame_count; // the actual index of the frame
     uint enable_retargeting; //0: is disabled; 1: retarget seeds
     uint enable_temporal_reprojection; // in addition reprojct seeds!
-    float4x4 Inverse_VP_prev_frame; //the view projection matrix for our previous frame
-    float4x4 VP_curr_frame; //the view projection matrix for our current frame
-    bool camera_moved; //temporal reprojection when camera has moved otherwise not, 0: is disabled, 1: reproject seeds
-    
+    bool camera_moved;
 };
 
 //structure containing our frame data
 StructuredBuffer<perFrameData> data;
-
-//our groupshared difference due to different screen space position attained with temporal reprojection!
-groupshared uint2 difference = uint2(0);
 
 //fetching precomputed permutation and applying it to the seeds
 [numthreads(DIMENSION_SIZE, DIMENSION_SIZE, 1)]
@@ -85,9 +79,9 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     uint frame_height = data[0].frame_height;
     uint enable_retargeting_pass = data[0].enable_retargeting; //0=FALSE, 1=TRUE
     uint enable_temporal_reprojection = data[0].enable_temporal_reprojection;
-    float4x4 Inverse_VP_prev_frame = data[0].Inverse_VP_prev_frame;
-    float4x4 VP_curr_frame = data[0].VP_curr_frame;
     bool camera_moved = data[0].camera_moved;
+
+    float2 prev_calc_sreen_space_distance =input_average_motion_vector[int2(0)];
     
     //This is important for temporel filtering algorithms to reduce errors by averaging them over multiple frames!!
     float g = 1.32471795724474602596f;
@@ -111,97 +105,59 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
         
     } else if ((enable_temporal_reprojection == 1) && (camera_moved == true)) {
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // otherwise we will temporally reproject!!
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
-        float2 screen_space = float2(thread_ID.x / (float) (frame_width), thread_ID.y / (float) (frame_height));
-        float2 clip_coord;
-        clip_coord.x = (screen_space.x * 2.f) - 1.f;
-        clip_coord.y = 1.f - (screen_space.y * 2.f); //cause here is left handed coord system!!!
-
-        float frag_depth = depth[thread_ID];
-        float z = (frag_depth * 2.f) - 1.f;
-        float4 clip_space_pos = float4(clip_coord, z, 1.f);
-
-        //apply projection!!!
-        float4 world_position_normalized = mul(clip_space_pos, Inverse_VP_prev_frame);
-
-        float4 reprojected_position_clip = mul(world_position_normalized, VP_curr_frame);
-        reprojected_position_clip.w = 1.f / reprojected_position_clip.w;
-        
-        float4 coord_clip_space_tplus1;
-        coord_clip_space_tplus1.x = reprojected_position_clip.x * reprojected_position_clip.w;
-        coord_clip_space_tplus1.y = reprojected_position_clip.y * reprojected_position_clip.w;
-        coord_clip_space_tplus1.z = reprojected_position_clip.z * reprojected_position_clip.w;
-
-        uint2 screen_coord;
-        screen_coord.x = ((coord_clip_space_tplus1.x + 1.f) / 2.f) * (frame_width);
-        screen_coord.y = ((coord_clip_space_tplus1.y - 1.f) / -2.f) * (frame_height);
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        int2 diff = screen_coord - thread_ID;
-        diff.x = abs(diff.x);
-        diff.y = abs(diff.y);
-        
-        difference += diff;
-
-        float2 additional_reprojection;
-
-        GroupMemoryBarrierWithGroupSync();
-
-        difference /= BLOCK_SIZE;
+        int2 additional_reprojection = int2(0);
+        int2 difference = prev_calc_sreen_space_distance;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //what happend in this block: we calculate the average screen position difference!
         // thus we choose the retarget value
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         
-        if (vectors_are_equal(difference, uint2(0,0)))
+        if (vectors_are_equal(difference, int2(0,0)))
         {
             additional_reprojection = retarget_texture[bluenoise_index].rg;
         }
-        else if (vectors_are_equal(difference, uint2(0, 1)))
+        else if (vectors_are_equal(difference, int2(0, 1)))
         {
             additional_reprojection = retarget_texture0x1[bluenoise_index].rg;
         }
-        else if (vectors_are_equal(difference, uint2(0, 2)))
+        else if (vectors_are_equal(difference, int2(0, 2)))
         {
             additional_reprojection = retarget_texture0x2[bluenoise_index].rg;
         }
-        else if (vectors_are_equal(difference, uint2(0, 3)))
+        else if (vectors_are_equal(difference, int2(0, 3)))
         {
             additional_reprojection = retarget_texture0x3[bluenoise_index].rg;
         }
-        else if (vectors_are_equal(difference, uint2(1, 0)))
+        else if (vectors_are_equal(difference, int2(1, 0)))
         {
             additional_reprojection = retarget_texture1x0[bluenoise_index].rg;
         }
-        else if (vectors_are_equal(difference, uint2(1, 1)))
+        else if (vectors_are_equal(difference, int2(1, 1)))
         {
             additional_reprojection = retarget_texture1x1[bluenoise_index].rg;
         }
-        else if (vectors_are_equal(difference, uint2(1, 2)))
+        else if (vectors_are_equal(difference, int2(1, 2)))
         {
             additional_reprojection = retarget_texture1x2[bluenoise_index].rg;
         }
-        else if (vectors_are_equal(difference, uint2(1, 3)))
+        else if (vectors_are_equal(difference, int2(1, 3)))
         {
             additional_reprojection = retarget_texture1x3[bluenoise_index].rg;
         }
-        else if (vectors_are_equal(difference, uint2(2, 0)))
+        else if (vectors_are_equal(difference, int2(2, 0)))
         {
             additional_reprojection = retarget_texture2x0[bluenoise_index].rg;
         }
-        else if (vectors_are_equal(difference, uint2(2, 1)))
+        else if (vectors_are_equal(difference, int2(2, 1)))
         {
             additional_reprojection = retarget_texture2x1[bluenoise_index].rg;
         }
-        else if (vectors_are_equal(difference, uint2(2, 2)))
+        else if (vectors_are_equal(difference, int2(2, 2)))
         {
             additional_reprojection = retarget_texture2x2[bluenoise_index].rg;
         }
-        else if (vectors_are_equal(difference, uint2(2, 3)))
+        else if (vectors_are_equal(difference, int2(2, 3)))
         {
             additional_reprojection = retarget_texture2x3[bluenoise_index].rg;
         }
@@ -213,14 +169,6 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
         retarget += int2(round(additional_reprojection * 12.f - float2(6.f)));
         
     }
-
-    //uint2 local_retarget_coordinates = group_thread_ID + retarget + uint2(tile_width, tile_height);
-    //local_retarget_coordinates.x = local_retarget_coordinates.x % tile_width;
-    //local_retarget_coordinates.y = local_retarget_coordinates.y % tile_height;
-
-    //uint2 global_retarget_coordinates = local_retarget_coordinates + DIMENSION_SIZE * (group_ID) + uint2(frame_width, frame_height);
-    //global_retarget_coordinates.x = global_retarget_coordinates.x % frame_width;
-    //global_retarget_coordinates.y = global_retarget_coordinates.y % frame_height;
 
     uint2 global_retarget_coordinates = thread_ID + retarget + uint2(frame_width, frame_height);
     global_retarget_coordinates.x = global_retarget_coordinates.x % frame_width;
@@ -234,10 +182,13 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     
     if ((enable_retargeting_pass == 1) || (enable_temporal_reprojection == 1))
     {
-        output_seed_texture[global_retarget_coordinates] = src_seed_texture[thread_ID];
+        //output_seed_texture[global_retarget_coordinates] = src_seed_texture[thread_ID];
+        output_seed_texture[thread_ID] = float4(prev_calc_sreen_space_distance, 0, 1);
+        
     }
     else
     {
-        output_seed_texture[thread_ID] = src_seed_texture[thread_ID];
+        //output_seed_texture[thread_ID] = src_seed_texture[thread_ID];
+        output_seed_texture[thread_ID] = float4(prev_calc_sreen_space_distance, 0, 1);
     }
 }
