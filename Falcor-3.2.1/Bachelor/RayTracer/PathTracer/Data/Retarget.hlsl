@@ -59,6 +59,7 @@ struct perFrameData {
     uint enable_retargeting; //0: is disabled; 1: retarget seeds
     uint enable_temporal_reprojection; // in addition reprojct seeds!
     bool camera_moved;
+    
 };
 
 //structure containing our frame data
@@ -81,7 +82,7 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     uint enable_temporal_reprojection = data[0].enable_temporal_reprojection;
     bool camera_moved = data[0].camera_moved;
 
-    float2 prev_calc_sreen_space_distance =input_average_motion_vector[int2(0)];
+    float2 prev_calc_sreen_space_distance = input_average_motion_vector[int2(0)]; // / (float2)(frame_width * frame_height);
     
     //This is important for temporel filtering algorithms to reduce errors by averaging them over multiple frames!!
     float g = 1.32471795724474602596f;
@@ -184,11 +185,9 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     {
         //output_seed_texture[global_retarget_coordinates] = src_seed_texture[thread_ID];
         output_seed_texture[thread_ID] = float4(prev_calc_sreen_space_distance, 0, 1);
-        
     }
     else
     {
-        //output_seed_texture[thread_ID] = src_seed_texture[thread_ID];
-        output_seed_texture[thread_ID] = float4(prev_calc_sreen_space_distance, 0, 1);
+        output_seed_texture[thread_ID] = src_seed_texture[thread_ID];
     }
 }

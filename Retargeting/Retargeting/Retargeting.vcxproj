@@ -116,14 +116,14 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Python27\Lib\site-packages\numpy\core\include;C:\BachelorArbeit\Retargeting\Retargeting\gnuplot-cpp\gnuplot-cpp-master\include;C:\Python27\include;C:\BachelorArbeit\Retargeting\Retargeting\boost;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Python27\Lib\site-packages\numpy\core\include;C:\Python27\include;C:\Python27\Lib\site-packages\numpy\core\include;C:\BachelorArbeit\Retargeting\Retargeting\gnuplot-cpp\gnuplot-cpp-master\include;C:\Python27\include;C:\BachelorArbeit\Retargeting\Retargeting\boost;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>d3d11.lib;FreeImage.lib;FreeImagePlus.lib;python27.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Python27\libs;C:\BachelorArbeit\Retargeting\Retargeting\FreeImage</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;FreeImage.lib;FreeImagePlus.lib;python27.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Python27\libs;C:\Python27\libs;C:\BachelorArbeit\Retargeting\Retargeting\FreeImage</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -134,14 +134,14 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\BachelorArbeit\Retargeting\Retargeting\boost;C:\BachelorArbeit\Retargeting\Retargeting\gnuplot-iostream;C:\Users\Jonas\AppData\Roaming\Python\Python38\site-packages\numpy\core\include;C:\Users\Jonas\AppData\Local\Programs\Python\Python38\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Python27\Lib\site-packages\numpy\core\include;C:\Python27\include;C:\BachelorArbeit\Retargeting\Retargeting\boost;C:\BachelorArbeit\Retargeting\Retargeting\gnuplot-iostream;C:\Users\Jonas\AppData\Roaming\Python\Python38\site-packages\numpy\core\include;C:\Users\Jonas\AppData\Local\Programs\Python\Python38\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>d3d11.lib;FreeImage.lib;FreeImagePlus.lib;python38.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\BachelorArbeit\Retargeting\Retargeting\FreeImage;C:\Users\Jonas\AppData\Local\Programs\Python\Python38\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;FreeImage.lib;FreeImagePlus.lib;python27.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Python27\libs;C:\BachelorArbeit\Retargeting\Retargeting\FreeImage;C:\Users\Jonas\AppData\Local\Programs\Python\Python38\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>

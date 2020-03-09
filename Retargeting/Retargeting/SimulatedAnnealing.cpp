@@ -33,19 +33,19 @@ SimulatedAnnealing::SimulatedAnnealing(int number_steps, AnnealingSchedule* sche
 
 }
 
-Image SimulatedAnnealing::execute(Image org, const char* temp_rep_filename, int offset_x, int offset_y, int& good_swaps, float& progress_temp) {
+Image SimulatedAnnealing::execute(Image org, const char* temp_rep_filename, int offset_x, int offset_y, int& good_swaps, float& progress_temp, int dim) {
 
 	helper.getNextDither(org, next_dither_data, image_width, image_height);
 	this->current_energy = calculateStartingEnergy(dither_data, next_dither_data, permutation_data_output);
 
-	int number_of_dim = 16;
+	//int number_of_dim = 64;
 	int number_of_intermediate_snapshots = 10;
 	int when_taking_snapshot = this->number_steps / number_of_intermediate_snapshots;
 	float progress_prev = progress_temp;
 
 	for (unsigned int i = 0; i < this->number_steps; i++) {
 
-		progress_temp = progress_prev +  (float)i / ((float) (number_steps * number_of_dim));
+		progress_temp = progress_prev +  (float)i / ((float) (number_steps * dim));
 		//if ((i % when_taking_snapshot) == 0) takeIntermediateSnapshot(permutation_data_output, dither_data);
 
 		this->temperature = schedule->getTemperature(good_swaps);
@@ -106,8 +106,9 @@ Image SimulatedAnnealing::execute(Image org, const char* temp_rep_filename, int 
 
 	helper.fromPermuteToBitmap(permutation_data_output, retarget_bitmap, image_width, image_height);
 
+	//save the texture in its corresponding file
 	stringstream ss;
-	ss << temp_rep_filename << offset_x << "x" << offset_y << "/"<< "permutation_texture" << ".png";
+	ss << temp_rep_filename << offset_x << "x" << offset_y << "_"<< "permutation_texture" << ".png";
 	helper.saveImageToFile(ss.str().c_str(), retarget_bitmap);
 
 	if (visualize) {
@@ -115,8 +116,6 @@ Image SimulatedAnnealing::execute(Image org, const char* temp_rep_filename, int 
 		visualizer.visualizeTemperatureOverSteps(temperatures);
 		visualizer.visualizeAcceptanceProbabilities(this->deltas, this->probs);
 	}
-
-	//progress_temp += 1/(float)16;
 
 	return permutation_data_output;
 }

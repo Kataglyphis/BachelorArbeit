@@ -68,21 +68,17 @@ void AverageMotionVector::initialize(RenderContext * pContext, const RenderData 
 void AverageMotionVector::execute(RenderContext* pContext, const RenderData* pData) {
     //on first run we want it to intialize
     if (!mIsInitialized) {
-
         initialize(pContext, pData);
-
     }
 
     bool camera_moved = hasCameraMoved();
 
-    if (camera_moved) {
-
+    //if (camera_moved) {
         mpPrevViewProjMatrix = mpCurrViewProjMatrix;
         mpPrevViewProjMatrixInv = mpCurrViewProjMatrixInv;
         mpCurrViewProjMatrix = mpScene->getActiveCamera()->getViewProjMatrix();
         mpCurrViewProjMatrixInv = mpScene->getActiveCamera()->getInvViewProjMatrix();
-
-    }
+    //}
 
     //info for the frame
     mpComputeProgVars->getStructuredBuffer("data")[0]["frame_width"] = frame_width;
@@ -109,7 +105,6 @@ void AverageMotionVector::setScene(const std::shared_ptr<Scene>& pScene) {
     this->mpScene = pScene;
     // Grab a copy of the current scene's camera matrix (if it exists)
     if (mpScene && mpScene->getActiveCamera()) {
-
         mpPrevViewProjMatrix = mpCurrViewProjMatrix;
         mpPrevViewProjMatrixInv = mpCurrViewProjMatrixInv;
         mpCurrViewProjMatrix = mpScene->getActiveCamera()->getViewProjMatrix();

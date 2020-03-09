@@ -85,7 +85,7 @@ class SimulatedAnnealing {
             helpers helper, const char* filename);
         SimulatedAnnealing();
 		Image execute(int& good_swaps, float& progress);
-        Image execute(Image org, const char* temp_rep_filename, int offset_x, int offset_y, int& good_swaps, float& progress_temp);
+        Image execute(Image org, const char* temp_rep_filename, int offset_x, int offset_y, int& good_swaps, float& progress_temp, int dim);
         Energy getEnergy();
         AnnealingSchedule* getSchedule();
         int getNumSwaps();
