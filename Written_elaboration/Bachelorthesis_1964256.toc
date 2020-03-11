@@ -40,15 +40,14 @@
 \contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}nur Sorting}}}{41}{section*.37}%
 \contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}Sorting + Retargeting}}}{41}{section*.38}%
 \contentsline {section}{\numberline {3.3}Temporales Projizieren}{42}{section.3.3}%
-\contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}nur Retargeting}}}{43}{section*.42}%
-\contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}mit zusätzlichen temporalen Projizieren}}}{43}{section*.43}%
-\contentsline {section}{\numberline {3.4}Rechenaufwand und Speicherbedarf}{45}{section.3.4}%
-\contentsline {chapter}{\numberline {4}Implementierung}{47}{chapter.4}%
-\contentsline {subsection}{\numberline {4.0.1}Falcor}{47}{subsection.4.0.1}%
-\contentsline {subsection}{\numberline {4.0.2}Simulated Annealing}{47}{subsection.4.0.2}%
-\contentsline {subsection}{\numberline {4.0.3}Anfangswerte}{47}{subsection.4.0.3}%
-\contentsline {subsection}{\numberline {4.0.4}FreeImage}{47}{subsection.4.0.4}%
-\contentsline {subsection}{\numberline {4.0.5}Programmiersprache}{47}{subsection.4.0.5}%
-\contentsline {subsection}{\numberline {4.0.6}Visualisierungen}{48}{subsection.4.0.6}%
+\contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}nur Retargeting}}}{44}{section*.43}%
+\contentsline {paragraph}{\nonumberline \hfill \color@box {}{blue}{\leavevmode {\color {white}mit zusätzlichen temporalen Projizieren}}}{44}{section*.44}%
+\contentsline {section}{\numberline {3.4}Rechenaufwand und Speicherbedarf}{46}{section.3.4}%
+\contentsline {chapter}{\numberline {4}Implementierung}{48}{chapter.4}%
+\contentsline {subsection}{\numberline {4.0.1}Falcor}{48}{subsection.4.0.1}%
+\contentsline {subsection}{\numberline {4.0.2}Anfangswerte}{48}{subsection.4.0.2}%
+\contentsline {subsection}{\numberline {4.0.3}Simulated Annealing}{48}{subsection.4.0.3}%
+\contentsline {subsubsection}{\numberline {4.0.3.1}FreeImage}{48}{subsubsection.4.0.3.1}%
+\contentsline {subsubsection}{\numberline {4.0.3.2}Visualisierungen}{48}{subsubsection.4.0.3.2}%
 \contentsline {chapter}{\numberline {5}Zukünftige Arbeit}{49}{chapter.5}%
-\contentsline {chapter}{Literaturverzeichnis}{50}{section*.47}%
+\contentsline {chapter}{Literaturverzeichnis}{50}{section*.48}%

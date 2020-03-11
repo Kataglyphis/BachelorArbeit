@@ -20,6 +20,9 @@
     <ClCompile Include="RenderPasses\TemporalAccumulation.cpp">
       <Filter>RenderPasses\TemporalAccumulation</Filter>
     </ClCompile>
+    <ClCompile Include="RenderPasses\AverageMotionVector.cpp">
+      <Filter>RenderPasses\TemporalReprojection</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PathTracer.h" />
@@ -43,6 +46,9 @@
     </ClInclude>
     <ClInclude Include="RenderPasses\TemporalAccumulation.h">
       <Filter>RenderPasses\TemporalAccumulation</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPasses\AverageMotionVector.h">
+      <Filter>RenderPasses\TemporalReprojection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +123,9 @@
       <Filter>Data\Retargeting</Filter>
     </FxCompile>
     <FxCompile Include="Data\Reproject.hlsl">
+      <Filter>Data\TemporalReprojection</Filter>
+    </FxCompile>
+    <FxCompile Include="CalcAverageMotionVector.hlsl">
       <Filter>Data\TemporalReprojection</Filter>
     </FxCompile>
   </ItemGroup>

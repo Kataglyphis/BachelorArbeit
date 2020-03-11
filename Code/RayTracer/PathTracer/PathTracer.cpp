@@ -32,6 +32,7 @@
 #include "RenderPasses/Retargeting.h"
 #include "RenderPasses/TemporalReprojection.h"
 #include "RenderPasses/TemporalAccumulation.h"
+#include "RenderPasses/AverageMotionVector.h"
 
 void PathTracer::onGuiRender(SampleCallbacks* pCallbacks, Gui* pGui)
 {
@@ -59,6 +60,10 @@ void PathTracer::onGuiRender(SampleCallbacks* pCallbacks, Gui* pGui)
     {
         toggleCameraPathState();
     }
+
+    pGui->addSeparator();
+
+    pGui->addCheckBox("Dis-/Enable the screenshot series", enableScreenshotSeries);
 
     if (mpGraph != nullptr)
     {
@@ -96,11 +101,15 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->addPass(Sorting::create(), "Sorting");
     //for retarget seeds before rendering frame!
     mpGraph->addPass(Retargeting::create(), "Retargeting");
+    //for calculating the average motion vector of the frame
+    mpGraph->addPass(AverageMotionVector::create(), "AverageMotionVector");
+
     //adding temporal reprojection step for the seeds
     //mpGraph->addPass(TemporalReprojection::create(), "TemporalReprojection");
 
 
     mpGraph->addEdge("GBuffer", "Retargeting");
+    mpGraph->addEdge("AverageMotionVector", "Retargeting");
     //mpGraph->addEdge("Retargeting", "TemporalReprojection");
     //mpGraph->addEdge("TemporalReprojection", "GlobalIllumination");
     mpGraph->addEdge("GBuffer", "GlobalIllumination");
@@ -127,6 +136,10 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->addEdge("GBuffer.matlExtra", "GlobalIllumination.matlExtra");
 
     mpGraph->addEdge("GBuffer.depthStencil", "Retargeting.input_depthStencil");
+    mpGraph->addEdge("GBuffer.depthStencil", "AverageMotionVector.input_depthStencil");
+
+    mpGraph->addEdge("AverageMotionVector.output_average_motion_vector", "Retargeting.input_average_motion_vector");
+
     //add edges for marking dependencies!!
 
     //the retargeted seeds will come into our path tracer
@@ -137,6 +150,8 @@ void PathTracer::onLoad(SampleCallbacks* pCallbacks, RenderContext* pRenderConte
     mpGraph->markOutput("GlobalIllumination.output_frame");
     mpGraph->markOutput("TemporalAccumulation.output_frame");
     mpGraph->markOutput("Sorting.output_seed");
+    mpGraph->markOutput("Retargeting.output_seed");
+    mpGraph->markOutput("AverageMotionVector.output_average_motion_vector");
 
     // Initialize the graph's record of what the swapchain size is, for texture creation
     mpGraph->onResize(pCallbacks->getCurrentFbo().get());
@@ -206,7 +221,7 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
     //this is for evaluating our projecting pass
     if (hasCameraMoved())
     {
-        takeScreenshot(pCallbacks, "previous_frame");
+        if(enableScreenshotSeries) takeScreenshot(pCallbacks, "temporal_projection");
         mpLastViewProjMatrix = mpScene->getActiveCamera()->getViewProjMatrix();
     }
 
@@ -215,9 +230,11 @@ void PathTracer::onFrameRender(SampleCallbacks* pCallbacks, RenderContext* pRend
     {
         mpGraph->getScene()->update(pCallbacks->getCurrentTime(), &mCamController);
         mpGraph->execute(pRenderContext);
-        //pRenderContext->blit(mpGraph->getOutput("GlobalIllumination.output_frame")->getSRV(), pTargetFbo->getRenderTargetView(0));
-        pRenderContext->blit(mpGraph->getOutput("TemporalAccumulation.output_frame")->getSRV(), pTargetFbo->getRenderTargetView(0));
+        pRenderContext->blit(mpGraph->getOutput("GlobalIllumination.output_frame")->getSRV(), pTargetFbo->getRenderTargetView(0));
+        //pRenderContext->blit(mpGraph->getOutput("TemporalAccumulation.output_frame")->getSRV(), pTargetFbo->getRenderTargetView(0));
         //pRenderContext->blit(mpGraph->getOutput("Sorting.output_seed")->getSRV(), pTargetFbo->getRenderTargetView(0));
+        //pRenderContext->blit(mpGraph->getOutput("AverageMotionVector.output_average_motion_vector")->getSRV(), pTargetFbo->getRenderTargetView(0));
+        //pRenderContext->blit(mpGraph->getOutput("Retargeting.output_seed")->getSRV(), pTargetFbo->getRenderTargetView(0));
     }
 }
 

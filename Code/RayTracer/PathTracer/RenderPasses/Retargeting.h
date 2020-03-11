@@ -2,6 +2,8 @@
 #include "Falcor.h"
 #include "FalcorExperimental.h"
 
+#include <string>
+
 using namespace Falcor;
 /**
     this pass defines the distribution monte carlo errors as a blue noise in screen space by permuting pixel seeds between frames
@@ -59,9 +61,10 @@ private:
 
     //folders
     std::string temporal_reprojection_base_folder = "TemporalReprojection/";
-
+    // will always be the same for x and y dim
+    int dim_motion_vec = 4;
     //all textures for temporal retargeting
-     Texture::SharedPtr retarget_texture0x1;
+     /*Texture::SharedPtr retarget_texture0x1;
      Texture::SharedPtr retarget_texture0x2;
      Texture::SharedPtr retarget_texture0x3;
      Texture::SharedPtr retarget_texture1x0;
@@ -71,7 +74,7 @@ private:
      Texture::SharedPtr retarget_texture2x0;
      Texture::SharedPtr retarget_texture2x1;
      Texture::SharedPtr retarget_texture2x2;
-     Texture::SharedPtr retarget_texture2x3;
+     Texture::SharedPtr retarget_texture2x3;*/
 
      //-1 for skipping very first frame; skippng for waiting for first sorting pass to be executed
      int32_t frame_count = -1;
@@ -91,7 +94,7 @@ private:
      //survey variables
      bool mIsInitialized = false;
      bool enableRetargetingPass = false;
-     bool enableTemporalReprojectionPass = false;
+     bool enableTemporalReprojectionPass = true;
 
      //seed texture stats
      uint seed_texture_width = 1920;

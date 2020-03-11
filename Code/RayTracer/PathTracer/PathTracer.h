@@ -66,4 +66,6 @@ private:
 
     //private pointer for giving us access to camera for the temporal reprojection pass !
     RtScene::SharedPtr mpScene;
+    //for when we want to start our screenshotseries
+    bool enableScreenshotSeries = false;
 };

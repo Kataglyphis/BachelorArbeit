@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PathTracer.cpp" />
+    <ClCompile Include="RenderPasses\AverageMotionVector.cpp" />
     <ClCompile Include="RenderPasses\GBufferRaster.cpp" />
     <ClCompile Include="RenderPasses\GGXGlobalIllumination.cpp" />
     <ClCompile Include="RenderPasses\Retargeting.cpp" />
@@ -21,6 +22,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PathTracer.h" />
+    <ClInclude Include="RenderPasses\AverageMotionVector.h" />
     <ClInclude Include="RenderPasses\GBuffer.h" />
     <ClInclude Include="RenderPasses\GBufferRaster.h" />
     <ClInclude Include="RenderPasses\GGXGlobalIllumination.h" />
@@ -51,6 +53,14 @@
     <None Include="Data\GGXGIShadowRay.slang" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="CalcAverageMotionVector.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="Data\Reproject.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>

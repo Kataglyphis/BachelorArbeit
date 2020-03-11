@@ -35,18 +35,107 @@ RWTexture2D<float4> output_seed_texture;
 RWTexture2D<float2> input_average_motion_vector;
 
 //all the textures for the temporal reprojection!
-Texture2D<float4> retarget_texture0x1;
-Texture2D<float4> retarget_texture0x2;
-Texture2D<float4> retarget_texture0x3;
-Texture2D<float4> retarget_texture1x0;
-Texture2D<float4> retarget_texture1x1;
-Texture2D<float4> retarget_texture1x2;
-Texture2D<float4> retarget_texture1x3;
-Texture2D<float4> retarget_texture2x0;
-Texture2D<float4> retarget_texture2x1;
-Texture2D<float4> retarget_texture2x2;
-Texture2D<float4> retarget_texture2x3;
+//HELP: Is there a better way than hardcoding them ?????????????????????????????????????????????????
+// ??????????????????????????????????????????????????????????????????????????????????????????????
 
+Texture2D<float4> temporal_projecting_4x_4;
+Texture2D<float4> temporal_projecting_4x_3;
+Texture2D<float4> temporal_projecting_4x_2;
+Texture2D<float4> temporal_projecting_4x_1;
+Texture2D<float4> temporal_projecting_4x0;
+
+Texture2D<float4> temporal_projecting_3x_4;
+Texture2D<float4> temporal_projecting_3x_3;
+Texture2D<float4> temporal_projecting_3x_2;
+Texture2D<float4> temporal_projecting_3x_1;
+Texture2D<float4> temporal_projecting_3x0;
+
+Texture2D<float4> temporal_projecting_2x_4;
+Texture2D<float4> temporal_projecting_2x_3;
+Texture2D<float4> temporal_projecting_2x_2;
+Texture2D<float4> temporal_projecting_2x_1;
+Texture2D<float4> temporal_projecting_2x0;
+
+Texture2D<float4> temporal_projecting_1x_4;
+Texture2D<float4> temporal_projecting_1x_3;
+Texture2D<float4> temporal_projecting_1x_2;
+Texture2D<float4> temporal_projecting_1x_1;
+Texture2D<float4> temporal_projecting_1x0;
+
+Texture2D<float4> temporal_projecting_4x4;
+Texture2D<float4> temporal_projecting_4x3;
+Texture2D<float4> temporal_projecting_4x2;
+Texture2D<float4> temporal_projecting_4x1;
+
+Texture2D<float4> temporal_projecting_3x4;
+Texture2D<float4> temporal_projecting_3x3;
+Texture2D<float4> temporal_projecting_3x2;
+Texture2D<float4> temporal_projecting_3x1;
+
+Texture2D<float4> temporal_projecting_2x4;
+Texture2D<float4> temporal_projecting_2x3;
+Texture2D<float4> temporal_projecting_2x2;
+Texture2D<float4> temporal_projecting_2x1;
+
+Texture2D<float4> temporal_projecting_1x4;
+Texture2D<float4> temporal_projecting_1x3;
+Texture2D<float4> temporal_projecting_1x2;
+Texture2D<float4> temporal_projecting_1x1;
+
+Texture2D<float4> temporal_projecting4x_4;
+Texture2D<float4> temporal_projecting4x_3;
+Texture2D<float4> temporal_projecting4x_2;
+Texture2D<float4> temporal_projecting4x_1;
+Texture2D<float4> temporal_projecting4x0;
+
+Texture2D<float4> temporal_projecting3x_4;
+Texture2D<float4> temporal_projecting3x_3;
+Texture2D<float4> temporal_projecting3x_2;
+Texture2D<float4> temporal_projecting3x_1;
+Texture2D<float4> temporal_projecting3x0;
+
+Texture2D<float4> temporal_projecting2x_4;
+Texture2D<float4> temporal_projecting2x_3;
+Texture2D<float4> temporal_projecting2x_2;
+Texture2D<float4> temporal_projecting2x_1;
+Texture2D<float4> temporal_projecting2x0;
+
+Texture2D<float4> temporal_projecting1x_4;
+Texture2D<float4> temporal_projecting1x_3;
+Texture2D<float4> temporal_projecting1x_2;
+Texture2D<float4> temporal_projecting1x_1;
+Texture2D<float4> temporal_projecting1x0;
+
+Texture2D<float4> temporal_projecting4x4;
+Texture2D<float4> temporal_projecting4x3;
+Texture2D<float4> temporal_projecting4x2;
+Texture2D<float4> temporal_projecting4x1;
+
+Texture2D<float4> temporal_projecting3x4;
+Texture2D<float4> temporal_projecting3x3;
+Texture2D<float4> temporal_projecting3x2;
+Texture2D<float4> temporal_projecting3x1;
+
+Texture2D<float4> temporal_projecting2x4;
+Texture2D<float4> temporal_projecting2x3;
+Texture2D<float4> temporal_projecting2x2;
+Texture2D<float4> temporal_projecting2x1;
+
+Texture2D<float4> temporal_projecting1x4;
+Texture2D<float4> temporal_projecting1x3;
+Texture2D<float4> temporal_projecting1x2;
+Texture2D<float4> temporal_projecting1x1;
+
+Texture2D<float4> temporal_projecting0x_4;
+Texture2D<float4> temporal_projecting0x_3;
+Texture2D<float4> temporal_projecting0x_2;
+Texture2D<float4> temporal_projecting0x_1;
+Texture2D<float4> temporal_projecting0x0;
+
+Texture2D<float4> temporal_projecting0x4;
+Texture2D<float4> temporal_projecting0x3;
+Texture2D<float4> temporal_projecting0x2;
+Texture2D<float4> temporal_projecting0x1;
 
 //given variables for our frame
 struct perFrameData {
@@ -113,58 +202,283 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
         //what happend in this block: we calculate the average screen position difference!
         // thus we choose the retarget value
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         
-        if (vectors_are_equal(difference, int2(0,0)))
+        if (vectors_are_equal(difference, int2(-4, -4)))
+        {
+            additional_reprojection = temporal_projecting_4x_4[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(-4, -3)))
+        {
+            additional_reprojection = temporal_projecting_4x_3[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(-4, -2)))
+        {
+            additional_reprojection = temporal_projecting_4x_2[bluenoise_index].rg;
+        } else if (vectors_are_equal(difference, int2(-4, -1)))
+        {
+            additional_reprojection = temporal_projecting_4x_1[bluenoise_index].rg;
+        } else if (vectors_are_equal(difference, int2(-4, 0)))
+        {
+            additional_reprojection = temporal_projecting_4x0[bluenoise_index].rg;
+        } else if (vectors_are_equal(difference, int2(-3, -4)))
+        {
+            additional_reprojection = temporal_projecting_3x_4[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(-3, -3)))
+        {
+            additional_reprojection = temporal_projecting_3x_3[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(-3, -2)))
+        {
+            additional_reprojection = temporal_projecting_3x_2[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(-3, -1)))
+        {
+            additional_reprojection = temporal_projecting_3x_1[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(-3, 0)))
+        {
+            additional_reprojection = temporal_projecting_3x0[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(-2, -4)))
+        {
+            additional_reprojection = temporal_projecting_2x_4[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(-2, -3)))
+        {
+            additional_reprojection = temporal_projecting_2x_3[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(-2, -2)))
+        {
+            additional_reprojection = temporal_projecting_2x_2[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(-2, -1)))
+        {
+            additional_reprojection = temporal_projecting_2x_1[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(-2, 0)))
+        {
+            additional_reprojection = temporal_projecting_2x0[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(-1, -4)))
+        {
+            additional_reprojection = temporal_projecting_1x_4[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(-1, -3)))
+        {
+            additional_reprojection = temporal_projecting_1x_3[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(-1, -2)))
+        {
+            additional_reprojection = temporal_projecting_1x_2[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(-1, -1)))
+        {
+            additional_reprojection = temporal_projecting_1x_1[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(-1, 0)))
+        {
+            additional_reprojection = temporal_projecting_1x0[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(-4, 4)))
+        {
+            additional_reprojection = temporal_projecting_4x4[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(-4, 3)))
+        {
+            additional_reprojection = temporal_projecting_4x3[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(-4, 2)))
+        {
+            additional_reprojection = temporal_projecting_4x2[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(-4, 1)))
+        {
+            additional_reprojection = temporal_projecting_4x1[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(-3, 4)))
+        {
+            additional_reprojection = temporal_projecting_3x4[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(-3, 3)))
+        {
+            additional_reprojection = temporal_projecting_3x3[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(-3, 2)))
+        {
+            additional_reprojection = temporal_projecting_3x2[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(-3, 1)))
+        {
+            additional_reprojection = temporal_projecting_3x1[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(-2, 4)))
+        {
+            additional_reprojection = temporal_projecting_2x4[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(-2, 3)))
+        {
+            additional_reprojection = temporal_projecting_2x3[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(-2, 2)))
+        {
+            additional_reprojection = temporal_projecting_2x2[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(-2, 1)))
+        {
+            additional_reprojection = temporal_projecting_2x1[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(-1, 4)))
+        {
+            additional_reprojection = temporal_projecting_1x4[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(-1, 3)))
+        {
+            additional_reprojection = temporal_projecting_1x3[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(-1, 2)))
+        {
+            additional_reprojection = temporal_projecting_1x2[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(-1, 1)))
+        {
+            additional_reprojection = temporal_projecting_1x1[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(4, -4)))
+        {
+            additional_reprojection = temporal_projecting4x_4[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(4, -3)))
+        {
+            additional_reprojection = temporal_projecting4x_3[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(4, -2)))
+        {
+            additional_reprojection = temporal_projecting4x_2[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(4, -1)))
+        {
+            additional_reprojection = temporal_projecting4x_1[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(3, -4)))
+        {
+            additional_reprojection = temporal_projecting3x_4[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(3, -3)))
+        {
+            additional_reprojection = temporal_projecting3x_3[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(3, -2)))
+        {
+            additional_reprojection = temporal_projecting3x_2[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(3, -1)))
+        {
+            additional_reprojection = temporal_projecting3x_1[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(2, -4)))
+        {
+            additional_reprojection = temporal_projecting2x_4[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(2, -3)))
+        {
+            additional_reprojection = temporal_projecting2x_3[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(2, -2)))
+        {
+            additional_reprojection = temporal_projecting2x_2[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(2, -1)))
+        {
+            additional_reprojection = temporal_projecting2x_1[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(1, -4)))
+        {
+            additional_reprojection = temporal_projecting1x_4[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(1, -3)))
+        {
+            additional_reprojection = temporal_projecting1x_3[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(1, -2)))
+        {
+            additional_reprojection = temporal_projecting1x_2[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(1, -1)))
+        {
+            additional_reprojection = temporal_projecting1x_1[bluenoise_index].rg;
+        }
+        else if (vectors_are_equal(difference, int2(0,0)))
         {
             additional_reprojection = retarget_texture[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, int2(0, 1)))
         {
-            additional_reprojection = retarget_texture0x1[bluenoise_index].rg;
+            additional_reprojection = temporal_projecting0x1[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, int2(0, 2)))
         {
-            additional_reprojection = retarget_texture0x2[bluenoise_index].rg;
+            additional_reprojection = temporal_projecting0x2[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, int2(0, 3)))
         {
-            additional_reprojection = retarget_texture0x3[bluenoise_index].rg;
+            additional_reprojection = temporal_projecting0x3[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(0, 4)))
+        {
+            additional_reprojection = temporal_projecting0x4[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, int2(1, 0)))
         {
-            additional_reprojection = retarget_texture1x0[bluenoise_index].rg;
+            additional_reprojection = temporal_projecting1x0[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, int2(1, 1)))
         {
-            additional_reprojection = retarget_texture1x1[bluenoise_index].rg;
+            additional_reprojection = temporal_projecting1x1[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, int2(1, 2)))
         {
-            additional_reprojection = retarget_texture1x2[bluenoise_index].rg;
+            additional_reprojection = temporal_projecting1x2[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, int2(1, 3)))
         {
-            additional_reprojection = retarget_texture1x3[bluenoise_index].rg;
+            additional_reprojection = temporal_projecting1x3[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(1, 4)))
+        {
+            additional_reprojection = temporal_projecting1x4[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, int2(2, 0)))
         {
-            additional_reprojection = retarget_texture2x0[bluenoise_index].rg;
+            additional_reprojection = temporal_projecting2x0[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, int2(2, 1)))
         {
-            additional_reprojection = retarget_texture2x1[bluenoise_index].rg;
+            additional_reprojection = temporal_projecting2x1[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, int2(2, 2)))
         {
-            additional_reprojection = retarget_texture2x2[bluenoise_index].rg;
+            additional_reprojection = temporal_projecting2x2[bluenoise_index].rg;
         }
         else if (vectors_are_equal(difference, int2(2, 3)))
         {
-            additional_reprojection = retarget_texture2x3[bluenoise_index].rg;
+            additional_reprojection = temporal_projecting2x3[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(2, 4)))
+        {
+            additional_reprojection = temporal_projecting2x4[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(3, 0)))
+        {
+            additional_reprojection = temporal_projecting3x0[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(3, 1)))
+        {
+            additional_reprojection = temporal_projecting3x1[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(3, 2)))
+        {
+            additional_reprojection = temporal_projecting3x2[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(3, 3)))
+        {
+            additional_reprojection = temporal_projecting3x3[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(3, 4)))
+        {
+            additional_reprojection = temporal_projecting3x4[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(4, 0)))
+        {
+            additional_reprojection = temporal_projecting4x0[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(4, 1)))
+        {
+            additional_reprojection = temporal_projecting4x0[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(4, 2)))
+        {
+            additional_reprojection = temporal_projecting4x2[bluenoise_index].rg;
+        }else if (vectors_are_equal(difference, int2(4, 3)))
+        {
+            additional_reprojection = temporal_projecting4x3[bluenoise_index].rg;
         }
         else
         {
-            additional_reprojection = retarget_texture2x3[bluenoise_index].rg;
+            additional_reprojection = temporal_projecting4x4[bluenoise_index].rg;
         }
                  
         retarget += int2(round(additional_reprojection * 12.f - float2(6.f)));
@@ -183,8 +497,8 @@ void main(uint group_Index : SV_GROUPINDEX, uint2 group_ID : SV_GROUPID, uint2 t
     
     if ((enable_retargeting_pass == 1) || (enable_temporal_reprojection == 1))
     {
-        //output_seed_texture[global_retarget_coordinates] = src_seed_texture[thread_ID];
-        output_seed_texture[thread_ID] = float4(prev_calc_sreen_space_distance, 0, 1);
+        output_seed_texture[global_retarget_coordinates] = src_seed_texture[thread_ID];
+        //output_seed_texture[thread_ID] = float4(prev_calc_sreen_space_distance, 0, 1);
     }
     else
     {

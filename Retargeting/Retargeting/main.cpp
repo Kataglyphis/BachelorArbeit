@@ -299,7 +299,7 @@ int main(int, char**)
             ImGui::Text("");
             ImGui::BeginGroup();
             if (!started_calculation_temporal_reprojection) {
-                ImGui::SliderInt("# of steps projection textures", number_of_steps_temp, 100, 100000);
+                ImGui::SliderInt("# of steps projection textures", number_of_steps_temp, 100, 1000000);
                 if (ImGui::Button("Start calculate reprojection textures!")) {
                     started_calculation_temporal_reprojection = true;
                     calc_temporal_reprojection_textures = thread(calculate_temporal_rep_textures, std::ref(progress_temp), *number_of_steps_temp);

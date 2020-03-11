@@ -4,25 +4,23 @@ Zur Umsetzung der bereits eingeführten Ansätze und Algorithmen benutzen wir fo
 
 Zur Umsetzung des \nameref{ch:Content1:sec:Path Tracer} benutzen wir das Framework Falcor \cite{Benty18}. Dieses Framework bietet bereits eine minimalistische Implementierung 
 eines \nameref{ch:Content1:sec:Path Tracer} mit den neuen DirectX12 \ref{pic:DirectXRaytracingPipeline} Shadereinheiten, die wir für unsere Zwecke angepasst haben. 
-Die hier benutzte Version 3.2.1 generiert threads, die eine falsche ID besitzen (y-Komponente < 0). Dies falschen ID's führen bei einem Texturzugriff auf nicht erlaubten
+Die hier benutzte Version 3.2.1 generiert threads, die eine falsche ID besitzen (y-Komponente < 0). Die falschen ID's führen bei einem Texturzugriff auf nicht erlaubten
 Speicherzugriff und damit zu schwarzen Bildbereichen. Diese schwarzen/falschen Bildpixel zerstören die geforderte Bedingung einer Permutation in unserem temporalen Algorithmus! 
-Werden diese threads mit falscher ID nicht abgefangen, breitet sich der Fehler auf das gesamte Bild aus.\par
+Falls diese threads mit falscher ID nicht abgefangen werden würden, würde sich der Fehler auf das gesamte Bild ausbreiten.\par
 Mit Falcor benutzen wir das Texturenformat BGRA8Unorm. Laden wir also eine Textur haben wir es mit 8-bit Informationen pro Kanal, die im Intervall [0,1] liegen, zu tun (lineare
-Abbildung $\rightarrow$ 255 wird auf 1 abgebildet).
-
-\subsection{Simulated Annealing}
+Abbildung $\rightarrow$ 255 wird auf 1 , 0 aud 0 abgebildet \cite{ImageFormat}).
 
 \subsection{Anfangswerte}
-Für unsere vorberechnete Anfangswerttextur benötigen wir pro Eintrag zufällig generierte 32-bit Zahlen. Die Umsetzung mit Mersenne-Twister \cite{MersenneTwister} sowie mit 
-der WangHash-Methode \cite{wanghash} führten zu guten Ergebnissen.
+Für unsere vorberechnete Anfangswerttextur benötigen wir pro Eintrag zufällig generierte 32-bit Zahlen. Die Umsetzung der Zufallszahlen mit Mersenne-Twister \cite{MersenneTwister}
+sowie mit der WangHash-Methode \cite{wanghash} führten zu guten Ergebnissen.
 
-\subsection{FreeImage}
-Ist als Bibliothek \cite{FreeImage} zum Laden und Speichern von Texturen geeignet. Man sollte unbedingt darauf achten, dass Bilder von links unten beginnend 
+\subsection{Simulated Annealing}
+Als VS2019 Projekt mit ImGui \cite{Imgui} als Benutzerschnittstelle umgesetzt.
+
+\subsubsection{FreeImage}
+Als Bibliothek \cite{FreeImage} zum Laden und Speichern von Texturen benutzt. Man sollte unbedingt darauf achten, dass Bilder von links unten beginnend 
 indiziert werden.
 
-\subsection{Programmiersprache}
-Das Real-Time Rendering Framework Falcor arbeitet mit C/C++ und HLSL für die Shader. Das Simulated Annealing haben wir auch mit VS2019, C++ umgesetzt.
-
-\subsection{Visualisierungen}
-Die 2D-Schaubilder wurden mit einem Wrapper für Matplotlib \cite{matplotlibwrapper} erstellt. Für 3D-Schaubilder jedoch aufgrund von aktuellen Problemen
-der Software nicht. Dafür haben wir die anfallenden Datentripel in einer Textdatei abgespeichert und mit \cite{gnuplot} visualisiert. 
+\subsubsection{Visualisierungen}
+Die 2D-Schaubilder wurden mit einem Wrapper für Matplotlib \cite{matplotlibwrapper} erstellt. Für 3D-Schaubilder jedoch aufgrund aktueller bugs nicht.
+Dafür haben wir die anfallenden Datentripel in einer Textdatei abgespeichert und mit \cite{gnuplot} visualisiert. 

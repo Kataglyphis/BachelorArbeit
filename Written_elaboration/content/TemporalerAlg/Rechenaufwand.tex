@@ -1,14 +1,11 @@
 Da unsere Ressourcen beschränkt sind und trotz Hardwarebeschleunigung immer noch viel Rechenzeit eines Frames auf die globale Beleuchtung entfällt,
 ist es von Bedeutung, dass unser temporaler Algorithmus keinen signifikanten zusätzlichen Aufwand schafft.
 Mit einem Großteil der Rechenzeit, der auf die Berechnung des GBuffers und der globalen Beleuchtung fällt, sind wir hingegen 
-mit den Schritten Sorting und Retargeting (+ temporal Reprojection) sowohl auf  CPU als auf GPU Seite im niedrigen Prozentbereich.
+mit den Schritten Sorting und Retargeting (+ temporales Projizieren) sowohl auf  CPU als auf GPU Seite im niedrigen Prozentbereich.
 Dabei wurde hier eine Blockgröße (siehe Abschnitt \ref{subsec:Blockgröße}) von B = 64 verwendet. Bei einer kleineren Blockgröße von B = 16, welche 
 bereits gute Ergebnisse liefert, reduziert sich der Aufwand auf ein Viertel. 
 \par
-\newcolumntype{Y}{>{\raggedleft\arraybackslash}X}% see tabularx
-%\tcbset{enhanced,fonttitle=\bfseries\large,fontupper=\normalsize\sffamily,
-%colback=yellow!10!white,colframe=red!50!black,colbacktitle=red!30!white,
-%coltitle=black,center title}
+\newcolumntype{Y}{>{\raggedleft\arraybackslash}X}
 \begin{figure}[H]
     \begin{tcolorbox}[title=Rechenaufwand]
         \begin{tcolorbox}[tabularx={X|Y|Y},title=Pipeline, colbacktitle=yellow!50!red, coltitle=white]
@@ -26,7 +23,7 @@ bereits gute Ergebnisse liefert, reduziert sich der Aufwand auf ein Viertel.
             \textbf{Vorberechnung}        &  \textbf{Rechenzeit(m)}    &  \textbf{Fehler(raw/\%)}\\\hline\hline
             Retargeting                   &  17,07                     &  10714 $\approx$ 3.07\%\\\hline
             Retargeting                   &  35,36                     &  9444 $\approx$ 2,71\%\\\hline
-            Temporale Projizieren         &  194,7                     &  $\approx$ 10000\\\hline\hline
+            Temporale Projizieren         &  1382($\approx$23 h) &  $\approx$ 10000\\\hline\hline
         \end{tcolorbox}  
     \end{tcolorbox}
     \caption{Rechenzeiten die auf die einzelnen Stages fallen}
@@ -39,21 +36,23 @@ bereits gute Ergebnisse liefert, reduziert sich der Aufwand auf ein Viertel.
 Um zu einem Ergebnis wie in Figur \ref{fig:annelaing animated}(siehe Abschnitt \nameref{ch:Content2:sec:Simulated Annealing}) zu kommen, braucht man $\approx17$ Minuten. 
 Diese Berechnung liefert ein gutes Ergebnis bei einem akzeptablen Rechenaufwand. Für einen Fehler von 9444 (minimale Verbesserung) sind bereits $\approx35$ Minuten 
 nötig.\par 
-Die langen Ausführungszeiten auf CPU-Seite (siehe GBuffer, GGXGlobalIllumination) sind dabei mit dem Warten auf Resultate der GPU Seite zu erklären. 
+Für das temporale Projizieren benutzen wir 81 solcher modifizierten Retarget-Texturen. Dementsprechend länger braucht die Vorberechnung.\textbf{Anmerkung}: Der Prozess 
+lässt sich leicht parallelisieren und damit (sehr) stark Beschleunigen. Wir haben hier davon abgesehen, da uns eine einmaliger Durchlauf genügt. \par
+Die langen Ausführungszeiten auf CPU-Seite bei der GBuffer- und GGXGlobalIlluminationberechnung sind dabei mit dem Warten auf Resultate der GPU Seite zu erklären. 
 
 %%%%%%%%%%%%%%%%%%%
 %%%%% storage usage
 %%%%%%%%%%%%%%%%%%%
 Wir speichern unsere Anfangswerte in einer 1920x1080 32-Bit-Textur. Die \nameref{ch:Content1:sec:blue noise} Textur innerhalb des \nameref{ch:Content2:sec:Sorting} Schrittes 
-ist eine 64x64 32-Bit Textur. Die Retarget-Textur benutzt eine 64x64 16-Bit Textur. Das temporale Projizieren benutzt 11 solcher Texturen.
+hat eine Auflösung von 64x64 32-Bit. Die Retarget-Textur benutzt eine 64x64 16-Bit Textur. Das temporale Projizieren benutzt 81 solcher modifizierten Retarget-Texturen.
 \begin{figure}[H]
     \begin{tcolorbox}[tabularx={X|Y},title=Speicherbedarf, colbacktitle=yellow!50!red, coltitle=white]
         \textbf{Pipelinestage}  &  \textbf{Speicherbedarf/KB} \\\hline\hline
         Sorting                 &  16,1                     \\\hline
         Retargeting             &  12,1                    \\\hline
-        Temporale Reprojektion  &  133,1                    \\\hline
+        Temporale Reprojektion  &  980                    \\\hline
         Anfangswerte(Seeds)     &  7920                     \\\hline\hline
-        \textbf{Gesamt}         &  \textbf{8226,5}           \\\hline\hline                
+        \textbf{Gesamt}         &  \textbf{8928,2}           \\\hline\hline                
     \end{tcolorbox}
     \caption{Speicherdarf}
 \end{figure}

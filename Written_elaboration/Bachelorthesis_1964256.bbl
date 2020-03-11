@@ -86,6 +86,19 @@ B.~Hajek, ``Cooling schedules for optimal annealing,'' \emph{Mathematics of
 E.~Haines and T.~Akenine-M\"oller, Eds., \emph{Ray Tracing Gems}.\hskip 1em
   plus 0.5em minus 0.4em\relax Apress, 2019, \url{http://raytracinggems.com}.
 
+\bibitem[Ima]{ImageFormat}
+\BIBentryALTinterwordspacing
+``Imageformat,'' erklärt was es mit dem BGRA8Unorm-Format, das in Falcor
+  benutzt wird, zu tun hat. [Online]. Available:
+  \url{https://www.khronos.org/opengl/wiki/Image_Format}
+\BIBentrySTDinterwordspacing
+
+\bibitem[Img]{Imgui}
+\BIBentryALTinterwordspacing
+``Imgui,'' als Benutzerschnittstelle zur Erstellung der benötigten Texturen.
+  [Online]. Available: \url{https://github.com/ocornut/imgui}
+\BIBentrySTDinterwordspacing
+
 \bibitem[INS18]{INSIDETAA}
 \BIBentryALTinterwordspacing
 ``Temporal reprojection anti-aliasing in inside,'' 2018, iNSIDE at GDC.

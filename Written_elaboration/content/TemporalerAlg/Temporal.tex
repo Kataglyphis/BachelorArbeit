@@ -1,14 +1,12 @@
 Bisherige temporale Lösungsansätze zur Steigerung der optisch wahrnehmbaren Qualität (siehe \ref{ch:Content1:subsec:Bisherige Temporalansätze})
-lieferten gute Ergebnisse. Wir nehmen hier diesen Ansatz auf um den Algorithmus noch zeitlich stabiler zu machen.
+lieferten gute Ergebnisse. Wir nehmen hier diesen Ansatz auf, um den Algorithmus noch zeitlich stabiler zu machen.
 \par
 
-Allerdings: Um die \nameref{ch:Content2:sec:a Posteriori} Annahmen und die Vorbedingungen der Quantilfunktion \ref{eq:inverse Funktion}
-für unseren Algorithmus zu erfüllen, brauchen wir eine erneute Permutation! Denn durch die Permutation haben wir wieder garantiert, 
-dass je ein Anfangswert $x \in [0,1]$ auf je ein Pixelfarbwert abbgebildet wird.
-Die Arbeit \cite[S.9/10]{hal02158423} motivierte diese Verbesserung. Da unser Algorithmus davon ausgeht, dass zwei aufeinanderfolgende Bilder gleiche Pixelwerte 
-besitzen, erhoffen wir uns durch eine temporale Projektion ein Verbesserung bei der \nameref{ch:Content1:sec:blue noise} Verteilung 
-falls sich z.B. durch Kamerabewegung die Farbgebung der Pixel zwischen Ihnen ändert. Die temporale Projektion, welche wir hier 
-anwenden, baut auf aktuelle verbreitete Techniken des TAA auf \cite{INSIDETAA}.
+Die Arbeit \cite[S.9/10]{hal02158423} motiviert ein temporales Projizieren. Dabei ist zu beachten, dass um die \nameref{ch:Content2:sec:a Posteriori} Annahmen und die Vorbedingungen der 
+Quantilfunktion \ref{eq:inverse Funktion} für unseren Algorithmus zu erfüllen, wir eine erneute Permutation brauchen! Denn durch die Permutation haben wir wieder garantiert, 
+dass je ein Anfangswert $x \in [0,1]$ auf je ein Pixelfarbwert abbgebildet wird. Da unser Algorithmus davon ausgeht, dass zwei aufeinanderfolgende Bilder gleiche Pixelwerte 
+besitzen, erhoffen wir uns durch ein temporales Projizieren ein Verbesserung bei der \nameref{ch:Content1:sec:blue noise} Verteilung falls sich z.B. durch Kamerabewegung die Farbgebung 
+der Pixel zwischen Ihnen ändert. Die temporale Projektion, welche wir hier anwenden, baut auf aktuelle verbreitete Techniken des TAA auf \cite{INSIDETAA}.
 
 \begin{figure}[H]
         \centering
@@ -28,23 +26,34 @@ uns einen durchschnittlichen Bewegungsvektor. Dieser fließt nun in die Auswahl 
 Bewegung berücksichtigt. In einem zusätzlichen Vorberechnungsschritt wurden eine Vielzahl von Bewegungsvektoren auf die 
 \nameref{ch:Content1:sec:blue noise} $Textur_{t}$ angewandt, bevor die Permutation zur $Textur_{t+1}$ berechnet und abgespeichert
 wurde. Somit haben wir eine Vielzahl von neuen Retarget-Texturen geschaffen, die eine jeweilige zweidimensionale Verschiebung 
-berücksichtigen.
+berücksichtigen. Wir haben eine jeweilige zweidimensionale Verschiebung von je vier Pixeln in negativer sowie positiver Richtung 
+berücksichtigt. Das ergibt in Summe 81 vorberechnete Texturen für diesen Schritt. In unseren Untersuchungen hat sich auch bei schnellen, ruckartige Kamerabewegungen diese Anzahl 
+an Texturen als ausreichend erwiesen.
+
 \par 
 Mit diesem Ansatz haben wir auch eine erneute Garantie einer Permutation, welche wir bereits bei dem \nameref{ch:Content2:sec:Retargeting}
 erreicht haben.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{content/TemporalerAlg/Bilder/Reprojection/Verschiebungsvektor.png}
+  \caption{Für über das gesamte Bild gemittelte mögliche 2D-Verschiebungen eines Pixels zwischen zwei aufeinanderfolgenden Bildern je eine separate Retarget-Textur}
+  \label{pic:Verschiebungsvektor}
+\end{figure}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% comparrison retargeting + temporal reprojection 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 
-  \begin{figure}[H]
-    \begin{tcolorbox}
-    \centering
-    \includegraphics[width=0.5\linewidth]{content/TemporalerAlg/Bilder/Reprojection/Szene_bearbeitet.png}
-    \end{tcolorbox}
-    \caption{Ausschnitt(grüner Kasten) verfolgt bei Bewegungsvektor(blauer Pfeil)}
-    \label{pic:TemporalReprComparison}
-  \end{figure}
+\begin{figure}[H]
+  \begin{tcolorbox}
+  \centering
+  \includegraphics[width=0.5\linewidth]{content/TemporalerAlg/Bilder/Reprojection/Szene_bearbeitet.png}
+  \end{tcolorbox}
+  \caption{Ausschnitt(grüner Kasten) verfolgt bei Bewegungsvektor(blauer Pfeil)}
+  \label{pic:TemporalReprComparison}
+\end{figure}
 
 
 \begin{figure}[H]

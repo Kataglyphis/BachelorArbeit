@@ -41,11 +41,16 @@ RenderPassReflection Retargeting::reflect(void) const {
 
     r.addInput("input_depthStencil", "depth and stencil from g-buffer").format(ResourceFormat::D32Float).bindFlags(Resource::BindFlags::DepthStencil);
 
+    r.addInput("input_average_motion_vector", "the average motion vector for reprojection").texture2D(frame_width, frame_height).format(ResourceFormat::RG16Float).bindFlags
+                                                                                                                                                                                                                                (Resource::BindFlags::UnorderedAccess |
+                                                                                                                                                                                                                                 Resource::BindFlags::RenderTarget |
+                                                                                                                                                                                                                                 Resource::BindFlags::ShaderResource).mipLevels(1);
+
     //output
     r.addOutput("output_seed", "the retargeted seed texture outgoing to path tracer").texture2D(seed_texture_width, seed_texture_height).format(ResourceFormat::BGRA8Unorm).bindFlags
-                                                                                                                                                                                                                                                        (Resource::BindFlags::UnorderedAccess |
-                                                                                                                                                                                                                                                       Resource::BindFlags::RenderTarget |
-                                                                                                                                                                                                                                                        Resource::BindFlags::ShaderResource).mipLevels(1);
+                                                                                                                                                                                                                                              (Resource::BindFlags::UnorderedAccess |
+                                                                                                                                                                                                                                              Resource::BindFlags::RenderTarget |
+                                                                                                                                                                                                                                              Resource::BindFlags::ShaderResource).mipLevels(1);
     return r;
 }
 
@@ -63,43 +68,65 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
     Texture::SharedPtr retarget = createTextureFromFile("permutation_texture_1373806_swapsKirkpatrickCooldownSchedule.png", false, false, Resource::BindFlags::ShaderResource
                                                                                                                                                                                                                                             | /*Resource::BindFlags::UnorderedAccess|*/
                                                                                                                                                                                                                                             Resource::BindFlags::RenderTarget);
+    //mpComputeProgVars->setTexture("retarget_texture0x0", retarget);
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////// load textures for the temporal reprojection phase!!!
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    for (int i = -dim_motion_vec; i < dim_motion_vec; i++) {
+        for (int j = -dim_motion_vec; j < dim_motion_vec; j++) {
+            std::string name = std::to_string(i) + "x" + std::to_string(j) + "_permutation_texture.png";
+            auto retarget_texture = createTextureFromFile(temporal_reprojection_base_folder + name, false, false, Resource::BindFlags::ShaderResource
+                                                                                                                                                                                      | Resource::BindFlags::RenderTarget);
+            std::string shader_name;
+            if (i < 0 && j < 0) {
+                shader_name = "temporal_projecting" + '_' + std::to_string(i) + "x" + '_' + std::to_string(j);
+            }
+            else if (i < 0 && j >= 0) {
+                shader_name = "temporal_projecting" + '_' + std::to_string(i) + "x" + std::to_string(j);
+            }
+            else if (i >= 0 && j < 0) {
+                shader_name = "temporal_projecting" + std::to_string(i) + "x" + '_' + std::to_string(j);
+            }
+            else {
+                shader_name = "temporal_projecting" + std::to_string(i) + "x" + std::to_string(j);
+            }
+            mpComputeProgVars->setTexture(shader_name, retarget_texture);
+        }
 
-    retarget_texture0x1 = createTextureFromFile(temporal_reprojection_base_folder + "0x1/" + "permutation_texture.png", false, false, Resource::BindFlags::ShaderResource
-                                                                                                                                                                                                                        | /*Resource::BindFlags::UnorderedAccess|*/
+    }
+    /*retarget_texture0x1 = createTextureFromFile(temporal_reprojection_base_folder + "0x1/" + "permutation_texture.png", false, false, Resource::BindFlags::ShaderResource
+                                                                                                                                                                                                                        | 
                                                                                                                                                                                                                             Resource::BindFlags::RenderTarget);
     retarget_texture0x2 = createTextureFromFile(temporal_reprojection_base_folder + "0x2/" + "permutation_texture.png", false, false, Resource::BindFlags::ShaderResource
-        | /*Resource::BindFlags::UnorderedAccess|*/
+        |
         Resource::BindFlags::RenderTarget);
     retarget_texture0x3 = createTextureFromFile(temporal_reprojection_base_folder + "0x3/" + "permutation_texture.png", false, false, Resource::BindFlags::ShaderResource
-        | /*Resource::BindFlags::UnorderedAccess|*/
+        | 
         Resource::BindFlags::RenderTarget);
     retarget_texture1x0 = createTextureFromFile(temporal_reprojection_base_folder + "1x0/" + "permutation_texture.png", false, false, Resource::BindFlags::ShaderResource
-        | /*Resource::BindFlags::UnorderedAccess|*/
+        | 
         Resource::BindFlags::RenderTarget);
     retarget_texture1x1 = createTextureFromFile(temporal_reprojection_base_folder + "1x1/" + "permutation_texture.png", false, false, Resource::BindFlags::ShaderResource
-        | /*Resource::BindFlags::UnorderedAccess|*/
+        | 
         Resource::BindFlags::RenderTarget);
     retarget_texture1x2 = createTextureFromFile(temporal_reprojection_base_folder + "1x2/" + "permutation_texture.png", false, false, Resource::BindFlags::ShaderResource
-        | /*Resource::BindFlags::UnorderedAccess|*/
+        | 
         Resource::BindFlags::RenderTarget);
     retarget_texture1x3 = createTextureFromFile(temporal_reprojection_base_folder + "1x3/" + "permutation_texture.png", false, false, Resource::BindFlags::ShaderResource
-        | /*Resource::BindFlags::UnorderedAccess|*/
+        |
         Resource::BindFlags::RenderTarget);
     retarget_texture2x0 = createTextureFromFile(temporal_reprojection_base_folder + "2x0/" + "permutation_texture.png", false, false, Resource::BindFlags::ShaderResource
-        | /*Resource::BindFlags::UnorderedAccess|*/
+        | 
         Resource::BindFlags::RenderTarget);
     retarget_texture2x1 = createTextureFromFile(temporal_reprojection_base_folder + "2x1/" + "permutation_texture.png", false, false, Resource::BindFlags::ShaderResource
-        | /*Resource::BindFlags::UnorderedAccess|*/
+        |
         Resource::BindFlags::RenderTarget);
     retarget_texture2x2 = createTextureFromFile(temporal_reprojection_base_folder + "2x2/" + "permutation_texture.png", false, false, Resource::BindFlags::ShaderResource
-        | /*Resource::BindFlags::UnorderedAccess|*/
+        | 
         Resource::BindFlags::RenderTarget);
     retarget_texture2x3 = createTextureFromFile(temporal_reprojection_base_folder + "2x3/" + "permutation_texture.png", false, false, Resource::BindFlags::ShaderResource
-        | /*Resource::BindFlags::UnorderedAccess|*/
+        | /*Resource::BindFlags::UnorderedAccess|
         Resource::BindFlags::RenderTarget);
 
     mpComputeProgVars->setTexture("retarget_texture0x1", retarget_texture0x1);
@@ -112,7 +139,7 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
     mpComputeProgVars->setTexture("retarget_texture2x0", retarget_texture2x0);
     mpComputeProgVars->setTexture("retarget_texture2x1", retarget_texture2x1);
     mpComputeProgVars->setTexture("retarget_texture2x2", retarget_texture2x2);
-    mpComputeProgVars->setTexture("retarget_texture2x3", retarget_texture2x3);
+    mpComputeProgVars->setTexture("retarget_texture2x3", retarget_texture2x3);*/
     
     mpComputeProgVars->setTexture("retarget_texture", retarget);
 
@@ -137,24 +164,19 @@ void Retargeting::initialize(RenderContext * pContext, const RenderData * pRende
 void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     //on first run we want it to intialize
     if (!mIsInitialized) {
-
         initialize(pContext, pData);
-
     }
     
     bool camera_moved = hasCameraMoved();
 
     if (camera_moved) {
-        //std::cout << "KameraPosition x = " << mpScene->getActiveCamera()->getPosition().x << "KameraPosition y = " << mpScene->getActiveCamera()->getPosition().y
-        //    << "KameraPosition z = " << mpScene->getActiveCamera()->getPosition().z;
-        //save VP-Matrix of last frame!
+
         mpPrevViewProjMatrix = mpCurrViewProjMatrix;
         mpPrevViewProjMatrixInv = mpCurrViewProjMatrixInv;
         mpCurrViewProjMatrix = mpScene->getActiveCamera()->getViewProjMatrix();
         mpCurrViewProjMatrixInv = mpScene->getActiveCamera()->getInvViewProjMatrix();
-    }
 
-    //if(mpScene) lastCameraPosition = mpScene->getActiveCamera()->getPosition();
+    }
 
     //update frame count
     //it is enough for this application to toroidally switch between 128 frame counts
@@ -167,10 +189,8 @@ void Retargeting::execute(RenderContext* pContext, const RenderData* pData) {
     mpComputeProgVars->getStructuredBuffer("data")[0]["enable_retargeting"] = this->enable_retarget_pass_shader_var;
     mpComputeProgVars->getStructuredBuffer("data")[0]["enable_temporal_reprojection"] = this->enable_temporal_reprojection_pass_shader_var;
     mpComputeProgVars->getStructuredBuffer("data")[0]["camera_moved"] = camera_moved;
-    mpComputeProgVars->getStructuredBuffer("data")[0]["Inverse_VP_prev_frame"] = mpPrevViewProjMatrixInv;
-    mpComputeProgVars->getStructuredBuffer("data")[0]["VP_curr_frame"] = mpCurrViewProjMatrix;
 
-    mpComputeProgVars->setTexture("depth", pData->getTexture("input_depthStencil"));
+    mpComputeProgVars->setTexture("input_average_motion_vector", pData->getTexture("input_average_motion_vector"));
     mpComputeProgVars->setTexture("src_seed_texture", pData->getTexture("input_seed"));
     mpComputeProgVars->setTexture("output_seed_texture", pData->getTexture("output_seed"));
 
