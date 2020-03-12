@@ -1,7 +1,7 @@
 PWD c:\BachelorArbeit\Vortrag
 INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\miktex\data\le\pdftex\pdflatex.fmt
-INPUT c:\BachelorArbeit\Vortrag\KIT-Folien-de.tex
-OUTPUT c:\BachelorArbeit\Vortrag\KIT-Folien-de.log
+INPUT c:\BachelorArbeit\Vortrag\BlueNoiseScreenSpace.tex
+OUTPUT c:\BachelorArbeit\Vortrag\BlueNoiseScreenSpace.log
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\beamer\beamer.cls
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\beamer\beamer.cls
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\beamer\beamerbasemodes.sty
@@ -161,9 +161,9 @@ INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\sansmathaccent\sansmathaccent.sty
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\sansmathaccent\sansmathaccent.sty
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\sansmathaccent\sansmathaccent.sty
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\filehook\filehook.sty
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\filehook\filehook.sty
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\filehook\filehook.sty
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\koma-script\scrlfile.sty
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\koma-script\scrlfile.sty
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\koma-script\scrlfile.sty
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\beamer\beamerbasetranslator.sty
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\beamer\beamerbasetranslator.sty
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\translator\translator.sty
@@ -230,7 +230,7 @@ INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\beamer\b
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\beamer\beamerinnerthemedefault.sty
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\beamer\beamerinnerthemedefault.sty
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\beamer\beamericonbook.pdf
-OUTPUT c:\BachelorArbeit\Vortrag\KIT-Folien-de.pdf
+OUTPUT c:\BachelorArbeit\Vortrag\BlueNoiseScreenSpace.pdf
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\beamer\beamericonbook.pdf
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\beamer\beamericonbook.pdf
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\beamer\beamericonbook.20.pdf
@@ -303,6 +303,8 @@ INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\beamerinnerth
 INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\beamerinnerthemeKIT.sty
 INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\beamerouterthemeKIT.sty
 INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\beamerouterthemeKIT.sty
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\beamer\beamerfontthemestructurebold.sty
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\beamer\beamerfontthemestructurebold.sty
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\generic\babel\babel.sty
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\generic\babel\babel.sty
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\generic\babel\switch.def
@@ -317,36 +319,27 @@ INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\babel-ge
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\babel-german\ngermanb.ldf
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\inputenc.sty
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\inputenc.sty
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\latin1.def
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\latin1.def
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\fontenc.sty
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\fontenc.sty
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\ts1enc.def
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\ts1enc.def
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\ts1enc.dfu
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\ts1enc.dfu
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\t1enc.def
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\t1enc.def
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\jknappen\ec\ecss1000.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\tools\array.sty
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\tools\array.sty
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\tools\multicol.sty
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\tools\multicol.sty
-INPUT c:\BachelorArbeit\Vortrag\lipsum.sty
-INPUT c:\BachelorArbeit\Vortrag\lipsum.sty
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Titel.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Titel.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Titel.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Titel.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Titel.png
-INPUT c:\BachelorArbeit\Vortrag\KIT-Folien-de.aux
-INPUT c:\BachelorArbeit\Vortrag\KIT-Folien-de.aux
-OUTPUT c:\BachelorArbeit\Vortrag\KIT-Folien-de.aux
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\ts1cmr.fd
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\ts1cmr.fd
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\arial\t1ua1.fd
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\arial\t1ua1.fd
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1r8t.tfm
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\tools\array.sty
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\tools\array.sty
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\tools\multicol.sty
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\tools\multicol.sty
+INPUT c:\BachelorArbeit\Vortrag\lipsum.sty
+INPUT c:\BachelorArbeit\Vortrag\lipsum.sty
+INPUT c:\BachelorArbeit\Vortrag\Bilder\HDR_L_0.png
+INPUT c:\BachelorArbeit\Vortrag\Bilder\HDR_L_0.png
+INPUT c:\BachelorArbeit\Vortrag\Bilder\HDR_L_0.png
+INPUT c:\BachelorArbeit\Vortrag\Bilder\HDR_L_0.png
+INPUT c:\BachelorArbeit\Vortrag\Bilder\HDR_L_0.png
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\l3backend\l3backend-pdfmode.def
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\l3backend\l3backend-pdfmode.def
+INPUT c:\BachelorArbeit\Vortrag\BlueNoiseScreenSpace.aux
+INPUT c:\BachelorArbeit\Vortrag\BlueNoiseScreenSpace.aux
+OUTPUT c:\BachelorArbeit\Vortrag\BlueNoiseScreenSpace.aux
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\context\base\mkii\supp-pdf.mkii
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\context\base\mkii\supp-pdf.mkii
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\epstopdf-pkg\epstopdf-base.sty
@@ -357,13 +350,13 @@ INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\refcount
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\refcount\refcount.sty
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\generic\gettitlestring\gettitlestring.sty
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\generic\gettitlestring\gettitlestring.sty
-INPUT c:\BachelorArbeit\Vortrag\KIT-Folien-de.out
-INPUT c:\BachelorArbeit\Vortrag\KIT-Folien-de.out
-INPUT c:\BachelorArbeit\Vortrag\KIT-Folien-de.out
-INPUT c:\BachelorArbeit\Vortrag\KIT-Folien-de.out
-INPUT c:\BachelorArbeit\Vortrag\KIT-Folien-de.out
-INPUT c:\BachelorArbeit\Vortrag\KIT-Folien-de.out
-OUTPUT c:\BachelorArbeit\Vortrag\KIT-Folien-de.out
+INPUT c:\BachelorArbeit\Vortrag\BlueNoiseScreenSpace.out
+INPUT c:\BachelorArbeit\Vortrag\BlueNoiseScreenSpace.out
+INPUT c:\BachelorArbeit\Vortrag\BlueNoiseScreenSpace.out
+INPUT c:\BachelorArbeit\Vortrag\BlueNoiseScreenSpace.out
+INPUT c:\BachelorArbeit\Vortrag\BlueNoiseScreenSpace.out
+INPUT c:\BachelorArbeit\Vortrag\BlueNoiseScreenSpace.out
+OUTPUT c:\BachelorArbeit\Vortrag\BlueNoiseScreenSpace.out
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\translator\translator-basic-dictionary-English.dict
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\translator\translator-basic-dictionary-English.dict
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\translator\translator-bibliography-dictionary-English.dict
@@ -376,9 +369,10 @@ INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\translat
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\translator\translator-numbers-dictionary-English.dict
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\translator\translator-theorem-dictionary-English.dict
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\tex\latex\translator\translator-theorem-dictionary-English.dict
-INPUT c:\BachelorArbeit\Vortrag\KIT-Folien-de.nav
-INPUT c:\BachelorArbeit\Vortrag\KIT-Folien-de.nav
+INPUT c:\BachelorArbeit\Vortrag\BlueNoiseScreenSpace.nav
+INPUT c:\BachelorArbeit\Vortrag\BlueNoiseScreenSpace.nav
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1r8t.tfm
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1b8t.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1r8t.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
 INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
@@ -418,6 +412,7 @@ INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\aria
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1ri8t.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1ri8t.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1b8t.tfm
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1b8t.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1r8t.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1r8t.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1b8t.tfm
@@ -427,185 +422,53 @@ INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1b8t.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1r8t.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1b8t.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1r8t.tfm
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1b8t.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\urw\arial\ua1b8t.vf
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1b8r.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\pdftex\config\pdftex.map
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\urw\arial\ua1r8t.vf
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1r8r.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\urw\arial\ua1r8t.vf
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1r8r.tfm
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\urw\arial\ua1b8t.vf
+INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1b8r.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\urw\arial\ua1r8t.vf
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1r8r.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\urw\arial\ua1b8t.vf
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1b8r.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\urw\arial\ua1b8t.vf
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1b8r.tfm
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Kooperation.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Kooperation.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Kooperation.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Kooperation.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Kooperation.png
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1r8t.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
-INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
-INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\urw\arial\ua1b8t.vf
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1b8r.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\urw\arial\ua1r8t.vf
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1r8r.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1r8t.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1b8t.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\cm\cmss9.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\cm\cmss8.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\cm\cmss8.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\mathpazo\zplmr7m.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\mathpazo\zplmr7m.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\mathpazo\zplmr7m.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\mathpazo\zplmr7y.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\mathpazo\zplmr7y.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\mathpazo\zplmr7y.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\mathpazo\zplmr7v.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\mathpazo\zplmr7v.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\mathpazo\zplmr7v.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfonts\symbols\msam10.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfonts\symbols\msam10.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfonts\symbols\msam10.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\mathpazo\zplmr7t.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\mathpazo\zplmr7t.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\mathpazo\zplmr7t.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1r8t.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1r8t.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1ri8t.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1ri8t.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1ri8t.tfm
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Promotion.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Promotion.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Promotion.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Promotion.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Promotion.png
-INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
-INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
-INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\urw\arial\ua1b8t.vf
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1b8r.tfm
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Research.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Research.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Research.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Research.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Research.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Teaching.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Teaching.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Teaching.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Teaching.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Teaching.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Innovation.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Innovation.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Innovation.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Innovation.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Innovation.png
-INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
-INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
-INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\urw\arial\ua1r8t.vf
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1r8r.tfm
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Labor1.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Labor1.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Labor1.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Labor1.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Labor1.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Labor2.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Labor2.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Labor2.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Labor2.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Labor2.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Labor3.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Labor3.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Labor3.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Labor3.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Labor3.png
-INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
-INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
-INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1r8t.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\mathpazo\zplmr7m.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\mathpazo\zplmr7m.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\mathpazo\zplmr7y.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\mathpazo\zplmr7y.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\mathpazo\zplmr7v.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\mathpazo\zplmr7v.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfonts\symbols\msam10.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfonts\symbols\msam10.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\mathpazo\zplmr7t.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\mathpazo\zplmr7t.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1r8t.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1ri8t.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1ri8t.tfm
-INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
-INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
-INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\urw\arial\ua1r8t.vf
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1r8r.tfm
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Zentren.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Zentren.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Zentren.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Zentren.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Zentren.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Schwerpunkt1.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Schwerpunkt1.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Schwerpunkt1.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Schwerpunkt1.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Schwerpunkt1.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Schwerpunkt2.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Schwerpunkt2.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Schwerpunkt2.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Schwerpunkt2.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Schwerpunkt2.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Schwerpunkt3.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Schwerpunkt3.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Schwerpunkt3.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Schwerpunkt3.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Schwerpunkt3.png
-INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
-INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
-INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\urw\arial\ua1r8t.vf
-INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1r8r.tfm
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1b8t.tfm
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Liste1.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Liste1.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Liste1.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Liste1.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Liste1.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Liste2.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Liste2.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Liste2.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Liste2.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Liste2.png
 INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
 INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
 INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\urw\arial\ua1b8t.vf
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\urw\arial\ua1b8r.tfm
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Finale-c.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Finale-c.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Finale-c.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Finale-c.png
-INPUT c:\BachelorArbeit\Vortrag\Bilder\KIT-Finale-c.png
 INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
 INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
 INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
-OUTPUT c:\BachelorArbeit\Vortrag\KIT-Folien-de.nav
-OUTPUT c:\BachelorArbeit\Vortrag\KIT-Folien-de.toc
-OUTPUT c:\BachelorArbeit\Vortrag\KIT-Folien-de.snm
-INPUT c:\BachelorArbeit\Vortrag\KIT-Folien-de.aux
-INPUT c:\BachelorArbeit\Vortrag\KIT-Folien-de.out
-INPUT c:\BachelorArbeit\Vortrag\KIT-Folien-de.out
+INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
+INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
+INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
+INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
+INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
+INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
+INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
+INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
+INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
+INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
+INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
+INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
+INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
+INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
+INPUT C:\Users\Jonas Heinle\AppData\Local\MiKTeX\2.9\tex\latex\KIT\kit_logo_de_4c_positiv-rgb.pdf
+OUTPUT c:\BachelorArbeit\Vortrag\BlueNoiseScreenSpace.nav
+OUTPUT c:\BachelorArbeit\Vortrag\BlueNoiseScreenSpace.toc
+OUTPUT c:\BachelorArbeit\Vortrag\BlueNoiseScreenSpace.snm
+INPUT c:\BachelorArbeit\Vortrag\BlueNoiseScreenSpace.aux
+INPUT c:\BachelorArbeit\Vortrag\BlueNoiseScreenSpace.out
+INPUT c:\BachelorArbeit\Vortrag\BlueNoiseScreenSpace.out
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\enc\dvips\base\8r.enc
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\urw\arial\ua1b8a.pfb
 INPUT C:\Users\Jonas Heinle\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\urw\arial\ua1b8a.pfb
